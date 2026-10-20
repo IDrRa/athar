@@ -565,6 +565,10 @@ a.aprow{text-decoration:none}
 .wqnext{display:flex;width:100%;justify-content:center;min-height:52px;font-size:1rem}
 .wqall{text-align:center;margin:12px 0 0;font-size:.9rem}.wqall a{color:var(--green);font-weight:600}
 .wqlg{margin-top:14px}
+
+/* v25 mushaf spacing with a chosen font size */
+.qpg:not(.fit) .qt{line-height:2.2;word-spacing:normal}
+html[data-qz="2"] .qpg:not(.fit) .qt,html[data-qz="3"] .qpg:not(.fit) .qt,html[data-qz="4"] .qpg:not(.fit) .qt{text-align:start}
 </style>
 </head>
 <body>
@@ -817,7 +821,7 @@ if(!pk){g.style.setProperty('--qfs','14px');qclr(g);pk={f:14,br:qplan(g).br,bad:
 else if(pk.f<32){var T=pk.bad<=.14?.14:pk.bad<=.2?.2:.3,f3=pk.f+.5;g.style.setProperty('--qfs',f3+'px');qclr(g);var gh3=g.getBoundingClientRect().height,pl3=qplan(g);if(gh3-pl3.qh+pl3.lines*f3*L0<=avail&&pl3.worst<=T)pk={f:f3,br:pl3.br,bad:pl3.worst}}
 g.style.setProperty('--qfs',pk.f+'px');qclr(g);qapply(g,pk.br);
 while(g.getBoundingClientRect().height>avail&&pk.f>14){pk.f-=.5;g.style.setProperty('--qfs',pk.f+'px')}
-var l2=L0,h2=3.5,bl=l2;for(i=0;i<6;i++){mid=(l2+h2)/2;g.style.setProperty('--qlh',mid);if(g.getBoundingClientRect().height<=avail){bl=mid;l2=mid}else h2=mid}g.style.setProperty('--qlh',bl);QFC[key]={fs:pk.f,lh:bl,br:pk.br}}
+var l2=L0,h2=2.7,bl=l2;for(i=0;i<6;i++){mid=(l2+h2)/2;g.style.setProperty('--qlh',mid);if(g.getBoundingClientRect().height<=avail){bl=mid;l2=mid}else h2=mid}g.style.setProperty('--qlh',bl);QFC[key]={fs:pk.f,lh:bl,br:pk.br}}
 g.style.minHeight=avail+'px';qctr(g);qjust(g)}
 function qfit(){document.querySelectorAll('.qpg.fit').forEach(qfit1);qwarmSoon()}
 var QWT=0;
@@ -862,7 +866,7 @@ function QJ(a,p){QS=null;if(a==='quran'&&qok(p[1])&&+p[2]>0&&+p[2]<=QC[p[1]-1])q
 function qh(u){try{history.replaceState(null,'',u)}catch(e){}}
 var QZ=[.85,1,1.15,1.3,1.5],qzi=1,QFIT=true;try{if(localStorage.getItem('athar-qf')==='0')QFIT=false}catch(e){}
 try{var qv0=localStorage.getItem('athar-qz');if(qv0!==null&&+qv0>=0&&+qv0<QZ.length)qzi=+qv0}catch(e){}
-function qza(){document.documentElement.style.setProperty('--qs',QZ[qzi]);var l=document.getElementById('qsl');if(l)l.textContent=QFIT?'حجم الخط: تلقائي (ملاءمة الصفحة)':'حجم الخط: '+['صغير','متوسط','كبير','أكبر','كبير جدًا'][qzi]}
+function qza(){document.documentElement.style.setProperty('--qs',QZ[qzi]);document.documentElement.dataset.qz=qzi;var l=document.getElementById('qsl');if(l)l.textContent=QFIT?'حجم الخط: تلقائي (ملاءمة الصفحة)':'حجم الخط: '+['صغير','متوسط','كبير','أكبر','كبير جدًا'][qzi]}
 function qz(a){var ae=document.activeElement;if(ae&&ae.blur&&/^(INPUT|TEXTAREA)$/.test(ae.tagName))ae.blur();if(a==='jump'){var iv=document.getElementById('qjp'),pv=iv?parseInt(iv.value,10):0;if(pv>=1&&pv<=604)qgo(pv);else toast('أدخل رقم صفحة من ١ إلى ٦٠٤');return}if(a==='toggle'){var pn=document.getElementById('qpanel'),bt=document.querySelector('.qg');if(pn){pn.hidden=!pn.hidden;if(bt)bt.setAttribute('aria-expanded',String(!pn.hidden))}qza();return}if(a==='+'){QFIT=false;qzi=Math.min(QZ.length-1,qzi+1)}else if(a==='-'){QFIT=false;qzi=Math.max(0,qzi-1)}else{QFIT=true;qzi=1}try{localStorage.setItem('athar-qz',qzi);localStorage.setItem('athar-qf',QFIT?'1':'0')}catch(e){}var g=document.querySelector('.qpg');if(g){g.classList.toggle('fit',QFIT);if(QFIT)qfit();else{g.style.removeProperty('--qfs');g.style.removeProperty('--qlh');g.style.minHeight='';qclr(g)}}qza()}
 qza();
 function qlink(n,v){return location.href.split('#')[0]+'#/quran/'+n+'/'+v}
@@ -908,9 +912,10 @@ function wqTextHtml(w){if(w.textType==='quran')return w.verses.map(function(v){r
 function wqSec(cls,label,badge,body,foot){return '<section class="wqs '+cls+'" aria-label="'+label+'"><h3 class="wqh3"><span>'+label+'</span>'+(badge?'<em>'+badge+'</em>':'')+'</h3>'+body+(foot||'')+'</section>'}
 function wqSrc(a,b){var r=/^https?:\/\//.test(b)?'<a href="'+esc(b)+'" target="_blank" rel="noopener noreferrer" dir="ltr">'+esc(b.replace(/^https?:\/\//,''))+'</a>':esc(b);return '<p class="wqsrc"><b>المصدر:</b> '+esc(a)+' <span aria-hidden="true">·</span> <b>المرجع:</b> '+r+'</p>'}
 function wqStep(n,t){return '<h3 class="wqst">'+t+'</h3>'}
+function wqRef(w){return w.textType==='quran'?w.source.reference:wqSrcName(w.source.name)+' · '+w.source.reference}
 function wqSrcName(n){return String(n).replace(/\s*\([^)]*\)/g,'').replace(/\s*—\s*فوائد الحديث$/,'').trim()}
 var WQI={share:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12v7a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-7M16 6l-4-4-4 4M12 2v13"/></svg>',card:'<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="3"/><circle cx="9" cy="10" r="2"/><path d="m21 16-5-5-9 9"/></svg>',copy:'<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="8" y="8" width="13" height="13" rx="2"/><path d="M16 8V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h3"/></svg>'};
-function wqPage(w,dn){var q=w.textType==='quran',ex=w.explanation,st=1,ref=q?w.source.reference:wqSrcName(w.source.name)+' · '+w.source.reference,
+function wqPage(w,dn){var q=w.textType==='quran',ex=w.explanation,st=1,ref=wqRef(w),
  h='<article class="wq">'+wqBack(w===WQS?'/':'/waqfa/archive')+'<div class="wqhd"><p class="wqk">وقفة أثر · '+esc(w.topic)+'</p><h2>'+esc(w.title)+'</h2></div>';
  h+='<section class="wqs wqt wqhero" aria-label="النص">'+'<p class="wqx'+(q?' q':'')+((q?w.verses.map(function(v){return v.text}).join(''):w.text).length>220?' long':'')+'" lang="ar" translate="no">'+wqTextHtml(w)+'</p><p class="wqref">'+esc(ref)+'</p>'
   +(q?'<p class="wqln"><a href="#/quran/'+w.verses[0].n+'/'+w.verses[0].a+'">افتح في المصحف</a></p>':'')+'</section>';
@@ -925,8 +930,8 @@ function wqPage(w,dn){var q=w.textType==='quran',ex=w.explanation,st=1,ref=q?w.s
   +'<button class="btn primary wqnext" data-wqnext>وقفة أخرى</button><p class="wqall"><a href="#/waqfa/archive">كل الوقفات</a> · <a href="#/notes">دفتر الأثر</a></p>';
  return h+'<p class="wqlg">النص ومعناه منقولان بحروفهما من مصادرهما · «عملٌ لك اليوم» من صياغة أثر</p></article>'}
 function wqArchive(){var NO=ntAll();return wqBack('/')+head('كل الوقفات',ar(WQ.length)+' وقفة — افتح منها ما شئت. تتّسع المكتبة كلما رُوجعت وقفات جديدة.')+'<a class="qcont" href="#/notes"><small>دفتر الأثر</small><b>ملاحظاتك وما طبّقته من الوقفات</b></a><ul class="list wqlist">'+WQ.map(function(w){return '<li><a class="row" href="#/waqfa/'+w.id+'"><div><b>'+esc(w.title)+'</b><span>'+esc(w.topic)+' · '+WQT[w.textType]+(NO[w.id]?(NO[w.id].a?' · طبّقتُه ✓':' · في دفترك'):'')+'</span></div><svg class="go" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></a></li>'}).join('')+'</ul>'}
-function wqShareText(w,dn){var L=['وقفة أثر: '+w.title];if(dn!=null)L.push(wqFmt(dn)+' · '+wqFmt(dn,1));L.push('','النص ('+WQT[w.textType]+'):',w.text.replace(/\r\n?/g,'\n'),'المصدر: '+w.source.name+' — '+w.source.reference);var ex=w.explanation;if(ex){L.push('','الشرح (من '+ex.source+' — '+ex.reference+'):');L.push(ex.items.length>1?ex.items.map(function(x,i){return (i+1)+'- '+x}).join('\n'):ex.items[0])}L.push('','عمل تطبّقه (تطبيق تحريري من «أثر»، ليس من النص ولا من الشرح):',w.application.text,'','— أثر');return L.join('\n')}
-function today(){var el=$('#today');if(!el)return;var w=wqCur(),q=w.textType==='quran';el.innerHTML='<article class="card today wqc"><span class="badge ty">'+WQT[w.textType]+'</span><h3><a class="tl" href="#/waqfa">'+esc(w.title)+'</a></h3><p class="ctext wqsn'+(q?' q':'')+'" lang="ar" translate="no">'+esc(w.text.replace(/\r\n?/g,'\n'))+'</p><p class="wqmeta">'+esc(w.source.name)+' · '+esc(w.source.reference)+'</p><div class="actions"><a class="btn primary" href="#/waqfa">افتح الوقفة</a><a class="btn" href="#/waqfa/archive">كل الوقفات</a></div></article>'}
+function wqShareText(w,dn){var L=['وقفة أثر: '+w.title];if(dn!=null)L.push(wqFmt(dn)+' · '+wqFmt(dn,1));L.push('','النص ('+WQT[w.textType]+'):',w.text.replace(/\r\n?/g,'\n'),'المصدر: '+wqRef(w));var ex=w.explanation;if(ex){L.push('','الشرح (من '+ex.source+' — '+ex.reference+'):');L.push(ex.items.length>1?ex.items.map(function(x,i){return (i+1)+'- '+x}).join('\n'):ex.items[0])}L.push('','عمل تطبّقه (تطبيق تحريري من «أثر»، ليس من النص ولا من الشرح):',w.application.text,'','— أثر');return L.join('\n')}
+function today(){var el=$('#today');if(!el)return;var w=wqCur(),q=w.textType==='quran';el.innerHTML='<article class="card today wqc"><span class="badge ty">'+WQT[w.textType]+'</span><h3><a class="tl" href="#/waqfa">'+esc(w.title)+'</a></h3><p class="ctext wqsn'+(q?' q':'')+'" lang="ar" translate="no">'+esc(w.text.replace(/\r\n?/g,'\n'))+'</p><p class="wqmeta">'+esc(wqRef(w))+'</p><div class="actions"><a class="btn primary" href="#/waqfa">افتح الوقفة</a><a class="btn" href="#/waqfa/archive">كل الوقفات</a></div></article>'}
 document.addEventListener('click',function(e){var b=e.target.closest('[data-wq]');if(!b)return;var w=wqById(b.dataset.id);if(!w)return;var x=wqShareText(w,null);
 if(b.dataset.wq==='share'){if(navigator.share){navigator.share({title:'وقفة أثر',text:x}).catch(function(){})}else if(navigator.clipboard){navigator.clipboard.writeText(x).then(function(){toast('المشاركة غير متاحة هنا، نُسخ النص بدلًا منها')},function(){toast('تعذرت المشاركة')})}else toast('تعذرت المشاركة')}
 else copyT(x,'تم نسخ الوقفة')});
@@ -1167,7 +1172,7 @@ function cdFromItem(o){var q=o.kind==='quran'||o.kind==='prophets',src=[];if(o.s
  var tx=o.verses?o.verses.map(function(v){return v.text+cdNum(v.a)}).join(' ').trim():rdtx(o).replace(/<[^>]*>/g,'');
  return{label:o.type==='dua'?(DT[o.kind||'general']||'دعاء'):'ذكر',title:o.title||'',text:tx,ref:src.join(' · '),quran:q,name:o.id}}
 document.addEventListener('click',function(e){var t=e.target,b=t.closest('[data-cdid]');if(b){var o=ALL[b.dataset.cdid];if(o)cdOpen(cdFromItem(o));return}
- b=t.closest('[data-cdwq]');if(b){var w=wqById(b.dataset.cdwq);if(w){var q=w.textType==='quran';cdOpen({label:'وقفة أثر · '+WQT[w.textType],title:w.title,text:q?w.verses.map(function(v){return v.text+(w.verses.length>1?cdNum(v.a):'')}).join(' ').trim():w.text,ref:w.source.name+' · '+w.source.reference,quran:q,name:w.id})}return}
+ b=t.closest('[data-cdwq]');if(b){var w=wqById(b.dataset.cdwq);if(w){var q=w.textType==='quran';cdOpen({label:'وقفة أثر · '+WQT[w.textType],title:w.title,text:q?w.verses.map(function(v){return v.text+(w.verses.length>1?cdNum(v.a):'')}).join(' ').trim():w.text,ref:wqRef(w),quran:q,name:w.id})}return}
  var bk=document.getElementById('cardS');if(!bk||bk.hidden)return;if(t===bk||t.closest('[data-cdclose]')){cdClose();return}
  b=t.closest('[data-cd]');if(!b||!CD)return;
  if(b.dataset.cd==='save'){cdSave();return}
