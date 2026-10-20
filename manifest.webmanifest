@@ -1,0 +1,55 @@
+{
+ "id": "./",
+ "name": "أثر — ما ينفعك ويبقى أثره",
+ "short_name": "أثر",
+ "description": "القرآن والأذكار والأدعية الموثقة في مكان واحد.",
+ "lang": "ar",
+ "dir": "rtl",
+ "start_url": "./",
+ "scope": "./",
+ "display": "standalone",
+ "background_color": "#F2F4EF",
+ "theme_color": "#F2F4EF",
+ "categories": [
+  "books",
+  "lifestyle"
+ ],
+ "icons": [
+  {
+   "src": "icons/icon-192.png",
+   "sizes": "192x192",
+   "type": "image/png",
+   "purpose": "any"
+  },
+  {
+   "src": "icons/icon-512.png",
+   "sizes": "512x512",
+   "type": "image/png",
+   "purpose": "any"
+  },
+  {
+   "src": "icons/maskable-512.png",
+   "sizes": "512x512",
+   "type": "image/png",
+   "purpose": "maskable"
+  }
+ ],
+ "shortcuts": [
+  {
+   "name": "القرآن",
+   "url": "./#/quran"
+  },
+  {
+   "name": "الأذكار",
+   "url": "./#/adhkar"
+  },
+  {
+   "name": "الأدعية",
+   "url": "./#/dua"
+  },
+  {
+   "name": "البحث",
+   "url": "./#/search"
+  }
+ ]
+}
