@@ -535,6 +535,34 @@ a.aprow{text-decoration:none}
 .mrsrc[open]{padding-bottom:14px}
 .mrver{text-align:center;color:var(--muted);font-size:.8rem;margin:22px 0 0}
 #mrimp:focus+*{outline:none}
+
+/* v23 calmer waqfa page */
+.wqk{color:var(--muted);font-weight:600}
+.wqst{display:flex;align-items:center;gap:8px;margin:0 0 10px;font:700 .9rem var(--ui);color:var(--muted)}
+.wqst b{display:inline-grid;place-items:center;width:26px;height:26px;border-radius:50%;background:var(--tint);color:var(--green);font:700 .85rem var(--ui)}
+.wqhero{position:relative;text-align:center;padding:20px 18px 18px;border:1px solid var(--line);border-inline-start:1px solid var(--line);box-shadow:inset 0 0 0 6px var(--surface),inset 0 0 0 7px var(--line)}
+.wqhero .wqst{justify-content:center}
+.wqhero .wqst b{background:var(--gold);color:#fff}
+.wqhero::before{content:"";display:block;width:28px;height:28px;margin:0 auto 8px;background:var(--orn) center/contain no-repeat}
+.wqhero .wqx{font-size:calc(1.75rem*var(--rdk,1));line-height:2.25;margin:4px 0 6px}
+.wqhero .wqx.q{font-size:calc(1.95rem*var(--rdk,1))}
+.wqhero .wqx.long{font-size:calc(1.4rem*var(--rdk,1));line-height:2.1}
+.wqref{margin:10px 0 0;font-size:.78rem;line-height:1.7;color:var(--muted)}
+.wqe .wqst b{background:var(--green);color:var(--on-green)}
+.wqa .wqst b{background:transparent;border:1.5px dashed var(--green)}
+.wqpx,.wqol{font-size:calc(.98rem*var(--rdk,1))}.wqpy{font-size:calc(1.02rem*var(--rdk,1))}
+.wqmore{margin:2px 0 0}.wqmore summary{cursor:pointer;color:var(--green);font-weight:600;font-size:.9rem;min-height:40px;display:flex;align-items:center}
+.ntb{padding:0 16px}.ntb>summary{display:flex;align-items:center;justify-content:space-between;gap:10px;min-height:54px;cursor:pointer;font-weight:700;list-style:none}
+.ntb>summary::-webkit-details-marker{display:none}
+.ntb>summary em{font-style:normal;font-weight:500;font-size:.74rem;color:var(--muted);padding:2px 10px;border:1px solid var(--line);border-radius:999px}
+.ntb[open]{padding-bottom:14px}
+.wqtools{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:6px 0 12px}
+.wqtl{display:flex;flex-direction:column;align-items:center;gap:4px;min-height:64px;padding:10px 4px;border:1px solid var(--line);border-radius:14px;background:var(--surface);color:var(--text);font:500 .82rem var(--ui);cursor:pointer}
+.wqtl svg{width:22px;height:22px;color:var(--green)}
+.wqtl:active{background:var(--tint)}
+.wqnext{display:flex;width:100%;justify-content:center;min-height:52px;font-size:1rem}
+.wqall{text-align:center;margin:12px 0 0;font-size:.9rem}.wqall a{color:var(--green);font-weight:600}
+.wqlg{margin-top:14px}
 </style>
 </head>
 <body>
@@ -876,15 +904,23 @@ function wqBack(href){return '<a class="back" href="#'+href+'"><svg viewBox="0 0
 function wqTextHtml(w){if(w.textType==='quran')return w.verses.map(function(v){return esc(v.text)+' <span class="vn wqm" aria-hidden="true">'+ar(v.a)+'</span>'}).join(' ');var t=w.text.replace(/\r\n?/g,'\n');if(w.textType==='hadith'){var k=t.indexOf('\n');if(k>0)return '<span class="wqnar">'+esc(t.slice(0,k))+'</span>'+esc(t.slice(k+1))}return esc(t)}
 function wqSec(cls,label,badge,body,foot){return '<section class="wqs '+cls+'" aria-label="'+label+'"><h3 class="wqh3"><span>'+label+'</span>'+(badge?'<em>'+badge+'</em>':'')+'</h3>'+body+(foot||'')+'</section>'}
 function wqSrc(a,b){var r=/^https?:\/\//.test(b)?'<a href="'+esc(b)+'" target="_blank" rel="noopener noreferrer" dir="ltr">'+esc(b.replace(/^https?:\/\//,''))+'</a>':esc(b);return '<p class="wqsrc"><b>المصدر:</b> '+esc(a)+' <span aria-hidden="true">·</span> <b>المرجع:</b> '+r+'</p>'}
-function wqPage(w,dn){var q=w.textType==='quran',ex=w.explanation,h='<article class="wq">'+wqBack(w===WQS?'/':'/waqfa/archive')+'<div class="wqhd"><p class="wqk">وقفة أثر</p><h2>'+esc(w.title)+'</h2><p class="wqch"><span class="chip">'+esc(w.topic)+'</span></p></div>';
-h+=wqSec('wqt','النص',WQT[w.textType],'<p class="wqx'+(q?' q':'')+'" lang="ar" translate="no">'+wqTextHtml(w)+'</p>',wqSrc(w.source.name,w.source.reference)+(q?'<p class="wqln"><a href="#/quran/'+w.verses[0].n+'/'+w.verses[0].a+'">افتح في المصحف</a></p>':''));
-if(ex){var it=ex.items,bd=it.length>1?'<ol class="wqol">'+it.map(function(x){return '<li>'+esc(x)+'</li>'}).join('')+'</ol>':'<p class="wqpx">'+esc(it[0])+'</p>';h+=wqSec('wqe','الشرح','موثّق من مصدره',bd,wqSrc(ex.source,ex.reference))}
-else h+=wqSec('wqe wqno','الشرح','','<p class="wqn">لا يوجد شرح موثّق لهذه الوقفة حتى الآن، والنص أعلاه هو المعتمد.</p>');
-h+=wqSec('wqa','عملٌ تطبّقه','تطبيق تحريري من أثر','<p class="wqpy">'+esc(w.application.text)+'</p>','<p class="wqn">صياغة من «أثر» لتقريب المعنى من العمل؛ ليست من نص القرآن أو السنة ولا من الشرح.</p>');
-if(w.related&&w.related.length)h+='<nav class="wqrel" aria-label="محتوى مرتبط">'+w.related.map(function(r){return '<a class="chip" href="#'+r.href+'">'+esc(r.label)+'</a>'}).join('')+'</nav>';
-h+=ntBox(w);
-h+='<div class="wqact"><button class="btn primary" data-wq="share" data-id="'+w.id+'">مشاركة</button><button class="btn" data-wq="copy" data-id="'+w.id+'">نسخ</button><button class="btn" data-cdwq="'+w.id+'">بطاقة</button><button class="btn" data-wqnext>وقفة أخرى</button><a class="btn" href="#/waqfa/archive">كل الوقفات</a></div>';
-return h+'<p class="wqlg">النص الأصلي منقول حرفيًا من مصدره · الشرح منقول من مصدره الموثّق · العمل من صياغة «أثر».</p></article>'}
+function wqStep(n,t){return '<p class="wqst"><b aria-hidden="true">'+ar(n)+'</b>'+t+'</p>'}
+function wqSrcName(n){return String(n).replace(/\s*\([^)]*\)/g,'').replace(/\s*—\s*فوائد الحديث$/,'').trim()}
+var WQI={share:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12v7a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-7M16 6l-4-4-4 4M12 2v13"/></svg>',card:'<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="3"/><circle cx="9" cy="10" r="2"/><path d="m21 16-5-5-9 9"/></svg>',copy:'<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="8" y="8" width="13" height="13" rx="2"/><path d="M16 8V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h3"/></svg>'};
+function wqPage(w,dn){var q=w.textType==='quran',ex=w.explanation,st=1,ref=q?w.source.reference:wqSrcName(w.source.name)+' · '+w.source.reference,
+ h='<article class="wq">'+wqBack(w===WQS?'/':'/waqfa/archive')+'<div class="wqhd"><p class="wqk">وقفة أثر · '+esc(w.topic)+'</p><h2>'+esc(w.title)+'</h2></div>';
+ h+='<section class="wqs wqt wqhero" aria-label="اقرأ">'+wqStep(st++,'اقرأ')+'<p class="wqx'+(q?' q':'')+((q?w.verses.map(function(v){return v.text}).join(''):w.text).length>220?' long':'')+'" lang="ar" translate="no">'+wqTextHtml(w)+'</p><p class="wqref">'+esc(ref)+'</p>'
+  +(q?'<p class="wqln"><a href="#/quran/'+w.verses[0].n+'/'+w.verses[0].a+'">افتح في المصحف</a></p>':'')+'</section>';
+ if(ex){var it=ex.items,li=function(a,b){return a.slice(0,b).map(function(x){return '<li>'+esc(x)+'</li>'}).join('')},bd;
+  if(it.length===1)bd='<p class="wqpx">'+esc(it[0])+'</p>';
+  else bd='<ol class="wqol">'+li(it,2)+'</ol>'+(it.length>2?'<details class="wqmore"><summary>عرض الباقي ('+ar(it.length-2)+')</summary><ol class="wqol" start="3">'+it.slice(2).map(function(x){return '<li>'+esc(x)+'</li>'}).join('')+'</ol></details>':'');
+  h+='<section class="wqs wqe" aria-label="افهم">'+wqStep(st++,'افهم')+bd+'<p class="wqref">'+esc(wqSrcName(ex.source))+(q?' · '+esc(ex.reference):'')+'</p></section>'}
+ h+='<section class="wqs wqa" aria-label="اعمل">'+wqStep(st++,'اعمل')+'<p class="wqpy">'+esc(w.application.text)+'</p></section>';
+ if(w.related&&w.related.length)h+='<nav class="wqrel" aria-label="محتوى مرتبط">'+w.related.map(function(r){return '<a class="chip" href="#'+r.href+'">'+esc(r.label)+'</a>'}).join('')+'</nav>';
+ h+=ntBox(w);
+ h+='<div class="wqtools" role="group" aria-label="أدوات الوقفة"><button class="wqtl" data-wq="share" data-id="'+w.id+'">'+WQI.share+'<span>مشاركة</span></button><button class="wqtl" data-cdwq="'+w.id+'">'+WQI.card+'<span>بطاقة</span></button><button class="wqtl" data-wq="copy" data-id="'+w.id+'">'+WQI.copy+'<span>نسخ</span></button></div>'
+  +'<button class="btn primary wqnext" data-wqnext>وقفة أخرى</button><p class="wqall"><a href="#/waqfa/archive">كل الوقفات</a> · <a href="#/notes">دفتر الأثر</a></p>';
+ return h+'<p class="wqlg">«اقرأ» و«افهم» منقولان بحروفهما من مصادرهما · «اعمل» من صياغة أثر</p></article>'}
 function wqArchive(){var NO=ntAll();return wqBack('/')+head('كل الوقفات',ar(WQ.length)+' وقفة — افتح منها ما شئت. تتّسع المكتبة كلما رُوجعت وقفات جديدة.')+'<a class="qcont" href="#/notes"><small>دفتر الأثر</small><b>ملاحظاتك وما طبّقته من الوقفات</b></a><ul class="list wqlist">'+WQ.map(function(w){return '<li><a class="row" href="#/waqfa/'+w.id+'"><div><b>'+esc(w.title)+'</b><span>'+esc(w.topic)+' · '+WQT[w.textType]+(NO[w.id]?(NO[w.id].a?' · طبّقتُه ✓':' · في دفترك'):'')+'</span></div><svg class="go" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></a></li>'}).join('')+'</ul>'}
 function wqShareText(w,dn){var L=['وقفة أثر: '+w.title];if(dn!=null)L.push(wqFmt(dn)+' · '+wqFmt(dn,1));L.push('','النص ('+WQT[w.textType]+'):',w.text.replace(/\r\n?/g,'\n'),'المصدر: '+w.source.name+' — '+w.source.reference);var ex=w.explanation;if(ex){L.push('','الشرح (من '+ex.source+' — '+ex.reference+'):');L.push(ex.items.length>1?ex.items.map(function(x,i){return (i+1)+'- '+x}).join('\n'):ex.items[0])}L.push('','عمل تطبّقه (تطبيق تحريري من «أثر»، ليس من النص ولا من الشرح):',w.application.text,'','— أثر');return L.join('\n')}
 function today(){var el=$('#today');if(!el)return;var w=wqCur(),q=w.textType==='quran';el.innerHTML='<article class="card today wqc"><span class="badge ty">'+WQT[w.textType]+'</span><h3><a class="tl" href="#/waqfa">'+esc(w.title)+'</a></h3><p class="ctext wqsn'+(q?' q':'')+'" lang="ar" translate="no">'+esc(w.text.replace(/\r\n?/g,'\n'))+'</p><p class="wqmeta">'+esc(w.source.name)+' · '+esc(w.source.reference)+'</p><div class="actions"><a class="btn primary" href="#/waqfa">افتح الوقفة</a><a class="btn" href="#/waqfa/archive">كل الوقفات</a></div></article>'}
@@ -1172,12 +1208,12 @@ var NT_KEY='athar-notes',NT_MAX=2000,ntTm=null;
 function ntAll(){var o=qget(NT_KEY,null);return o&&typeof o==='object'?o:{}}
 function ntPut(o){qset(NT_KEY,o)}
 function ntWhen(t){try{return new Date(t).toLocaleDateString('ar-u-nu-arab',{weekday:'long',day:'numeric',month:'long'})}catch(e){return ''}}
-function ntBox(w){var n=ntAll()[w.id]||{t:'',a:false,u:0};
- return '<section class="wqs ntb" aria-labelledby="ntH"><h3 class="wqh3" id="ntH"><span>دفتري</span><em>خاص بك</em></h3>'
+function ntBox(w){var n=ntAll()[w.id]||{t:'',a:false,u:0},has=!!(n.u);
+ return '<details class="wqs ntb"'+(has?' open':'')+'><summary><span>✎ '+(has?'دفتري':'اكتب في دفترك')+(n.a?' · طبّقتُه ✓':'')+'</span><em>خاص بك</em></summary>'
  +'<label class="ntchk"><input type="checkbox" id="ntA" data-nt="'+w.id+'"'+(n.a?' checked':'')+'> طبّقتُ هذا العمل</label>'
  +'<label class="sr" for="ntT">ملاحظتك على هذه الوقفة</label><textarea id="ntT" data-nt="'+w.id+'" maxlength="'+NT_MAX+'" rows="4" placeholder="ماذا طبّقت؟ أو ما الذي بقي في نفسك من هذه الوقفة؟">'+esc(n.t)+'</textarea>'
  +'<p class="ntst" id="ntS" role="status" aria-live="polite">'+(n.u?'آخر حفظ: '+ntWhen(n.u):'')+'</p>'
- +'<p class="wqn">تُحفظ على هذا الجهاز فقط، ولا يراها أحد غيرك. <a href="#/notes">دفتر الأثر</a></p></section>'}
+ +'<p class="wqn">تُحفظ على هذا الجهاز فقط، ولا يراها أحد غيرك.</p></details>'}
 function ntSave(id){var t=document.getElementById('ntT'),a=document.getElementById('ntA');if(!t||!a)return;var o=ntAll(),v=t.value.slice(0,NT_MAX);
  if(!v.trim()&&!a.checked){delete o[id]}else o[id]={t:v,a:a.checked,u:Date.now()};ntPut(o);var st=document.getElementById('ntS');if(st)st.textContent=o[id]?'حُفظ ✓':'لا توجد ملاحظة محفوظة'}
 document.addEventListener('input',function(e){var t=e.target;if(t.id!=='ntT')return;clearTimeout(ntTm);var id=t.dataset.nt;ntTm=setTimeout(function(){ntSave(id)},500)});
