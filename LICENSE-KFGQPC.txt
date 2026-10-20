@@ -27,3 +27,7 @@ Permission is hereby granted, Free of Cost, to any person obtaining a copy of th
 
 
 2.    The Font Software is provided "AS IS", and KFGQPC makes no warranties as to its use or performance, fitness for a particular purpose. KFGQPC does not and cannot warrant the performance or results you may obtain by using the Font. In no event shall KFGQPC be liable for any Claims, Damages or other Liability, including any Damages, arising from, out of the use or inability to use the Font or from other dealings in the Font.
+
+KFGQPC QCF V1 page fonts (mushaf/f/001.woff2 … 604.woff2) and basmala font (mushaf/f/bsml.ttf) — King Fahd Glorious Quran Printing Complex, unchanged files.
+Embedded notice: "King Fahad Complex, All rights reserved." (designer: Harf Information Technology). Terms: https://dm.qurancomplex.gov.sa/copyright-2/
+Line layout per page: Quran.com data as packaged by github.com/zonetecde/mushaf-layout (ISC); verified against this site's page map — every verse once, 15 lines per page.
