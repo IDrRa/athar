@@ -590,6 +590,11 @@ html[data-qz="2"] .qpg:not(.fit) .qt,html[data-qz="3"] .qpg:not(.fit) .qt,html[d
 @keyframes mspin{to{transform:rotate(360deg)}}
 .qmd{display:flex;gap:8px;width:100%}.qmd .btn{flex:1}.qmd .btn.on{background:var(--green);color:var(--on-green);border-color:var(--green)}
 .qszr{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;width:100%}.qszr[hidden]{display:none}
+
+/* v27 mushaf surah frame */
+.msh{position:relative;display:flex;align-items:center;justify-content:center;width:100%;height:calc(var(--mrh,2.1em)*.8);box-sizing:border-box;border:1px solid var(--gold);border-radius:2px;box-shadow:0 0 0 2px var(--bg),0 0 0 3px var(--gold)}
+.msh::before{content:"";position:absolute;inset:3px;border-radius:1px;opacity:.5;background:radial-gradient(circle,var(--gold) 0 1.1px,transparent 1.5px) center/9px 9px,linear-gradient(90deg,transparent,var(--tint) 30%,var(--tint) 70%,transparent)}
+.msn{position:relative;display:flex;align-items:center;height:72%;margin:0;padding:0 1.3em;background:var(--bg);border:1px solid var(--gold);border-radius:999px;font:400 calc(var(--mfs,22px)*.82)/1 'KFGQPC Hafs',var(--qf),serif;color:var(--text);white-space:nowrap}
 </style>
 </head>
 <body>
@@ -1290,7 +1295,7 @@ function mwait(p){mload(p).then(function(){if(QPS&&QPS.p===p&&document.querySele
  return '<div class="mwait" role="status"><i aria-hidden="true"></i>جارٍ تحميل الصفحة…</div>'}
 function mbody(p,sg){var d=MD[p],sr=sg.map(function(g){var V=QV(g[0]),t=[];for(var v=g[1];v<=g[2];v++)t.push(V[v-1]+' ('+ar(v)+')');return t.join(' ')}).join(' ');
  var h='<p class="sr" lang="ar">'+esc(sr)+'</p><div class="mbody'+(p<3?' m12':'')+'" style="font-family:\'QP'+p+'\'" lang="ar" dir="rtl" translate="no">';
- d.r.forEach(function(r){if(r[0]==='h'){var n=r[1];h+='<div class="ml mh"><div class="qbn"><i class="qo" aria-hidden="true"></i><h2>سورة '+QN[n-1]+'<span class="sr"> — '+QC[n-1]+' آية</span></h2><i class="qo" aria-hidden="true"></i></div></div>';return}
+ d.r.forEach(function(r){if(r[0]==='h'){var n=r[1];h+='<div class="ml mh"><div class="msh"><h2 class="msn">سورة '+QN[n-1]+'<span class="sr"> — '+QC[n-1]+' آية</span></h2></div></div>';return}
   if(r[0]==='b'){h+='<div class="ml mb" aria-hidden="true">'+esc(r[1]||'')+'</div>';return}
   h+='<div class="ml">'+r.map(function(t){var q=t[1]+'_'+t[2];return t[3]?'<button class="mw mvn" id="v'+q+'" data-q="'+q+'" aria-pressed="false" aria-label="خيارات الآية '+ar(t[2])+'">'+esc(t[0])+'</button>':'<span class="mw" data-q="'+q+'" aria-hidden="true">'+esc(t[0])+'</span>'}).join('')+'</div>'});
  return h+'</div>'}
