@@ -8,27 +8,27 @@
  "start_url": "./",
  "scope": "./",
  "display": "standalone",
- "background_color": "#F2F4EF",
- "theme_color": "#F2F4EF",
+ "background_color": "#FFFFFF",
+ "theme_color": "#FFFFFF",
  "categories": [
   "books",
   "lifestyle"
  ],
  "icons": [
   {
-   "src": "icons/icon-192-m2.png",
+   "src": "icons/icon-192-m3.png",
    "sizes": "192x192",
    "type": "image/png",
    "purpose": "any"
   },
   {
-   "src": "icons/icon-512-m2.png",
+   "src": "icons/icon-512-m3.png",
    "sizes": "512x512",
    "type": "image/png",
    "purpose": "any"
   },
   {
-   "src": "icons/maskable-512-m2.png",
+   "src": "icons/maskable-512-m3.png",
    "sizes": "512x512",
    "type": "image/png",
    "purpose": "maskable"

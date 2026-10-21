@@ -7,8 +7,8 @@
 <title>أثر — ما ينفعك ويبقى أثره</title>
 <meta name="description" content="أثر: القرآن والأذكار والأدعية الموثقة في مكان واحد.">
 <link rel="canonical" href="https://iathar.pages.dev/">
-<meta name="theme-color" content="#F2F4EF" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#101713" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#FFFFFF" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
 <meta name="color-scheme" content="light dark">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
@@ -16,13 +16,13 @@
 <meta name="apple-mobile-web-app-title" content="أثر">
 <meta name="application-name" content="أثر">
 <link rel="manifest" href="manifest.webmanifest">
-<link rel="icon" type="image/svg+xml" href="icons/favicon-m2.svg">
-<link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192-m2.png">
-<link rel="apple-touch-icon" href="icons/apple-touch-icon-m2.png">
+<link rel="icon" type="image/svg+xml" href="icons/favicon-m3.svg">
+<link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192-m3.png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon-m3.png">
 <meta name="format-detection" content="telephone=no">
 <meta name="referrer" content="no-referrer">
 <link rel="stylesheet" href="fonts.css">
-<script>try{var _a=localStorage.getItem('athar-accent'),_t=localStorage.getItem('athar-theme');if(_a&&/^[a-z]+$/.test(_a)&&_a!=='green')document.documentElement.setAttribute('data-accent',_a);if(_t==='light'||_t==='dark')document.documentElement.setAttribute('data-theme',_t);var _f=localStorage.getItem('athar-fs');if(_f==='s'||_f==='l'||_f==='xl')document.documentElement.setAttribute('data-fs',_f)}catch(e){}</script>
+<script>try{var _a=localStorage.getItem('athar-accent'),_t=localStorage.getItem('athar-theme');_a=(_a&&/^[a-z]+$/.test(_a))?_a:'mono';if(_a!=='green')document.documentElement.setAttribute('data-accent',_a);if(_t==='light'||_t==='dark')document.documentElement.setAttribute('data-theme',_t);var _f=localStorage.getItem('athar-fs');if(_f==='s'||_f==='l'||_f==='xl')document.documentElement.setAttribute('data-fs',_f)}catch(e){}</script>
 <style>
 :root{--bg:#F2F4EF;--surface:#FBFCFA;--text:#16211C;--muted:#55645B;--green:#1C4A3B;--on-green:#FFFFFF;--gold:#A9822F;--line:#D8DDD3;--tint:#E6ECE3;
 --ui:"IBM Plex Sans Arabic",system-ui,"Segoe UI",Tahoma,sans-serif;--ar:"Amiri","Traditional Arabic","Times New Roman",serif;
@@ -383,6 +383,12 @@ body.qon .wrap{padding-inline:12px}
 :root[data-accent="violet"]{--bg:#F4F2F7;--surface:#FCFBFD;--text:#1E1828;--muted:#5F566E;--green:#4B3577;--on-green:#FFFFFF;--tint:#E9E4F1;--line:#DCD6E6}
 @media (prefers-color-scheme:dark){:root[data-accent="violet"]:not([data-theme="light"]){--bg:#121016;--surface:#1A1720;--text:#ECE8F2;--muted:#A9A0B8;--green:#BBA6E6;--on-green:#1B1230;--tint:#241F2D;--line:#312A3C}}
 :root[data-accent="violet"][data-theme="dark"]{--bg:#121016;--surface:#1A1720;--text:#ECE8F2;--muted:#A9A0B8;--green:#BBA6E6;--on-green:#1B1230;--tint:#241F2D;--line:#312A3C}
+:root[data-accent="mono"]{--bg:#FFFFFF;--surface:#F7F7F7;--text:#111111;--muted:#5C5C5C;--green:#111111;--on-green:#FFFFFF;--tint:#F0F0F0;--line:#E4E4E4}
+@media (prefers-color-scheme:dark){:root[data-accent="mono"]:not([data-theme="light"]){--bg:#000000;--surface:#111111;--text:#F2F2F2;--muted:#A6A6A6;--green:#EDEDED;--on-green:#000000;--tint:#1A1A1A;--line:#262626}}
+:root[data-accent="mono"][data-theme="dark"]{--bg:#000000;--surface:#111111;--text:#F2F2F2;--muted:#A6A6A6;--green:#EDEDED;--on-green:#000000;--tint:#1A1A1A;--line:#262626}
+.apsw [data-accent="mono"] i{background:#111111;box-shadow:inset 0 0 0 7px #FFFFFF,0 0 0 1px #D0D0D0}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .apsw [data-accent="mono"] i{background:#EDEDED;box-shadow:inset 0 0 0 7px #000000,0 0 0 1px #333333}}
+:root[data-theme="dark"] .apsw [data-accent="mono"] i{background:#EDEDED;box-shadow:inset 0 0 0 7px #000000,0 0 0 1px #333333}
 :root[data-accent="slate"]{--bg:#F2F3F4;--surface:#FCFCFD;--text:#1A1E22;--muted:#5A6169;--green:#34404C;--on-green:#FFFFFF;--tint:#E5E8EB;--line:#D7DBDF}
 @media (prefers-color-scheme:dark){:root[data-accent="slate"]:not([data-theme="light"]){--bg:#111315;--surface:#191C1F;--text:#E8EAEC;--muted:#A2A8AE;--green:#B8C4CF;--on-green:#14181C;--tint:#22262A;--line:#2E3338}}
 :root[data-accent="slate"][data-theme="dark"]{--bg:#111315;--surface:#191C1F;--text:#E8EAEC;--muted:#A2A8AE;--green:#B8C4CF;--on-green:#14181C;--tint:#22262A;--line:#2E3338}
@@ -673,7 +679,7 @@ body.home::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:no
     <li><button class="soon"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="5" cy="12" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="19" cy="12" r="1.5"/></svg>المزيد</button></li>
   </ul>
 </nav>
-<div class="apbk" id="appear" hidden><div class="apsh" role="dialog" aria-modal="true" aria-labelledby="apT"><h2 id="apT">المظهر والألوان</h2><p class="aplb" id="apM">الوضع</p><div class="apseg" role="radiogroup" aria-labelledby="apM"><button role="radio" aria-checked="false" data-mode="auto">تلقائي</button><button role="radio" aria-checked="false" data-mode="light">فاتح</button><button role="radio" aria-checked="false" data-mode="dark">داكن</button></div><p class="aplb" id="apC">لون الموقع</p><div class="apsw" role="radiogroup" aria-labelledby="apC"><button role="radio" aria-checked="false" data-accent="green"><i></i>أخضر</button><button role="radio" aria-checked="false" data-accent="azure"><i></i>لازوردي</button><button role="radio" aria-checked="false" data-accent="maroon"><i></i>عنّابي</button><button role="radio" aria-checked="false" data-accent="brown"><i></i>بُنّي</button><button role="radio" aria-checked="false" data-accent="violet"><i></i>بنفسجي</button><button role="radio" aria-checked="false" data-accent="slate"><i></i>رمادي</button></div><button class="btn primary apdone" data-apclose>تم</button></div></div>
+<div class="apbk" id="appear" hidden><div class="apsh" role="dialog" aria-modal="true" aria-labelledby="apT"><h2 id="apT">المظهر والألوان</h2><p class="aplb" id="apM">الوضع</p><div class="apseg" role="radiogroup" aria-labelledby="apM"><button role="radio" aria-checked="false" data-mode="auto">تلقائي</button><button role="radio" aria-checked="false" data-mode="light">فاتح</button><button role="radio" aria-checked="false" data-mode="dark">داكن</button></div><p class="aplb" id="apC">لون الموقع</p><div class="apsw" role="radiogroup" aria-labelledby="apC"><button role="radio" aria-checked="false" data-accent="mono"><i></i>أسود وأبيض</button><button role="radio" aria-checked="false" data-accent="green"><i></i>أخضر</button><button role="radio" aria-checked="false" data-accent="azure"><i></i>لازوردي</button><button role="radio" aria-checked="false" data-accent="maroon"><i></i>عنّابي</button><button role="radio" aria-checked="false" data-accent="brown"><i></i>بُنّي</button><button role="radio" aria-checked="false" data-accent="violet"><i></i>بنفسجي</button><button role="radio" aria-checked="false" data-accent="slate"><i></i>رمادي</button></div><button class="btn primary apdone" data-apclose>تم</button></div></div>
 <div class="apbk" id="tafs" hidden><div class="apsh tfsh" role="dialog" aria-modal="true" aria-labelledby="tfT"><div class="tfhd"><h2 id="tfT">المعنى</h2><button class="icon-btn" data-tfclose aria-label="إغلاق">×</button></div><p class="tfref" id="tfR"></p><div class="tfb" id="tfB" tabindex="-1"></div><p class="tfsrc">التفسير الميسر — مجمع الملك فهد لطباعة المصحف الشريف</p><div class="tfnav"><button class="btn" data-tf="prev">السابقة</button><button class="btn" data-tf="copy">نسخ المعنى</button><button class="btn" data-tf="next">التالية</button></div></div></div>
 <div class="apbk" id="cardS" hidden><div class="apsh cdsh" role="dialog" aria-modal="true" aria-labelledby="cdT"><div class="tfhd"><h2 id="cdT">بطاقة للمشاركة</h2><button class="icon-btn" data-cdclose aria-label="إغلاق">×</button></div><div class="cdbox" id="cdB"></div><p class="cdh">يمكنك أيضًا الضغط مطوّلًا على الصورة لحفظها.</p><div class="cdnav"><button class="btn primary" data-cd="share">مشاركة الصورة</button><button class="btn" data-cd="save">حفظ الصورة</button></div></div></div>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
@@ -1369,7 +1375,7 @@ function acc(){return root.getAttribute('data-accent')||'green'}
 function meta(){var bg=getComputedStyle(root).getPropertyValue('--bg').trim();if(bg)document.querySelectorAll('meta[name="theme-color"]').forEach(function(m){m.setAttribute('content',bg)})}
 function sync(){bk.querySelectorAll('[data-mode]').forEach(function(b){b.setAttribute('aria-checked',String(b.dataset.mode===mode()))});bk.querySelectorAll('[data-accent]').forEach(function(b){b.setAttribute('aria-checked',String(b.dataset.accent===acc()))});meta()}
 function setMode(m){if(m==='auto'){root.removeAttribute('data-theme');try{localStorage.removeItem('athar-theme')}catch(e){}}else{root.setAttribute('data-theme',m);try{localStorage.setItem('athar-theme',m)}catch(e){}}sync()}
-function setAcc(a){if(a==='green'){root.removeAttribute('data-accent');try{localStorage.removeItem('athar-accent')}catch(e){}}else{root.setAttribute('data-accent',a);try{localStorage.setItem('athar-accent',a)}catch(e){}}sync()}
+function setAcc(a){if(a==='green')root.removeAttribute('data-accent');else root.setAttribute('data-accent',a);try{if(a==='mono')localStorage.removeItem('athar-accent');else localStorage.setItem('athar-accent',a)}catch(e){}sync()}
 function open(){opener=document.activeElement;sync();bk.hidden=false;var c=bk.querySelector('[data-accent][aria-checked="true"]')||bk.querySelector('[data-accent]');c.focus()}
 function close(){bk.hidden=true;if(opener&&opener.focus)opener.focus()}
 window.openAppear=open;
