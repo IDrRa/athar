@@ -97,7 +97,9 @@ export async function onRequest({ request, env, params }) {
     // scheduler (which sends it in the x-push-key header) may run this.
     if (env.PUSH_KEY && request.headers.get('x-push-key') !== env.PUSH_KEY) return json({ ok: false }, 403);
     const url = new URL(request.url), n = Math.min(Math.max(parseInt(url.searchParams.get('n') || '1', 10) || 1, 1), 240), i = Math.min(Math.max(parseInt(url.searchParams.get('i') || '0', 10) || 0, 0), n - 1);
-    const v = await vapid(env), now = new Date(), due = [];
+    // ts: the original run's time, carried through relay hops so every hop sees the same due list.
+    const ts = parseInt(url.searchParams.get('ts') || '0', 10), off = Math.max(parseInt(url.searchParams.get('off') || '0', 10) || 0, 0), hop = Math.max(parseInt(url.searchParams.get('hop') || '0', 10) || 0, 0);
+    const v = await vapid(env), now = new Date(ts && Math.abs(Date.now() - ts) < 240000 ? ts : Date.now()), due = [];
     const part = (name) => parseInt(name.slice(2, 10), 16) % n;
     // With one partition (n=1) the run lists the subscribers itself. With more, the scheduler also sends a
     // ?build=1 call that lists every subscriber once (one list call per run) and leaves each partition its own
@@ -133,14 +135,21 @@ export async function onRequest({ request, env, params }) {
       if (!hit) for (const slot of ['m', 'e']) { if (md[slot]) { const d = t.min - toMin(md[slot]); if ((d >= 0 && d < 5) || (prev && d >= 5 && d < 10)) { hit = slot; break; } } }
       if (hit) due.push({ k: name, md, prayer: hit === 'prayer' });
     }
-    due.sort((x, y) => (y.prayer ? 1 : 0) - (x.prayer ? 1 : 0));
-    let sent = 0, gone = 0;
-    // The free plan allows ~50 outgoing requests per run; more partitions (n) raise the total.
-    const R = await Promise.all(due.slice(0, 46).map(x => send(env, v, x.md.u).catch(() => 0)));
-    for (let j = 0; j < R.length; j++) {
-      if (R[j] === 404 || R[j] === 410) { await env.REPORTS.delete(due[j].k); gone++; } else if (R[j] >= 200 && R[j] < 300) sent++;
+    due.sort((x, y) => (y.prayer ? 1 : 0) - (x.prayer ? 1 : 0) || (x.k < y.k ? -1 : 1));
+    let sent = 0, gone = 0, relayed = false;
+    // The free plan allows ~50 outgoing requests per invocation: send up to 45 here, and if more are due, hand the
+    // rest to a fresh invocation by bouncing through the scheduler Worker (a Function can't call itself directly).
+    const B = 45, batch = due.slice(off, off + B);
+    if (due.length > off + B && env.PUSH_KEY && hop < 30) {
+      const next = new URL(url); next.searchParams.set('ts', String(now.getTime())); next.searchParams.set('off', String(off + B)); next.searchParams.set('hop', String(hop + 1)); next.searchParams.delete('build');
+      const relay = (env.PUSH_RELAY || 'https://athar-cron.rashedalzu3bi415.workers.dev') + '/?to=' + encodeURIComponent(next.toString());
+      relayed = await fetch(relay, { method: 'POST', headers: { 'x-push-key': env.PUSH_KEY } }).then(r => r.ok).catch(() => false);
     }
-    return json({ ok: true, part: i, of: n, subs: subs.length, due: due.length, sent, gone, skipped: Math.max(0, due.length - 46) });
+    const R = await Promise.all(batch.map(x => send(env, v, x.md.u).catch(() => 0)));
+    for (let j = 0; j < R.length; j++) {
+      if (R[j] === 404 || R[j] === 410) { await env.REPORTS.delete(batch[j].k); gone++; } else if (R[j] >= 200 && R[j] < 300) sent++;
+    }
+    return json({ ok: true, part: i, of: n, hop, subs: subs.length, due: due.length, sent, gone, relayed, left: relayed ? 0 : Math.max(0, due.length - off - B) });
   }
 
   return json({ ok: false }, 404);
