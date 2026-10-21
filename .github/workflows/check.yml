@@ -1,0 +1,30 @@
+# أثر — فحص كل تعديل قبل نشره. Cloudflare ينشر فرع «live» فقط، ولا يصل التعديل إليه إلا إذا نجحت الفحوص.
+name: فحص ونشر
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: publish
+  cancel-in-progress: false
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: تثبيت أدوات الفحص
+        run: |
+          npm i --no-save --no-package-lock adhan@4 playwright@1.56.0
+          npx playwright install --with-deps chromium
+      - name: المحتوى الديني والمواقيت والتنبيهات
+        run: node tools/check.mjs
+      - name: فتح الصفحات في متصفح
+        run: node tools/smoke.mjs
+      - name: النشر (نقل التعديل إلى فرع live)
+        run: git push origin HEAD:refs/heads/live --force

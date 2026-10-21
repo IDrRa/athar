@@ -659,8 +659,8 @@ body.home::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:no
 .pt-sel select{min-height:48px;border:1px solid var(--line);border-radius:10px;background:var(--surface);color:var(--text);font:16px var(--ui);padding:0 12px}
 #ptchg{margin:8px 0 0}
 .pt-note{margin-top:16px;font-size:.82rem;line-height:1.8}
-.kb-wrap{position:relative;width:min(76vw,300px);aspect-ratio:1/1;margin:26px auto 14px}
-.kb-dial{position:absolute;inset:0;border-radius:50%;border:1.5px solid var(--gold);box-shadow:inset 0 0 0 6px var(--surface),inset 0 0 0 7px var(--line);background:var(--surface);transition:transform .2s linear}
+.kb-wrap{position:relative;box-sizing:border-box;width:min(84vw,328px);aspect-ratio:1/1;margin:12px auto 8px;padding:14px;overflow:hidden}
+.kb-dial{position:absolute;inset:14px;border-radius:50%;border:1.5px solid var(--gold);box-shadow:inset 0 0 0 6px var(--surface),inset 0 0 0 7px var(--line);background:var(--surface);transition:transform .2s linear}
 .kb-dial>span{position:absolute;font:600 .85rem/1 var(--ui);color:var(--muted)}
 .kb-dial>.kb-n{top:16px;left:50%;transform:translateX(-50%);color:var(--text)}
 .kb-dial>.kb-s{bottom:16px;left:50%;transform:translateX(-50%)}
@@ -668,7 +668,7 @@ body.home::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:no
 .kb-dial>.kb-w{left:16px;top:50%;transform:translateY(-50%)}
 .kb-arrow{position:absolute;inset:0;transform:rotate(var(--qb))}
 .kb-arrow svg{position:absolute;left:50%;top:13%;width:26px;height:37%;transform:translateX(-50%);fill:var(--gold);stroke:none}
-.kb-top{position:absolute;top:-12px;left:50%;width:2px;height:24px;border-radius:2px;background:var(--text);transform:translateX(-50%)}
+.kb-top{position:absolute;top:2px;left:50%;width:2px;height:24px;border-radius:2px;background:var(--text);transform:translateX(-50%)}
 .kb-wrap.ok .kb-dial{border-color:var(--green);box-shadow:inset 0 0 0 6px var(--surface),inset 0 0 0 8px var(--green)}
 .kb-st{text-align:center;font:600 1.05rem/1.6 var(--ui);margin:6px 0 2px}
 .kb-info{text-align:center;margin:0}
