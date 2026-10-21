@@ -104,6 +104,8 @@ export async function onRequest({ request, env, params }) {
     const url = new URL(request.url), n = Math.min(Math.max(parseInt(url.searchParams.get('n') || '1', 10) || 1, 1), 240), i = Math.min(Math.max(parseInt(url.searchParams.get('i') || '0', 10) || 0, 0), n - 1);
     // ts: the original run's time, carried through relay hops so every hop sees the same due list.
     const ts = parseInt(url.searchParams.get('ts') || '0', 10), off = Math.max(parseInt(url.searchParams.get('off') || '0', 10) || 0, 0), hop = Math.max(parseInt(url.searchParams.get('hop') || '0', 10) || 0, 0);
+    // w: minutes between scheduler runs (1 = every minute). A reminder is due only in the run right after its time.
+    const w = Math.min(Math.max(parseInt(url.searchParams.get('w') || '5', 10) || 5, 1), 5), W = w * 60000;
     const v = await vapid(env), now = new Date(ts && Math.abs(Date.now() - ts) < 240000 ? ts : Date.now()), due = [];
     const part = (name) => parseInt(name.slice(2, 10), 16) % n;
     // With one partition (n=1) the run lists the subscribers itself. With more, the scheduler also sends a
@@ -135,10 +137,10 @@ export async function onRequest({ request, env, params }) {
       let hit = null, prev = false;
       if (md.pr && md.la != null) {
         const [y, mo, d] = t.day.split('-').map(Number), P = ptDay(y, mo, d, md.la, md.lo, ramadan(now, md.tz));
-        for (const c of md.pr) { const at = P[PR[c]]; if (!at) continue; const g = now - at; if (g >= -30000 && g < 270000) hit = 'prayer'; else if (g >= 270000 && g < 570000) prev = true; }
+        for (const c of md.pr) { const at = P[PR[c]]; if (!at) continue; const g = now - at; if (g >= -20000 && g < W - 20000) hit = 'prayer'; else if (g >= W - 20000 && g < 2 * W - 20000) prev = true; }
       }
       // adhkar: due in the 5 minutes after their time; if a prayer took that run, they go out on the next one
-      if (!hit) for (const slot of ['m', 'e']) { if (md[slot]) { const d = t.min - toMin(md[slot]); if ((d >= 0 && d < 5) || (prev && d >= 5 && d < 10)) { hit = slot; break; } } }
+      if (!hit) for (const slot of ['m', 'e']) { if (md[slot]) { const d = t.min - toMin(md[slot]); if ((d >= 0 && d < w) || (prev && d >= w && d < 2 * w)) { hit = slot; break; } } }
       if (hit) due.push({ k: name, md, prayer: hit === 'prayer' });
     }
     due.sort((x, y) => (y.prayer ? 1 : 0) - (x.prayer ? 1 : 0) || (x.k < y.k ? -1 : 1));
