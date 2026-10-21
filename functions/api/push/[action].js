@@ -96,17 +96,31 @@ export async function onRequest({ request, env, params }) {
     // its time, so a run never needs to write anything per subscriber. When the PUSH_KEY secret is set, only the
     // scheduler (which sends it in the x-push-key header) may run this.
     if (env.PUSH_KEY && request.headers.get('x-push-key') !== env.PUSH_KEY) return json({ ok: false }, 403);
-    const url = new URL(request.url), n = Math.min(Math.max(parseInt(url.searchParams.get('n') || '1', 10) || 1, 1), 48), i = Math.min(Math.max(parseInt(url.searchParams.get('i') || '0', 10) || 0, 0), n - 1);
+    const url = new URL(request.url), n = Math.min(Math.max(parseInt(url.searchParams.get('n') || '1', 10) || 1, 1), 240), i = Math.min(Math.max(parseInt(url.searchParams.get('i') || '0', 10) || 0, 0), n - 1);
     const v = await vapid(env), now = new Date(), due = [];
-    // Partition 0 lists every subscriber (one list call per run) and refreshes a shared index; the other
-    // partitions read that index, so the whole run costs one list call however many partitions there are.
-    let subs = [];
-    if (i === 0) {
-      let cursor;
-      do { const l = await env.REPORTS.list({ prefix: 's:', cursor, limit: 1000 }); for (const k of l.keys) if (k.metadata && k.metadata.u) subs.push([k.name, k.metadata]); cursor = l.list_complete ? null : l.cursor; } while (cursor);
-      if (n > 1) { const idx = JSON.stringify(subs), old = await env.REPORTS.get('push:idx'); if (old !== idx) await env.REPORTS.put('push:idx', idx); }
-    } else subs = (await env.REPORTS.get('push:idx', 'json')) || [];
     const part = (name) => parseInt(name.slice(2, 10), 16) % n;
+    // With one partition (n=1) the run lists the subscribers itself. With more, the scheduler also sends a
+    // ?build=1 call that lists every subscriber once (one list call per run) and leaves each partition its own
+    // slice in the edge cache, plus a full copy in KV when it changed; partitions read their slice from the
+    // previous build, so no run parses the whole list and the run costs one list call however many partitions.
+    const cache = caches.default, ck = (j) => new Request(`${url.origin}/__push_idx/${n}/${j}`);
+    let subs = [];
+    if (n === 1 || url.searchParams.get('build') === '1') {
+      let all = [], cursor;
+      do { const l = await env.REPORTS.list({ prefix: 's:', cursor, limit: 1000 }); for (const k of l.keys) if (k.metadata && k.metadata.u) all.push([k.name, k.metadata]); cursor = l.list_complete ? null : l.cursor; } while (cursor);
+      if (n === 1) subs = all;
+      else {
+        const parts = Array.from({ length: n }, () => []);
+        for (const x of all) parts[part(x[0])].push(x);
+        await Promise.all(parts.map((p, j) => cache.put(ck(j), new Response(JSON.stringify(p), { headers: { 'cache-control': 'max-age=900' } })).catch(() => {})));
+        const full = JSON.stringify(all), h = (await sha(full)).slice(0, 16);
+        if ((await env.REPORTS.get('push:idxh')) !== h) { await env.REPORTS.put('push:idx', full); await env.REPORTS.put('push:idxh', h); }
+        return json({ ok: true, built: all.length, of: n });
+      }
+    } else {
+      const c = await cache.match(ck(i)).catch(() => null);
+      subs = c ? await c.json() : ((await env.REPORTS.get('push:idx', 'json')) || []);
+    }
     for (const [name, md] of subs) {
       if (part(name) !== i || !okTz(md.tz)) continue;
       const t = localNow(md.tz, now);
@@ -122,11 +136,11 @@ export async function onRequest({ request, env, params }) {
     due.sort((x, y) => (y.prayer ? 1 : 0) - (x.prayer ? 1 : 0));
     let sent = 0, gone = 0;
     // The free plan allows ~50 outgoing requests per run; more partitions (n) raise the total.
-    const R = await Promise.all(due.slice(0, 45).map(x => send(env, v, x.md.u).catch(() => 0)));
+    const R = await Promise.all(due.slice(0, 46).map(x => send(env, v, x.md.u).catch(() => 0)));
     for (let j = 0; j < R.length; j++) {
       if (R[j] === 404 || R[j] === 410) { await env.REPORTS.delete(due[j].k); gone++; } else if (R[j] >= 200 && R[j] < 300) sent++;
     }
-    return json({ ok: true, part: i, of: n, subs: subs.length, due: due.length, sent, gone, skipped: Math.max(0, due.length - 45) });
+    return json({ ok: true, part: i, of: n, subs: subs.length, due: due.length, sent, gone, skipped: Math.max(0, due.length - 46) });
   }
 
   return json({ ok: false }, 404);
