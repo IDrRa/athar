@@ -42,6 +42,19 @@ function localNow(tz, now) {
 }
 const toMin = (t) => (+t.slice(0, 2)) * 60 + (+t.slice(3));
 
+
+// ---- prayer times (Umm al-Qura; same code as the site's مواقيت الصلاة) ----
+function ptSun(jd){const D=jd-2451545,r=Math.PI/180,g=(357.529+0.98560028*D)*r,q=280.459+0.98564736*D,L=(q+1.915*Math.sin(g)+0.020*Math.sin(2*g))*r,e=(23.439-0.00000036*D)*r,
+ RA=Math.atan2(Math.cos(e)*Math.sin(L),Math.cos(L))/r/15,dec=Math.asin(Math.sin(e)*Math.sin(L));let eqt=q/15-((RA%24)+24)%24;eqt=((eqt+12)%24+24)%24-12;return {dec,eqt}}
+function ptAt(jd0,lat,lng,ang,dir,approx){const r=Math.PI/180,s=ptSun(jd0+approx/24),noon=12-lng/15-s.eqt,c=(-Math.sin(ang*r)-Math.sin(lat*r)*Math.sin(s.dec))/(Math.cos(lat*r)*Math.cos(s.dec));if(c<-1||c>1)return NaN;return noon+dir*Math.acos(c)/r/15}
+function ptAsrAng(jd0,lat,approx){const r=Math.PI/180,s=ptSun(jd0+approx/24);return -Math.atan(1/(1+Math.tan(Math.abs(lat*r-s.dec))))/r}
+function ptDay(y,m,d,lat,lng,ramadan){const jd0=Date.UTC(y,m-1,d)/864e5+2440587.5,t={};
+ for(let i=0;i<3;i++){const s=ptSun(jd0+(t.dhuhr||12)/24);t.dhuhr=12-lng/15-s.eqt;t.fajr=ptAt(jd0,lat,lng,18.5,-1,t.fajr||5);t.sunrise=ptAt(jd0,lat,lng,0.833,-1,t.sunrise||6);
+  t.asr=ptAt(jd0,lat,lng,ptAsrAng(jd0,lat,t.asr||15),1,t.asr||15);t.maghrib=ptAt(jd0,lat,lng,0.833,1,t.maghrib||18)}
+ t.isha=t.maghrib+(ramadan?2:1.5);const base=Date.UTC(y,m-1,d),o={};for(const k of ['fajr','dhuhr','asr','maghrib','isha'])o[k]=isFinite(t[k])?Math.round((base+t[k]*36e5)/6e4)*6e4:null;return o}
+function ramadan(now,tz){try{return parseInt(new Intl.DateTimeFormat('en-u-ca-islamic-umalqura',{timeZone:tz,month:'numeric'}).format(now),10)===9}catch{return false}}
+const PR={f:'fajr',d:'dhuhr',a:'asr',m:'maghrib',i:'isha'};
+
 async function body(request) { try { return await request.json(); } catch { return null; } }
 function sameOrigin(request) { const o = request.headers.get('origin'); return !o || new URL(o).host === new URL(request.url).host; }
 
@@ -57,12 +70,14 @@ export async function onRequest({ request, env, params }) {
     if (!b || !okEndpoint(b.endpoint)) return json({ ok: false, error: 'endpoint' }, 400);
     const id = 's:' + (await sha(b.endpoint)).slice(0, 32);
     if (b.action === 'del') { await env.REPORTS.delete(id); return json({ ok: true }); }
-    const m = b.m ?? null, e = b.e ?? null;
+    const m = b.m ?? null, e = b.e ?? null, pr = typeof b.pr === 'string' ? [...new Set(b.pr.replace(/[^fdami]/g, ''))].join('') : '';
     if (!okTime(m) || !okTime(e) || !okTz(b.tz)) return json({ ok: false, error: 'bad' }, 400);
-    if (!m && !e) { await env.REPORTS.delete(id); return json({ ok: true }); }
+    let la = null, lo = null;
+    if (pr) { la = Math.round(+b.lat * 10) / 10; lo = Math.round(+b.lng * 10) / 10; if (!(la >= -66 && la <= 66 && lo >= -180 && lo <= 180)) return json({ ok: false, error: 'loc' }, 400); }
+    if (!m && !e && !pr) { await env.REPORTS.delete(id); return json({ ok: true }); }
     const old = await env.REPORTS.getWithMetadata(id);
     const md = old && old.metadata || {};
-    await env.REPORTS.put(id, '1', { metadata: { u: b.endpoint, tz: b.tz, m, e, sm: md.sm || '', se: md.se || '' } });
+    await env.REPORTS.put(id, '1', { metadata: { u: b.endpoint, tz: b.tz, m, e, sm: md.sm || '', se: md.se || '', pr, la, lo } });
     return json({ ok: true });
   }
 
@@ -87,6 +102,11 @@ export async function onRequest({ request, env, params }) {
       for (const k of l.keys) {
         const md = k.metadata; if (!md || !md.u || !okTz(md.tz)) continue;
         const t = localNow(md.tz, now);
+        if (md.pr && md.la != null) { // prayers: sent when the run falls in the 5 minutes after the time (cron runs every 5 minutes; no write needed)
+          const [y, mo, d] = t.day.split('-').map(Number), P = ptDay(y, mo, d, md.la, md.lo, ramadan(now, md.tz));
+          for (const c of md.pr) { const at = P[PR[c]]; if (at && now - at >= 0 && now - at < 300000) { due.unshift({ k: k.name, md, prayer: true }); break; } }
+          if (due.length && due[0].k === k.name && due[0].prayer) continue; // adhkar (if also due) go on the next run
+        }
         for (const [slot, mark] of [['m', 'sm'], ['e', 'se']]) {
           if (!md[slot] || md[mark] === t.day) continue;
           const d = t.min - toMin(md[slot]);
@@ -99,7 +119,7 @@ export async function onRequest({ request, env, params }) {
     for (const x of due.slice(0, 40)) { // stay under the per-run subrequest limit; the rest go on the next run
       let st = 0; try { st = await send(env, v, x.md.u); } catch { st = 0; }
       if (st === 404 || st === 410) { await env.REPORTS.delete(x.k); gone++; continue; }
-      if (st >= 200 && st < 300) { sent++; x.md[x.mark] = x.day; await env.REPORTS.put(x.k, '1', { metadata: x.md }); }
+      if (st >= 200 && st < 300) { sent++; if (!x.prayer) { x.md[x.mark] = x.day; await env.REPORTS.put(x.k, '1', { metadata: x.md }); } }
     }
     return json({ ok: true, due: due.length, sent, gone });
   }
