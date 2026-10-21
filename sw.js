@@ -14,10 +14,13 @@ self.addEventListener('fetch',e=>{const r=e.request;if(r.method!=='GET')return;c
 /* Reminders: pushes carry no payload. The page stores the coming week's schedule (adhkar and prayer times)
    in the "athar_meta" cache; the reminder nearest to now decides the text. Without it, the hour decides. */
 const PNAME={fajr:'الفجر',dhuhr:'الظهر',asr:'العصر',maghrib:'المغرب',isha:'العشاء'};
-function pick(){return caches.open('athar_meta').then(c=>c.match('sched.json')).then(r=>r?r.json():null).catch(()=>null).then(j=>{const now=Date.now();let best=null;
- if(j&&Array.isArray(j.ev))for(const [ts,k] of j.ev){const d=now-ts;if(d>-120000&&d<3000000&&(!best||Math.abs(d)<Math.abs(best[0])||(k.length>1&&best[1].length===1&&Math.abs(d)<=Math.abs(best[0])+60000)))best=[d,k]}
- if(best&&PNAME[best[1]])return {t:'صلاة '+PNAME[best[1]],b:'حان الآن وقت صلاة '+PNAME[best[1]],u:'./#/prayer',tag:'athar-prayer'};
- const m=best?best[1]==='m':new Date().getHours()<12;return {t:m?'أذكار الصباح':'أذكار المساء',b:m?'حان وقت أذكار الصباح، افتحها الآن':'حان وقت أذكار المساء، افتحها الآن',u:'./#/adhkar/'+(m?'morning':'evening'),tag:'athar-adhkar'}})}
+function pick(){return caches.open('athar_meta').then(c=>Promise.all([c.match('sched.json').then(r=>r?r.json():null).catch(()=>null),c.match('shown.json').then(r=>r?r.json():[]).catch(()=>[])]).then(([j,shown])=>{
+ const now=Date.now();let best=null;
+ if(j&&Array.isArray(j.ev))for(const [ts,k] of j.ev){const id=ts+k,d=now-ts;if(shown.indexOf(id)>-1||d<-120000||d>3000000)continue;const pr=k.length>1;
+  if(!best||(pr&&!best.pr&&Math.abs(d)<=Math.abs(best.d)+60000)||(pr===best.pr&&Math.abs(d)<Math.abs(best.d)))best={d,k,id,pr}}
+ if(best){shown.push(best.id);c.put('shown.json',new Response(JSON.stringify(shown.slice(-30)))).catch(()=>{})}
+ if(best&&PNAME[best.k])return {t:'صلاة '+PNAME[best.k],b:'حان الآن وقت صلاة '+PNAME[best.k],u:'./#/prayer',tag:'athar-prayer'};
+ const m=best?best.k==='m':new Date().getHours()<12;return {t:m?'أذكار الصباح':'أذكار المساء',b:m?'حان وقت أذكار الصباح، افتحها الآن':'حان وقت أذكار المساء، افتحها الآن',u:'./#/adhkar/'+(m?'morning':'evening'),tag:'athar-adhkar'}})).catch(()=>({t:'أثر',b:'حان وقت الذكر',u:'./',tag:'athar'}))}
 self.addEventListener('push',e=>{e.waitUntil(pick().then(n=>self.registration.showNotification(n.t,{body:n.b,icon:'icons/icon-192-m4.png',tag:n.tag,renotify:true,lang:'ar',dir:'rtl',data:{url:n.u}})))});
 self.addEventListener('notificationclick',e=>{e.notification.close();const u=new URL((e.notification.data&&e.notification.data.url)||'./',self.registration.scope).href;
  e.waitUntil(clients.matchAll({type:'window',includeUncontrolled:true}).then(cs=>{for(const c of cs){if('focus' in c){if('navigate' in c)c.navigate(u).catch(()=>{});return c.focus()}}return clients.openWindow(u)}))});

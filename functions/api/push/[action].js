@@ -75,9 +75,7 @@ export async function onRequest({ request, env, params }) {
     let la = null, lo = null;
     if (pr) { la = Math.round(+b.lat * 10) / 10; lo = Math.round(+b.lng * 10) / 10; if (!(la >= -66 && la <= 66 && lo >= -180 && lo <= 180)) return json({ ok: false, error: 'loc' }, 400); }
     if (!m && !e && !pr) { await env.REPORTS.delete(id); return json({ ok: true }); }
-    const old = await env.REPORTS.getWithMetadata(id);
-    const md = old && old.metadata || {};
-    await env.REPORTS.put(id, '1', { metadata: { u: b.endpoint, tz: b.tz, m, e, sm: md.sm || '', se: md.se || '', pr, la, lo } });
+    await env.REPORTS.put(id, '1', { metadata: { u: b.endpoint, tz: b.tz, m, e, pr, la, lo } });
     return json({ ok: true });
   }
 
@@ -94,34 +92,41 @@ export async function onRequest({ request, env, params }) {
   }
 
   if (a === 'run') {
-    // Called every few minutes by the scheduler. Safe to call by anyone: each slot is sent at most once a day.
+    // Called every 5 minutes by the scheduler Worker (athar-cron). Each reminder is due only in the 5 minutes after
+    // its time, so a run never needs to write anything per subscriber. When the PUSH_KEY secret is set, only the
+    // scheduler (which sends it in the x-push-key header) may run this.
+    if (env.PUSH_KEY && request.headers.get('x-push-key') !== env.PUSH_KEY) return json({ ok: false }, 403);
+    const url = new URL(request.url), n = Math.min(Math.max(parseInt(url.searchParams.get('n') || '1', 10) || 1, 1), 48), i = Math.min(Math.max(parseInt(url.searchParams.get('i') || '0', 10) || 0, 0), n - 1);
     const v = await vapid(env), now = new Date(), due = [];
-    let cursor;
-    do {
-      const l = await env.REPORTS.list({ prefix: 's:', cursor, limit: 1000 });
-      for (const k of l.keys) {
-        const md = k.metadata; if (!md || !md.u || !okTz(md.tz)) continue;
-        const t = localNow(md.tz, now);
-        if (md.pr && md.la != null) { // prayers: sent when the run falls in the 5 minutes after the time (cron runs every 5 minutes; no write needed)
-          const [y, mo, d] = t.day.split('-').map(Number), P = ptDay(y, mo, d, md.la, md.lo, ramadan(now, md.tz));
-          for (const c of md.pr) { const at = P[PR[c]]; if (at && now - at >= 0 && now - at < 300000) { due.unshift({ k: k.name, md, prayer: true }); break; } }
-          if (due.length && due[0].k === k.name && due[0].prayer) continue; // adhkar (if also due) go on the next run
-        }
-        for (const [slot, mark] of [['m', 'sm'], ['e', 'se']]) {
-          if (!md[slot] || md[mark] === t.day) continue;
-          const d = t.min - toMin(md[slot]);
-          if (d >= 0 && d < 45) { due.push({ k: k.name, md, mark, day: t.day }); break; }
-        }
+    // Partition 0 lists every subscriber (one list call per run) and refreshes a shared index; the other
+    // partitions read that index, so the whole run costs one list call however many partitions there are.
+    let subs = [];
+    if (i === 0) {
+      let cursor;
+      do { const l = await env.REPORTS.list({ prefix: 's:', cursor, limit: 1000 }); for (const k of l.keys) if (k.metadata && k.metadata.u) subs.push([k.name, k.metadata]); cursor = l.list_complete ? null : l.cursor; } while (cursor);
+      if (n > 1) { const idx = JSON.stringify(subs), old = await env.REPORTS.get('push:idx'); if (old !== idx) await env.REPORTS.put('push:idx', idx); }
+    } else subs = (await env.REPORTS.get('push:idx', 'json')) || [];
+    const part = (name) => parseInt(name.slice(2, 10), 16) % n;
+    for (const [name, md] of subs) {
+      if (part(name) !== i || !okTz(md.tz)) continue;
+      const t = localNow(md.tz, now);
+      let hit = null, prev = false;
+      if (md.pr && md.la != null) {
+        const [y, mo, d] = t.day.split('-').map(Number), P = ptDay(y, mo, d, md.la, md.lo, ramadan(now, md.tz));
+        for (const c of md.pr) { const at = P[PR[c]]; if (!at) continue; const g = now - at; if (g >= -30000 && g < 270000) hit = 'prayer'; else if (g >= 270000 && g < 570000) prev = true; }
       }
-      cursor = l.list_complete ? null : l.cursor;
-    } while (cursor);
-    let sent = 0, gone = 0;
-    for (const x of due.slice(0, 40)) { // stay under the per-run subrequest limit; the rest go on the next run
-      let st = 0; try { st = await send(env, v, x.md.u); } catch { st = 0; }
-      if (st === 404 || st === 410) { await env.REPORTS.delete(x.k); gone++; continue; }
-      if (st >= 200 && st < 300) { sent++; if (!x.prayer) { x.md[x.mark] = x.day; await env.REPORTS.put(x.k, '1', { metadata: x.md }); } }
+      // adhkar: due in the 5 minutes after their time; if a prayer took that run, they go out on the next one
+      if (!hit) for (const slot of ['m', 'e']) { if (md[slot]) { const d = t.min - toMin(md[slot]); if ((d >= 0 && d < 5) || (prev && d >= 5 && d < 10)) { hit = slot; break; } } }
+      if (hit) due.push({ k: name, md, prayer: hit === 'prayer' });
     }
-    return json({ ok: true, due: due.length, sent, gone });
+    due.sort((x, y) => (y.prayer ? 1 : 0) - (x.prayer ? 1 : 0));
+    let sent = 0, gone = 0;
+    // The free plan allows ~50 outgoing requests per run; more partitions (n) raise the total.
+    const R = await Promise.all(due.slice(0, 45).map(x => send(env, v, x.md.u).catch(() => 0)));
+    for (let j = 0; j < R.length; j++) {
+      if (R[j] === 404 || R[j] === 410) { await env.REPORTS.delete(due[j].k); gone++; } else if (R[j] >= 200 && R[j] < 300) sent++;
+    }
+    return json({ ok: true, part: i, of: n, subs: subs.length, due: due.length, sent, gone, skipped: Math.max(0, due.length - 45) });
   }
 
   return json({ ok: false }, 404);
