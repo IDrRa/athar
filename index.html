@@ -634,6 +634,57 @@ body.home{background-image:radial-gradient(ellipse 70% 260px at 50% 0,rgba(176,1
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--hpf:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='390' height='1400' viewBox='0 0 390 1400'%3E%3Cg fill='none' stroke='rgba%28201%2C169%2C97%2C.22%29'%3E%3Cpath stroke-width='1.4' d='M95 1400V150C95 85 150 40 195 8c45 32 100 77 100 142v1250'/%3E%3Cpath stroke-width='1' d='M115 1400V155c0-55 45-95 80-122 35 27 80 67 80 122v1245'/%3E%3Cpath stroke-width='.8' d='M30 1400V190c0-40 30-70 55-88M360 1400V190c0-40-30-70-55-88'/%3E%3C/g%3E%3Cg fill='rgba%28201%2C169%2C97%2C.5%29'%3E%3Ccircle cx='195' cy='8' r='3'/%3E%3C/g%3E%3C/svg%3E")}}
 body.home{background-image:none}
 body.home::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;background:radial-gradient(ellipse 70% 260px at 50% 0,rgba(176,141,74,.14),transparent 70%),var(--hpf) center -30px/min(100%,520px) auto no-repeat}
+
+/* v30 prayer · qibla · stats */
+.btn .mri,.pt-ic{width:18px;height:18px;color:currentColor}
+.pt-loc{display:flex;justify-content:space-between;align-items:center;gap:10px;margin:4px 0 12px;color:var(--muted)}
+.pt-loc span{display:inline-flex;align-items:center;gap:6px}
+.pt-loc .lnk{color:var(--green);font-weight:600;min-height:44px}
+.pt-date{color:var(--muted);margin:0 0 12px;font-size:.9rem}
+.pt-next{display:flex;flex-direction:column;align-items:center;gap:2px;padding:22px 16px;margin:0 0 14px;border:1.2px solid var(--gold);border-radius:16px;box-shadow:inset 0 0 0 3px var(--surface),inset 0 0 0 4px var(--gold);background:var(--surface);text-align:center}
+.pt-next small{color:var(--muted);font-size:.85rem}
+.pt-next b{font:700 2.1rem/1.35 var(--ar);color:var(--text)}
+.pt-next span{font-weight:500}
+.pt-l{margin:0 0 4px}
+.pt-l li{display:flex;justify-content:space-between;align-items:center;gap:12px;min-height:56px;padding:0 18px;border-top:1px solid var(--line)}
+.pt-l li:first-child{border-top:0}
+.pt-l li b{font-weight:600}
+.pt-l li.past{color:var(--muted)}
+.pt-l li.on{background:var(--tint);font-weight:700}
+.pt-l li:first-child.on{border-radius:14px 14px 0 0}.pt-l li:last-child.on{border-radius:0 0 14px 14px}
+.pt-card p{margin:0 0 6px}
+.pt-pick{display:flex;flex-direction:column;gap:12px;margin:14px 0 6px}
+.pt-pick .btn{justify-content:center;min-height:48px}
+.pt-sel{display:flex;flex-direction:column;gap:6px;font-size:.9rem;color:var(--muted)}
+.pt-sel select{min-height:48px;border:1px solid var(--line);border-radius:10px;background:var(--surface);color:var(--text);font:16px var(--ui);padding:0 12px}
+#ptchg{margin:8px 0 0}
+.pt-note{margin-top:16px;font-size:.82rem;line-height:1.8}
+.kb-wrap{position:relative;width:min(76vw,300px);aspect-ratio:1/1;margin:26px auto 14px}
+.kb-dial{position:absolute;inset:0;border-radius:50%;border:1.5px solid var(--gold);box-shadow:inset 0 0 0 6px var(--surface),inset 0 0 0 7px var(--line);background:var(--surface);transition:transform .2s linear}
+.kb-dial>span{position:absolute;font:600 .85rem/1 var(--ui);color:var(--muted)}
+.kb-dial>.kb-n{top:16px;left:50%;transform:translateX(-50%);color:var(--text)}
+.kb-dial>.kb-s{bottom:16px;left:50%;transform:translateX(-50%)}
+.kb-dial>.kb-e{right:16px;top:50%;transform:translateY(-50%)}
+.kb-dial>.kb-w{left:16px;top:50%;transform:translateY(-50%)}
+.kb-arrow{position:absolute;inset:0;transform:rotate(var(--qb))}
+.kb-arrow svg{position:absolute;left:50%;top:13%;width:26px;height:37%;transform:translateX(-50%);fill:var(--gold);stroke:none}
+.kb-top{position:absolute;top:-12px;left:50%;width:2px;height:24px;border-radius:2px;background:var(--text);transform:translateX(-50%)}
+.kb-wrap.ok .kb-dial{border-color:var(--green);box-shadow:inset 0 0 0 6px var(--surface),inset 0 0 0 8px var(--green)}
+.kb-st{text-align:center;font:600 1.05rem/1.6 var(--ui);margin:6px 0 2px}
+.kb-info{text-align:center;margin:0}
+.kb-btn{display:flex;justify-content:center;margin:16px 0 4px}
+@media (prefers-reduced-motion:reduce){.kb-dial{transition:none}}
+.st-g{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:0 0 14px}
+.st-g div{display:flex;flex-direction:column;align-items:center;gap:2px;padding:16px 8px;border:1px solid var(--line);border-radius:14px;background:var(--surface);text-align:center}
+.st-g b{font:700 1.9rem/1.2 var(--ui)}
+.st-g span{color:var(--muted);font-size:.85rem}
+.st-w h3{font:700 1rem var(--ui);margin:0 0 14px}
+.st-bars{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px;align-items:end}
+.st-b{display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:4px;height:150px}
+.st-b i{display:block;width:70%;max-width:26px;border-radius:6px 6px 2px 2px;background:var(--line)}
+.st-b.on i{background:var(--gold)}
+.st-b b{font-size:.78rem;font-weight:600}
+.st-b span{font-size:.7rem;color:var(--muted);white-space:nowrap}
 </style>
 </head>
 <body>
@@ -859,7 +910,7 @@ if(MM)return h+(MD[p]?mbody(p,sg):mwait(p))+ft;
 sg.forEach(function(g){var n=g[0],V=QV(n);if(g[1]===1){h+='<div class="qh"><div class="qbn"><i class="qo" aria-hidden="true"></i><h2>سورة '+QN[n-1]+'<span class="sr"> — '+QC[n-1]+' آية</span></h2><i class="qo" aria-hidden="true"></i></div></div>';if(n!==1&&n!==9)h+='<p class="qb" translate="no" lang="ar">'+(QBX[n]||QB)+'</p>'}
 h+='<div class="qt" translate="no" lang="ar" dir="rtl">';for(var v=g[1];v<=g[2];v++)h+='<span class="qv" id="v'+n+'_'+v+'">'+qvt(n,v,V[v-1])+'</span> ';h+='</div>'});
 return h+ft}
-function qpage(p){QPS={p:p};qset('athar-qlp',{p:p,t:Date.now()});try{kmSeen(p)}catch(x){}return qpcore(p)+'<div class="qbar" id="qbar" hidden role="toolbar" aria-label="خيارات الآية"><span id="qlbl"></span><button class="btn primary" data-qa="tf">المعنى</button><button class="btn" data-qa="bm">فاصل</button><button class="btn" data-qa="copy">نسخ</button><button class="btn" data-qa="card">بطاقة</button><button class="btn" data-qa="share">مشاركة</button><button class="btn" data-qa="close" aria-label="إغلاق خيارات الآية">×</button></div>'}
+function qpage(p){QPS={p:p};qset('athar-qlp',{p:p,t:Date.now()});try{kmSeen(p)}catch(x){}try{rdSeen(p)}catch(x){}return qpcore(p)+'<div class="qbar" id="qbar" hidden role="toolbar" aria-label="خيارات الآية"><span id="qlbl"></span><button class="btn primary" data-qa="tf">المعنى</button><button class="btn" data-qa="bm">فاصل</button><button class="btn" data-qa="copy">نسخ</button><button class="btn" data-qa="card">بطاقة</button><button class="btn" data-qa="share">مشاركة</button><button class="btn" data-qa="close" aria-label="إغلاق خيارات الآية">×</button></div>'}
 function qghost(p){return qpcore(p).replace(/ id="[^"]*"/g,'').replace(' data-swipe','')}
 var QFC={};
 function qlns(us,lh){var o=[],cur=[],top=null;us.forEach(function(u){var r=u.getBoundingClientRect();if(top===null||Math.abs(r.top-top)<lh*.5){cur.push([u,r]);if(top===null)top=r.top}else{o.push(cur);cur=[[u,r]];top=r.top}});if(cur.length)o.push(cur);return o}
@@ -946,7 +997,7 @@ else if(a==='bm'){qbkVerse(QS.n,QS.v)}
 else if(a==='copy'){copyT(x,'تم النسخ')} else if(a==='tf'){tfShow(QS.n,QS.v)} else if(a==='card'){cdOpen({label:'آية قرآنية',text:QV(QS.n)[QS.v-1],ref:'سورة '+QN[QS.n-1]+' · الآية '+ar(QS.v),quran:1,name:'quran-'+QS.n+'-'+QS.v})}
 else if(navigator.share){navigator.share({title:'أثر — سورة '+QN[QS.n-1],text:x,url:qlink(QS.n,QS.v)}).catch(function(){})}
 else copyT(x+'\n'+qlink(QS.n,QS.v),'المشاركة غير متاحة هنا، نُسخ نص الآية ورابطها')});
-function vAbout(){var k=kmGet(),nn=Object.keys(ntAll()).filter(function(x){return wqById(x)}).length,fs=mrFs();return head('المزيد','')+'<h2 class="mrs">أدوات أثر</h2><ul class="list mrl">'+mrRow('#/khatma','khatma','ختمة أثر',k&&!k.done?'اليوم '+ar(Math.min(k.ends.length,wqDay()-k.start+1))+' من '+ar(k.ends.length)+' · قرأت '+ar(Math.max(0,k.through-k.from+1))+' صفحة':'خطة يومية لختم القرآن')+mrRow('#/notes','notes','دفتر الأثر',nn?ar(nn)+' '+(nn===1?'ملاحظة':nn===2?'ملاحظتان':nn<=10?'ملاحظات':'ملاحظة'):'ملاحظاتك الخاصة على الوقفات')+mrRow('#/dua/now','now','ماذا أدعو الآن؟','اختر حالك، تظهر لك الأدعية المناسبة')+mrRow('#/waqfa/archive','waqfa','كل الوقفات',ar(WQ.length)+' وقفة')+'</ul>'+'<h2 class="mrs">الإعدادات</h2><ul class="list mrl"><li><button class="row" data-apopen>'+MRI.palette+'<div><b>المظهر والألوان</b><span>الوضع الليلي ولون الموقع</span></div></button></li>'+'<li class="mrfs"><div class="row">'+MRI.font+'<div><b id="mrfsl">حجم خط القراءة</b><span>في الأذكار والأدعية والمعاني</span></div></div><div class="apseg mrseg" role="radiogroup" aria-labelledby="mrfsl">'+[['s','صغير'],['m','متوسط'],['l','كبير'],['xl','أكبر']].map(function(x){return '<button role="radio" aria-checked="'+(fs===x[0])+'" data-fs="'+x[0]+'">'+x[1]+'</button>'}).join('')+'</div><p class="mrprev" lang="ar">سُبْحَانَ اللَّهِ وَبِحَمْدِهِ</p></li></ul>'+'<h2 class="mrs">بياناتك</h2><ul class="list mrl"><li><button class="row" data-mr="export">'+MRI.export+'<div><b>حفظ نسخة احتياطية</b><span>الختمة والدفتر والفواصل والإعدادات في ملف واحد</span></div></button></li>'+'<li><label class="row" for="mrimp">'+MRI.import+'<div><b>استعادة من نسخة احتياطية</b><span>اختر ملف أثر الذي حفظته سابقًا</span></div></label><input type="file" id="mrimp" class="sr" accept="application/json,.json"></li></ul>'+'<p class="mrnote">بياناتك محفوظة على هذا الجهاز فقط. احفظ نسخة احتياطية قبل مسح بيانات المتصفح أو تغيير الجوال.</p>'+'<h2 class="mrs">عن أثر</h2><ul class="list mrl"><li><button class="row" data-mr="share">'+MRI.share+'<div><b>شارك أثر</b><span>أرسل رابط الموقع لمن تحب</span></div></button></li>'+'<li><div class="row">'+MRI.shield+'<div><b>الخصوصية</b><span>لا حسابات ولا إعلانات. نحسب عدد الزيارات فقط، بلا ملفات تعريف ولا بيانات شخصية. وما تحفظه يبقى على جهازك.</span></div></div></li></ul>'+'<p>أثر موقع إسلامي هادئ يجمع القرآن والأذكار والأدعية في مكان واحد. لا يُنشر فيه محتوى ديني إلا بعد إسناده إلى مصدر ومراجعته.</p>'+'<details class="mrsrc"><summary>المصادر والتراخيص</summary><p><b>خط المصحف:</b> «KFGQPC Uthmanic Script HAFS» © مجمع الملك فهد لطباعة المصحف الشريف، المدينة المنورة. يُستخدم كما هو دون تعديل بموجب رخصة المستخدم المجانية المضمّنة في ملف الخط، وهي تسمح بالاستخدام والنسخ والتوزيع مجانًا مع منع البيع والتعديل.</p><p><b>الأذكار والأدعية:</b> من كتاب «حصن المسلم من أذكار الكتاب والسنة» للشيخ سعيد بن علي بن وهف القحطاني، عبر ملف البيانات المفتوح <a href="https://github.com/asellam/HisnElMuslim" target="_blank" rel="noopener">asellam/HisnElMuslim</a> (رخصة MIT). النص والمرجع كما في المصدر دون تعديل.</p><p><b>القرآن الكريم:</b> مصدر النص مشروع <a href="https://tanzil.net/" target="_blank" rel="noopener">Tanzil</a> (Tanzil Quran Text — Simple، الإصدار 1.1)، ويُعرض كما ورد في المصدر دون أي تغيير في حروفه. حقوق النسخ © 2007–2026 Tanzil Project، والترخيص Creative Commons Attribution 3.0. الرابط: <a href="https://tanzil.net/" target="_blank" rel="noopener">tanzil.net</a></p><p>تأتي البسملة في ملف المصدر في أول الآية الأولى من كل سورة عدا الفاتحة والتوبة، فتُعرض في رأس السورة بحروفها نفسها.</p><p><b>الأدعية القرآنية وأدعية الأنبياء:</b> كلمات الدعاء مقتطعة من نص الآية في Tanzil كما هي، دون أي تغيير، مع اسم السورة ورقم الآية. وأُسند كل دعاء إلى النبي القائل بعد التحقق من ذكره في «التفسير الميسر» لتلك الآيات.</p><p><b>أدعية النبي ﷺ:</b> أدعية جامعة غير مرتبطة بوقت أو مناسبة، من صحيحي البخاري ومسلم، أو من السنن مما صحّحه الشيخ الألباني. لفظها منقول من ملف البيانات المفتوح <a href="https://github.com/fawazahmed0/hadith-api" target="_blank" rel="noopener">fawazahmed0/hadith-api</a> (ملكية عامة)، مع رقم الحديث.</p><p><b>معنى الآيات في المصحف وشرح «وقفة أثر»:</b> «التفسير الميسر» لمجمع الملك فهد لطباعة المصحف الشريف، بنصه كما في نسخة Tanzil (ar.muyassar) عبر fawazahmed0/quran-api، دون تعديل، وقد طوبق آليًا مع نسخة ثانية (QUL). يُحمَّل معنى السورة عند طلبه فقط. وفوائد الأحاديث من موسوعة الأحاديث النبوية HadeethEnc.com.</p><p><b>«ما يناسب اليوم»:</b> يظهر في الرئيسية يوم الجمعة والاثنين والخميس وفي المواسم (رمضان، عشر ذي الحجة، عرفة، أيام التشريق، المحرّم وعاشوراء، الأيام البيض، أول الشهر)، بحديث صحيح من الصحيحين أو مما صحّحه الألباني، ونصه منقول من fawazahmed0/hadith-api. التاريخ الهجري بحسب تقويم أم القرى في جهازك، وقد يختلف يومًا عن رؤية الهلال في بلدك.</p><details><summary>إشعار الترخيص وشروط الاستخدام الأصلية</summary><p class="lic">'+QLIC+'</p></details></details>'+'<p class="mrver">أثر · الإصدار ١٫٠</p>'}
+function vAbout(){var k=kmGet(),nn=Object.keys(ntAll()).filter(function(x){return wqById(x)}).length,fs=mrFs();return head('المزيد','')+'<h2 class="mrs">أدوات أثر</h2><ul class="list mrl">'+mrRow('#/khatma','khatma','ختمة أثر',k&&!k.done?'اليوم '+ar(Math.min(k.ends.length,wqDay()-k.start+1))+' من '+ar(k.ends.length)+' · قرأت '+ar(Math.max(0,k.through-k.from+1))+' صفحة':'خطة يومية لختم القرآن')+mrRow('#/notes','notes','دفتر الأثر',nn?ar(nn)+' '+(nn===1?'ملاحظة':nn===2?'ملاحظتان':nn<=10?'ملاحظات':'ملاحظة'):'ملاحظاتك الخاصة على الوقفات')+mrRow('#/dua/now','now','ماذا أدعو الآن؟','اختر حالك، تظهر لك الأدعية المناسبة')+mrRow('#/waqfa/archive','waqfa','كل الوقفات',ar(WQ.length)+' وقفة')+mrRow('#/stats','stats','إحصاءات قراءتك',rdSub())+'</ul>'+'<h2 class="mrs">الصلاة</h2><ul class="list mrl">'+mrRow('#/prayer','prayer','مواقيت الصلاة',ptSub())+mrRow('#/qibla','qibla','اتجاه القبلة','بوصلة نحو الكعبة المشرفة')+'</ul>'+'<h2 class="mrs">الإعدادات</h2><ul class="list mrl"><li><button class="row" data-apopen>'+MRI.palette+'<div><b>المظهر والألوان</b><span>الوضع الليلي ولون الموقع</span></div></button></li>'+'<li class="mrfs"><div class="row">'+MRI.font+'<div><b id="mrfsl">حجم خط القراءة</b><span>في الأذكار والأدعية والمعاني</span></div></div><div class="apseg mrseg" role="radiogroup" aria-labelledby="mrfsl">'+[['s','صغير'],['m','متوسط'],['l','كبير'],['xl','أكبر']].map(function(x){return '<button role="radio" aria-checked="'+(fs===x[0])+'" data-fs="'+x[0]+'">'+x[1]+'</button>'}).join('')+'</div><p class="mrprev" lang="ar">سُبْحَانَ اللَّهِ وَبِحَمْدِهِ</p></li></ul>'+'<h2 class="mrs">بياناتك</h2><ul class="list mrl"><li><button class="row" data-mr="export">'+MRI.export+'<div><b>حفظ نسخة احتياطية</b><span>الختمة والدفتر والفواصل والإعدادات في ملف واحد</span></div></button></li>'+'<li><label class="row" for="mrimp">'+MRI.import+'<div><b>استعادة من نسخة احتياطية</b><span>اختر ملف أثر الذي حفظته سابقًا</span></div></label><input type="file" id="mrimp" class="sr" accept="application/json,.json"></li></ul>'+'<p class="mrnote">بياناتك محفوظة على هذا الجهاز فقط. احفظ نسخة احتياطية قبل مسح بيانات المتصفح أو تغيير الجوال.</p>'+'<h2 class="mrs">عن أثر</h2><ul class="list mrl"><li><button class="row" data-mr="share">'+MRI.share+'<div><b>شارك أثر</b><span>أرسل رابط الموقع لمن تحب</span></div></button></li>'+'<li><div class="row">'+MRI.shield+'<div><b>الخصوصية</b><span>لا حسابات ولا إعلانات. نحسب عدد الزيارات فقط، بلا ملفات تعريف ولا بيانات شخصية. وما تحفظه يبقى على جهازك.</span></div></div></li></ul>'+'<p>أثر موقع إسلامي هادئ يجمع القرآن والأذكار والأدعية في مكان واحد. لا يُنشر فيه محتوى ديني إلا بعد إسناده إلى مصدر ومراجعته.</p>'+'<details class="mrsrc"><summary>المصادر والتراخيص</summary><p><b>خط المصحف:</b> «KFGQPC Uthmanic Script HAFS» © مجمع الملك فهد لطباعة المصحف الشريف، المدينة المنورة. يُستخدم كما هو دون تعديل بموجب رخصة المستخدم المجانية المضمّنة في ملف الخط، وهي تسمح بالاستخدام والنسخ والتوزيع مجانًا مع منع البيع والتعديل.</p><p><b>الأذكار والأدعية:</b> من كتاب «حصن المسلم من أذكار الكتاب والسنة» للشيخ سعيد بن علي بن وهف القحطاني، عبر ملف البيانات المفتوح <a href="https://github.com/asellam/HisnElMuslim" target="_blank" rel="noopener">asellam/HisnElMuslim</a> (رخصة MIT). النص والمرجع كما في المصدر دون تعديل.</p><p><b>القرآن الكريم:</b> مصدر النص مشروع <a href="https://tanzil.net/" target="_blank" rel="noopener">Tanzil</a> (Tanzil Quran Text — Simple، الإصدار 1.1)، ويُعرض كما ورد في المصدر دون أي تغيير في حروفه. حقوق النسخ © 2007–2026 Tanzil Project، والترخيص Creative Commons Attribution 3.0. الرابط: <a href="https://tanzil.net/" target="_blank" rel="noopener">tanzil.net</a></p><p>تأتي البسملة في ملف المصدر في أول الآية الأولى من كل سورة عدا الفاتحة والتوبة، فتُعرض في رأس السورة بحروفها نفسها.</p><p><b>الأدعية القرآنية وأدعية الأنبياء:</b> كلمات الدعاء مقتطعة من نص الآية في Tanzil كما هي، دون أي تغيير، مع اسم السورة ورقم الآية. وأُسند كل دعاء إلى النبي القائل بعد التحقق من ذكره في «التفسير الميسر» لتلك الآيات.</p><p><b>أدعية النبي ﷺ:</b> أدعية جامعة غير مرتبطة بوقت أو مناسبة، من صحيحي البخاري ومسلم، أو من السنن مما صحّحه الشيخ الألباني. لفظها منقول من ملف البيانات المفتوح <a href="https://github.com/fawazahmed0/hadith-api" target="_blank" rel="noopener">fawazahmed0/hadith-api</a> (ملكية عامة)، مع رقم الحديث.</p><p><b>معنى الآيات في المصحف وشرح «وقفة أثر»:</b> «التفسير الميسر» لمجمع الملك فهد لطباعة المصحف الشريف، بنصه كما في نسخة Tanzil (ar.muyassar) عبر fawazahmed0/quran-api، دون تعديل، وقد طوبق آليًا مع نسخة ثانية (QUL). يُحمَّل معنى السورة عند طلبه فقط. وفوائد الأحاديث من موسوعة الأحاديث النبوية HadeethEnc.com.</p><p><b>«ما يناسب اليوم»:</b> يظهر في الرئيسية يوم الجمعة والاثنين والخميس وفي المواسم (رمضان، عشر ذي الحجة، عرفة، أيام التشريق، المحرّم وعاشوراء، الأيام البيض، أول الشهر)، بحديث صحيح من الصحيحين أو مما صحّحه الألباني، ونصه منقول من fawazahmed0/hadith-api. التاريخ الهجري بحسب تقويم أم القرى في جهازك، وقد يختلف يومًا عن رؤية الهلال في بلدك.</p><details><summary>إشعار الترخيص وشروط الاستخدام الأصلية</summary><p class="lic">'+QLIC+'</p></details></details>'+'<p class="mrver">أثر · الإصدار ١٫٠</p>'}
 /* ===== Phase 4 — CONTENT SYSTEM =====
  Content = {id,type,title,text,source,reference,category,status,createdAt,updatedAt}
  type: quran|dhikr|dua|benefit   status: draft|reviewed|published|archived
@@ -1053,7 +1104,7 @@ var SX=0,SY=0;
 document.addEventListener('touchstart',function(e){var t=e.target.closest('[data-swipe]');if(!t||e.touches.length!==1){SX=null;return}SX=e.touches[0].clientX;SY=e.touches[0].clientY},{passive:true});
 document.addEventListener('touchend',function(e){if(QBUSY){SX=null;return}if(SX===null||(!RS&&!QPS))return;var t=e.changedTouches[0],dx=t.clientX-SX,dy=t.clientY-SY;if(QD){SX=null;var vx=qdv(),ok=QD.dir>0?dx>0:dx<0;qdFinish(!QD.edge&&ok&&(Math.abs(dx)>window.innerWidth*.22||(Math.abs(dx)>28&&vx>.45)));return}SX=null;if(Math.abs(dx)>60&&Math.abs(dx)>1.6*Math.abs(dy)&&!(window.getSelection&&String(getSelection())))(RS?rdGo(RS.i+(dx>0?1:-1)):qgo(QPS.p+(dx>0?1:-1)))},{passive:true});
 document.addEventListener('keydown',function(e){if((!RS&&!QPS)||/INPUT|TEXTAREA/.test(document.activeElement.tagName))return;var dd=e.key==='ArrowLeft'?1:e.key==='ArrowRight'?-1:0;if(dd)(RS?rdGo(RS.i+dd):qgo(QPS.p+dd))});
-var NAVMAP={quran:1,adhkar:2,khatma:1,notes:5};
+var NAVMAP={quran:1,adhkar:2,khatma:1,notes:5,about:5,prayer:5,qibla:5,stats:5};
 function route(){RS=null;QPS=null;var Q=(location.hash.split('?')[1]||''),p=location.hash.split('?')[0].replace(/^#\/?/,'').split('/'),a=p[0],b=p[1],h='',t='أثر',d='ما ينفعك ويبقى أثره',home=!a;
 if(a==='quran'&&!b){t='القرآن الكريم';d='سور القرآن الكريم الأربع عشرة بعد المئة مرتبة بحسب المصحف';h=head(t,d)+qlist()}
 else if(a==='quran'&&qok(b)){var n=+b,vv=p[2]&&+p[2]>0&&+p[2]<=QC[n-1]?+p[2]:1,pg=qpageOf(n,vv);t='سورة '+QN[n-1];d='سورة '+QN[n-1]+' — '+QC[n-1]+' آية';h=qpage(pg)}
@@ -1063,6 +1114,9 @@ else if(a==='waqfa'&&b==='archive'){t='كل الوقفات';d='جميع وقفا
 else if(a==='waqfa'&&wqById(b)){var wk=wqById(b);t='وقفة: '+wk.title;d='وقفة أثر — '+wk.topic;h=wqPage(wk,null)}
 else if(a==='notes'){t='دفتر الأثر';d='ملاحظاتك الخاصة على وقفات أثر';h=vNotes()}
 else if(a==='khatma'){t='ختمة أثر';d='خطة شخصية لختم القرآن الكريم';h=vKhatma()}
+else if(a==='prayer'){t='مواقيت الصلاة';d='مواقيت الصلاة حسب موقعك بطريقة أم القرى';h=vPrayer()}
+else if(a==='qibla'){t='اتجاه القبلة';d='اتجاه القبلة من موقعك';h=vQibla()}
+else if(a==='stats'){t='إحصاءات قراءتك';d='صفحات المصحف التي قرأتها';h=vStats()}
 else if(a==='about'){t='المزيد';d='أدوات أثر وإعداداته ومصادر المحتوى';h=vAbout()}
 else if(a==='adhkar'&&!b){t='الأذكار';d='أذكار الصباح والمساء والنوم والاستيقاظ والصلاة';var DL=PL('dhikr');h=head(t,d)+'<ul class="list">'+CA.map(function(c){var n=DL.filter(function(o){return o.category===c[0]}).length;return cat('/adhkar/'+c[0],c[1],n?ndh(n):'')}).join('')+'</ul>'+(DL.length?'':EM)}
 else if(a==='adhkar'&&CA.some(function(c){return c[0]===b})){t=CA.filter(function(c){return c[0]===b})[0][1];h=rdInit(rdList('dhikr',b),t,'/adhkar','/adhkar/'+b,(+p[2]||1)-1)}
@@ -1078,7 +1132,7 @@ else if(a==='dua'&&b==='type'&&DK.some(function(k){return k[0]===p[2]})){t=DK.fi
 else if(a==='dua'&&dt(b,'dua')){var o2=dt(b,'dua'),k2=o2.kind||'general',L2=rdList('dua',k2);d=o2.text.slice(0,140);t=DK.filter(function(k){return k[0]===k2})[0][1];if(k2==='general'){var g2=o2.category||'other';L2=dgL(g2);t=dgN(g2)||t;h=rdInit(L2,t,'/dua/general/'+g2,'/dua/general/'+g2,L2.indexOf(o2))}else h=rdInit(L2,t,'/dua','/dua/type/'+k2,L2.indexOf(o2))}
 else if(a==='search'){var qv=new URLSearchParams(Q).get('q')||'';t='البحث'+(qv?': '+qv:'');d='ابحث في القرآن والأذكار والأدعية';$('#q').value=qv;var cb=$('.clr');if(cb)cb.hidden=!qv;if(qv.trim()&&!IX){h=head('البحث','ابحث في القرآن والأذكار والأدعية')+'<p class="loading" role="status">جارٍ تجهيز البحث…</p>';setTimeout(function(){if(location.hash.indexOf('#/search')===0&&!IX){ix();V.innerHTML=sv(qv)}},30)}else h=sv(qv)}
 else if(!home){t='الصفحة غير موجودة';h=head(t,'الرابط غير صحيح.')+'<a class="btn primary" href="#/">الرئيسية</a>'}
-HS.forEach(function(s){s.hidden=!home});V.hidden=home;V.innerHTML=h;document.body.classList.toggle('rdon',!!(RS||QPS));document.body.classList.toggle('qon',!!QPS);document.body.classList.toggle('home',home);
+HS.forEach(function(s){s.hidden=!home});V.hidden=home;V.innerHTML=h;try{atPost(a)}catch(x){}document.body.classList.toggle('rdon',!!(RS||QPS));document.body.classList.toggle('qon',!!QPS);document.body.classList.toggle('home',home);
 if(home)try{kmHomeRender();ocRender()}catch(x){}document.title=home?'أثر — ما ينفعك ويبقى أثره':t+' | أثر';var md=$('meta[name=description]');if(md)md.content=d;
 var nb=document.querySelectorAll('nav button');nb.forEach(function(x,i){x.removeAttribute('aria-current');if(i===(home?0:NAVMAP[a]||-1))x.setAttribute('aria-current','page')});
 SEOX(a);window.scrollTo(0,0);QJ(a,p);qfit();if(QPS)qhint();if(!home&&!QS){V.setAttribute('tabindex','-1');try{V.focus({preventScroll:true})}catch(e){}}}
@@ -1302,6 +1356,111 @@ function vNotes(){var o=ntAll(),ks=Object.keys(o).filter(function(k){return wqBy
 document.addEventListener('click',function(e){var b=e.target.closest('[data-ntdel]');if(b){if(!b.dataset.sure){b.dataset.sure='1';b.textContent='اضغط مرة أخرى للتأكيد';return}var o=ntAll();delete o[b.dataset.ntdel];ntPut(o);route();return}
  if(e.target.closest('[data-ntcopy]')){var o2=ntAll(),L=Object.keys(o2).filter(function(k){return wqById(k)}).sort(function(a,c){return o2[c].u-o2[a].u}).map(function(k){var n=o2[k];return '• '+wqById(k).title+' — '+ntWhen(n.u)+(n.a?' (طبّقتُه)':'')+(n.t.trim()?'\n'+n.t.trim():'')});copyT('دفتر الأثر\n\n'+L.join('\n\n'),'نُسخ الدفتر')}});
 var MRI={"khatma": "<svg class=\"mri\" viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2zM4 19V5\"/></svg>", "notes": "<svg class=\"mri\" viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M6 3h11a2 2 0 0 1 2 2v16H6a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2zM8 8h8M8 12h8M8 16h5\"/></svg>", "now": "<svg class=\"mri\" viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 21c-5 0-8-3-8-7 2 0 4 1 5 3 .5-4 1.5-8 3-12 1.5 4 2.5 8 3 12 1-2 3-3 5-3 0 4-3 7-8 7z\"/></svg>", "waqfa": "<svg class=\"mri\" viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M6 21V11.5Q6 6 12 2.5Q18 6 18 11.5V21\"/><path d=\"M3.5 21h17\"/></svg>", "palette": "<svg class=\"mri\" viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 3a9 9 0 1 0 0 18c1.1 0 1.7-.8 1.7-1.6 0-.5-.2-.8-.5-1.2-.3-.3-.5-.7-.5-1.2 0-.9.8-1.6 1.7-1.6H16a5 5 0 0 0 5-5C21 6.5 17 3 12 3z\"/><circle cx=\"7.5\" cy=\"11\" r=\"1\"/><circle cx=\"10\" cy=\"7\" r=\"1\"/><circle cx=\"14.5\" cy=\"7\" r=\"1\"/><circle cx=\"17.2\" cy=\"10.5\" r=\"1\"/></svg>", "font": "<svg class=\"mri\" viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M3 19 8 5l5 14M5 14h6M14 19l3.5-9 3.5 9M15.2 16h4.6\"/></svg>", "export": "<svg class=\"mri\" viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 3v12M7 10l5 5 5-5M5 21h14\"/></svg>", "import": "<svg class=\"mri\" viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 15V3M7 8l5-5 5 5M5 21h14\"/></svg>", "share": "<svg class=\"mri\" viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M4 12v7a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-7M16 6l-4-4-4 4M12 2v13\"/></svg>", "shield": "<svg class=\"mri\" viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 3 5 6v6c0 4.5 3 7.5 7 9 4-1.5 7-4.5 7-9V6z\"/></svg>"};
+MRI.pin='<svg class="mri pt-ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-6-5.6-6-11a6 6 0 0 1 12 0c0 5.4-6 11-6 11z"/><circle cx="12" cy="10" r="2.2"/></svg>';
+MRI.prayer='<svg class="mri" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>';
+MRI.qibla='<svg class="mri" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="m15.5 8.5-2 5-5 2 2-5z"/></svg>';
+MRI.stats='<svg class="mri" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 20v-9M12 20V5M19 20v-7M3 20h18"/></svg>';
+/* ===== v30 prayer times (Umm al-Qura), qibla, reading stats ===== */
+var PT_CITIES=[['الرياض',24.7136,46.6753,'Asia/Riyadh'],['مكة المكرمة',21.3891,39.8579,'Asia/Riyadh'],['المدينة المنورة',24.4672,39.6111,'Asia/Riyadh'],['جدة',21.4858,39.1925,'Asia/Riyadh'],['الدمام',26.4207,50.0888,'Asia/Riyadh'],['الطائف',21.2703,40.4158,'Asia/Riyadh'],['بريدة',26.326,43.975,'Asia/Riyadh'],['حائل',27.5114,41.7208,'Asia/Riyadh'],['تبوك',28.3835,36.5662,'Asia/Riyadh'],['أبها',18.2164,42.5053,'Asia/Riyadh'],['جازان',16.8892,42.5511,'Asia/Riyadh'],['نجران',17.4924,44.1277,'Asia/Riyadh'],['الكويت',29.3759,47.9774,'Asia/Kuwait'],['الدوحة',25.2854,51.531,'Asia/Qatar'],['المنامة',26.2285,50.586,'Asia/Bahrain'],['أبوظبي',24.4539,54.3773,'Asia/Dubai'],['دبي',25.2048,55.2708,'Asia/Dubai'],['مسقط',23.588,58.3829,'Asia/Muscat'],['عمّان',31.9454,35.9284,'Asia/Amman'],['القاهرة',30.0444,31.2357,'Africa/Cairo']];
+var PT_NAMES=[['fajr','الفجر'],['sunrise','الشروق'],['dhuhr','الظهر'],['asr','العصر'],['maghrib','المغرب'],['isha','العشاء']];
+var KAABA=[21.422487,39.826206];
+function ptLoc(){var l=qget('athar-loc',null);return l&&isFinite(l.lat)&&isFinite(l.lng)?l:null}
+function ptTz(l){if(l&&l.tz)return l.tz;try{return Intl.DateTimeFormat().resolvedOptions().timeZone}catch(e){return undefined}}
+function ptYMD(d,tz){try{var f=new Intl.DateTimeFormat('en-CA',{timeZone:tz,year:'numeric',month:'2-digit',day:'2-digit'}).format(d).split('-');return [+f[0],+f[1],+f[2]]}catch(e){return [d.getFullYear(),d.getMonth()+1,d.getDate()]}}
+function ptRamadan(d,tz){try{var m=new Intl.DateTimeFormat('en-u-ca-islamic-umalqura',{timeZone:tz,month:'numeric'}).format(d);return parseInt(m,10)===9}catch(e){return false}}
+/* Sun position (NOAA / praytimes.org approximation) */
+function ptSun(jd){var D=jd-2451545,r=Math.PI/180,g=(357.529+0.98560028*D)*r,q=280.459+0.98564736*D,L=(q+1.915*Math.sin(g)+0.020*Math.sin(2*g))*r,e=(23.439-0.00000036*D)*r,
+ RA=Math.atan2(Math.cos(e)*Math.sin(L),Math.cos(L))/r/15,dec=Math.asin(Math.sin(e)*Math.sin(L)),eqt=q/15-((RA%24)+24)%24;eqt=((eqt+12)%24+24)%24-12;return {dec:dec,eqt:eqt}}
+/* hours (UTC) at which the sun is `ang` degrees below the horizon (positive = below); dir -1 before noon, +1 after */
+function ptAt(jd0,lat,lng,ang,dir,approx){var r=Math.PI/180,s=ptSun(jd0+approx/24),noon=12-lng/15-s.eqt,
+ c=(-Math.sin(ang*r)-Math.sin(lat*r)*Math.sin(s.dec))/(Math.cos(lat*r)*Math.cos(s.dec));if(c<-1||c>1)return NaN;return noon+dir*Math.acos(c)/r/15}
+function ptAsrAng(jd0,lat,approx){var r=Math.PI/180,s=ptSun(jd0+approx/24);return -Math.atan(1/(1+Math.tan(Math.abs(lat*r-s.dec))))/r}
+function ptDay(y,m,d,lat,lng,ramadan){var jd0=Date.UTC(y,m-1,d)/864e5+2440587.5,t={},i,
+ calc=function(){var s=ptSun(jd0+(t.dhuhr||12)/24);t.dhuhr=12-lng/15-s.eqt;
+  t.fajr=ptAt(jd0,lat,lng,18.5,-1,t.fajr||5);t.sunrise=ptAt(jd0,lat,lng,0.833,-1,t.sunrise||6);
+  t.asr=ptAt(jd0,lat,lng,ptAsrAng(jd0,lat,t.asr||15),1,t.asr||15);t.maghrib=ptAt(jd0,lat,lng,0.833,1,t.maghrib||18)};
+ for(i=0;i<3;i++)calc();
+ t.isha=t.maghrib+(ramadan?2:1.5);var base=Date.UTC(y,m-1,d),o={};
+ PT_NAMES.forEach(function(n){var h=t[n[0]];o[n[0]]=isFinite(h)?new Date(Math.round((base+h*36e5)/6e4)*6e4):null});return o}
+function ptToday(l,now){now=now||new Date();var tz=ptTz(l),a=ptYMD(now,tz),o=ptDay(a[0],a[1],a[2],l.lat,l.lng,ptRamadan(now,tz)),nx=null,k;
+ for(var i=0;i<PT_NAMES.length;i++){k=PT_NAMES[i][0];if(k!=='sunrise'&&o[k]&&o[k]>now){nx=[k,o[k]];break}}
+ if(!nx){var tm=new Date(now.getTime()+864e5),b=ptYMD(tm,tz),o2=ptDay(b[0],b[1],b[2],l.lat,l.lng,ptRamadan(tm,tz));nx=['fajr',o2.fajr]}
+ return {t:o,next:nx,tz:tz}}
+function ptFmt(d,tz){if(!d)return '—';try{return d.toLocaleTimeString('ar-u-nu-arab',{timeZone:tz,hour:'numeric',minute:'2-digit'})}catch(e){return ar(d.getHours()+':'+('0'+d.getMinutes()).slice(-2))}}
+function ptName(k){for(var i=0;i<PT_NAMES.length;i++)if(PT_NAMES[i][0]===k)return PT_NAMES[i][1];return ''}
+function ptLeft(ms){var m=Math.max(0,Math.ceil(ms/6e4)),h=Math.floor(m/60);m=m%60;return (h?ar(h)+' س ':'')+ar(m)+' د'}
+function ptDateLine(tz){var d=new Date(),g='',hj='';try{g=d.toLocaleDateString('ar-u-nu-arab',{timeZone:tz,weekday:'long',day:'numeric',month:'long'})}catch(e){}
+ try{hj=d.toLocaleDateString('ar-SA-u-ca-islamic-umalqura-nu-arab',{timeZone:tz,day:'numeric',month:'long',year:'numeric'})}catch(e){}return g+(hj?' · '+hj:'')}
+function ptSub(){var l=ptLoc();if(!l)return 'حسب موقعك، بطريقة أم القرى';try{var p=ptToday(l);return ptName(p.next[0])+' '+ptFmt(p.next[1],p.tz)+' · بعد '+ptLeft(p.next[1]-new Date())}catch(e){return 'حسب موقعك'}}
+function ptPicker(){return '<div class="pt-pick"><button class="btn primary" data-pt="geo">'+MRI.pin+'استخدم موقعي</button><label class="pt-sel"><span>أو اختر مدينة</span><select id="ptcity"><option value="">— اختر —</option>'+PT_CITIES.map(function(c,i){return '<option value="'+i+'">'+c[0]+'</option>'}).join('')+'</select></label></div><p class="kmmut">يُحفظ الموقع على جهازك فقط ولا يُرسل إلى أي جهة.</p>'}
+function vPrayer(){var l=ptLoc(),h=head('مواقيت الصلاة','','/about');
+ if(!l)return h+'<section class="card pt-card"><p>نحتاج موقعك لحساب مواقيت الصلاة بدقة.</p>'+ptPicker()+'</section>';
+ h+='<div class="pt-loc"><span>'+MRI.pin+(l.name||'موقعك الحالي')+'</span><button class="lnk" data-pt="change">تغيير</button></div><div id="ptbody">'+ptBody(l)+'</div>'
+ +'<div id="ptchg" hidden>'+ptPicker()+'</div><p class="kmmut pt-note">طريقة الحساب: أم القرى (الفجر ١٨٫٥ درجة، والعشاء بعد المغرب بساعة ونصف، وفي رمضان بساعتين). قد يختلف الوقت دقيقة أو دقيقتين عن تقويم مسجدك.</p>';return h}
+function ptBody(l){var p=ptToday(l),now=new Date();return '<p class="pt-date">'+ptDateLine(p.tz)+'</p><div class="pt-next"><small>الصلاة القادمة</small><b>'+ptName(p.next[0])+'</b><span>بعد '+ptLeft(p.next[1]-now)+' · '+ptFmt(p.next[1],p.tz)+'</span></div><ul class="list pt-l">'
+ +PT_NAMES.map(function(n){var on=n[0]===p.next[0]&&p.t[n[0]]&&p.t[n[0]].getTime()===p.next[1].getTime(),past=p.t[n[0]]&&p.t[n[0]]<=now;return '<li class="'+(on?'on':past?'past':'')+'"><span>'+n[1]+'</span><b>'+ptFmt(p.t[n[0]],p.tz)+'</b></li>'}).join('')+'</ul>'}
+function ptSet(l){qset('athar-loc',l);route()}
+function ptGeo(){if(!navigator.geolocation){kmTo('جهازك لا يدعم تحديد الموقع، اختر مدينة');return}kmTo('جارٍ تحديد موقعك…');
+ navigator.geolocation.getCurrentPosition(function(p){ptSet({lat:Math.round(p.coords.latitude*1e3)/1e3,lng:Math.round(p.coords.longitude*1e3)/1e3,name:'موقعك الحالي'})},
+ function(e){kmTo(e&&e.code===1?'لم يُسمح بالوصول للموقع، اختر مدينة من القائمة':'تعذّر تحديد الموقع، اختر مدينة من القائمة')},{enableHighAccuracy:false,timeout:15000,maximumAge:6e5})}
+document.addEventListener('click',function(e){var b=e.target.closest('[data-pt]');if(!b)return;var a=b.dataset.pt;
+ if(a==='geo')ptGeo();else if(a==='change'){var c=document.getElementById('ptchg');if(c)c.hidden=!c.hidden}
+ else if(a==='compass')qbStart()});
+document.addEventListener('change',function(e){if(e.target.id!=='ptcity'||e.target.value==='')return;var c=PT_CITIES[+e.target.value];if(c)ptSet({lat:c[1],lng:c[2],name:c[0],tz:c[3]})});
+/* ---- qibla ---- */
+function qbBearing(l){var r=Math.PI/180,f1=l.lat*r,f2=KAABA[0]*r,dl=(KAABA[1]-l.lng)*r,y=Math.sin(dl)*Math.cos(f2),x=Math.cos(f1)*Math.sin(f2)-Math.sin(f1)*Math.cos(f2)*Math.cos(dl);return (Math.atan2(y,x)/r+360)%360}
+function qbDist(l){var r=Math.PI/180,a=Math.sin((KAABA[0]-l.lat)*r/2),b=Math.sin((KAABA[1]-l.lng)*r/2),h=a*a+Math.cos(l.lat*r)*Math.cos(KAABA[0]*r)*b*b;return 2*6371*Math.asin(Math.sqrt(h))}
+function qbDir(d){var n=['الشمال','الشمال الشرقي','الشرق','الجنوب الشرقي','الجنوب','الجنوب الغربي','الغرب','الشمال الغربي'];return n[Math.round(d/45)%8]}
+function vQibla(){var l=ptLoc(),h=head('اتجاه القبلة','','/about');
+ if(!l)return h+'<section class="card pt-card"><p>نحتاج موقعك لتحديد اتجاه القبلة.</p>'+ptPicker()+'</section>';
+ var bg=qbBearing(l),km=qbDist(l);
+ return h+'<div class="pt-loc"><span>'+MRI.pin+(l.name||'موقعك الحالي')+'</span><a class="lnk" href="#/prayer">تغيير</a></div>'
+ +'<div class="kb-wrap"><div class="kb-dial" id="kb-dial" style="--qb:'+bg.toFixed(1)+'deg"><span class="kb-n">ش</span><span class="kb-e">شر</span><span class="kb-s">ج</span><span class="kb-w">غ</span><div class="kb-arrow" aria-hidden="true"><svg viewBox="0 0 24 60"><path d="M12 2 20 18h-5v40H9V18H4z"/></svg></div></div><div class="kb-top" aria-hidden="true"></div></div>'
+ +'<p class="kb-st" id="kb-st" role="status">القبلة على '+ar(Math.round(bg))+'° من الشمال، نحو '+qbDir(bg)+'</p>'
+ +'<p class="kmmut kb-info">المسافة إلى الكعبة نحو '+ar(Math.round(km).toLocaleString('en').replace(/,/g,'٬'))+' كم</p>'
+ +'<div class="kb-btn"><button class="btn primary" data-pt="compass" id="qbgo">'+MRI.qibla+'تشغيل البوصلة</button></div>'
+ +'<p class="kmmut pt-note">ضع الجوال مسطّحًا وأبعده عن المعادن والمغناطيس. إن بدت البوصلة غير دقيقة فحرّك الجوال على شكل الرقم ٨ لمعايرتها. ومن غير البوصلة: اتجاه القبلة بالدرجات أعلاه، يُقاس من الشمال باتجاه عقارب الساعة.</p>'}
+var QB={on:false,h:null,hit:false};
+function qbHead(e){var h=null;if(typeof e.webkitCompassHeading==='number'&&!isNaN(e.webkitCompassHeading))h=e.webkitCompassHeading;else if(e.absolute&&typeof e.alpha==='number')h=(360-e.alpha)%360;if(h===null)return;
+ var so=(screen.orientation&&screen.orientation.angle)||window.orientation||0;h=(h+so+360)%360;QB.h=h;qbDraw()}
+function qbDraw(){var d=document.getElementById('kb-dial'),st=document.getElementById('kb-st'),l=ptLoc();if(!d||!l||QB.h===null)return;var bg=qbBearing(l),diff=((bg-QB.h+540)%360)-180;
+ d.style.transform='rotate('+(-QB.h).toFixed(1)+'deg)';var ok=Math.abs(diff)<=4;d.parentNode.classList.toggle('ok',ok);
+ if(st)st.textContent=ok?'أنت باتجاه القبلة':(diff>0?'استدر يمينًا ':'استدر يسارًا ')+ar(Math.round(Math.abs(diff)))+'°';
+ if(ok&&!QB.hit){QB.hit=true;try{navigator.vibrate&&navigator.vibrate(40)}catch(x){}}else if(!ok&&Math.abs(diff)>10)QB.hit=false}
+function qbStart(){var go=function(){if(QB.on)return;QB.on=true;var ev='ondeviceorientationabsolute' in window?'deviceorientationabsolute':'deviceorientation';window.addEventListener(ev,qbHead);QB.ev=ev;
+  var b=document.getElementById('qbgo');if(b)b.hidden=true;setTimeout(function(){if(QB.on&&QB.h===null){var st=document.getElementById('kb-st');if(st)st.textContent='لم نجد بوصلة في هذا الجهاز. استخدم الدرجة: القبلة على '+ar(Math.round(qbBearing(ptLoc())))+'° من الشمال.'}},3000)};
+ if(window.DeviceOrientationEvent&&typeof DeviceOrientationEvent.requestPermission==='function')DeviceOrientationEvent.requestPermission().then(function(r){if(r==='granted')go();else kmTo('لم يُسمح باستخدام البوصلة')}).catch(function(){kmTo('تعذّر تشغيل البوصلة')});
+ else if(window.DeviceOrientationEvent)go();else kmTo('جهازك لا يدعم البوصلة')}
+function qbStop(){if(QB.on){window.removeEventListener(QB.ev,qbHead);QB.on=false;QB.h=null;QB.hit=false}}
+/* ---- reading stats ---- */
+function rdKey(d){d=d||new Date();return d.getFullYear()+'-'+('0'+(d.getMonth()+1)).slice(-2)+'-'+('0'+d.getDate()).slice(-2)}
+function rdAll(){var o=qget('athar-rd',{});return o&&typeof o==='object'?o:{}}
+var RDT=null;
+function rdSeen(p){clearTimeout(RDT);RDT=setTimeout(function(){if(!QPS||QPS.p!==p)return;var o=rdAll(),k=rdKey(),a=o[k]||[];if(a.indexOf(p)<0){a.push(p);o[k]=a;
+ var ks=Object.keys(o).sort();if(ks.length>400)ks.slice(0,ks.length-400).forEach(function(x){delete o[x]});qset('athar-rd',o)}},8000)}
+function rdN(o,d){var a=o[rdKey(d)];return a?a.length:0}
+function rdStats(){var o=rdAll(),now=new Date(),day=function(i){return new Date(now.getFullYear(),now.getMonth(),now.getDate()-i)},w=[],i,wk=0,mo=0,tot=0,best=0,st=0;
+ for(i=6;i>=0;i--){var n=rdN(o,day(i));w.push([day(i),n]);wk+=n}
+ Object.keys(o).forEach(function(k){var n=o[k].length;tot+=n;if(n>best)best=n;var p=k.split('-');if(+p[0]===now.getFullYear()&&+p[1]===now.getMonth()+1)mo+=n});
+ i=rdN(o,now)?0:1;while(rdN(o,day(i))){st++;i++}
+ return {today:rdN(o,now),week:w,wk:wk,mo:mo,tot:tot,best:best,streak:st,days:Object.keys(o).length}}
+function rdSub(){var s=rdStats();return s.today?'اليوم '+ar(s.today)+' '+rdPg(s.today):s.streak?'أيام متتالية: '+ar(s.streak):'صفحاتك وأيامك في المصحف'}
+function rdPg(n){return n===1?'صفحة':n===2?'صفحتان':n<=10?'صفحات':'صفحة'}
+function rdDay(n){return n===1?'يوم':n===2?'يومان':n<=10?'أيام':'يومًا'}
+function vStats(){var s=rdStats(),h=head('إحصاءات قراءتك','صفحات المصحف التي قرأتها، محفوظة على جهازك فقط','/about');
+ if(!s.tot)return h+'<section class="card pt-card"><p>لم تُسجَّل قراءة بعد.</p><p class="kmmut">افتح المصحف واقرأ، وتُحسب الصفحة إذا بقيت عليها ثماني ثوانٍ أو أكثر.</p><a class="btn primary" href="#/quran">افتح المصحف</a></section>';
+ var mx=Math.max(1,Math.max.apply(null,s.week.map(function(x){return x[1]})));
+ h+='<div class="st-g"><div><b>'+ar(s.today)+'</b><span>اليوم</span></div><div><b>'+ar(s.streak)+'</b><span>أيام متتالية</span></div><div><b>'+ar(s.wk)+'</b><span>آخر ٧ أيام</span></div><div><b>'+ar(s.mo)+'</b><span>هذا الشهر</span></div></div>'
+ +'<section class="card st-w"><h3>آخر سبعة أيام</h3><div class="st-bars">'+s.week.map(function(x,i){var lb='';try{lb=x[0].toLocaleDateString('ar',{weekday:'short'})}catch(e){}return '<div class="st-b'+(i===6?' on':'')+'"><i style="height:'+Math.max(3,Math.round(x[1]/mx*96))+'px" aria-hidden="true"></i><b>'+ar(x[1])+'</b><span>'+(i===6?'اليوم':lb)+'</span></div>'}).join('')+'</div></section>'
+ +'<ul class="list pt-l"><li><span>مجموع الصفحات</span><b>'+ar(s.tot)+'</b></li><li><span>أيام القراءة</span><b>'+ar(s.days)+'</b></li><li><span>أكثر يوم قرأت فيه</span><b>'+ar(s.best)+' '+rdPg(s.best)+'</b></li></ul>'
+ +'<p class="kmmut pt-note">تُحسب الصفحة مرة واحدة في اليوم إذا بقيت عليها ثماني ثوانٍ أو أكثر.</p><button class="lnk kmend" data-rd="clear">مسح الإحصاءات</button>';return h}
+document.addEventListener('click',function(e){var b=e.target.closest('[data-rd]');if(!b)return;if(b.dataset.rd==='clear'&&confirm('مسح كل إحصاءات القراءة من هذا الجهاز؟')){try{localStorage.removeItem('athar-rd')}catch(x){}route()}});
+/* ---- after each render ---- */
+var PTI=null;
+function atPost(a){clearInterval(PTI);PTI=null;if(a!=='qibla')qbStop();
+ if(a==='prayer'&&ptLoc())PTI=setInterval(function(){var b=document.getElementById('ptbody');if(!b||document.hidden)return;b.innerHTML=ptBody(ptLoc())},30000)}
+document.addEventListener('visibilitychange',function(){if(!document.hidden&&location.hash.indexOf('#/prayer')===0){var b=document.getElementById('ptbody');if(b&&ptLoc())b.innerHTML=ptBody(ptLoc())}});
+
 function mrRow(href,ic,t,sub){return '<li><a class="row" href="'+href+'">'+MRI[ic]+'<div><b>'+t+'</b><span>'+sub+'</span></div><svg class="go" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></a></li>'}
 function mrFs(){var v=document.documentElement.getAttribute('data-fs');return v||'m'}
 function mrSetFs(v){if(v==='m'){document.documentElement.removeAttribute('data-fs');try{localStorage.removeItem('athar-fs')}catch(e){}}else{document.documentElement.setAttribute('data-fs',v);try{localStorage.setItem('athar-fs',v)}catch(e){}}
