@@ -602,6 +602,12 @@ html[data-qz="2"] .qpg:not(.fit) .qt,html[data-qz="3"] .qpg:not(.fit) .qt,html[d
 .qpno svg{position:absolute;inset:0;width:100%;height:100%}
 .qpno>span{position:relative;font:700 .95rem/1 var(--ui);color:var(--text)}
 .qpg.mus .qft{margin-top:6px}
+
+/* v32 home background: mihrab arch in thin gold lines with a soft glow, behind the header only */
+:root{--hp:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='390' height='300' viewBox='0 0 390 300'%3E%3Cg fill='none' stroke='rgba%28176%2C141%2C74%2C.4%29'%3E%3Cpath stroke-width='1.4' d='M95 300V150C95 85 150 40 195 8c45 32 100 77 100 142v150'/%3E%3Cpath stroke-width='1' d='M115 300V155c0-55 45-95 80-122 35 27 80 67 80 122v145'/%3E%3Cpath stroke-width='.8' d='M30 300V190c0-40 30-70 55-88M360 300V190c0-40-30-70-55-88'/%3E%3C/g%3E%3Cg fill='rgba%28176%2C141%2C74%2C.6%29'%3E%3Ccircle cx='195' cy='8' r='3'/%3E%3C/g%3E%3C/svg%3E")}
+:root[data-theme="dark"]{--hp:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='390' height='300' viewBox='0 0 390 300'%3E%3Cg fill='none' stroke='rgba%28201%2C169%2C97%2C.25%29'%3E%3Cpath stroke-width='1.4' d='M95 300V150C95 85 150 40 195 8c45 32 100 77 100 142v150'/%3E%3Cpath stroke-width='1' d='M115 300V155c0-55 45-95 80-122 35 27 80 67 80 122v145'/%3E%3Cpath stroke-width='.8' d='M30 300V190c0-40 30-70 55-88M360 300V190c0-40-30-70-55-88'/%3E%3C/g%3E%3Cg fill='rgba%28201%2C169%2C97%2C.5%29'%3E%3Ccircle cx='195' cy='8' r='3'/%3E%3C/g%3E%3C/svg%3E")}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--hp:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='390' height='300' viewBox='0 0 390 300'%3E%3Cg fill='none' stroke='rgba%28201%2C169%2C97%2C.25%29'%3E%3Cpath stroke-width='1.4' d='M95 300V150C95 85 150 40 195 8c45 32 100 77 100 142v150'/%3E%3Cpath stroke-width='1' d='M115 300V155c0-55 45-95 80-122 35 27 80 67 80 122v145'/%3E%3Cpath stroke-width='.8' d='M30 300V190c0-40 30-70 55-88M360 300V190c0-40-30-70-55-88'/%3E%3C/g%3E%3Cg fill='rgba%28201%2C169%2C97%2C.5%29'%3E%3Ccircle cx='195' cy='8' r='3'/%3E%3C/g%3E%3C/svg%3E")}}
+body.home{background-image:radial-gradient(ellipse 70% 260px at 50% 0,rgba(176,141,74,.14),transparent 70%),var(--hp);background-repeat:no-repeat;background-position:center top,center -30px;background-size:100% 100%,min(100%,520px) auto}
 </style>
 </head>
 <body>
@@ -1046,7 +1052,7 @@ else if(a==='dua'&&b==='type'&&DK.some(function(k){return k[0]===p[2]})){t=DK.fi
 else if(a==='dua'&&dt(b,'dua')){var o2=dt(b,'dua'),k2=o2.kind||'general',L2=rdList('dua',k2);d=o2.text.slice(0,140);t=DK.filter(function(k){return k[0]===k2})[0][1];if(k2==='general'){var g2=o2.category||'other';L2=dgL(g2);t=dgN(g2)||t;h=rdInit(L2,t,'/dua/general/'+g2,'/dua/general/'+g2,L2.indexOf(o2))}else h=rdInit(L2,t,'/dua','/dua/type/'+k2,L2.indexOf(o2))}
 else if(a==='search'){var qv=new URLSearchParams(Q).get('q')||'';t='البحث'+(qv?': '+qv:'');d='ابحث في القرآن والأذكار والأدعية';$('#q').value=qv;var cb=$('.clr');if(cb)cb.hidden=!qv;if(qv.trim()&&!IX){h=head('البحث','ابحث في القرآن والأذكار والأدعية')+'<p class="loading" role="status">جارٍ تجهيز البحث…</p>';setTimeout(function(){if(location.hash.indexOf('#/search')===0&&!IX){ix();V.innerHTML=sv(qv)}},30)}else h=sv(qv)}
 else if(!home){t='الصفحة غير موجودة';h=head(t,'الرابط غير صحيح.')+'<a class="btn primary" href="#/">الرئيسية</a>'}
-HS.forEach(function(s){s.hidden=!home});V.hidden=home;V.innerHTML=h;document.body.classList.toggle('rdon',!!(RS||QPS));document.body.classList.toggle('qon',!!QPS);
+HS.forEach(function(s){s.hidden=!home});V.hidden=home;V.innerHTML=h;document.body.classList.toggle('rdon',!!(RS||QPS));document.body.classList.toggle('qon',!!QPS);document.body.classList.toggle('home',home);
 if(home)try{kmHomeRender();ocRender()}catch(x){}document.title=home?'أثر — ما ينفعك ويبقى أثره':t+' | أثر';var md=$('meta[name=description]');if(md)md.content=d;
 var nb=document.querySelectorAll('nav button');nb.forEach(function(x,i){x.removeAttribute('aria-current');if(i===(home?0:NAVMAP[a]||-1))x.setAttribute('aria-current','page')});
 SEOX(a);window.scrollTo(0,0);QJ(a,p);qfit();if(QPS)qhint();if(!home&&!QS){V.setAttribute('tabindex','-1');try{V.focus({preventScroll:true})}catch(e){}}}
