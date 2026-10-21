@@ -1,0 +1,14 @@
+/* ===== Quran v6 (device feedback) ===== */
+.qbn{align-items:center;padding:12px 12px 6px}
+.qbn h2{line-height:1.1;padding:.1em 0 .42em;margin:0}
+.qpg.fit .qbn h2{line-height:1.1}
+.qfl{display:inline-block;white-space:nowrap}
+.qfl i{display:inline-block;font-style:normal;margin-inline:.07em;line-height:2.1;padding-top:.15em}
+.nw{white-space:nowrap}
+.qnb.qnx{left:calc(-100% - 28px)}.qnb.qpv{left:calc(100% + 28px)}
+.qnb::before{display:none}
+.qspine{position:absolute;top:0;bottom:0;width:10px;z-index:3;pointer-events:none;background:linear-gradient(90deg,transparent,rgba(205,174,110,.5) 30%,rgba(205,174,110,.85) 50%,rgba(205,174,110,.5) 70%,transparent);box-shadow:0 0 18px rgba(205,174,110,.35)}
+.qspine.qnx{left:-19px}.qspine.qpv{right:-19px}
+body.qon{overscroll-behavior-x:none}
+.qclip{position:relative;overflow:hidden;margin-inline:-20px;padding-inline:20px}
+

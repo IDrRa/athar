@@ -1,0 +1,27 @@
+/* ===== v20 «دفتر الأثر» ===== */
+var NT_KEY='athar-notes',NT_MAX=2000,ntTm=null;
+function ntAll(){var o=qget(NT_KEY,null);return o&&typeof o==='object'?o:{}}
+function ntPut(o){qset(NT_KEY,o)}
+function ntWhen(t){try{return new Date(t).toLocaleDateString('ar-u-nu-arab',{weekday:'long',day:'numeric',month:'long'})}catch(e){return ''}}
+function ntBox(w){var n=ntAll()[w.id]||{t:'',a:false,u:0},has=!!(n.u);
+ return '<details class="wqs ntb"'+(has?' open':'')+'><summary><span>✎ '+(has?'دفتري':'اكتب في دفترك')+(n.a?' · طبّقتُه ✓':'')+'</span><em>خاص بك</em></summary>'
+ +'<label class="ntchk"><input type="checkbox" id="ntA" data-nt="'+w.id+'"'+(n.a?' checked':'')+'> طبّقتُ هذا العمل</label>'
+ +'<label class="sr" for="ntT">ملاحظتك على هذه الوقفة</label><textarea id="ntT" data-nt="'+w.id+'" maxlength="'+NT_MAX+'" rows="4" placeholder="ماذا طبّقت؟ أو ما الذي بقي في نفسك من هذه الوقفة؟">'+esc(n.t)+'</textarea>'
+ +'<p class="ntst" id="ntS" role="status" aria-live="polite">'+(n.u?'آخر حفظ: '+ntWhen(n.u):'')+'</p>'
+ +'<p class="wqn">تُحفظ على هذا الجهاز فقط، ولا يراها أحد غيرك.</p></details>'}
+function ntSave(id){var t=document.getElementById('ntT'),a=document.getElementById('ntA');if(!t||!a)return;var o=ntAll(),v=t.value.slice(0,NT_MAX);
+ if(!v.trim()&&!a.checked){delete o[id]}else o[id]={t:v,a:a.checked,u:Date.now()};ntPut(o);var st=document.getElementById('ntS');if(st)st.textContent=o[id]?'حُفظ ✓':'لا توجد ملاحظة محفوظة'}
+document.addEventListener('input',function(e){var t=e.target;if(t.id!=='ntT')return;clearTimeout(ntTm);var id=t.dataset.nt;ntTm=setTimeout(function(){ntSave(id)},500)});
+document.addEventListener('change',function(e){var t=e.target;if(t.id==='ntA')ntSave(t.dataset.nt)});
+function vNotes(){var o=ntAll(),ks=Object.keys(o).filter(function(k){return wqById(k)}).sort(function(a,b){return o[b].u-o[a].u}),
+ h=head('دفتر الأثر','ملاحظاتك على الوقفات وما طبّقته منها.','/waqfa/archive');
+ if(!ks.length)return h+'<div class="empty"><b>لا توجد ملاحظات بعد</b><p>افتح أي وقفة واكتب في «دفتري» ما طبّقته أو ما بقي في نفسك.</p><a class="btn primary" href="#/waqfa">افتح وقفة اليوم</a></div>';
+ h+='<ul class="ntl">'+ks.map(function(k){var n=o[k],w=wqById(k);return '<li><div class="ntlh"><a href="#/waqfa/'+k+'"><b>'+esc(w.title)+'</b></a>'+(n.a?'<span class="chip ntok">طبّقتُه ✓</span>':'')+'</div><p class="ntld">'+ntWhen(n.u)+'</p>'+(n.t.trim()?'<p class="ntlt">'+esc(n.t)+'</p>':'')+'<button class="lnk ntdel" data-ntdel="'+k+'">حذف</button></li>'}).join('')+'</ul>';
+ return h+'<div class="actions"><button class="btn" data-ntcopy>نسخ الدفتر كله</button></div>'}
+document.addEventListener('click',function(e){var b=e.target.closest('[data-ntdel]');if(b){if(!b.dataset.sure){b.dataset.sure='1';b.textContent='اضغط مرة أخرى للتأكيد';return}var o=ntAll();delete o[b.dataset.ntdel];ntPut(o);route();return}
+ if(e.target.closest('[data-ntcopy]')){var o2=ntAll(),L=Object.keys(o2).filter(function(k){return wqById(k)}).sort(function(a,c){return o2[c].u-o2[a].u}).map(function(k){var n=o2[k];return '• '+wqById(k).title+' — '+ntWhen(n.u)+(n.a?' (طبّقتُه)':'')+(n.t.trim()?'\n'+n.t.trim():'')});copyT('دفتر الأثر\n\n'+L.join('\n\n'),'نُسخ الدفتر')}});
+var MRI={"khatma": "<svg class=\"mri\" viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2zM4 19V5\"/></svg>", "notes": "<svg class=\"mri\" viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M6 3h11a2 2 0 0 1 2 2v16H6a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2zM8 8h8M8 12h8M8 16h5\"/></svg>", "now": "<svg class=\"mri\" viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 21c-5 0-8-3-8-7 2 0 4 1 5 3 .5-4 1.5-8 3-12 1.5 4 2.5 8 3 12 1-2 3-3 5-3 0 4-3 7-8 7z\"/></svg>", "waqfa": "<svg class=\"mri\" viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M6 21V11.5Q6 6 12 2.5Q18 6 18 11.5V21\"/><path d=\"M3.5 21h17\"/></svg>", "palette": "<svg class=\"mri\" viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 3a9 9 0 1 0 0 18c1.1 0 1.7-.8 1.7-1.6 0-.5-.2-.8-.5-1.2-.3-.3-.5-.7-.5-1.2 0-.9.8-1.6 1.7-1.6H16a5 5 0 0 0 5-5C21 6.5 17 3 12 3z\"/><circle cx=\"7.5\" cy=\"11\" r=\"1\"/><circle cx=\"10\" cy=\"7\" r=\"1\"/><circle cx=\"14.5\" cy=\"7\" r=\"1\"/><circle cx=\"17.2\" cy=\"10.5\" r=\"1\"/></svg>", "font": "<svg class=\"mri\" viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M3 19 8 5l5 14M5 14h6M14 19l3.5-9 3.5 9M15.2 16h4.6\"/></svg>", "export": "<svg class=\"mri\" viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 3v12M7 10l5 5 5-5M5 21h14\"/></svg>", "import": "<svg class=\"mri\" viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 15V3M7 8l5-5 5 5M5 21h14\"/></svg>", "share": "<svg class=\"mri\" viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M4 12v7a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-7M16 6l-4-4-4 4M12 2v13\"/></svg>", "shield": "<svg class=\"mri\" viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 3 5 6v6c0 4.5 3 7.5 7 9 4-1.5 7-4.5 7-9V6z\"/></svg>"};
+MRI.pin='<svg class="mri pt-ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-6-5.6-6-11a6 6 0 0 1 12 0c0 5.4-6 11-6 11z"/><circle cx="12" cy="10" r="2.2"/></svg>';
+MRI.prayer='<svg class="mri" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>';
+MRI.qibla='<svg class="mri" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="m15.5 8.5-2 5-5 2 2-5z"/></svg>';
+MRI.stats='<svg class="mri" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 20v-9M12 20V5M19 20v-7M3 20h18"/></svg>';

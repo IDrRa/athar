@@ -1,0 +1,10 @@
+/* ===== Quran v7 ===== */
+.qfl{display:inline;white-space:nowrap}
+.qbn{padding:9px 12px}
+.qbn h2{padding:.12em 0;line-height:1.1}
+.qpg.fit{display:flex;flex-direction:column}
+.qpg.fit .qft{margin-top:auto;padding-top:10px}
+.qpg.fit .qt{line-height:var(--qlh,2.3);text-align:start}
+.qpg.fit .qb{line-height:1.9;margin:8px 0 14px}
+.qb{margin:8px 0 14px}
+

@@ -1,0 +1,21 @@
+/* v26 Madinah mushaf pages */
+.qpg.mus{min-height:0}
+.mbody{font-size:var(--mfs,22px);direction:rtl;margin:4px 0 0;color:var(--text)}
+.ml{display:flex;justify-content:space-between;align-items:center;height:var(--mrh,2.1em);white-space:nowrap;line-height:1}
+.ml.c{justify-content:center;gap:.18em}
+.mw{display:inline-block;font:inherit;color:inherit;line-height:1;padding:0;margin:0;border:0;background:none;border-radius:.18em;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.mvn{color:var(--gold)}
+.mw.on{background:var(--tint);box-shadow:0 0 0 .1em var(--tint);color:var(--green)}
+.mvn.on{color:var(--gold)}
+.mvn:focus-visible{outline:2px solid var(--green);outline-offset:2px}
+.ml.mb{justify-content:center;font-family:'QPBS';font-size:var(--mfs,22px);color:var(--text);direction:ltr;unicode-bidi:isolate}
+.ml.mh{justify-content:center}
+.ml.mh .qbn{width:100%;height:calc(var(--mrh,2.1em)*.82);margin:0;padding:0 .5em;box-sizing:border-box}
+.ml.mh .qbn h2{font-size:calc(var(--mfs,22px)*.9);line-height:1;margin:0}
+.ml.mh .qo{width:calc(var(--mfs,22px)*1.1);height:calc(var(--mfs,22px)*1.1)}
+.mwait{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;min-height:60vh;color:var(--muted);font:500 .95rem var(--ui)}
+.mwait i{width:30px;height:30px;border:3px solid var(--line);border-top-color:var(--green);border-radius:50%;animation:mspin .9s linear infinite}
+@keyframes mspin{to{transform:rotate(360deg)}}
+.qmd{display:flex;gap:8px;width:100%}.qmd .btn{flex:1}.qmd .btn.on{background:var(--green);color:var(--on-green);border-color:var(--green)}
+.qszr{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;width:100%}.qszr[hidden]{display:none}
+

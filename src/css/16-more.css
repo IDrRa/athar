@@ -1,0 +1,18 @@
+/* v22 «المزيد» */
+:root{--rdk:1}:root[data-fs="s"]{--rdk:.88}:root[data-fs="l"]{--rdk:1.15}:root[data-fs="xl"]{--rdk:1.32}
+.rdx{font-size:calc(1.7rem*var(--rdk))}.rdx.m{font-size:calc(1.5rem*var(--rdk))}.rdx.s{font-size:calc(1.3rem*var(--rdk))}.rdx.rq{font-size:calc(1.6rem*var(--rdk))}
+.tft{font-size:calc(1.06rem*var(--rdk))}.tfq{font-size:calc(1.45rem*var(--rdk))}.oct{font-size:calc(1.3rem*var(--rdk))}
+.mrs{font:600 .9rem/1.4 var(--ui);color:var(--muted);margin:22px 4px 8px}
+.mrl .row{gap:14px}
+.mrl .mri{width:24px;height:24px;color:var(--green);flex:none}
+.mrl button.row,.mrl label.row{width:100%;cursor:pointer;color:var(--text);font:inherit}
+.mrfs{padding-bottom:14px}.mrfs .row{cursor:default}.mrfs .row:active{background:none}
+.mrseg{margin:0 18px;grid-template-columns:repeat(4,1fr)}
+.mrprev{margin:12px 18px 0;text-align:center;font:400 calc(1.5rem*var(--rdk))/2 var(--ar);color:var(--text)}
+.mrnote{margin:8px 4px 0;color:var(--muted);font-size:.82rem}
+.mrsrc{margin:14px 0 0;border:1px solid var(--line);border-radius:var(--r-lg);background:var(--surface);padding:0 16px}
+.mrsrc summary{min-height:52px;display:flex;align-items:center;font-weight:600;cursor:pointer}
+.mrsrc[open]{padding-bottom:14px}
+.mrver{text-align:center;color:var(--muted);font-size:.8rem;margin:22px 0 0}
+#mrimp:focus+*{outline:none}
+

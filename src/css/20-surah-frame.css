@@ -1,0 +1,5 @@
+/* v27 mushaf surah frame */
+.msh{position:relative;display:flex;align-items:center;justify-content:center;width:100%;height:calc(var(--mrh,2.1em)*.8);box-sizing:border-box;border:1px solid var(--gold);border-radius:2px;box-shadow:0 0 0 2px var(--bg),0 0 0 3px var(--gold)}
+.msh::before{content:"";position:absolute;inset:3px;border-radius:1px;opacity:.5;background:radial-gradient(circle,var(--gold) 0 1.1px,transparent 1.5px) center/9px 9px,linear-gradient(90deg,transparent,var(--tint) 30%,var(--tint) 70%,transparent)}
+.msn{position:relative;display:flex;align-items:center;height:72%;margin:0;padding:0 1.3em;background:var(--bg);border:1px solid var(--gold);border-radius:999px;font:400 calc(var(--mfs,22px)*.82)/1 'KFGQPC Hafs',var(--qf),serif;color:var(--text);white-space:nowrap}
+

@@ -1,0 +1,13 @@
+/* v33 compact home waqfa card */
+.today.wqc{padding:16px 18px 14px;box-shadow:inset 0 0 0 5px var(--surface),inset 0 0 0 6px var(--line)}
+.today.wqc::before{display:none}
+.wqtop{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:2px 2px 4px}
+.wqtop h3{display:flex;align-items:center;gap:7px;margin:0;font-size:.98rem;text-align:start}
+.wqtop h3::before{content:"";flex:none;width:16px;height:16px;background:var(--orn) center/contain no-repeat}
+.today .wqtop .badge{margin:0;flex:none;font-size:.72rem}
+.wqc .ctext{font-size:calc(1.3rem*var(--rdk,1));line-height:2}
+.wqc .wqsn{-webkit-line-clamp:2;line-clamp:2;max-height:4em;margin-bottom:6px}
+.wqc .wqmeta{margin:2px 0 10px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.wqc .actions{gap:8px}.wqc .actions .btn{min-height:42px;padding:6px 18px;font-size:.92rem}
+.wqc .wqnr{margin:0 0 -4px;font-size:.8rem;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-align:center}
+

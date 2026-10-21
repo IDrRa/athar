@@ -1,0 +1,9 @@
+/* v16 share cards */
+.qbar .btn,.qbar [data-qa=close]{flex:1 1 30%;min-width:0}
+.cdsh{max-height:92vh;max-height:92dvh;display:flex;flex-direction:column}
+.cdbox{flex:1 1 auto;min-height:120px;display:grid;place-items:center;overflow:auto;padding:4px 0}
+.cdbox img{display:block;max-width:100%;max-height:58vh;max-height:58dvh;width:auto;height:auto;border-radius:14px;box-shadow:0 6px 24px rgba(0,0,0,.18);-webkit-touch-callout:default}
+.cdh{margin:8px 0 0;text-align:center;color:var(--muted);font-size:.8rem}
+.cdnav{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
+.cdnav .btn{justify-content:center;min-height:48px}
+

@@ -1,0 +1,34 @@
+/* ===== وقفة أثر ===== */
+.wq{padding-bottom:8px}
+.wqhd{margin:6px 0 14px}
+.wqk{font:700 .86rem var(--ui);color:var(--green);margin:0 0 4px;letter-spacing:.01em}
+.wqdt{font:500 .82rem var(--ui);color:var(--muted);margin:0 0 8px}
+.wqhd h2{font:700 1.55rem/1.45 var(--ui);margin:0 0 8px}
+.wqch{display:flex;flex-wrap:wrap;gap:8px;margin:0}
+.chip.warn{border-style:dashed;color:var(--muted)}
+.wqs{border:1px solid var(--line);border-radius:18px;background:var(--surface);padding:16px 16px 14px;margin:0 0 12px}
+.wqt{border-inline-start:4px solid var(--gold)}
+.wqe{background:var(--tint);border-inline-start:4px solid var(--green)}
+.wqa{border:1.5px dashed var(--green);background:transparent}
+.wqh3{display:flex;align-items:center;justify-content:space-between;gap:10px;font:700 .92rem var(--ui);color:var(--text);margin:0 0 10px}
+.wqh3 em{font-style:normal;font-weight:500;font-size:.74rem;color:var(--muted);padding:2px 10px;border:1px solid var(--line);border-radius:999px;background:var(--bg)}
+.wqx{font:400 1.55rem/2.2 var(--ar);color:var(--text);margin:0;text-align:center;white-space:pre-line;text-wrap:balance}
+.wqx.q{font-family:'KFGQPC Hafs','Amiri Quran',serif;font-size:1.7rem;line-height:2.25}
+.wqnar{display:block;font:500 .95rem/1.8 var(--ui);color:var(--muted);margin-bottom:6px}
+.wqm{pointer-events:none;cursor:default}
+.wqsrc{font-size:.78rem;line-height:1.8;color:var(--muted);margin:12px 0 0;padding-top:8px;border-top:1px dashed var(--line)}
+.wqln{margin:8px 0 0;font-size:.85rem}
+.wqln a{color:var(--green);font-weight:600}
+.wqpx,.wqol{font:400 .98rem/1.95 var(--ui);color:var(--text);margin:0}
+.wqol{padding-inline-start:1.3em}.wqol li{margin:0 0 6px}
+.wqpy{font:500 1.02rem/1.95 var(--ui);color:var(--text);margin:0}
+.wqn{font-size:.8rem;line-height:1.8;color:var(--muted);margin:8px 0 0}
+.wqno{background:transparent;border-style:dashed}
+.wqrel{display:flex;flex-wrap:wrap;gap:8px;margin:4px 0 12px}
+.wqact{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 10px}
+.wqact .btn{min-height:46px}
+.wqlg{font-size:.76rem;line-height:1.8;color:var(--muted);text-align:center;margin:8px 4px 0}
+.wqlist .row b{font-weight:600}
+.wqc .wqsn{display:-webkit-box;-webkit-line-clamp:3;line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.wqc .wqsn.q{font-family:'KFGQPC Hafs','Amiri Quran',serif}
+.wqc .wqmeta{font-size:.76rem;line-height:1.7;color:var(--muted);text-align:center;margin:8px 0 14px}

@@ -1,0 +1,6 @@
+/* ===== Quran v9: mushaf font ===== */
+@font-face{font-family:'KFGQPC Hafs';src:url(fonts/hafs.18.woff2) format('woff2');font-display:block}
+.qpg .qt,.qpg .qb,.qpg .qbn h2{font-family:'KFGQPC Hafs','Amiri Quran','Scheherazade New','Traditional Arabic',serif}
+body.qon .wrap{padding-inline:12px}
+.qclip{margin-inline:-12px;padding-inline:12px}
+

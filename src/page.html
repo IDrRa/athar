@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'unsafe-inline' https://static.cloudflareinsights.com; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data:; connect-src 'self' https://cloudflareinsights.com; manifest-src 'self'; worker-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>أثر — ما ينفعك ويبقى أثره</title>
+<meta name="description" content="أثر: القرآن والأذكار والأدعية الموثقة في مكان واحد.">
+<link rel="canonical" href="https://iathar.pages.dev/">
+<meta name="theme-color" content="#FFFFFF" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
+<meta name="color-scheme" content="light dark">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="أثر">
+<meta name="application-name" content="أثر">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/svg+xml" href="icons/favicon-m4.svg">
+<link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192-m4.png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon-m4.png">
+<meta name="format-detection" content="telephone=no">
+<meta name="referrer" content="no-referrer">
+<link rel="stylesheet" href="fonts.css">
+<script>try{var _a=localStorage.getItem('athar-accent'),_t=localStorage.getItem('athar-theme');_a=(_a&&/^[a-z]+$/.test(_a))?_a:'mono';if(_a!=='green')document.documentElement.setAttribute('data-accent',_a);if(_t==='light'||_t==='dark')document.documentElement.setAttribute('data-theme',_t);var _f=localStorage.getItem('athar-fs');if(_f==='s'||_f==='l'||_f==='xl')document.documentElement.setAttribute('data-fs',_f)}catch(e){}</script>
+<style><!--@css--></style>
+</head>
+<body>
+<a class="skip" href="#app">تخطّي إلى المحتوى</a>
+<div class="wrap">
+  <header>
+    <div>
+      <h1 class="brand">أثر</h1>
+      <p class="tag">ما ينفعك ويبقى أثره</p>
+    </div>
+    <div class="hbtns"><button class="icon-btn" id="appearBtn" aria-label="المظهر والألوان" aria-haspopup="dialog"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a9 9 0 1 0 0 18c1.1 0 1.7-.8 1.7-1.6 0-.5-.2-.8-.5-1.2-.3-.3-.5-.7-.5-1.2 0-.9.8-1.6 1.7-1.6H16a5 5 0 0 0 5-5C21 6.5 17 3 12 3z"/><circle cx="7.5" cy="11" r="1"/><circle cx="10" cy="7" r="1"/><circle cx="14.5" cy="7" r="1"/><circle cx="17.2" cy="10.5" r="1"/></svg></button>
+    <button class="icon-btn" id="theme" aria-label="تبديل الوضع الليلي">
+      <svg class="moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"/></svg>
+      <svg class="sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+    </button></div>
+  </header>
+
+  <form class="search" role="search" id="searchForm">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+    <input type="search" id="q" placeholder="ماذا تبحث عنه؟" aria-label="ماذا تبحث عنه؟" enterkeyhint="search" autocomplete="off">
+  </form>
+
+  <main id="app" tabindex="-1">
+  <section id="insh" aria-label="تثبيت أثر" hidden></section>
+  <section id="occs" aria-label="ما يناسب اليوم" hidden></section>
+  <section aria-labelledby="t-today">
+    <h2 id="t-today">وقفة أثر</h2>
+    <div id="today"></div>
+    <div id="kmh"></div>
+  </section>
+
+  <section aria-labelledby="t-explore"><h2 id="t-explore" class="sr">استكشف</h2><ul class="list tiles"><li><button class="row tile"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2zM4 19V5"/></svg><div><b>القرآن</b><span>السور والآيات</span></div></button></li><li><button class="row tile"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="15" r="4"/><path d="M12 5v3M4.9 9.9l2 2M19.1 9.9l-2 2M2 19h20"/></svg><div><b>الأذكار</b><span>الصباح والمساء والنوم</span></div></button></li><li><button class="row tile"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21c-5 0-8-3-8-7 2 0 4 1 5 3 .5-4 1.5-8 3-12 1.5 4 2.5 8 3 12 1-2 3-3 5-3 0 4-3 7-8 7z"/></svg><div><b>الأدعية</b><span>من القرآن والسنة</span></div></button></li><li><button class="row tile"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 21V11.5Q6 6 12 2.5Q18 6 18 11.5V21"/><path d="M3.5 21h17"/></svg><div><b>وقفة أثر</b><span>اقرأ وافهم واعمل</span></div></button></li></ul></section>
+  <div id="view" hidden></div></main>
+</div>
+
+<div id="live" class="sr" role="status" aria-live="polite"></div>
+<nav aria-label="التنقل الرئيسي">
+  <ul>
+    <li><button aria-current="page"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 11 12 4l8 7v9H4z"/></svg>الرئيسية</button></li>
+    <li><button class="soon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2zM4 19V5"/></svg>القرآن</button></li>
+    <li><button class="soon"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="15" r="4"/><path d="M12 5v3M4.9 9.9l2 2M19.1 9.9l-2 2M2 19h20"/></svg>الأذكار</button></li>
+    <li><button id="navDua"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21c-5 0-8-3-8-7 2 0 4 1 5 3 .5-4 1.5-8 3-12 1.5 4 2.5 8 3 12 1-2 3-3 5-3 0 4-3 7-8 7z"/></svg>الأدعية</button></li>
+    <li><button id="navSearch"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>البحث</button></li>
+    <li><button class="soon"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="5" cy="12" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="19" cy="12" r="1.5"/></svg>المزيد</button></li>
+  </ul>
+</nav>
+<div class="apbk" id="appear" hidden><div class="apsh" role="dialog" aria-modal="true" aria-labelledby="apT"><h2 id="apT">المظهر والألوان</h2><p class="aplb" id="apM">الوضع</p><div class="apseg" role="radiogroup" aria-labelledby="apM"><button role="radio" aria-checked="false" data-mode="auto">تلقائي</button><button role="radio" aria-checked="false" data-mode="light">فاتح</button><button role="radio" aria-checked="false" data-mode="dark">داكن</button></div><p class="aplb" id="apC">لون الموقع</p><div class="apsw" role="radiogroup" aria-labelledby="apC"><button role="radio" aria-checked="false" data-accent="mono"><i></i>أسود وأبيض</button><button role="radio" aria-checked="false" data-accent="green"><i></i>أخضر</button><button role="radio" aria-checked="false" data-accent="azure"><i></i>لازوردي</button><button role="radio" aria-checked="false" data-accent="maroon"><i></i>عنّابي</button><button role="radio" aria-checked="false" data-accent="brown"><i></i>بُنّي</button><button role="radio" aria-checked="false" data-accent="violet"><i></i>بنفسجي</button><button role="radio" aria-checked="false" data-accent="slate"><i></i>رمادي</button></div><button class="btn primary apdone" data-apclose>تم</button></div></div>
+<div class="apbk" id="tafs" hidden><div class="apsh tfsh" role="dialog" aria-modal="true" aria-labelledby="tfT"><div class="tfhd"><h2 id="tfT">المعنى</h2><button class="icon-btn" data-tfclose aria-label="إغلاق">×</button></div><p class="tfref" id="tfR"></p><div class="tfb" id="tfB" tabindex="-1"></div><p class="tfsrc">التفسير الميسر — مجمع الملك فهد لطباعة المصحف الشريف</p><div class="tfnav"><button class="btn" data-tf="prev">السابقة</button><button class="btn" data-tf="copy">نسخ المعنى</button><button class="btn" data-tf="next">التالية</button></div></div></div>
+<div class="apbk" id="cardS" hidden><div class="apsh cdsh" role="dialog" aria-modal="true" aria-labelledby="cdT"><div class="tfhd"><h2 id="cdT">بطاقة للمشاركة</h2><button class="icon-btn" data-cdclose aria-label="إغلاق">×</button></div><div class="cdbox" id="cdB"></div><p class="cdh">يمكنك أيضًا الضغط مطوّلًا على الصورة لحفظها.</p><div class="cdnav"><button class="btn primary" data-cd="share">مشاركة الصورة</button><button class="btn" data-cd="save">حفظ الصورة</button></div></div></div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<!--@quran--><script>
+(function(){
+  var root=document.documentElement,toastEl=document.getElementById('toast'),tm;
+  function toast(m){toastEl.textContent=m;toastEl.classList.add('on');clearTimeout(tm);tm=setTimeout(function(){toastEl.classList.remove('on')},2000)}
+  try{var s=localStorage.getItem('athar-theme');if(s)root.setAttribute('data-theme',s)}catch(e){}
+  document.getElementById('theme').addEventListener('click',function(){
+    var dark=root.getAttribute('data-theme')==='dark'||(!root.getAttribute('data-theme')&&matchMedia('(prefers-color-scheme: dark)').matches);
+    var n=dark?'light':'dark';root.setAttribute('data-theme',n);
+    try{localStorage.setItem('athar-theme',n)}catch(e){}
+  });
+  document.querySelectorAll('.soon').forEach(function(b){b.addEventListener('click',function(){toast('تتوفر هذه الصفحة في المرحلة التالية')})});
+  document.getElementById('searchForm').addEventListener('submit',function(e){e.preventDefault();toast('البحث الفعلي في المرحلة الثالثة')});
+  document.getElementById('navSearch').addEventListener('click',function(){var q=document.getElementById('q');window.scrollTo({top:0});q.focus()});
+})();
+</script>
+<script><!--@js--></script>
+<noscript><p style="padding:24px;text-align:center">يحتاج موقع «أثر» إلى تفعيل JavaScript ليعمل.</p></noscript>
+<script src="pwa.js" defer></script>
+</body>
+</html>

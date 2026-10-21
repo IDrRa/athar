@@ -1,0 +1,7 @@
+/* v28 page number rosette */
+.qcap{padding:0;border:0;border-radius:0;box-shadow:none;gap:10px;color:var(--muted);font:500 .8rem var(--ui)}
+.qpno{position:relative;display:inline-grid;place-items:center;width:66px;height:34px;color:var(--gold)}
+.qpno svg{position:absolute;inset:0;width:100%;height:100%}
+.qpno>span{position:relative;font:700 .95rem/1 var(--ui);color:var(--text)}
+.qpg.mus .qft{margin-top:6px}
+

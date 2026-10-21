@@ -1,0 +1,31 @@
+/* v15 «ختمة أثر» */
+.kmbar{height:8px;border-radius:8px;background:var(--line);overflow:hidden;margin:6px 0 4px}
+.kmbar i{display:block;height:100%;background:var(--gold);border-radius:8px}
+.kmpc{margin:0 0 14px;color:var(--muted);font-size:.85rem}
+.kmday{background:var(--surface);border:1px solid var(--line);border-inline-start:4px solid var(--gold);border-radius:var(--r-lg);padding:18px;margin:0 0 14px}
+.kmday h3{margin:2px 0 6px;font:700 1.2rem var(--ui);color:var(--green)}
+.kmday.done{border-inline-start-color:var(--green);text-align:center}
+.kmday.done b{display:block;font:700 1.15rem var(--ui);color:var(--green);margin-bottom:4px}
+.kmk{margin:0;color:var(--muted);font-size:.85rem}
+.kmr{margin:0 0 8px;font:600 1.02rem/1.9 var(--ui)}
+.kmok{color:var(--green);font-weight:600;margin:6px 0}
+.kmlate{color:var(--text);background:var(--tint);border-radius:10px;padding:8px 12px;margin:6px 0}
+.kmmut{color:var(--muted);font-size:.9rem;margin:4px 0 10px}
+.kmday .actions{margin-top:12px}
+.kms{margin:18px 0}.kms h3{font:700 1rem var(--ui);margin:0 0 6px}
+.kmch{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0}
+.kmcu{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:8px 0}
+.kmcu input{width:96px;min-height:44px;border:1px solid var(--line);border-radius:10px;background:var(--surface);color:var(--text);font:16px var(--ui);text-align:center;margin-inline-start:6px}
+.kmfrom{display:flex;align-items:center;gap:8px;margin:10px 0;font-size:.92rem}
+.kmfrom input{width:20px;height:20px}
+.kmpl{margin:0 0 14px;border:1px solid var(--line);border-radius:14px;background:var(--surface)}
+.kmpl summary{padding:12px 16px;cursor:pointer;font-weight:600;min-height:44px}
+.kmpl ul{list-style:none;margin:0;padding:0 8px 8px;max-height:50vh;overflow:auto}
+.kmpl li{display:grid;grid-template-columns:1fr auto 24px;gap:10px;align-items:center;padding:8px;border-top:1px solid var(--line);font-size:.86rem;color:var(--muted)}
+.kmpl li b{color:var(--text);font-weight:600}.kmpl li.on{background:var(--tint);border-radius:8px}
+.kmpl li.ok i{color:var(--green);font-style:normal;font-weight:700}
+.kmend{display:block;margin:10px auto 0;color:var(--muted)}
+.kmhc{display:block;margin:-18px 0 30px;padding:14px 16px;border:1px solid var(--line);border-radius:var(--r-lg);background:var(--surface);color:var(--text);text-decoration:none}
+.kmhc small{color:var(--muted);font-size:.8rem}.kmhc b{display:block;font:600 1rem/1.6 var(--ui);margin:2px 0}
+.kmhc .kmpc{margin:0}
+

@@ -1,0 +1,4 @@
+/* v25 mushaf spacing with a chosen font size */
+.qpg:not(.fit) .qt{line-height:2.2;word-spacing:normal}
+html[data-qz="2"] .qpg:not(.fit) .qt,html[data-qz="3"] .qpg:not(.fit) .qt,html[data-qz="4"] .qpg:not(.fit) .qt{text-align:start}
+
