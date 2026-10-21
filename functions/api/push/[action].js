@@ -64,6 +64,11 @@ export async function onRequest({ request, env, params }) {
 
   if (a === 'key') return json({ ok: true, key: (await vapid(env)).pub });
 
+  if (a === 'diag') { // health check without personal data: when the scheduler last ran and what the push services answered
+    const l = await env.REPORTS.get('push:last', 'json'), s2 = await env.REPORTS.get('push:lastsend', 'json');
+    return json({ ok: true, now: Date.now(), keySet: !!env.PUSH_KEY, lastBuild: l && { ago_s: Math.round((Date.now() - l.at) / 1000), built: l.built, of: l.of }, lastSend: s2 && { ago_s: Math.round((Date.now() - s2.at) / 1000), part: s2.part, due: s2.due, status: s2.status } });
+  }
+
   if (a === 'sub' && request.method === 'POST') {
     if (!sameOrigin(request)) return json({ ok: false }, 403);
     const b = await body(request);
@@ -117,6 +122,7 @@ export async function onRequest({ request, env, params }) {
         await Promise.all(parts.map((p, j) => cache.put(ck(j), new Response(JSON.stringify(p), { headers: { 'cache-control': 'max-age=900' } })).catch(() => {})));
         const full = JSON.stringify(all), h = (await sha(full)).slice(0, 16);
         if ((await env.REPORTS.get('push:idxh')) !== h) { await env.REPORTS.put('push:idx', full); await env.REPORTS.put('push:idxh', h); }
+        await env.REPORTS.put('push:last', JSON.stringify({ at: Date.now(), built: all.length, of: n }));
         return json({ ok: true, built: all.length, of: n });
       }
     } else {
@@ -146,6 +152,7 @@ export async function onRequest({ request, env, params }) {
       relayed = await fetch(relay, { method: 'POST', headers: { 'x-push-key': env.PUSH_KEY } }).then(r => r.ok).catch(() => false);
     }
     const R = await Promise.all(batch.map(x => send(env, v, x.md.u).catch(() => 0)));
+    if (batch.length) await env.REPORTS.put('push:lastsend', JSON.stringify({ at: now.getTime(), part: i, hop, subs: subs.length, due: due.length, status: R, cached: !!subs._c })).catch(() => {});
     for (let j = 0; j < R.length; j++) {
       if (R[j] === 404 || R[j] === 410) { await env.REPORTS.delete(batch[j].k); gone++; } else if (R[j] >= 200 && R[j] < 300) sent++;
     }
