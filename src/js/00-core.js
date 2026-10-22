@@ -5,7 +5,7 @@ var $=function(s){return document.querySelector(s)},V=$('#view'),HS=document.que
 var PH='نص تجريبي — ليس محتوى حقيقيًا',NS='يُضاف بعد ربط مصدر موثّق',NA='غير متوفر (تجريبي)';
 function mk(type,id,title,text,cat,x){var o={id:id,type:type,title:title,text:text||PH,source:NS,reference:NS,category:cat||'',status:'draft',createdAt:'2026-10-13',updatedAt:'2026-10-13'};for(var k in x)o[k]=x[k];ALL[id]=o;return o}
 
-var CA=[['morning','أذكار الصباح'],['evening','أذكار المساء'],['sleep','أذكار النوم'],['wakeup','أذكار الاستيقاظ'],['prayer','أذكار الصلاة']];
+var CA=[['morning','أذكار الصباح'],['evening','أذكار المساء'],['sleep','أذكار النوم'],['wakeup','أذكار الاستيقاظ'],['prayer','أذكار الصلاة'],['tasbih','التسابيح']];
 var DC=[['guidance','الهداية'],['mercy','الرحمة'],['forgiveness','المغفرة'],['provision','الرزق'],['distress','الكرب'],['tranquility','الطمأنينة'],['repentance','التوبة'],['parents','الوالدين'],['dunya-akhira','الدنيا والآخرة'],['sick','المريض'],['rain','المطر والرعد'],['istikhara','الاستخارة'],['other','أدعية أخرى']];
 var DT={quran:'دعاء قرآني',prophets:'من دعاء الأنبياء في القرآن',sunnah:'من دعاء النبي ﷺ',general:'دعاء في المواقف والأحوال'};
 function esc(s){return String(s).replace(/[&<>"']/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
