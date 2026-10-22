@@ -39,8 +39,7 @@ function nowMark(){try{var h=location.hash,seen=nowSeen(),ch=false;nowList(ocNow
 window.addEventListener('hashchange',function(){nowMark();nowHide()});nowMark();
 document.addEventListener('visibilitychange',function(){if(!document.hidden&&document.body.classList.contains('home'))nowRender()});
 
-/* ===== trial (owner preview at #/try): a prayer-time line under the search ===== */
-function tryX(){try{return localStorage.getItem('athar-try-x')==='1'}catch(e){return false}}
+/* ===== a quiet prayer-time line under the search on the home page ===== */
 function arN(n,one,two,few,many){return n===1?one:n===2?two:(n>=3&&n<=10?ar(n)+' '+few:ar(n)+' '+many)}
 function arDur(min){var h=Math.floor(min/60),m=min%60,x=[];if(h)x.push(arN(h,'ساعة','ساعتان','ساعات','ساعة'));if(m||!h)x.push(arN(m,'دقيقة','دقيقتان','دقائق','دقيقة'));return x.join(' و')}
 function ptLineText(d){var l=ptLoc();if(!l)return '';try{var tz=ptTz(l),a=ptYMD(d,tz),o=ptDay(a[0],a[1],a[2],l.lat,l.lng,ptRamadan(d,tz)),
@@ -50,9 +49,5 @@ function ptLineText(d){var l=ptLoc();if(!l)return '';try{var tz=ptTz(l),a=ptYMD(
  if(d.getDay()===5&&next&&next[0]==='الظهر')next[0]='الجمعة';if(d.getDay()===5&&last&&last[0]==='الظهر')last[0]='الجمعة';
  if(last&&m-last[1]<30*6e4)return 'مضى على أذان '+last[0]+' '+arDur(Math.max(1,Math.floor((m-last[1])/6e4)));
  if(next)return 'بقي على أذان '+next[0]+' '+arDur(Math.max(1,Math.ceil((next[1]-m)/6e4)));return ''}catch(e){return ''}}
-function ptLineRender(){var el=document.getElementById('ptl');if(!el)return;var t=tryX()&&document.body.classList.contains('home')?ptLineText(ocNow()):'';el.hidden=!t;el.innerHTML=t?'<a href="#/prayer">'+t+'</a>':''}
+function ptLineRender(){var el=document.getElementById('ptl');if(!el)return;var t=document.body.classList.contains('home')?ptLineText(ocNow()):'';el.hidden=!t;el.innerHTML=t?'<a href="#/prayer">'+t+'</a>':''}
 setInterval(function(){if(!document.hidden)try{ptLineRender()}catch(e){}},30000);
-function vTryX(){try{localStorage.setItem('athar-try-x','1')}catch(e){}
- return head('تجربة','تظهر لك وحدك حتى توافق عليها.')+'<div class="occ"><h3 class="och">سطر وقت الصلاة</h3><p>تحت شريط البحث في الرئيسية: «بقي على أذان العشاء ساعة و١٠ دقائق»، وبعد الأذان بنصف ساعة: «مضى على أذان العشاء ٢٢ دقيقة». الضغط عليه يفتح المواقيت.</p>'+(ptLoc()?'<p class="ocr">الآن: '+(ptLineText(ocNow())||'—')+'</p>':'<p class="ocr">يحتاج تحديد موقعك في المواقيت.</p>')+'</div>'
-  +'<div class="actions"><a class="btn primary" href="#/">افتح الرئيسية</a><button class="btn" data-tryx="off">إيقاف التجربة</button></div>'}
-document.addEventListener('click',function(e){if(e.target.closest('[data-tryx]')){try{localStorage.removeItem('athar-try-x')}catch(x){}location.hash='#/'}});
