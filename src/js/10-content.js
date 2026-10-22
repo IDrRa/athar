@@ -41,7 +41,7 @@ function wqPage(w,dn){var q=w.textType==='quran',ex=w.explanation,st=1,ref=wqRef
   +(q?'<p class="wqln"><a href="#/quran/'+w.verses[0].n+'/'+w.verses[0].a+'">افتح في المصحف</a></p>':'')+'</section>';
  if(ex){var it=ex.items,li=function(a,b){return a.slice(0,b).map(function(x){return '<li>'+esc(x)+'</li>'}).join('')},bd;
   if(it.length===1)bd='<p class="wqpx">'+esc(it[0])+'</p>';
-  else bd='<ol class="wqol">'+li(it,2)+'</ol>'+(it.length>2?'<details class="wqmore"><summary>عرض الباقي ('+ar(it.length-2)+')</summary><ol class="wqol" start="3">'+it.slice(2).map(function(x){return '<li>'+esc(x)+'</li>'}).join('')+'</ol></details>':'');
+  else bd='<ol class="wqol">'+li(it,it.length)+'</ol>'; /* all points shown: the «عرض الباقي» fold hid them and did not open reliably on iPhone */
   h+='<section class="wqs wqe" aria-label="المعنى">'+wqStep(st++,'المعنى')+bd+'<p class="wqref">'+esc(wqSrcName(ex.source))+(q?' · '+esc(ex.reference):'')+'</p></section>'}
  h+='<section class="wqs wqa" aria-label="عملٌ لك اليوم">'+wqStep(st++,'عملٌ لك اليوم')+'<p class="wqpy">'+esc(w.application.text)+'</p></section>';
  if(w.related&&w.related.length)h+='<nav class="wqrel" aria-label="محتوى مرتبط">'+w.related.map(function(r){return '<a class="chip" href="#'+r.href+'">'+esc(r.label)+'</a>'}).join('')+'</nav>';

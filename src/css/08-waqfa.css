@@ -20,7 +20,7 @@
 .wqln{margin:8px 0 0;font-size:.85rem}
 .wqln a{color:var(--green);font-weight:600}
 .wqpx,.wqol{font:400 .98rem/1.95 var(--ui);color:var(--text);margin:0}
-.wqol{padding-inline-start:1.3em}.wqol li{margin:0 0 6px}
+.wqol{padding-inline-start:1.3em;list-style:arabic-indic}.wqol li{margin:0 0 6px}
 .wqpy{font:500 1.02rem/1.95 var(--ui);color:var(--text);margin:0}
 .wqn{font-size:.8rem;line-height:1.8;color:var(--muted);margin:8px 0 0}
 .wqno{background:transparent;border-style:dashed}
