@@ -36,3 +36,6 @@ document.addEventListener('change',function(e){var f=e.target;if(f.id!=='mrimp'|
   var n=0;Object.keys(j.data).forEach(function(k){var v=j.data[k];if(/^athar-[a-z0-9-]+$/.test(k)&&k!=='athar-dbg-date'&&typeof v==='string'&&v.length<1e6){try{localStorage.setItem(k,v);n++}catch(x){}}});
   kmTo(n?'استُعيدت بياناتك':'لم يُستعد شيء');if(n)setTimeout(function(){location.reload()},900)};rd.readAsText(file)});
 
+
+/* reading size from inside the reader: أ− / أ+ step through the same sizes as المزيد ← حجم الخط */
+document.addEventListener('click',function(e){var b=e.target.closest('[data-fsd]');if(!b)return;var S=['s','m','l','xl'],i=S.indexOf(mrFs()),j=Math.max(0,Math.min(S.length-1,i+(+b.dataset.fsd)));if(j!==i){mrSetFs(S[j]);try{kmTo(['أصغر','عادي','كبير','أكبر'][j])}catch(x){}}});

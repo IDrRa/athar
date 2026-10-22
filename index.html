@@ -543,6 +543,14 @@ a.aprow{text-decoration:none}
 .mrver{text-align:center;color:var(--muted);font-size:.8rem;margin:22px 0 0}
 #mrimp:focus+*{outline:none}
 
+
+/* reader: size buttons next to the position */
+.rdend{display:flex;align-items:center;gap:12px}
+.rdfs{display:flex;gap:6px}
+.rdfs button{min-width:40px;height:36px;padding:0 8px;border:1px solid var(--line);border-radius:10px;background:var(--surface);color:var(--text);font:600 .95rem var(--ui);cursor:pointer}
+.rdfs button small{font-size:.75em;margin-inline-start:1px}
+.rdfs button:active{background:var(--tint)}
+.card:not(.today) .ctext{font-size:calc(1.4rem*var(--rdk,1))}
 /* v23 calmer waqfa page */
 .wqk{color:var(--muted);font-weight:600}
 .wqst{display:flex;align-items:center;gap:8px;margin:0 0 10px;font:700 .95rem var(--ui);color:var(--green)}
@@ -1063,7 +1071,7 @@ function rdHtml(){var L=RS.L,i=RS.i,o=L[i];if(!L.length)return head(RS.title,'',
 var n=cnum(o),c=RC[o.id]||0,done=n&&c>=n,last=i===L.length-1,gen=o.type==='dua'&&(o.kind||'general')==='general'&&!o.source;
 var src=[];if(o.source&&o.source!==NS&&(o.reference||'').indexOf(o.source)!==0)src.push(o.source);if(o.reference&&o.reference!==NS)src.push(o.reference);
 var tt=o.title&&nz(o.title).s!==nz(RS.title).s?'<h3 class="rdt">'+o.title+'</h3>':'';
-return '<div class="rd"><h1 class="sr">'+RS.title+'</h1><div class="rdtop"><a class="back" href="#'+RS.back+'">'+CHV+'رجوع</a><span class="rdpos" role="status">'+ar(i+1)+' من '+ar(L.length)+'</span></div>'
+return '<div class="rd"><h1 class="sr">'+RS.title+'</h1><div class="rdtop"><a class="back" href="#'+RS.back+'">'+CHV+'رجوع</a><span class="rdend"><span class="rdfs" role="group" aria-label="حجم الخط"><button type="button" data-fsd="-1" aria-label="تصغير الخط">أ<small>−</small></button><button type="button" data-fsd="1" aria-label="تكبير الخط">أ<small>+</small></button></span><span class="rdpos" role="status">'+ar(i+1)+' من '+ar(L.length)+'</span></span></div>'
 +'<h2 class="rdh">'+RS.title+'</h2><div class="rdbar" role="progressbar" aria-label="التقدم في القراءة" aria-valuemin="1" aria-valuemax="'+L.length+'" aria-valuenow="'+(i+1)+'"><i style="width:'+Math.round((i+1)/L.length*100)+'%"></i></div>'
 +'<article class="rdc" data-swipe>'+tt+rdnar(o)+'<p class="rdx'+(o.kind==='quran'||o.kind==='prophets'?' rq':'')+(o.text.length>380?' s':o.text.length>170?' m':'')+'" lang="ar">'+rdtx(o)+'</p>'
 +(gen?'<p class="note">دعاء عام: ليس حديثًا ولا من المأثور.</p>':'')
@@ -1577,6 +1585,9 @@ document.addEventListener('change',function(e){var f=e.target;if(f.id!=='mrimp'|
   var n=0;Object.keys(j.data).forEach(function(k){var v=j.data[k];if(/^athar-[a-z0-9-]+$/.test(k)&&k!=='athar-dbg-date'&&typeof v==='string'&&v.length<1e6){try{localStorage.setItem(k,v);n++}catch(x){}}});
   kmTo(n?'استُعيدت بياناتك':'لم يُستعد شيء');if(n)setTimeout(function(){location.reload()},900)};rd.readAsText(file)});
 
+
+/* reading size from inside the reader: أ− / أ+ step through the same sizes as المزيد ← حجم الخط */
+document.addEventListener('click',function(e){var b=e.target.closest('[data-fsd]');if(!b)return;var S=['s','m','l','xl'],i=S.indexOf(mrFs()),j=Math.max(0,Math.min(S.length-1,i+(+b.dataset.fsd)));if(j!==i){mrSetFs(S[j]);try{kmTo(['أصغر','عادي','كبير','أكبر'][j])}catch(x){}}});
 /* ===== v36 «الآن»: the home page shows what suits this moment, from the visitor's prayer times ===== */
 /* windows: الصباح من الفجر إلى الظهر · المساء من العصر إلى العشاء · النوم من العشاء إلى الفجر ·
    سورة الكهف من فجر الجمعة إلى مغربها */

@@ -83,7 +83,7 @@ function rdHtml(){var L=RS.L,i=RS.i,o=L[i];if(!L.length)return head(RS.title,'',
 var n=cnum(o),c=RC[o.id]||0,done=n&&c>=n,last=i===L.length-1,gen=o.type==='dua'&&(o.kind||'general')==='general'&&!o.source;
 var src=[];if(o.source&&o.source!==NS&&(o.reference||'').indexOf(o.source)!==0)src.push(o.source);if(o.reference&&o.reference!==NS)src.push(o.reference);
 var tt=o.title&&nz(o.title).s!==nz(RS.title).s?'<h3 class="rdt">'+o.title+'</h3>':'';
-return '<div class="rd"><h1 class="sr">'+RS.title+'</h1><div class="rdtop"><a class="back" href="#'+RS.back+'">'+CHV+'رجوع</a><span class="rdpos" role="status">'+ar(i+1)+' من '+ar(L.length)+'</span></div>'
+return '<div class="rd"><h1 class="sr">'+RS.title+'</h1><div class="rdtop"><a class="back" href="#'+RS.back+'">'+CHV+'رجوع</a><span class="rdend"><span class="rdfs" role="group" aria-label="حجم الخط"><button type="button" data-fsd="-1" aria-label="تصغير الخط">أ<small>−</small></button><button type="button" data-fsd="1" aria-label="تكبير الخط">أ<small>+</small></button></span><span class="rdpos" role="status">'+ar(i+1)+' من '+ar(L.length)+'</span></span></div>'
 +'<h2 class="rdh">'+RS.title+'</h2><div class="rdbar" role="progressbar" aria-label="التقدم في القراءة" aria-valuemin="1" aria-valuemax="'+L.length+'" aria-valuenow="'+(i+1)+'"><i style="width:'+Math.round((i+1)/L.length*100)+'%"></i></div>'
 +'<article class="rdc" data-swipe>'+tt+rdnar(o)+'<p class="rdx'+(o.kind==='quran'||o.kind==='prophets'?' rq':'')+(o.text.length>380?' s':o.text.length>170?' m':'')+'" lang="ar">'+rdtx(o)+'</p>'
 +(gen?'<p class="note">دعاء عام: ليس حديثًا ولا من المأثور.</p>':'')

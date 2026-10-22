@@ -16,3 +16,11 @@
 .mrver{text-align:center;color:var(--muted);font-size:.8rem;margin:22px 0 0}
 #mrimp:focus+*{outline:none}
 
+
+/* reader: size buttons next to the position */
+.rdend{display:flex;align-items:center;gap:12px}
+.rdfs{display:flex;gap:6px}
+.rdfs button{min-width:40px;height:36px;padding:0 8px;border:1px solid var(--line);border-radius:10px;background:var(--surface);color:var(--text);font:600 .95rem var(--ui);cursor:pointer}
+.rdfs button small{font-size:.75em;margin-inline-start:1px}
+.rdfs button:active{background:var(--tint)}
+.card:not(.today) .ctext{font-size:calc(1.4rem*var(--rdk,1))}
