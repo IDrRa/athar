@@ -123,6 +123,7 @@ else if(a==='report'){t='أبلغ عن خطأ';d='أبلغ عن خطأ في مح
 else if(a==='mission'){t='رسالة أثر';d='هدف موقع أثر ورؤيته';h=vMission()}
 else if(a==='notify'){t='التنبيهات';d='تنبيهات الأذان والأذكار';h=vNotify()}
 else if(a==='install'){t='ثبّت أثر على جوالك';d='طريقة تثبيت أثر كتطبيق';h=vInstall()}
+else if(a==='try'){t='تجربة';d='';h=vTryX()}
 else if(a==='about'){t='المزيد';d='أدوات أثر وإعداداته ومصادر المحتوى';h=vAbout()}
 else if(a==='adhkar'&&!b){t='الأذكار';d='أذكار الصباح والمساء والنوم والاستيقاظ والصلاة';var DL=PL('dhikr');h=head(t,d)+'<ul class="list">'+CA.map(function(c){var n=DL.filter(function(o){return o.category===c[0]}).length;return cat('/adhkar/'+c[0],c[1],n?ndh(n):'')}).join('')+'</ul>'+(DL.length?'':EM)}
 else if(a==='adhkar'&&CA.some(function(c){return c[0]===b})){t=CA.filter(function(c){return c[0]===b})[0][1];h=rdInit(rdList('dhikr',b),t,'/adhkar','/adhkar/'+b,(+p[2]||1)-1)}
@@ -139,7 +140,7 @@ else if(a==='dua'&&dt(b,'dua')){var o2=dt(b,'dua'),k2=o2.kind||'general',L2=rdLi
 else if(a==='search'){var qv=new URLSearchParams(Q).get('q')||'';t='البحث'+(qv?': '+qv:'');d='ابحث في القرآن والأذكار والأدعية';$('#q').value=qv;var cb=$('.clr');if(cb)cb.hidden=!qv;if(qv.trim()&&!IX){h=head('البحث','ابحث في القرآن والأذكار والأدعية')+'<p class="loading" role="status">جارٍ تجهيز البحث…</p>';setTimeout(function(){if(location.hash.indexOf('#/search')===0&&!IX){ix();V.innerHTML=sv(qv)}},30)}else h=sv(qv)}
 else if(!home){t='الصفحة غير موجودة';h=head(t,'الرابط غير صحيح.')+'<a class="btn primary" href="#/">الرئيسية</a>'}
 HS.forEach(function(s){s.hidden=!home});V.hidden=home;V.innerHTML=h;try{atPost(a)}catch(x){}document.body.classList.toggle('rdon',!!(RS||QPS));document.body.classList.toggle('qon',!!QPS);document.body.classList.toggle('home',home);document.body.classList.toggle('srch',a==='search');
-if(home)try{kmHomeRender();ocRender();insHomeRender();nowRender()}catch(x){}document.title=home?'أثر — ما ينفعك ويبقى أثره':t+' | أثر';var md=$('meta[name=description]');if(md)md.content=d;
+if(home)try{kmHomeRender();ocRender();insHomeRender();nowRender()}catch(x){}try{ptLineRender()}catch(x){}document.title=home?'أثر — ما ينفعك ويبقى أثره':t+' | أثر';var md=$('meta[name=description]');if(md)md.content=d;
 var nb=document.querySelectorAll('nav button');nb.forEach(function(x,i){x.removeAttribute('aria-current');if(i===(home?0:NAVMAP[a]||-1))x.setAttribute('aria-current','page')});
 SEOX(a);window.scrollTo(0,0);QJ(a,p);qfit();if(QPS)qhint();if(!home&&!QS){V.setAttribute('tabindex','-1');try{V.focus({preventScroll:true})}catch(e){}}}
 function toast(m){var e=$('#toast');e.textContent=m;e.classList.add('on');setTimeout(function(){e.classList.remove('on')},2000)}

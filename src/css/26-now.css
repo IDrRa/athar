@@ -7,3 +7,5 @@
 .nwn img{width:34px;height:34px;flex:none;border-radius:8px}
 .nwn b{flex:1;min-width:0;font:600 .95rem/1.4 var(--ui)}
 .nwn time{flex:none;color:var(--muted);font-size:.74rem}
+#ptl{margin:-14px 0 22px}
+#ptl a{color:var(--muted);font-size:.86rem;text-decoration:none}
