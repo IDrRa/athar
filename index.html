@@ -748,19 +748,12 @@ body.home::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:no
 .in-s li span{color:var(--muted);font-size:.88rem;line-height:1.8}
 .in-n{flex:none;display:grid;place-items:center;width:30px;height:30px;border:1px solid var(--gold);border-radius:50%;color:var(--gold);font:600 .85rem/1 var(--ui)}
 .in-need .nt-go{margin-top:6px}
-/* v36 «الآن»: a small single-row card */
-#nowc{margin:0 0 22px}
-#nowc>h2{margin-bottom:8px}
-.occ.nw{padding:8px 10px 8px 14px;box-shadow:none;border-radius:var(--r-md)}
-.nw .nw-m{display:flex;align-items:center;justify-content:space-between;gap:10px;min-height:46px;text-decoration:none;color:var(--text)}
-.nw .nw-m span{display:flex;flex-direction:column;gap:1px;min-width:0}
-.nw .nw-m b{font:700 1rem/1.4 var(--ui)}
-.nw .nw-m small{color:var(--muted);font-size:.76rem;line-height:1.4}
-.nw .nw-m i{display:grid;place-items:center;width:32px;height:32px;flex:none;border-radius:50%;background:var(--green);color:var(--on-green);font-style:normal}
-.nw .nw-m i svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2}
-.nw .ocln{gap:6px;margin:4px 0 4px}
-.nw .ocln .chip{min-height:34px;padding:0 12px;font-size:.82rem}
-.nw .ocln:first-child{margin:2px 0}
+/* v36 «الآن»: suggestions styled like phone notifications, one line each */
+#nowc{display:flex;flex-direction:column;gap:6px;margin:0 0 24px}
+.nw{display:flex;align-items:center;gap:10px;min-height:50px;padding:8px 12px;box-sizing:border-box;background:var(--surface);border:1px solid var(--line);border-radius:16px;text-decoration:none;color:var(--text)}
+.nw img{width:32px;height:32px;flex:none;border-radius:8px}
+.nw b{flex:1;min-width:0;font:600 .95rem/1.4 var(--ui)}
+.nw time{flex:none;color:var(--muted);font-size:.74rem}
 </style>
 </head>
 <body>
@@ -1672,26 +1665,23 @@ document.addEventListener('change',function(e){var f=e.target;if(f.id!=='mrimp'|
 
 /* ===== v36 «الآن»: the home page shows what suits this moment, from the visitor's prayer times ===== */
 /* windows: الصباح من الفجر إلى الظهر · المساء من العصر إلى العشاء · النوم من العشاء إلى الفجر ·
-   أذكار بعد الصلاة من ١٠ دقائق إلى ٤٥ دقيقة بعد كل أذان · سورة الكهف من مغرب الخميس إلى مغرب الجمعة */
-function nowTimes(d){var l=ptLoc();if(l){try{var tz=ptTz(l),a=ptYMD(d,tz),o=ptDay(a[0],a[1],a[2],l.lat,l.lng,ptRamadan(d,tz));if(o.fajr&&o.dhuhr&&o.asr&&o.maghrib&&o.isha)return {t:o,tz:tz,exact:true}}catch(e){}}
- /* no location: rough local-clock times, used only to choose the card, never shown */
- var b=function(h,m){return new Date(d.getFullYear(),d.getMonth(),d.getDate(),h,m)};return {t:{fajr:b(4,45),dhuhr:b(12,0),asr:b(15,15),maghrib:b(17,45),isha:b(19,15)},tz:undefined,exact:false}}
-function nowState(d){var T=nowTimes(d),t=T.t,s={main:null,after:null,kahf:false,tz:T.tz,exact:T.exact},m=d.getTime();
- if(m>=t.fajr&&m<t.dhuhr)s.main={k:'morning',until:t.dhuhr,u:'الظهر'};
- else if(m>=t.asr&&m<t.isha)s.main={k:'evening',until:t.isha,u:'العشاء'};
+   سورة الكهف من فجر الجمعة إلى مغربها */
+function nowTimes(d){var l=ptLoc();if(l){try{var tz=ptTz(l),a=ptYMD(d,tz),o=ptDay(a[0],a[1],a[2],l.lat,l.lng,ptRamadan(d,tz));if(o.fajr&&o.dhuhr&&o.asr&&o.maghrib&&o.isha)return {t:o}}catch(e){}}
+ /* no location: rough local-clock times, used only to choose the card */
+ var b=function(h,m){return new Date(d.getFullYear(),d.getMonth(),d.getDate(),h,m)};return {t:{fajr:b(4,45),dhuhr:b(12,0),asr:b(15,15),maghrib:b(17,45),isha:b(19,15)}}}
+function nowState(d){var T=nowTimes(d),t=T.t,s={main:null,kahf:false},m=d.getTime();
+ if(m>=t.fajr&&m<t.dhuhr)s.main={k:'morning'};
+ else if(m>=t.asr&&m<t.isha)s.main={k:'evening'};
  else if(m>=t.isha||m<t.fajr)s.main={k:'sleep'};
- [['fajr','الفجر'],['dhuhr','الظهر'],['asr','العصر'],['maghrib','المغرب'],['isha','العشاء']].forEach(function(p){var g=m-t[p[0]];if(g>=6e5&&g<27e5)s.after=p[1]});
- var wd=d.getDay();s.kahf=(wd===5&&m<t.maghrib)||(wd===4&&m>=t.maghrib);return s}
+ var wd=d.getDay();s.kahf=wd===5&&m>=t.fajr&&m<t.maghrib;return s}
 var NOWK={morning:['أذكار الصباح','/adhkar/morning'],evening:['أذكار المساء','/adhkar/evening'],sleep:['أذكار النوم','/adhkar/sleep']};
-function nowCount(k){try{return CONTENT.filter(function(o){return o.type==='dhikr'&&o.category===k&&o.status==='published'}).length}catch(e){return 0}}
-function nowCard(s){var h='',x=[];
- if(s.main){var k=NOWK[s.main.k],n=nowCount(s.main.k),sub=s.main.k==='sleep'?'قبل أن تنام':(s.exact&&s.main.until?'وقتها الآن، حتى '+s.main.u+' '+ptFmt(s.main.until,s.tz):'وقتها الآن');
-  h+='<a class="nw-m" href="#'+k[1]+'"><span><b>'+k[0]+'</b><small>'+sub+(n?' · '+ar(n)+(n<=10?' أذكار':' ذكرًا'):'')+'</small></span><i aria-hidden="true">'+CHL+'</i></a>'}
- if(s.after)x.push('<a class="chip" href="#/dhikr/dhikr-hisn-025-01">أذكار بعد صلاة '+s.after+'</a>');
- if(s.kahf)x.push('<a class="chip" href="#/quran/18">سورة الكهف</a>');
- if(!h&&!x.length)return '';
- return '<article class="occ nw">'+h+(x.length?'<p class="ocln">'+x.join('')+'</p>':'')+'</article>'}
-function nowRender(){var el=document.getElementById('nowc');if(!el)return;var c=nowCard(nowState(ocNow()));el.hidden=!c;el.innerHTML=c?'<h2>الآن</h2>'+c:''}
+/* each suggestion looks like a phone notification: app icon, title, «الآن» — nothing more */
+function nowNote(href,t){return '<a class="nw" href="#'+href+'"><img src="icons/icon-192-m4.png" alt="" width="32" height="32"><b>'+t+'</b><time>الآن</time></a>'}
+function nowCard(s){var x=[];
+ if(s.main)x.push(nowNote(NOWK[s.main.k][1],NOWK[s.main.k][0]));
+ if(s.kahf)x.push(nowNote('/quran/18','سورة الكهف'));
+ return x.join('')}
+function nowRender(){var el=document.getElementById('nowc');if(!el)return;var c=nowCard(nowState(ocNow()));el.hidden=!c;el.innerHTML=c}
 document.addEventListener('visibilitychange',function(){if(!document.hidden&&document.body.classList.contains('home'))try{nowRender()}catch(e){}});
 setInterval(function(){if(!document.hidden&&document.body.classList.contains('home'))try{nowRender()}catch(e){}},60000);
 /* ===== v26 «صفحات المصحف»: Madinah mushaf pages — KFGQPC QCF4 fonts (Madinah 1441 edition), layout from quran-qcf4 (built by tools/mushaf_qcf4.py) ===== */

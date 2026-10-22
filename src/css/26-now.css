@@ -1,13 +1,6 @@
-/* v36 «الآن»: a small single-row card */
-#nowc{margin:0 0 22px}
-#nowc>h2{margin-bottom:8px}
-.occ.nw{padding:8px 10px 8px 14px;box-shadow:none;border-radius:var(--r-md)}
-.nw .nw-m{display:flex;align-items:center;justify-content:space-between;gap:10px;min-height:46px;text-decoration:none;color:var(--text)}
-.nw .nw-m span{display:flex;flex-direction:column;gap:1px;min-width:0}
-.nw .nw-m b{font:700 1rem/1.4 var(--ui)}
-.nw .nw-m small{color:var(--muted);font-size:.76rem;line-height:1.4}
-.nw .nw-m i{display:grid;place-items:center;width:32px;height:32px;flex:none;border-radius:50%;background:var(--green);color:var(--on-green);font-style:normal}
-.nw .nw-m i svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2}
-.nw .ocln{gap:6px;margin:4px 0 4px}
-.nw .ocln .chip{min-height:34px;padding:0 12px;font-size:.82rem}
-.nw .ocln:first-child{margin:2px 0}
+/* v36 «الآن»: suggestions styled like phone notifications, one line each */
+#nowc{display:flex;flex-direction:column;gap:6px;margin:0 0 24px}
+.nw{display:flex;align-items:center;gap:10px;min-height:50px;padding:8px 12px;box-sizing:border-box;background:var(--surface);border:1px solid var(--line);border-radius:16px;text-decoration:none;color:var(--text)}
+.nw img{width:32px;height:32px;flex:none;border-radius:8px}
+.nw b{flex:1;min-width:0;font:600 .95rem/1.4 var(--ui)}
+.nw time{flex:none;color:var(--muted);font-size:.74rem}
