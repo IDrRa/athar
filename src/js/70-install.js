@@ -17,7 +17,7 @@ var INSV=null;function insHomeRender(){var el=document.getElementById('insh');if
 document.addEventListener('click',function(e){var b=e.target.closest('[data-ins]');if(!b)return;
  if(b.dataset.ins==='x'){try{localStorage.setItem('athar-ih','1')}catch(x){}INSV=false;insHomeRender();return}
  if(b.dataset.ins==='go'&&INSP){INSP.prompt();INSP.userChoice.then(function(){INSP=null;insHomeRender()}).catch(function(){})}});
-function mrRow(href,ic,t,sub){return '<li><a class="row" href="'+href+'">'+MRI[ic]+'<div><b>'+t+'</b><span>'+sub+'</span></div><svg class="go" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></a></li>'}
+function mrRow(href,ic,t,sub){return '<li><a class="row" href="'+href+'"'+(/^https?:/.test(href)?' target="_blank" rel="noopener"':'')+'>'+MRI[ic]+'<div><b>'+t+'</b><span>'+sub+'</span></div><svg class="go" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></a></li>'}
 function mrFs(){var v=document.documentElement.getAttribute('data-fs');return v||'m'}
 function mrSetFs(v){if(v==='m'){document.documentElement.removeAttribute('data-fs');try{localStorage.removeItem('athar-fs')}catch(e){}}else{document.documentElement.setAttribute('data-fs',v);try{localStorage.setItem('athar-fs',v)}catch(e){}}
  document.querySelectorAll('.mrseg [data-fs]').forEach(function(b){b.setAttribute('aria-checked',String(b.dataset.fs===v))})}
