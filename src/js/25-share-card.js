@@ -76,7 +76,7 @@ function ocList(){var d=ocNow(),wd=d.getDay(),h=ocHijri(d),L=[];
   if(dd<=2)L.push({k:'hilal',t:'أول الشهر الهجري',dua:'dua-hisn-068-01',hj:1})}
  /* weekday cards end at Maghrib: from Maghrib on Thursday until Fajr it is ليلة الجمعة */
  var eve=false,pre=false;try{var PT=nowTimes(d).t;eve=d.getTime()>=PT.maghrib;pre=d.getTime()<PT.fajr}catch(e){}
- if((wd===4&&eve)||(wd===5&&pre))L.push({k:'jumua-layla',t:'ليلة الجمعة',ids:['jumua-layla']});
+ if((wd===4&&eve)||(wd===5&&pre))L.push({k:'jumua-layla',t:'ليلة الجمعة',ids:['jumua-layla','jumua-salat']});
  if(wd===5&&!eve&&!pre)L.push({k:'jumua',t:'يوم الجمعة',ids:['jumua-salat','jumua-sa3a']});
  if((wd===1||wd===4)&&!eve)L.push({k:'ithnayn',t:wd===1?'يوم الاثنين':'يوم الخميس',ids:['ithnayn-khamis']});
  return L.slice(0,2)}
