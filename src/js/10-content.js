@@ -95,11 +95,13 @@ return '<div class="rd"><h1 class="sr">'+RS.title+'</h1><div class="rdtop"><a cl
 function rdsplit(o){var tx=o.text.replace(/\r\n?/g,'\n'),k=tx.indexOf('\n');return o.type==='benefit'&&k>0?[tx.slice(0,k),tx.slice(k+1)]:['',tx]}
 function rdnar(o){var a=rdsplit(o)[0];return a?'<p class="rdnar">'+a+'</p>':''}
 function rdtx(o){if(o.verses)return o.verses.map(function(v){return qam(v.text,v.a,1)}).join(' ');return rdsplit(o)[1]}
+/* light haptics: vibrate where supported (Android); on iPhone (iOS 18+) toggling a hidden switch gives the system tap */
+var HSW=null;function hap(k){try{if(navigator.vibrate){navigator.vibrate(k==='done'?[16,70,26]:9);return}if(!HSW){HSW=document.createElement('label');HSW.setAttribute('aria-hidden','true');HSW.style.cssText='position:fixed;left:-9999px;top:0;opacity:0;pointer-events:none';var i=document.createElement('input');i.type='checkbox';i.setAttribute('switch','');i.tabIndex=-1;HSW.appendChild(i);HSW.addEventListener('click',function(e){e.stopPropagation()});document.body.appendChild(HSW)}HSW.click();if(k==='done')setTimeout(function(){HSW.click()},110)}catch(e){}}
 function rdDraw(sc){V.innerHTML=rdHtml();if(sc)window.scrollTo(0,0)}
-function rdGo(k){if(!RS)return;if(k>=RS.L.length){location.hash='#'+RS.back;return}if(k<0)return;RS.i=k;try{history.replaceState(null,'','#'+RS.base+'/'+(k+1))}catch(e){}rdDraw(true);live(ar(RS.i+1)+' من '+ar(RS.L.length))}
+function rdGo(k){if(!RS)return;if(k>=RS.L.length){location.hash='#'+RS.back;return}if(k<0)return;var fw=k>RS.i;RS.i=k;try{history.replaceState(null,'','#'+RS.base+'/'+(k+1))}catch(e){}rdDraw(true);var c=V.querySelector('.rdc');if(c)c.classList.add(fw?'in-n':'in-p');live(ar(RS.i+1)+' من '+ar(RS.L.length))}
 document.addEventListener('click',function(e){var b=e.target.closest('[data-rd]');if(!b||!RS)return;var a=b.dataset.rd,o=RS.L[RS.i];
 if(a==='next')rdGo(RS.i+1);else if(a==='prev')rdGo(RS.i-1);
-else if(a==='tick'){var n=cnum(o);RC[o.id]=Math.min(n,(RC[o.id]||0)+1);if(navigator.vibrate)try{navigator.vibrate(12)}catch(x){}rdDraw(false);var t=V.querySelector('[data-rd=tick]');if(t)t.focus({preventScroll:true})}
+else if(a==='tick'){var n=cnum(o),was=RC[o.id]||0;if(was>=n)return;RC[o.id]=was+1;var fin=RC[o.id]>=n;hap(fin?'done':'tap');rdDraw(false);var t=V.querySelector('[data-rd=tick]');if(t){t.focus({preventScroll:true});t.classList.add(fin?'fin':'tk')}}
 else if(a==='reset'){RC[o.id]=0;rdDraw(false)}});
 var SX=0,SY=0;
 document.addEventListener('touchstart',function(e){var t=e.target.closest('[data-swipe]');if(!t||e.touches.length!==1){SX=null;return}SX=e.touches[0].clientX;SY=e.touches[0].clientY},{passive:true});

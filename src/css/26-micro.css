@@ -1,0 +1,12 @@
+/* v35 gentle feedback: counter, moving between adhkar, selecting a verse */
+.rdb.tk b{animation:rdtk .18s ease-out}
+@keyframes rdtk{from{transform:scale(.88)}to{transform:none}}
+.rdb.fin{animation:rdfin .7s ease-out}
+@keyframes rdfin{0%{box-shadow:0 0 0 0 rgba(205,174,110,.55)}100%{box-shadow:0 0 0 14px rgba(205,174,110,0)}}
+.rdc.in-n{animation:rdin-n .26s cubic-bezier(.2,.8,.2,1)}
+.rdc.in-p{animation:rdin-p .26s cubic-bezier(.2,.8,.2,1)}
+@keyframes rdin-n{from{opacity:0;transform:translateX(-28px)}to{opacity:1;transform:none}}
+@keyframes rdin-p{from{opacity:0;transform:translateX(28px)}to{opacity:1;transform:none}}
+.mw.on,.qv.on{animation:qglow .9s ease-out}
+@keyframes qglow{0%{text-shadow:0 0 .55em rgba(205,174,110,.95),0 0 .2em rgba(205,174,110,.8)}100%{text-shadow:none}}
+@media (prefers-reduced-motion:reduce){.rdb.tk b,.rdb.fin,.rdc.in-n,.rdc.in-p,.mw.on,.qv.on{animation:none}}
