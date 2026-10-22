@@ -110,3 +110,4 @@
 .in-s li span{color:var(--muted);font-size:.88rem;line-height:1.8}
 .in-n{flex:none;display:grid;place-items:center;width:30px;height:30px;border:1px solid var(--gold);border-radius:50%;color:var(--gold);font:600 .85rem/1 var(--ui)}
 .in-need .nt-go{margin-top:6px}
+.ms-k{background:none;color:var(--gold);font-weight:600;text-decoration:underline;text-decoration-color:var(--gold);text-decoration-thickness:1px;text-underline-offset:6px}
