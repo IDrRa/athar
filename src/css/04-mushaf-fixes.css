@@ -11,4 +11,5 @@
 .qspine.qnx{left:-19px}.qspine.qpv{right:-19px}
 body.qon{overscroll-behavior-x:none}
 .qclip{position:relative;overflow:hidden;margin-inline:-20px;padding-inline:20px}
-
+body.qon{overscroll-behavior:none}
+html:has(body.qon){overscroll-behavior:none}

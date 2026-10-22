@@ -18,8 +18,8 @@
 .qb{margin:0 0 6px;text-align:center}
 .qpg.fit .qb{font-size:calc(var(--qfs,22px)*1.05);line-height:1.8;margin:0 0 4px}
 .qpg.fit .qt{font-size:var(--qfs,22px);line-height:2.1;text-align:justify;text-align-last:start}
-.vn{position:relative;display:inline-grid;place-items:center;width:2.4em;height:2.4em;min-width:0;margin:0 .12em;padding:0;border:0;border-radius:0;background:none;color:var(--text);font:600 .56em/1 var(--ui);vertical-align:middle;cursor:pointer}
-.vn::before{content:"";position:absolute;inset:0;background:var(--gold);-webkit-mask:var(--m-ayah) center/contain no-repeat;mask:var(--m-ayah) center/contain no-repeat}
+.vn{position:relative;display:inline-block;width:auto;height:auto;min-width:0;margin:0 .04em;padding:0 .04em;border:0;border-radius:.2em;background:none;color:var(--gold);font:400 1em/1 'KFGQPC Hafs',var(--qf),serif;vertical-align:baseline;cursor:pointer}
+.qam{font-family:'KFGQPC Hafs',var(--qf),serif;font-weight:400;color:var(--gold);font-feature-settings:normal}
 .qft{margin:14px 0 4px;text-align:center}
 .qcap{display:inline-flex;align-items:center;gap:12px;padding:3px 16px;border:1.5px solid var(--gold);border-radius:999px;box-shadow:inset 0 0 0 2px var(--bg),inset 0 0 0 3.2px var(--gold);font:600 .9rem var(--ui);color:var(--text)}
 .qcap b{font-weight:700}

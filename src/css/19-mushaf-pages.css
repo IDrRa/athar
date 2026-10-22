@@ -8,7 +8,8 @@
 .mw.on{background:var(--tint);box-shadow:0 0 0 .1em var(--tint);color:var(--green)}
 .mvn.on{color:var(--gold)}
 .mvn:focus-visible{outline:2px solid var(--green);outline-offset:2px}
-.ml.mb{justify-content:center;font-family:'QPBS';font-size:var(--mfs,22px);color:var(--text);direction:ltr;unicode-bidi:isolate}
+.ml.mb{justify-content:center;font-size:var(--mfs,22px);color:var(--text)}
+.mq{cursor:default}
 .ml.mh{justify-content:center}
 .ml.mh .qbn{width:100%;height:calc(var(--mrh,2.1em)*.82);margin:0;padding:0 .5em;box-sizing:border-box}
 .ml.mh .qbn h2{font-size:calc(var(--mfs,22px)*.9);line-height:1;margin:0}

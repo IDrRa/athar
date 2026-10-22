@@ -1,19 +1,23 @@
-/* ===== v26 «صفحات المصحف»: Madinah mushaf pages — KFGQPC QPC V1 page fonts, Quran.com line layout ===== */
-var QMM=true,MOFF=false,MBAD={},MD={},MP={},MBS=null,MFC={};try{if(localStorage.getItem('athar-qm')==='t')QMM=false}catch(e){}
+/* ===== v26 «صفحات المصحف»: Madinah mushaf pages — KFGQPC QCF4 fonts (Madinah 1441 edition), layout from quran-qcf4 (built by tools/mushaf_qcf4.py) ===== */
+var QMM=true,MOFF=false,MBAD={},MD={},MP={},MFL={},MFC={};
+/* first page of each of the 47 page fonts */
+var MFS=[1,16,29,42,55,68,82,95,108,121,134,147,160,174,187,202,215,228,241,253,266,279,292,304,316,329,343,355,368,380,393,407,420,433,446,458,471,484,497,509,522,535,548,561,573,585,591];
+function mfi(p){var i=0;while(i<46&&MFS[i+1]<=p)i++;return i+1}
+function mff(i){if(!MFL[i])MFL[i]=mfont('QF'+i,'mushaf/q4/QCF4_Hafs_'+('0'+i).slice(-2)+'_W.woff2').catch(function(e){delete MFL[i];throw e});return MFL[i]}try{if(localStorage.getItem('athar-qm')==='t')QMM=false}catch(e){}
 function mpad(p){return ('00'+p).slice(-3)}
 function mfont(fam,url){if(!window.FontFace||!document.fonts)return Promise.reject('nf');var f=new FontFace(fam,'url('+url+')',{display:'block'});return f.load().then(function(x){document.fonts.add(x)})}
 function mload(p){if(MD[p])return Promise.resolve(MD[p]);if(MP[p])return MP[p];
- if(!MBS)MBS=mfont('QPBS','mushaf/f/bsml.ttf').catch(function(e){MBS=null;throw e});
- MP[p]=Promise.all([fetch('mushaf/l/'+mpad(p)+'.json').then(function(r){if(!r.ok)throw 'nf';return r.json()}),mfont('QP'+p,'mushaf/f/'+mpad(p)+'.woff2'),MBS])
- .then(function(a){if(!a[0]||a[0].p!==p||!a[0].r)throw 'bad';MD[p]=a[0];delete MP[p];return a[0]},function(e){delete MP[p];throw e});return MP[p]}
+ MP[p]=Promise.all([fetch('mushaf/l/'+mpad(p)+'.json').then(function(r){if(!r.ok)throw 'nf';return r.json()}),mff(mfi(p))])
+ .then(function(a){var d=a[0];if(!d||d.p!==p||!d.r)throw 'bad';var x=[];d.r.forEach(function(r){if(r[0]==='b'&&r[2]!==d.f)x.push(mff(r[2]))});return Promise.all(x).then(function(){MD[p]=d;delete MP[p];return d})})
+ .catch(function(e){delete MP[p];throw e});return MP[p]}
 function mwait(p){mload(p).then(function(){if(QPS&&QPS.p===p&&document.querySelector('.qpg.mus .mwait')){V.innerHTML=qpage(p);qfit();var m=location.hash.match(/^#\/quran\/(\d+)\/(\d+)$/);if(m)qsel(+m[1],+m[2],true)}},
  function(e){if(e==='nf')MOFF=true;else MBAD[p]=1;if(QPS&&QPS.p===p&&document.querySelector('.qpg.mus .mwait')){V.innerHTML=qpage(p);qfit();if(MBAD[p])toast('تعذّر تحميل صفحة المصحف، فعُرض النص')}});
  return '<div class="mwait" role="status"><i aria-hidden="true"></i>جارٍ تحميل الصفحة…</div>'}
 function mbody(p,sg){var d=MD[p],sr=sg.map(function(g){var V=QV(g[0]),t=[];for(var v=g[1];v<=g[2];v++)t.push(V[v-1]+' ('+ar(v)+')');return t.join(' ')}).join(' ');
- var h='<p class="sr" lang="ar">'+esc(sr)+'</p><div class="mbody'+(p<3?' m12':'')+'" style="font-family:\'QP'+p+'\'" lang="ar" dir="rtl" translate="no">';
+ var h='<p class="sr" lang="ar">'+esc(sr)+'</p><div class="mbody'+(p<3?' m12':'')+'" style="font-family:\'QF'+d.f+'\'" lang="ar" dir="rtl" translate="no">';
  d.r.forEach(function(r){if(r[0]==='h'){var n=r[1];h+='<div class="ml mh"><div class="msh"><h2 class="msn">سورة '+QN[n-1]+'<span class="sr"> — '+QC[n-1]+' آية</span></h2></div></div>';return}
-  if(r[0]==='b'){h+='<div class="ml mb" aria-hidden="true">'+esc(r[1]||'')+'</div>';return}
-  h+='<div class="ml">'+r.map(function(t){var q=t[1]+'_'+t[2];return t[3]?'<button class="mw mvn" id="v'+q+'" data-q="'+q+'" aria-pressed="false" aria-label="خيارات الآية '+ar(t[2])+'">'+esc(t[0])+'</button>':'<span class="mw" data-q="'+q+'" aria-hidden="true">'+esc(t[0])+'</span>'}).join('')+'</div>'});
+  if(r[0]==='b'){h+='<div class="ml mb" aria-hidden="true" style="font-family:\'QF'+(r[2]||d.f)+'\'">'+esc(r[1]||'')+'</div>';return}
+  h+='<div class="ml">'+r.map(function(t){var q=t[1]+'_'+t[2];if(t[3]===2)return '<span class="mw mq" aria-hidden="true">'+esc(t[0])+'</span>';return t[3]?'<button class="mw mvn" id="v'+q+'" data-q="'+q+'" aria-pressed="false" aria-label="خيارات الآية '+ar(t[2])+'">'+esc(t[0])+'</button>':'<span class="mw" data-q="'+q+'" aria-hidden="true">'+esc(t[0])+'</span>'}).join('')+'</div>'});
  return h+'</div>'}
 function mfit1(g){var b=g.querySelector('.mbody');if(!b)return;var W=b.clientWidth;if(!W)return;var p=+g.dataset.p,ls=[].slice.call(b.querySelectorAll('.ml:not(.mh):not(.mb)')),key=p+'|'+W+'|'+qvh(),c=MFC[key];
  if(!c){b.style.setProperty('--mfs','20px');b.style.setProperty('--mrh','40px');ls.forEach(function(l){l.classList.remove('c')});

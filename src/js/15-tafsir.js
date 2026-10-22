@@ -4,7 +4,7 @@ function tfEl(i){return document.getElementById(i)}
 function tfLoad(n){if(TF[n])return Promise.resolve(TF[n]);return fetch('tafsir/muyassar/'+n+'.json').then(function(r){if(!r.ok)throw new Error(r.status);return r.json()}).then(function(j){if(!j||j.s!==n||!j.t)throw new Error('bad');TF[n]=j.t;return j.t})}
 function tfGrp(t,v){var x=t[v-1],a=typeof x==='number'?x:v,b=a;while(b<t.length&&t[b]===a)b++;return{a:a,b:b,text:t[a-1]}}
 function tfRef(n,a,b){return 'سورة '+QN[n-1]+'، '+(a===b?'الآية '+ar(a):(b-a===1?'الآيتان ':'الآيات ')+ar(a)+'–'+ar(b))}
-function tfRender(){var n=TFS.n,a=TFS.a,b=TFS.b,V=QV(n),q='';for(var v=a;v<=b;v++)q+=esc(V[v-1])+' <span class="vn wqm" aria-hidden="true">'+ar(v)+'</span> ';
+function tfRender(){var n=TFS.n,a=TFS.a,b=TFS.b,V=QV(n),q='';for(var v=a;v<=b;v++)q+=qam(V[v-1],v)+' ';
  tfEl('tfR').textContent=tfRef(n,a,b);tfEl('tfB').innerHTML='<p class="tfq" lang="ar">'+q+'</p><p class="tft">'+esc(TFS.text)+'</p>';tfEl('tfB').scrollTop=0;
  document.querySelector('[data-tf=prev]').disabled=n===1&&a===1;document.querySelector('[data-tf=next]').disabled=n===114&&b===QC[113];document.querySelector('[data-tf=copy]').disabled=false;live(tfRef(n,a,b))}
 function tfShow(n,v){var bk=tfEl('tafs');if(bk.hidden){tfOpener=document.activeElement;bk.hidden=false}TFS={n:n,a:v,b:v,text:''};

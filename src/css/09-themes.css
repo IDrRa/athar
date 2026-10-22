@@ -55,7 +55,7 @@
 .apdone{display:block;width:100%;margin-top:18px}
 .aprow{width:100%;text-align:start;cursor:pointer;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px 16px;display:flex;align-items:center;gap:12px;color:var(--text);font:600 1rem var(--ui);margin:4px 0 18px}
 .aprow span{display:block;font:400 .85rem var(--ui);color:var(--muted)}
-.dvn{font-size:.8rem;min-width:1.9rem;height:1.9rem}
+
 
 .dgt .tile{min-height:96px;justify-content:center}
 .dgt .tile b{font-size:1.05rem;line-height:1.5}

@@ -27,7 +27,7 @@ function wqFor(dn){var n=WQ.length;return WQ[((dn%n)+n)%n]}
 function wqById(id){for(var i=0;i<WQ.length;i++)if(WQ[i].id===id)return WQ[i];return null}
 function wqFmt(dn,h){var d=new Date(dn*864e5+432e5);try{return new Intl.DateTimeFormat(h?'ar-SA-u-ca-islamic-umalqura-nu-arab':'ar-u-nu-arab',h?{day:'numeric',month:'long',year:'numeric',timeZone:'UTC'}:{weekday:'long',day:'numeric',month:'long',timeZone:'UTC'}).format(d)}catch(e){return ''}}
 function wqBack(href){return '<a class="back" href="#'+href+'"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg>رجوع</a>'}
-function wqTextHtml(w){if(w.textType==='quran')return w.verses.map(function(v){return esc(v.text)+' <span class="vn wqm" aria-hidden="true">'+ar(v.a)+'</span>'}).join(' ');var t=w.text.replace(/\r\n?/g,'\n');if(w.textType==='hadith'){var k=t.indexOf('\n');if(k>0)return '<span class="wqnar">'+esc(t.slice(0,k))+'</span>'+esc(t.slice(k+1))}return esc(t)}
+function wqTextHtml(w){if(w.textType==='quran')return w.verses.map(function(v){return qam(v.text,v.a)}).join(' ');var t=w.text.replace(/\r\n?/g,'\n');if(w.textType==='hadith'){var k=t.indexOf('\n');if(k>0)return '<span class="wqnar">'+esc(t.slice(0,k))+'</span>'+esc(t.slice(k+1))}return esc(t)}
 function wqSec(cls,label,badge,body,foot){return '<section class="wqs '+cls+'" aria-label="'+label+'"><h3 class="wqh3"><span>'+label+'</span>'+(badge?'<em>'+badge+'</em>':'')+'</h3>'+body+(foot||'')+'</section>'}
 function wqSrc(a,b){var r=/^https?:\/\//.test(b)?'<a href="'+esc(b)+'" target="_blank" rel="noopener noreferrer" dir="ltr">'+esc(b.replace(/^https?:\/\//,''))+'</a>':esc(b);return '<p class="wqsrc"><b>المصدر:</b> '+esc(a)+' <span aria-hidden="true">·</span> <b>المرجع:</b> '+r+'</p>'}
 function wqStep(n,t){return '<h3 class="wqst">'+t+'</h3>'}
@@ -93,7 +93,7 @@ return '<div class="rd"><h1 class="sr">'+RS.title+'</h1><div class="rdtop"><a cl
 +'<div class="rdnav"><button class="btn" data-rd="prev"'+(i?'':' disabled')+'>'+CHV+'السابق</button><button class="btn primary'+(done||!n?'':' soft')+'" data-rd="next">'+(last?'إنهاء':'التالي')+(last?'':CHL)+'</button></div></div>'}
 function rdsplit(o){var tx=o.text.replace(/\r\n?/g,'\n'),k=tx.indexOf('\n');return o.type==='benefit'&&k>0?[tx.slice(0,k),tx.slice(k+1)]:['',tx]}
 function rdnar(o){var a=rdsplit(o)[0];return a?'<p class="rdnar">'+a+'</p>':''}
-function rdtx(o){if(o.verses)return o.verses.map(function(v){return esc(v.text)+' <span class="vn wqm dvn" aria-label="الآية '+ar(v.a)+'">'+ar(v.a)+'</span>'}).join(' ');return rdsplit(o)[1]}
+function rdtx(o){if(o.verses)return o.verses.map(function(v){return qam(v.text,v.a,1)}).join(' ');return rdsplit(o)[1]}
 function rdDraw(sc){V.innerHTML=rdHtml();if(sc)window.scrollTo(0,0)}
 function rdGo(k){if(!RS)return;if(k>=RS.L.length){location.hash='#'+RS.back;return}if(k<0)return;RS.i=k;try{history.replaceState(null,'','#'+RS.base+'/'+(k+1))}catch(e){}rdDraw(true);live(ar(RS.i+1)+' من '+ar(RS.L.length))}
 document.addEventListener('click',function(e){var b=e.target.closest('[data-rd]');if(!b||!RS)return;var a=b.dataset.rd,o=RS.L[RS.i];

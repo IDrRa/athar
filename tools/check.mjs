@@ -43,6 +43,29 @@ const changed = Object.keys(lock).filter(k => lock[k] !== prints[k]).concat(Obje
 if (changed.length) bad('تغيّر محتوى ديني محفوظ: ' + changed.slice(0, 10).join('، ') + (changed.length > 10 ? '…' : '') + ' — إن كان التغيير مقصودًا ومراجَعًا فشغّل: node tools/check.mjs --lock');
 else ok(`المحتوى الديني مطابق للبصمات المعتمدة (${Object.keys(lock).length} ملفًا وقسمًا)`);
 
+// ---------- 1ب. صفحات المصحف: كل آية مرة واحدة وبالترتيب، ولكل آية علامة نهاية، وبداية كل صفحة توافق خريطة الصفحات ----------
+try {
+  const QPG = JSON.parse(html.match(/var QPG=(\[\[[^;]*?\]\])[;,]/)[1]);
+  const QC = []; for (let n = 1; n <= 114; n++) QC.push(JSON.parse(html.match(new RegExp(`id="qs${n}">([\\s\\S]*?)</script>`))[1]).length);
+  let prev = null, endsN = 0, errs = [];
+  for (let p = 1; p <= 604; p++) {
+    const d = JSON.parse(fs.readFileSync(path.join(ROOT, 'mushaf', 'l', String(p).padStart(3, '0') + '.json'), 'utf8'));
+    const fonts = new Set([d.f]); let first = null;
+    for (const r of d.r) {
+      if (r[0] === 'h') continue;
+      if (r[0] === 'b') { fonts.add(r[2]); continue; }
+      for (const [, s, a, k] of r) {
+        if (!first && k !== 2) first = [s, a];
+        if (k === 1) { const ok = prev ? (s === prev[0] && a === prev[1] + 1) || (s === prev[0] + 1 && a === 1 && prev[1] === QC[prev[0] - 1]) : s === 1 && a === 1; if (!ok) errs.push(`${p}:${s}:${a}`); prev = [s, a]; endsN++; }
+      }
+    }
+    if (!first || first[0] !== QPG[p - 1][0] || first[1] !== QPG[p - 1][1]) errs.push('page ' + p);
+    for (const f of fonts) if (!fs.existsSync(path.join(ROOT, 'mushaf', 'q4', `QCF4_Hafs_${String(f).padStart(2, '0')}_W.woff2`))) errs.push('font ' + f);
+  }
+  if (!errs.length && endsN === 6236) ok('صفحات المصحف: ٦٠٤ صفحات، و٦٢٣٦ آية بالترتيب، وخطوطها موجودة');
+  else bad('صفحات المصحف: ' + errs.slice(0, 8).join('، ') + ` (علامات النهاية ${endsN})`);
+} catch (e) { bad('تعذّر فحص صفحات المصحف: ' + e.message); }
+
 // ---------- 2. الشيفرة: كل سكربت في الصفحة وعامل الخدمة والدوال صالحة نحويًا ----------
 let si = 0;
 for (const m of html.matchAll(/<script>([\s\S]*?)<\/script>/g)) { si++; try { new vm.Script(m[1]); } catch (e) { bad(`خطأ نحوي في سكربت الصفحة رقم ${si}: ${e.message}`); } }
