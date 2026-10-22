@@ -20,7 +20,7 @@ jobs:
       - uses: actions/checkout@v5
       - name: تثبيت أدوات الفحص
         timeout-minutes: 4
-        run: npm i --no-save --no-package-lock adhan@4 playwright@1.56.0
+        run: npm i --no-save --no-package-lock adhan@4 playwright@1.56.0 axe-core@4.10.2
       - name: index.html مبني من ملفات src
         run: python3 tools/build.py --check
       - name: المحتوى الديني والمواقيت والتنبيهات

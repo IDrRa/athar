@@ -37,6 +37,9 @@ const OUT = () => {
   return bad.slice(0, 3);
 };
 
+// accessibility (screen readers): axe-core checks every page in Chromium when it is installed (the automatic check installs it)
+let AXE = null;
+try { AXE = fs.readFileSync(path.join(ROOT, 'node_modules', 'axe-core', 'axe.min.js'), 'utf8'); } catch (e) {}
 const want = (process.env.SMOKE_BROWSERS || '').split(',').filter(Boolean);
 const names = want.length ? want : ['chromium', 'webkit'];
 let failed = 0, ran = [];
@@ -62,9 +65,14 @@ for (const name of names) {
       const notFound = text.includes('الصفحة غير موجودة');
       const wide = await page.evaluate(() => document.documentElement.scrollWidth > window.innerWidth + 1);
       const out = await page.evaluate(OUT);
-      if (errs.length || notFound || wide || out.length) {
+      let a11y = [];
+      if (AXE && name === 'chromium') {
+        await page.evaluate(AXE);
+        a11y = await page.evaluate(async () => (await axe.run({ exclude: [['#toast'], ['#nwb']] }, { resultTypes: ['violations'] })).violations.filter((v) => v.impact === 'serious' || v.impact === 'critical').map((v) => v.id + ' ← ' + v.nodes[0].target.join(' ')));
+      }
+      if (errs.length || notFound || wide || out.length || a11y.length) {
         failed++;
-        console.error(`✗ [${name} ${scheme}] #/${r}: ${errs.join(' | ') || (notFound ? 'غير موجودة' : wide ? 'عرض الصفحة أكبر من الشاشة' : 'عنصر يخرج عن حدوده: ' + out.join('، '))}`);
+        console.error(`✗ [${name} ${scheme}] #/${r}: ${errs.join(' | ') || (notFound ? 'غير موجودة' : wide ? 'عرض الصفحة أكبر من الشاشة' : out.length ? 'عنصر يخرج عن حدوده: ' + out.join('، ') : 'سهولة الوصول: ' + a11y.join('، '))}`);
       }
     }
     await ctx.close();
@@ -74,4 +82,4 @@ for (const name of names) {
 server.close();
 if (!ran.length) { console.error('✗ لم يعمل أي متصفح'); process.exit(1); }
 if (failed) { console.error(`\nفشلت ${failed} صفحة.`); process.exit(1); }
-console.log(`✓ فُتحت ${ROUTES.length} صفحة في ${ran.join(' و')}، في الوضعين الداكن والفاتح، بلا أخطاء ولا عناصر خارجة عن حدودها`);
+console.log(`✓ فُتحت ${ROUTES.length} صفحة في ${ran.join(' و')}، في الوضعين الداكن والفاتح، بلا أخطاء ولا عناصر خارجة عن حدودها${AXE ? '، واجتازت فحص سهولة الوصول' : ''}`);
