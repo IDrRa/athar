@@ -760,20 +760,20 @@ body.home::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:no
 .nwn time{flex:none;color:var(--muted);font-size:.74rem}
 #ptl{margin:-14px 0 22px}
 #ptl a{color:var(--muted);font-size:.86rem;text-decoration:none}
-/* trial (owner only, #/try-home): lighter home cards */
-body.tryh .occ{box-shadow:none;padding:14px 18px 14px;border-radius:var(--r-lg)}
-body.tryh .occ .och{font:600 .85rem var(--ui);color:var(--gold);margin:0 0 4px}
-body.tryh .occ .ocl{display:none}
-body.tryh .oct{font-size:1.18rem;line-height:1.95}
-body.tryh .occ .ocr{margin-top:4px}
-body.tryh .occ .ocln{margin-top:10px}
-body.tryh .occ .ocln .chip{min-height:36px;padding:0 14px;font-size:.84rem}
-body.tryh .list.tiles{grid-template-columns:repeat(4,1fr);gap:8px}
-body.tryh .tile{min-height:0;padding:14px 4px 12px;align-items:center;justify-content:center;gap:8px;border-radius:var(--r-md)}
-body.tryh .tile .ic{width:24px;height:24px}
-body.tryh .tile div{text-align:center}
-body.tryh .tile b{font-size:.86rem;font-weight:600;white-space:nowrap}
-body.tryh .tile span{display:none}
+/* v37 lighter home cards: «ما يناسب اليوم» without the double frame, explore tiles as one small row */
+.occ{box-shadow:none;padding:14px 18px 14px;border-radius:var(--r-lg)}
+.occ .och{font:600 .85rem var(--ui);color:var(--gold);margin:0 0 4px}
+.occ .ocl{display:none}
+.oct{font-size:1.18rem;line-height:1.95}
+.occ .ocr{margin-top:4px}
+.occ .ocln{margin-top:10px}
+.occ .ocln .chip{min-height:36px;padding:0 14px;font-size:.84rem}
+[aria-labelledby="t-explore"] .list.tiles{grid-template-columns:repeat(4,1fr);gap:8px}
+[aria-labelledby="t-explore"] .tile{min-height:0;padding:14px 4px 12px;align-items:center;justify-content:center;gap:8px;border-radius:var(--r-md)}
+[aria-labelledby="t-explore"] .tile .ic{width:24px;height:24px}
+[aria-labelledby="t-explore"] .tile div{text-align:center}
+[aria-labelledby="t-explore"] .tile b{font-size:.86rem;font-weight:600;white-space:nowrap}
+[aria-labelledby="t-explore"] .tile span{display:none}
 </style>
 </head>
 <body>
@@ -806,7 +806,7 @@ body.tryh .tile span{display:none}
     <div id="kmh"></div>
   </section>
 
-  <section aria-labelledby="t-explore"><h2 id="t-explore" class="sr">استكشف</h2><ul class="list tiles"><li><button class="row tile"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2zM4 19V5"/></svg><div><b>القرآن</b><span>السور والآيات</span></div></button></li><li><button class="row tile"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="15" r="4"/><path d="M12 5v3M4.9 9.9l2 2M19.1 9.9l-2 2M2 19h20"/></svg><div><b>الأذكار</b><span>الصباح والمساء والنوم</span></div></button></li><li><button class="row tile"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21c-5 0-8-3-8-7 2 0 4 1 5 3 .5-4 1.5-8 3-12 1.5 4 2.5 8 3 12 1-2 3-3 5-3 0 4-3 7-8 7z"/></svg><div><b>الأدعية</b><span>من القرآن والسنة</span></div></button></li><li><button class="row tile"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 21V11.5Q6 6 12 2.5Q18 6 18 11.5V21"/><path d="M3.5 21h17"/></svg><div><b>وقفة أثر</b><span>اقرأ وافهم واعمل</span></div></button></li></ul></section>
+  <section aria-labelledby="t-explore"><h2 id="t-explore" class="sr">استكشف</h2><ul class="list tiles"><li><button class="row tile"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2zM4 19V5"/></svg><div><b>القرآن</b><span>السور والآيات</span></div></button></li><li><button class="row tile"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 18h18M7 18a5 5 0 0 1 10 0M12 6v3M5.6 9.6l2.1 2.1M18.4 9.6l-2.1 2.1"/></svg><div><b>الأذكار</b><span>الصباح والمساء والنوم</span></div></button></li><li><button class="row tile"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M11 20.5 L11 12.5 C11 9.3 10 6.3 8.4 4.3 C7.8 3.5 6.5 3.9 6.5 4.9 L6.5 12 C6.5 12 5.3 10.6 4.6 10 C3.9 9.4 2.8 10 3.1 10.9 C4 13.9 5.5 16.9 7.6 18.8 C8.6 19.8 9.8 20.4 11 20.5 Z"/><path d="M 13 20.5 L 13 12.5 C 13 9.3 14 6.3 15.6 4.3 C 16.2 3.5 17.5 3.9 17.5 4.9 L 17.5 12 C 17.5 12 18.7 10.6 19.4 10 C 20.1 9.4 21.2 10 20.9 10.9 C 20 13.9 18.5 16.9 16.4 18.8 C 15.4 19.8 14.2 20.4 13 20.5 Z"/></svg><div><b>الأدعية</b><span>من القرآن والسنة</span></div></button></li><li><button class="row tile"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 21V11.5Q6 6 12 2.5Q18 6 18 11.5V21"/><path d="M3.5 21h17"/></svg><div><b>وقفة أثر</b><span>اقرأ وافهم واعمل</span></div></button></li></ul></section>
   <div id="view" hidden></div></main>
 </div>
 
@@ -815,8 +815,8 @@ body.tryh .tile span{display:none}
   <ul>
     <li><button aria-current="page"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 11 12 4l8 7v9H4z"/></svg>الرئيسية</button></li>
     <li><button class="soon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2zM4 19V5"/></svg>القرآن</button></li>
-    <li><button class="soon"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="15" r="4"/><path d="M12 5v3M4.9 9.9l2 2M19.1 9.9l-2 2M2 19h20"/></svg>الأذكار</button></li>
-    <li><button id="navDua"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21c-5 0-8-3-8-7 2 0 4 1 5 3 .5-4 1.5-8 3-12 1.5 4 2.5 8 3 12 1-2 3-3 5-3 0 4-3 7-8 7z"/></svg>الأدعية</button></li>
+    <li><button class="soon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 18h18M7 18a5 5 0 0 1 10 0M12 6v3M5.6 9.6l2.1 2.1M18.4 9.6l-2.1 2.1"/></svg>الأذكار</button></li>
+    <li><button id="navDua"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M11 20.5 L11 12.5 C11 9.3 10 6.3 8.4 4.3 C7.8 3.5 6.5 3.9 6.5 4.9 L6.5 12 C6.5 12 5.3 10.6 4.6 10 C3.9 9.4 2.8 10 3.1 10.9 C4 13.9 5.5 16.9 7.6 18.8 C8.6 19.8 9.8 20.4 11 20.5 Z"/><path d="M 13 20.5 L 13 12.5 C 13 9.3 14 6.3 15.6 4.3 C 16.2 3.5 17.5 3.9 17.5 4.9 L 17.5 12 C 17.5 12 18.7 10.6 19.4 10 C 20.1 9.4 21.2 10 20.9 10.9 C 20 13.9 18.5 16.9 16.4 18.8 C 15.4 19.8 14.2 20.4 13 20.5 Z"/></svg>الأدعية</button></li>
     <li><button id="navSearch"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>البحث</button></li>
     <li><button class="soon"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="5" cy="12" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="19" cy="12" r="1.5"/></svg>المزيد</button></li>
   </ul>
@@ -1218,7 +1218,6 @@ else if(a==='mission'){t='رسالة أثر';d='هدف موقع أثر ورؤي�
 else if(a==='notify'){t='التنبيهات';d='تنبيهات الأذان والأذكار';h=vNotify()}
 else if(a==='install'){t='ثبّت أثر على جوالك';d='طريقة تثبيت أثر كتطبيق';h=vInstall()}
 else if(a==='salawat'&&ALL['dhikr-hisn-023-01']){t='الصلاة على النبي ﷺ';d='صيغة الصلاة على النبي ﷺ من حصن المسلم';var sw=ALL['dhikr-hisn-023-01'];h=head(t,'','/')+'<article class="card"><p class="ctext" lang="ar">'+sw.text+'</p>'+srcB(sw)+'<div class="actions"><button class="btn primary" data-a="share" data-id="'+sw.id+'">مشاركة</button><button class="btn" data-a="copy" data-id="'+sw.id+'">نسخ</button><button class="btn" data-cdid="'+sw.id+'" data-cdt="الصلاة على النبي ﷺ">بطاقة</button></div></article>'}
-else if(a==='try-home'){t='تجربة شكل الرئيسية';d='';h=vTryH()}
 else if(a==='about'){t='المزيد';d='أدوات أثر وإعداداته ومصادر المحتوى';h=vAbout()}
 else if(a==='adhkar'&&!b){t='الأذكار';d='أذكار الصباح والمساء والنوم والاستيقاظ والصلاة';var DL=PL('dhikr');h=head(t,d)+'<ul class="list">'+CA.map(function(c){var n=DL.filter(function(o){return o.category===c[0]}).length;return cat('/adhkar/'+c[0],c[1],n?ndh(n):'')}).join('')+'</ul>'+(DL.length?'':EM)}
 else if(a==='adhkar'&&CA.some(function(c){return c[0]===b})){t=CA.filter(function(c){return c[0]===b})[0][1];h=rdInit(rdList('dhikr',b),t,'/adhkar','/adhkar/'+b,(+p[2]||1)-1)}
@@ -1465,7 +1464,7 @@ function vNotes(){var o=ntAll(),ks=Object.keys(o).filter(function(k){return wqBy
  return h+'<div class="actions"><button class="btn" data-ntcopy>نسخ الدفتر كله</button></div>'}
 document.addEventListener('click',function(e){var b=e.target.closest('[data-ntdel]');if(b){if(!b.dataset.sure){b.dataset.sure='1';b.textContent='اضغط مرة أخرى للتأكيد';return}var o=ntAll();delete o[b.dataset.ntdel];ntPut(o);route();return}
  if(e.target.closest('[data-ntcopy]')){var o2=ntAll(),L=Object.keys(o2).filter(function(k){return wqById(k)}).sort(function(a,c){return o2[c].u-o2[a].u}).map(function(k){var n=o2[k];return '• '+wqById(k).title+' — '+ntWhen(n.u)+(n.a?' (طبّقتُه)':'')+(n.t.trim()?'\n'+n.t.trim():'')});copyT('دفتر الأثر\n\n'+L.join('\n\n'),'نُسخ الدفتر')}});
-var MRI={"channel": "<svg class=\"mri\" viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 4a8 8 0 0 0-6.9 12L4 20l4.1-1.1A8 8 0 1 0 12 4z\"/></svg>", "khatma": "<svg class=\"mri\" viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2zM4 19V5\"/></svg>", "notes": "<svg class=\"mri\" viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M6 3h11a2 2 0 0 1 2 2v16H6a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2zM8 8h8M8 12h8M8 16h5\"/></svg>", "now": "<svg class=\"mri\" viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 21c-5 0-8-3-8-7 2 0 4 1 5 3 .5-4 1.5-8 3-12 1.5 4 2.5 8 3 12 1-2 3-3 5-3 0 4-3 7-8 7z\"/></svg>", "waqfa": "<svg class=\"mri\" viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M6 21V11.5Q6 6 12 2.5Q18 6 18 11.5V21\"/><path d=\"M3.5 21h17\"/></svg>", "palette": "<svg class=\"mri\" viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 3a9 9 0 1 0 0 18c1.1 0 1.7-.8 1.7-1.6 0-.5-.2-.8-.5-1.2-.3-.3-.5-.7-.5-1.2 0-.9.8-1.6 1.7-1.6H16a5 5 0 0 0 5-5C21 6.5 17 3 12 3z\"/><circle cx=\"7.5\" cy=\"11\" r=\"1\"/><circle cx=\"10\" cy=\"7\" r=\"1\"/><circle cx=\"14.5\" cy=\"7\" r=\"1\"/><circle cx=\"17.2\" cy=\"10.5\" r=\"1\"/></svg>", "font": "<svg class=\"mri\" viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M3 19 8 5l5 14M5 14h6M14 19l3.5-9 3.5 9M15.2 16h4.6\"/></svg>", "export": "<svg class=\"mri\" viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 3v12M7 10l5 5 5-5M5 21h14\"/></svg>", "import": "<svg class=\"mri\" viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 15V3M7 8l5-5 5 5M5 21h14\"/></svg>", "share": "<svg class=\"mri\" viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M4 12v7a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-7M16 6l-4-4-4 4M12 2v13\"/></svg>", "shield": "<svg class=\"mri\" viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 3 5 6v6c0 4.5 3 7.5 7 9 4-1.5 7-4.5 7-9V6z\"/></svg>"};
+var MRI={"channel": "<svg class=\"mri\" viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 4a8 8 0 0 0-6.9 12L4 20l4.1-1.1A8 8 0 1 0 12 4z\"/></svg>", "khatma": "<svg class=\"mri\" viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2zM4 19V5\"/></svg>", "notes": "<svg class=\"mri\" viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M6 3h11a2 2 0 0 1 2 2v16H6a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2zM8 8h8M8 12h8M8 16h5\"/></svg>", "now": "<svg class=\"mri\" viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M11 20.5 L11 12.5 C11 9.3 10 6.3 8.4 4.3 C7.8 3.5 6.5 3.9 6.5 4.9 L6.5 12 C6.5 12 5.3 10.6 4.6 10 C3.9 9.4 2.8 10 3.1 10.9 C4 13.9 5.5 16.9 7.6 18.8 C8.6 19.8 9.8 20.4 11 20.5 Z\"/><path d=\"M 13 20.5 L 13 12.5 C 13 9.3 14 6.3 15.6 4.3 C 16.2 3.5 17.5 3.9 17.5 4.9 L 17.5 12 C 17.5 12 18.7 10.6 19.4 10 C 20.1 9.4 21.2 10 20.9 10.9 C 20 13.9 18.5 16.9 16.4 18.8 C 15.4 19.8 14.2 20.4 13 20.5 Z\"/></svg>", "waqfa": "<svg class=\"mri\" viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M6 21V11.5Q6 6 12 2.5Q18 6 18 11.5V21\"/><path d=\"M3.5 21h17\"/></svg>", "palette": "<svg class=\"mri\" viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 3a9 9 0 1 0 0 18c1.1 0 1.7-.8 1.7-1.6 0-.5-.2-.8-.5-1.2-.3-.3-.5-.7-.5-1.2 0-.9.8-1.6 1.7-1.6H16a5 5 0 0 0 5-5C21 6.5 17 3 12 3z\"/><circle cx=\"7.5\" cy=\"11\" r=\"1\"/><circle cx=\"10\" cy=\"7\" r=\"1\"/><circle cx=\"14.5\" cy=\"7\" r=\"1\"/><circle cx=\"17.2\" cy=\"10.5\" r=\"1\"/></svg>", "font": "<svg class=\"mri\" viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M3 19 8 5l5 14M5 14h6M14 19l3.5-9 3.5 9M15.2 16h4.6\"/></svg>", "export": "<svg class=\"mri\" viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 3v12M7 10l5 5 5-5M5 21h14\"/></svg>", "import": "<svg class=\"mri\" viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 15V3M7 8l5-5 5 5M5 21h14\"/></svg>", "share": "<svg class=\"mri\" viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M4 12v7a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-7M16 6l-4-4-4 4M12 2v13\"/></svg>", "shield": "<svg class=\"mri\" viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 3 5 6v6c0 4.5 3 7.5 7 9 4-1.5 7-4.5 7-9V6z\"/></svg>"};
 MRI.pin='<svg class="mri pt-ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-6-5.6-6-11a6 6 0 0 1 12 0c0 5.4-6 11-6 11z"/><circle cx="12" cy="10" r="2.2"/></svg>';
 MRI.prayer='<svg class="mri" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>';
 MRI.qibla='<svg class="mri" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="m15.5 8.5-2 5-5 2 2-5z"/></svg>';
@@ -1746,14 +1745,6 @@ function ptLineText(d){var l=ptLoc();if(!l)return '';try{var tz=ptTz(l),a=ptYMD(
 function ptLineRender(){var el=document.getElementById('ptl');if(!el)return;var t=document.body.classList.contains('home')?ptLineText(ocNow()):'';el.hidden=!t;el.innerHTML=t?'<a href="#/prayer">'+t+'</a>':''}
 setInterval(function(){if(!document.hidden)try{ptLineRender()}catch(e){}},30000);
 
-/* trial (owner only): lighter home cards */
-function tryH(){try{return localStorage.getItem('athar-try-home')==='1'}catch(e){return false}}
-function tryHApply(){document.body.classList.toggle('tryh',tryH())}
-try{tryHApply()}catch(e){}
-function vTryH(){try{localStorage.setItem('athar-try-home','1')}catch(e){}tryHApply();
- return head('تجربة شكل الرئيسية','تظهر لك وحدك حتى توافق عليها.')+'<div class="occ"><p>١. بطاقة «ما يناسب اليوم» أخف: بلا الإطار المزدوج، والعنوان صغير بالذهبي، والنص أصغر قليلًا.</p><p>٢. «وقفة أثر» تبقى بإطارها لأنها الأهم في الصفحة.</p><p>٣. المربعات الأربعة في الأسفل تصير صفًّا واحدًا صغيرًا.</p></div>'
- +'<div class="actions"><a class="btn primary" href="#/">افتح الرئيسية</a><button class="btn" data-tryh="off">إيقاف التجربة</button></div>'}
-document.addEventListener('click',function(e){if(e.target.closest('[data-tryh]')){try{localStorage.removeItem('athar-try-home')}catch(x){}tryHApply();location.hash='#/'}});
 /* ===== v26 «صفحات المصحف»: Madinah mushaf pages — KFGQPC QCF4 fonts (Madinah 1441 edition), layout from quran-qcf4 (built by tools/mushaf_qcf4.py) ===== */
 var QMM=true,MOFF=false,MBAD={},MD={},MP={},MFL={},MFC={};
 /* first page of each of the 47 page fonts */
