@@ -75,7 +75,7 @@
 <div class="apbk" id="cardS" hidden><div class="apsh cdsh" role="dialog" aria-modal="true" aria-labelledby="cdT"><div class="tfhd"><h2 id="cdT">بطاقة للمشاركة</h2><button class="icon-btn" data-cdclose aria-label="إغلاق">×</button></div><div class="cdbox" id="cdB"></div><p class="cdh">يمكنك أيضًا الضغط مطوّلًا على الصورة لحفظها.</p><div class="cdnav"><button class="btn primary" data-cd="share">مشاركة الصورة</button><button class="btn" data-cd="save">حفظ الصورة</button></div></div></div>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-<!--@quran--><script>
+<script>
 (function(){
   var root=document.documentElement,toastEl=document.getElementById('toast'),tm;
   function toast(m){toastEl.textContent=m;toastEl.classList.add('on');clearTimeout(tm);tm=setTimeout(function(){toastEl.classList.remove('on')},2000)}
@@ -91,6 +91,7 @@
 })();
 </script>
 <script><!--@js--></script>
+<!-- نص القرآن بعد الشيفرة: تظهر الرئيسية قبل أن يكتمل تنزيله --><!--@quran-->
 <noscript><p style="padding:24px;text-align:center">يحتاج موقع «أثر» إلى تفعيل JavaScript ليعمل.</p></noscript>
 <script src="pwa.js" defer></script>
 </body>

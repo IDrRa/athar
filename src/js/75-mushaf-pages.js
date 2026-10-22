@@ -46,6 +46,8 @@ function ssc(q){var n=nz(q.trim().replace(/^سورة\s+/,'')).s,o=[];if(n.length
  SNM.forEach(function(x){var k=nz(x[0]).s;if(k===n||(n.length>=4&&k.indexOf(n)===0)||k.replace(/^(ايه|اخر|خواتيم) /,'')===n)o.push(cat('/quran/'+x[1]+'/'+x[2],x[0],'سورة '+QN[x[1]-1]+' · الآية '+ar(x[2])))});
  for(var i=0;i<114&&o.length<4;i++){var m=nz(QN[i]).s;if(m===n||(n.length>=3&&m.indexOf(n)===0))o.push(cat('/quran/'+(i+1)+'/1','سورة '+QN[i],ar(QC[i])+' آية · صفحة '+ar(qpageOf(i+1,1))))}
  return o.length?'<p class="hint">انتقال مباشر</p><ul class="list">'+o.slice(0,4).join('')+'</ul>':''}
-addEventListener('hashchange',route);route();
+/* the Quran text comes after the code in the page, so the home page shows before it finishes downloading; other pages wait for it */
+(function(){var R0=route;route=function(){if(!document.getElementById('qs114')&&!/^(#\/?)?$/.test(location.hash)){document.addEventListener('DOMContentLoaded',function(){route()},{once:true});return}R0()}})();
+addEventListener('hashchange',function(){route()});route();
 })();
 
