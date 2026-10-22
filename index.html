@@ -1675,14 +1675,22 @@ function nowState(d){var T=nowTimes(d),t=T.t,s={main:null,kahf:false,salat:false
  else if(m>=t.isha||m<t.fajr)s.main={k:'sleep'};
  var wd=d.getDay();s.kahf=wd===5&&m>=t.fajr&&m<t.maghrib;s.salat=(wd===4&&m>=t.maghrib)||(wd===5&&m<t.maghrib);return s}
 var NOWK={morning:['أذكار الصباح','/adhkar/morning'],evening:['أذكار المساء','/adhkar/evening'],sleep:['أذكار النوم','/adhkar/sleep']};
-/* each suggestion looks like a phone notification: app icon, title, «الآن» — nothing more */
-function nowNote(href,t){return '<a class="nwn" href="#'+href+'"><img src="icons/icon-192-m4.png" alt="" width="32" height="32"><b>'+t+'</b><time>الآن</time></a>'}
-function nowCard(s){var x=[];
- if(s.main)x.push(nowNote(NOWK[s.main.k][1],NOWK[s.main.k][0]));
- if(s.kahf)x.push(nowNote('/quran/18','سورة الكهف'));
- if(s.salat)x.push(nowNote('/dhikr/dhikr-hisn-028-22','الصلاة على النبي ﷺ'));
- return x.join('')}
-function nowRender(){var el=document.getElementById('nowc');if(!el)return;var c=nowCard(nowState(ocNow()));el.hidden=!c;el.innerHTML=c}
+/* each suggestion looks like a phone notification: app icon, title, «الآن» — nothing more.
+   Once opened (from the card or any other way) it is gone until its next time, like a read notification. */
+function nowYMD(d,add){var x=new Date(d.getFullYear(),d.getMonth(),d.getDate()+(add||0));return x.getFullYear()+'-'+(x.getMonth()+1)+'-'+x.getDate()}
+function nowList(d){var s=nowState(d),T=nowTimes(d).t,early=d.getTime()<T.fajr,x=[];
+ if(s.main)x.push({id:s.main.k+':'+nowYMD(d,s.main.k==='sleep'&&early?-1:0),h:NOWK[s.main.k][1],t:NOWK[s.main.k][0]});
+ if(s.kahf)x.push({id:'kahf:'+nowYMD(d),h:'/quran/18',t:'سورة الكهف'});
+ if(s.salat)x.push({id:'salat:'+nowYMD(d,d.getDay()===4?1:0),h:'/dhikr/dhikr-hisn-028-22',t:'الصلاة على النبي ﷺ'});
+ return x}
+var NOW_SEEN='athar-now-seen';
+function nowSeen(){var o=qget(NOW_SEEN,[]);return Array.isArray(o)?o:[]}
+function nowCard(d){var seen=nowSeen();return nowList(d).filter(function(n){return seen.indexOf(n.id)<0}).map(function(n){
+ return '<a class="nwn" href="#'+n.h+'"><img src="icons/icon-192-m4.png" alt="" width="32" height="32"><b>'+n.t+'</b><time>الآن</time></a>'}).join('')}
+function nowRender(){var el=document.getElementById('nowc');if(!el)return;var c=nowCard(ocNow());el.hidden=!c;el.innerHTML=c}
+/* opening the page a note points to marks it as read */
+function nowMark(){try{var h=location.hash,seen=nowSeen(),ch=false;nowList(ocNow()).forEach(function(n){var u='#'+n.h;if((h===u||h.indexOf(u+'/')===0||h.indexOf(u+'?')===0)&&seen.indexOf(n.id)<0){seen.push(n.id);ch=true}});if(ch)qset(NOW_SEEN,seen.slice(-30))}catch(e){}}
+window.addEventListener('hashchange',nowMark);nowMark();
 document.addEventListener('visibilitychange',function(){if(!document.hidden&&document.body.classList.contains('home'))try{nowRender()}catch(e){}});
 setInterval(function(){if(!document.hidden&&document.body.classList.contains('home'))try{nowRender()}catch(e){}},60000);
 /* ===== v26 «صفحات المصحف»: Madinah mushaf pages — KFGQPC QCF4 fonts (Madinah 1441 edition), layout from quran-qcf4 (built by tools/mushaf_qcf4.py) ===== */
