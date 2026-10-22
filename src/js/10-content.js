@@ -123,7 +123,6 @@ else if(a==='report'){t='أبلغ عن خطأ';d='أبلغ عن خطأ في مح
 else if(a==='mission'){t='رسالة أثر';d='هدف موقع أثر ورؤيته';h=vMission()}
 else if(a==='notify'){t='التنبيهات';d='تنبيهات الأذان والأذكار';h=vNotify()}
 else if(a==='install'){t='ثبّت أثر على جوالك';d='طريقة تثبيت أثر كتطبيق';h=vInstall()}
-else if(a==='try-now'){t='تجربة «الآن»';d='';h=vTryNow()}
 else if(a==='about'){t='المزيد';d='أدوات أثر وإعداداته ومصادر المحتوى';h=vAbout()}
 else if(a==='adhkar'&&!b){t='الأذكار';d='أذكار الصباح والمساء والنوم والاستيقاظ والصلاة';var DL=PL('dhikr');h=head(t,d)+'<ul class="list">'+CA.map(function(c){var n=DL.filter(function(o){return o.category===c[0]}).length;return cat('/adhkar/'+c[0],c[1],n?ndh(n):'')}).join('')+'</ul>'+(DL.length?'':EM)}
 else if(a==='adhkar'&&CA.some(function(c){return c[0]===b})){t=CA.filter(function(c){return c[0]===b})[0][1];h=rdInit(rdList('dhikr',b),t,'/adhkar','/adhkar/'+b,(+p[2]||1)-1)}
