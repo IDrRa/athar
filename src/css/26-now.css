@@ -1,6 +1,6 @@
-/* v36 «الآن»: suggestions styled like phone notifications, one line each */
-#nowc{display:flex;flex-direction:column;gap:6px;margin:0 0 24px}
-.nw{display:flex;align-items:center;gap:10px;min-height:50px;padding:8px 12px;box-sizing:border-box;background:var(--surface);border:1px solid var(--line);border-radius:16px;text-decoration:none;color:var(--text)}
-.nw img{width:32px;height:32px;flex:none;border-radius:8px}
-.nw b{flex:1;min-width:0;font:600 .95rem/1.4 var(--ui)}
-.nw time{flex:none;color:var(--muted);font-size:.74rem}
+/* v36 «الآن»: suggestions styled like phone notifications, one line each (.nwn — .nw is taken by the Quran text) */
+#nowc:not([hidden]){display:flex;flex-direction:column;gap:6px;margin:0 0 24px}
+.nwn{display:flex;align-items:center;gap:10px;min-height:50px;padding:8px 12px;box-sizing:border-box;background:var(--surface);border:1px solid var(--line);border-radius:16px;text-decoration:none;color:var(--text)}
+.nwn img{width:32px;height:32px;flex:none;border-radius:8px}
+.nwn b{flex:1;min-width:0;font:600 .95rem/1.4 var(--ui)}
+.nwn time{flex:none;color:var(--muted);font-size:.74rem}
