@@ -760,6 +760,20 @@ body.home::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:no
 .nwn time{flex:none;color:var(--muted);font-size:.74rem}
 #ptl{margin:-14px 0 22px}
 #ptl a{color:var(--muted);font-size:.86rem;text-decoration:none}
+/* trial (owner only, #/try-home): lighter home cards */
+body.tryh .occ{box-shadow:none;padding:14px 18px 14px;border-radius:var(--r-lg)}
+body.tryh .occ .och{font:600 .85rem var(--ui);color:var(--gold);margin:0 0 4px}
+body.tryh .occ .ocl{display:none}
+body.tryh .oct{font-size:1.18rem;line-height:1.95}
+body.tryh .occ .ocr{margin-top:4px}
+body.tryh .occ .ocln{margin-top:10px}
+body.tryh .occ .ocln .chip{min-height:36px;padding:0 14px;font-size:.84rem}
+body.tryh .list.tiles{grid-template-columns:repeat(4,1fr);gap:8px}
+body.tryh .tile{min-height:0;padding:14px 4px 12px;align-items:center;justify-content:center;gap:8px;border-radius:var(--r-md)}
+body.tryh .tile .ic{width:24px;height:24px}
+body.tryh .tile div{text-align:center}
+body.tryh .tile b{font-size:.86rem;font-weight:600;white-space:nowrap}
+body.tryh .tile span{display:none}
 </style>
 </head>
 <body>
@@ -1204,6 +1218,7 @@ else if(a==='mission'){t='رسالة أثر';d='هدف موقع أثر ورؤي�
 else if(a==='notify'){t='التنبيهات';d='تنبيهات الأذان والأذكار';h=vNotify()}
 else if(a==='install'){t='ثبّت أثر على جوالك';d='طريقة تثبيت أثر كتطبيق';h=vInstall()}
 else if(a==='salawat'&&ALL['dhikr-hisn-023-01']){t='الصلاة على النبي ﷺ';d='صيغة الصلاة على النبي ﷺ من حصن المسلم';var sw=ALL['dhikr-hisn-023-01'];h=head(t,'','/')+'<article class="card"><p class="ctext" lang="ar">'+sw.text+'</p>'+srcB(sw)+'<div class="actions"><button class="btn primary" data-a="share" data-id="'+sw.id+'">مشاركة</button><button class="btn" data-a="copy" data-id="'+sw.id+'">نسخ</button><button class="btn" data-cdid="'+sw.id+'" data-cdt="الصلاة على النبي ﷺ">بطاقة</button></div></article>'}
+else if(a==='try-home'){t='تجربة شكل الرئيسية';d='';h=vTryH()}
 else if(a==='about'){t='المزيد';d='أدوات أثر وإعداداته ومصادر المحتوى';h=vAbout()}
 else if(a==='adhkar'&&!b){t='الأذكار';d='أذكار الصباح والمساء والنوم والاستيقاظ والصلاة';var DL=PL('dhikr');h=head(t,d)+'<ul class="list">'+CA.map(function(c){var n=DL.filter(function(o){return o.category===c[0]}).length;return cat('/adhkar/'+c[0],c[1],n?ndh(n):'')}).join('')+'</ul>'+(DL.length?'':EM)}
 else if(a==='adhkar'&&CA.some(function(c){return c[0]===b})){t=CA.filter(function(c){return c[0]===b})[0][1];h=rdInit(rdList('dhikr',b),t,'/adhkar','/adhkar/'+b,(+p[2]||1)-1)}
@@ -1730,6 +1745,15 @@ function ptLineText(d){var l=ptLoc();if(!l)return '';try{var tz=ptTz(l),a=ptYMD(
  if(next)return 'بقي على أذان '+next[0]+' '+arDur(Math.max(1,Math.ceil((next[1]-m)/6e4)));return ''}catch(e){return ''}}
 function ptLineRender(){var el=document.getElementById('ptl');if(!el)return;var t=document.body.classList.contains('home')?ptLineText(ocNow()):'';el.hidden=!t;el.innerHTML=t?'<a href="#/prayer">'+t+'</a>':''}
 setInterval(function(){if(!document.hidden)try{ptLineRender()}catch(e){}},30000);
+
+/* trial (owner only): lighter home cards */
+function tryH(){try{return localStorage.getItem('athar-try-home')==='1'}catch(e){return false}}
+function tryHApply(){document.body.classList.toggle('tryh',tryH())}
+try{tryHApply()}catch(e){}
+function vTryH(){try{localStorage.setItem('athar-try-home','1')}catch(e){}tryHApply();
+ return head('تجربة شكل الرئيسية','تظهر لك وحدك حتى توافق عليها.')+'<div class="occ"><p>١. بطاقة «ما يناسب اليوم» أخف: بلا الإطار المزدوج، والعنوان صغير بالذهبي، والنص أصغر قليلًا.</p><p>٢. «وقفة أثر» تبقى بإطارها لأنها الأهم في الصفحة.</p><p>٣. المربعات الأربعة في الأسفل تصير صفًّا واحدًا صغيرًا.</p></div>'
+ +'<div class="actions"><a class="btn primary" href="#/">افتح الرئيسية</a><button class="btn" data-tryh="off">إيقاف التجربة</button></div>'}
+document.addEventListener('click',function(e){if(e.target.closest('[data-tryh]')){try{localStorage.removeItem('athar-try-home')}catch(x){}tryHApply();location.hash='#/'}});
 /* ===== v26 «صفحات المصحف»: Madinah mushaf pages — KFGQPC QCF4 fonts (Madinah 1441 edition), layout from quran-qcf4 (built by tools/mushaf_qcf4.py) ===== */
 var QMM=true,MOFF=false,MBAD={},MD={},MP={},MFL={},MFC={};
 /* first page of each of the 47 page fonts */

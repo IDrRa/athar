@@ -1,0 +1,14 @@
+/* trial (owner only, #/try-home): lighter home cards */
+body.tryh .occ{box-shadow:none;padding:14px 18px 14px;border-radius:var(--r-lg)}
+body.tryh .occ .och{font:600 .85rem var(--ui);color:var(--gold);margin:0 0 4px}
+body.tryh .occ .ocl{display:none}
+body.tryh .oct{font-size:1.18rem;line-height:1.95}
+body.tryh .occ .ocr{margin-top:4px}
+body.tryh .occ .ocln{margin-top:10px}
+body.tryh .occ .ocln .chip{min-height:36px;padding:0 14px;font-size:.84rem}
+body.tryh .list.tiles{grid-template-columns:repeat(4,1fr);gap:8px}
+body.tryh .tile{min-height:0;padding:14px 4px 12px;align-items:center;justify-content:center;gap:8px;border-radius:var(--r-md)}
+body.tryh .tile .ic{width:24px;height:24px}
+body.tryh .tile div{text-align:center}
+body.tryh .tile b{font-size:.86rem;font-weight:600;white-space:nowrap}
+body.tryh .tile span{display:none}

@@ -51,3 +51,12 @@ function ptLineText(d){var l=ptLoc();if(!l)return '';try{var tz=ptTz(l),a=ptYMD(
  if(next)return 'بقي على أذان '+next[0]+' '+arDur(Math.max(1,Math.ceil((next[1]-m)/6e4)));return ''}catch(e){return ''}}
 function ptLineRender(){var el=document.getElementById('ptl');if(!el)return;var t=document.body.classList.contains('home')?ptLineText(ocNow()):'';el.hidden=!t;el.innerHTML=t?'<a href="#/prayer">'+t+'</a>':''}
 setInterval(function(){if(!document.hidden)try{ptLineRender()}catch(e){}},30000);
+
+/* trial (owner only): lighter home cards */
+function tryH(){try{return localStorage.getItem('athar-try-home')==='1'}catch(e){return false}}
+function tryHApply(){document.body.classList.toggle('tryh',tryH())}
+try{tryHApply()}catch(e){}
+function vTryH(){try{localStorage.setItem('athar-try-home','1')}catch(e){}tryHApply();
+ return head('تجربة شكل الرئيسية','تظهر لك وحدك حتى توافق عليها.')+'<div class="occ"><p>١. بطاقة «ما يناسب اليوم» أخف: بلا الإطار المزدوج، والعنوان صغير بالذهبي، والنص أصغر قليلًا.</p><p>٢. «وقفة أثر» تبقى بإطارها لأنها الأهم في الصفحة.</p><p>٣. المربعات الأربعة في الأسفل تصير صفًّا واحدًا صغيرًا.</p></div>'
+ +'<div class="actions"><a class="btn primary" href="#/">افتح الرئيسية</a><button class="btn" data-tryh="off">إيقاف التجربة</button></div>'}
+document.addEventListener('click',function(e){if(e.target.closest('[data-tryh]')){try{localStorage.removeItem('athar-try-home')}catch(x){}tryHApply();location.hash='#/'}});
