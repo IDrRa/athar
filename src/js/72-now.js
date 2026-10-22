@@ -36,10 +36,10 @@ function nowHide(){var el=document.getElementById('nwb');if(el)el.classList.remo
 function nowRender(){try{setTimeout(nowPop,600)}catch(e){}}
 /* opening the page a note points to marks it as read */
 function nowMark(){try{var h=location.hash,seen=nowSeen(),ch=false;nowList(ocNow()).forEach(function(n){var u='#'+n.h;if((h===u||h.indexOf(u+'/')===0||h.indexOf(u+'?')===0)&&seen.indexOf(n.id)<0){seen.push(n.id);ch=true}});if(ch)qset(NOW_SEEN,seen.slice(-30))}catch(e){}}
-window.addEventListener('hashchange',nowMark);nowMark();
+window.addEventListener('hashchange',function(){nowMark();nowHide()});nowMark();
 document.addEventListener('visibilitychange',function(){if(!document.hidden&&document.body.classList.contains('home'))nowRender()});
 
-/* ===== trial (owner preview at #/try): a prayer-time line under the search, and the Ibrahimiyya in the Friday cards ===== */
+/* ===== trial (owner preview at #/try): a prayer-time line under the search ===== */
 function tryX(){try{return localStorage.getItem('athar-try-x')==='1'}catch(e){return false}}
 function arN(n,one,two,few,many){return n===1?one:n===2?two:(n>=3&&n<=10?ar(n)+' '+few:ar(n)+' '+many)}
 function arDur(min){var h=Math.floor(min/60),m=min%60,x=[];if(h)x.push(arN(h,'ساعة','ساعتان','ساعات','ساعة'));if(m||!h)x.push(arN(m,'دقيقة','دقيقتان','دقائق','دقيقة'));return x.join(' و')}
@@ -53,7 +53,6 @@ function ptLineText(d){var l=ptLoc();if(!l)return '';try{var tz=ptTz(l),a=ptYMD(
 function ptLineRender(){var el=document.getElementById('ptl');if(!el)return;var t=tryX()&&document.body.classList.contains('home')?ptLineText(ocNow()):'';el.hidden=!t;el.innerHTML=t?'<a href="#/prayer">'+t+'</a>':''}
 setInterval(function(){if(!document.hidden)try{ptLineRender()}catch(e){}},30000);
 function vTryX(){try{localStorage.setItem('athar-try-x','1')}catch(e){}
- return head('تجربة','تظهر لك وحدك حتى توافق عليها.')+'<div class="occ"><h3 class="och">١. سطر وقت الصلاة</h3><p>تحت شريط البحث في الرئيسية: «بقي على أذان العشاء ساعة و١٠ دقائق»، وبعد الأذان بنصف ساعة: «مضى على أذان العشاء ٢٢ دقيقة». الضغط عليه يفتح المواقيت.</p>'+(ptLoc()?'<p class="ocr">الآن: '+(ptLineText(ocNow())||'—')+'</p>':'<p class="ocr">يحتاج تحديد موقعك في المواقيت.</p>')+'</div>'
- +'<div class="occ"><h3 class="och">٢. الصلاة الإبراهيمية في بطاقة الجمعة</h3><p>تُضاف تحت أحاديث ليلة الجمعة ويوم الجمعة، من حصن المسلم.</p></div>'
- +'<div class="actions"><a class="btn primary" href="#/">افتح الرئيسية</a><button class="btn" data-tryx="off">إيقاف التجربة</button></div>'}
+ return head('تجربة','تظهر لك وحدك حتى توافق عليها.')+'<div class="occ"><h3 class="och">سطر وقت الصلاة</h3><p>تحت شريط البحث في الرئيسية: «بقي على أذان العشاء ساعة و١٠ دقائق»، وبعد الأذان بنصف ساعة: «مضى على أذان العشاء ٢٢ دقيقة». الضغط عليه يفتح المواقيت.</p>'+(ptLoc()?'<p class="ocr">الآن: '+(ptLineText(ocNow())||'—')+'</p>':'<p class="ocr">يحتاج تحديد موقعك في المواقيت.</p>')+'</div>'
+  +'<div class="actions"><a class="btn primary" href="#/">افتح الرئيسية</a><button class="btn" data-tryx="off">إيقاف التجربة</button></div>'}
 document.addEventListener('click',function(e){if(e.target.closest('[data-tryx]')){try{localStorage.removeItem('athar-try-x')}catch(x){}location.hash='#/'}});

@@ -76,13 +76,12 @@ function ocList(){var d=ocNow(),wd=d.getDay(),h=ocHijri(d),L=[];
   if(dd<=2)L.push({k:'hilal',t:'أول الشهر الهجري',dua:'dua-hisn-068-01',hj:1})}
  /* weekday cards end at Maghrib: from Maghrib on Thursday until Fajr it is ليلة الجمعة */
  var eve=false,pre=false;try{var PT=nowTimes(d).t;eve=d.getTime()>=PT.maghrib;pre=d.getTime()<PT.fajr}catch(e){}
- if((wd===4&&eve)||(wd===5&&pre))L.push({k:'jumua-layla',t:'ليلة الجمعة',ids:['jumua-layla','jumua-salat'],sal:1});
- if(wd===5&&!eve&&!pre)L.push({k:'jumua',t:'يوم الجمعة',ids:['jumua-salat','jumua-sa3a'],sal:1});
+ if((wd===4&&eve)||(wd===5&&pre))L.push({k:'jumua-layla',t:'ليلة الجمعة',ids:['jumua-salat'],links:[['صيغة الصلاة على النبي ﷺ','/dhikr/dhikr-hisn-023-01']]});
+ if(wd===5&&!eve&&!pre)L.push({k:'jumua',t:'يوم الجمعة',ids:['jumua-salat','jumua-sa3a'],links:[['صيغة الصلاة على النبي ﷺ','/dhikr/dhikr-hisn-023-01']]});
  if((wd===1||wd===4)&&!eve)L.push({k:'ithnayn',t:wd===1?'يوم الاثنين':'يوم الخميس',ids:['ithnayn-khamis']});
  return L.slice(0,2)}
 function ocCard(o){var h='<article class="occ"><h3 class="och">'+o.t+'</h3>'+(o.hj?'<p class="ock">بحسب تقويم أم القرى</p>':'');
  (o.ids||[]).forEach(function(id){var x=OCC[id];if(!x)return;h+='<p class="ocl">من حديث النبي ﷺ</p><p class="oct" lang="ar">«'+esc(x.t)+'»</p><p class="ocr">'+esc(x.r)+'</p>'});
- if(o.sal&&tryX()&&ALL['dhikr-hisn-023-01']){var sw=ALL['dhikr-hisn-023-01'];h+='<p class="ocl">صيغة الصلاة على النبي ﷺ</p><p class="oct" lang="ar">'+esc(sw.text)+'</p><p class="ocr">'+esc([sw.source,sw.reference].filter(Boolean).join(' · '))+'</p>'}
  if(o.dua&&ALL[o.dua]){var a=ALL[o.dua];h+='<p class="ocl">'+esc(a.title||'دعاء')+'</p><p class="oct" lang="ar">'+esc(a.text)+'</p><p class="ocr">'+esc([a.source,a.reference].filter(Boolean).join(' · '))+'</p>'}
  if(o.links)h+='<p class="ocln">'+o.links.map(function(l){return '<a class="chip" href="#'+l[1]+'">'+l[0]+'</a>'}).join('')+'</p>';
  return h+'</article>'}
