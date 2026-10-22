@@ -748,6 +748,18 @@ body.home::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:no
 .in-s li span{color:var(--muted);font-size:.88rem;line-height:1.8}
 .in-n{flex:none;display:grid;place-items:center;width:30px;height:30px;border:1px solid var(--gold);border-radius:50%;color:var(--gold);font:600 .85rem/1 var(--ui)}
 .in-need .nt-go{margin-top:6px}
+/* v36 «الآن» */
+#nowc{margin:0 0 26px}
+.nw .nw-m{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:56px;text-decoration:none;color:var(--text)}
+.nw .nw-m span{display:flex;flex-direction:column;gap:3px}
+.nw .nw-m b{font:700 1.15rem var(--ui)}
+.nw .nw-m small{color:var(--muted);font-size:.82rem}
+.nw .nw-m i{display:grid;place-items:center;width:40px;height:40px;flex:none;border-radius:50%;background:var(--green);color:var(--on-green);font-style:normal}
+.nw .nw-m i svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2}
+.nw .nw-m+.ocln{margin-top:10px}
+.nw .ocln:first-child{margin-top:0}
+.nw-t{font:600 .9rem var(--ui);color:var(--muted);margin:20px 0 8px}
+.nw-e{margin:0 0 6px}
 </style>
 </head>
 <body>
@@ -772,6 +784,7 @@ body.home::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:no
 
   <main id="app" tabindex="-1">
   <section id="insh" aria-label="تثبيت أثر" hidden></section>
+  <section id="nowc" aria-label="الآن" hidden></section>
   <section id="occs" aria-label="ما يناسب اليوم" hidden></section>
   <section aria-labelledby="t-today">
     <h2 id="t-today">وقفة أثر</h2>
@@ -1190,6 +1203,7 @@ else if(a==='report'){t='أبلغ عن خطأ';d='أبلغ عن خطأ في مح
 else if(a==='mission'){t='رسالة أثر';d='هدف موقع أثر ورؤيته';h=vMission()}
 else if(a==='notify'){t='التنبيهات';d='تنبيهات الأذان والأذكار';h=vNotify()}
 else if(a==='install'){t='ثبّت أثر على جوالك';d='طريقة تثبيت أثر كتطبيق';h=vInstall()}
+else if(a==='try-now'){t='تجربة «الآن»';d='';h=vTryNow()}
 else if(a==='about'){t='المزيد';d='أدوات أثر وإعداداته ومصادر المحتوى';h=vAbout()}
 else if(a==='adhkar'&&!b){t='الأذكار';d='أذكار الصباح والمساء والنوم والاستيقاظ والصلاة';var DL=PL('dhikr');h=head(t,d)+'<ul class="list">'+CA.map(function(c){var n=DL.filter(function(o){return o.category===c[0]}).length;return cat('/adhkar/'+c[0],c[1],n?ndh(n):'')}).join('')+'</ul>'+(DL.length?'':EM)}
 else if(a==='adhkar'&&CA.some(function(c){return c[0]===b})){t=CA.filter(function(c){return c[0]===b})[0][1];h=rdInit(rdList('dhikr',b),t,'/adhkar','/adhkar/'+b,(+p[2]||1)-1)}
@@ -1206,7 +1220,7 @@ else if(a==='dua'&&dt(b,'dua')){var o2=dt(b,'dua'),k2=o2.kind||'general',L2=rdLi
 else if(a==='search'){var qv=new URLSearchParams(Q).get('q')||'';t='البحث'+(qv?': '+qv:'');d='ابحث في القرآن والأذكار والأدعية';$('#q').value=qv;var cb=$('.clr');if(cb)cb.hidden=!qv;if(qv.trim()&&!IX){h=head('البحث','ابحث في القرآن والأذكار والأدعية')+'<p class="loading" role="status">جارٍ تجهيز البحث…</p>';setTimeout(function(){if(location.hash.indexOf('#/search')===0&&!IX){ix();V.innerHTML=sv(qv)}},30)}else h=sv(qv)}
 else if(!home){t='الصفحة غير موجودة';h=head(t,'الرابط غير صحيح.')+'<a class="btn primary" href="#/">الرئيسية</a>'}
 HS.forEach(function(s){s.hidden=!home});V.hidden=home;V.innerHTML=h;try{atPost(a)}catch(x){}document.body.classList.toggle('rdon',!!(RS||QPS));document.body.classList.toggle('qon',!!QPS);document.body.classList.toggle('home',home);
-if(home)try{kmHomeRender();ocRender();insHomeRender()}catch(x){}document.title=home?'أثر — ما ينفعك ويبقى أثره':t+' | أثر';var md=$('meta[name=description]');if(md)md.content=d;
+if(home)try{kmHomeRender();ocRender();insHomeRender();nowRender()}catch(x){}document.title=home?'أثر — ما ينفعك ويبقى أثره':t+' | أثر';var md=$('meta[name=description]');if(md)md.content=d;
 var nb=document.querySelectorAll('nav button');nb.forEach(function(x,i){x.removeAttribute('aria-current');if(i===(home?0:NAVMAP[a]||-1))x.setAttribute('aria-current','page')});
 SEOX(a);window.scrollTo(0,0);QJ(a,p);qfit();if(QPS)qhint();if(!home&&!QS){V.setAttribute('tabindex','-1');try{V.focus({preventScroll:true})}catch(e){}}}
 function toast(m){var e=$('#toast');e.textContent=m;e.classList.add('on');setTimeout(function(){e.classList.remove('on')},2000)}
@@ -1656,6 +1670,42 @@ document.addEventListener('change',function(e){var f=e.target;if(f.id!=='mrimp'|
   var n=0;Object.keys(j.data).forEach(function(k){var v=j.data[k];if(/^athar-[a-z0-9-]+$/.test(k)&&k!=='athar-dbg-date'&&typeof v==='string'&&v.length<1e6){try{localStorage.setItem(k,v);n++}catch(x){}}});
   kmTo(n?'استُعيدت بياناتك':'لم يُستعد شيء');if(n)setTimeout(function(){location.reload()},900)};rd.readAsText(file)});
 
+/* ===== v36 «الآن»: the home page shows what suits this moment, from the visitor's prayer times ===== */
+/* windows: الصباح من الفجر إلى الظهر · المساء من العصر إلى العشاء · النوم من العشاء إلى الفجر ·
+   أذكار بعد الصلاة من ١٠ دقائق إلى ٤٥ دقيقة بعد كل أذان · سورة الكهف من مغرب الخميس إلى مغرب الجمعة */
+var NOW_TRY='athar-try-now';
+function nowOn(){try{return localStorage.getItem(NOW_TRY)==='1'}catch(e){return false}}
+function nowTimes(d){var l=ptLoc();if(l){try{var tz=ptTz(l),a=ptYMD(d,tz),o=ptDay(a[0],a[1],a[2],l.lat,l.lng,ptRamadan(d,tz));if(o.fajr&&o.dhuhr&&o.asr&&o.maghrib&&o.isha)return {t:o,tz:tz,exact:true}}catch(e){}}
+ /* no location: rough local-clock times, used only to choose the card, never shown */
+ var b=function(h,m){return new Date(d.getFullYear(),d.getMonth(),d.getDate(),h,m)};return {t:{fajr:b(4,45),dhuhr:b(12,0),asr:b(15,15),maghrib:b(17,45),isha:b(19,15)},tz:undefined,exact:false}}
+function nowState(d){var T=nowTimes(d),t=T.t,s={main:null,after:null,kahf:false,tz:T.tz,exact:T.exact},m=d.getTime();
+ if(m>=t.fajr&&m<t.dhuhr)s.main={k:'morning',until:t.dhuhr,u:'الظهر'};
+ else if(m>=t.asr&&m<t.isha)s.main={k:'evening',until:t.isha,u:'العشاء'};
+ else if(m>=t.isha||m<t.fajr)s.main={k:'sleep'};
+ [['fajr','الفجر'],['dhuhr','الظهر'],['asr','العصر'],['maghrib','المغرب'],['isha','العشاء']].forEach(function(p){var g=m-t[p[0]];if(g>=6e5&&g<27e5)s.after=p[1]});
+ var wd=d.getDay();s.kahf=(wd===5&&m<t.maghrib)||(wd===4&&m>=t.maghrib);return s}
+var NOWK={morning:['أذكار الصباح','/adhkar/morning'],evening:['أذكار المساء','/adhkar/evening'],sleep:['أذكار النوم','/adhkar/sleep']};
+function nowCount(k){try{return CONTENT.filter(function(o){return o.type==='dhikr'&&o.category===k&&o.status==='published'}).length}catch(e){return 0}}
+function nowCard(s){var h='',x=[];
+ if(s.main){var k=NOWK[s.main.k],n=nowCount(s.main.k),sub=s.main.k==='sleep'?'قبل أن تنام':(s.exact&&s.main.until?'وقتها الآن، حتى '+s.main.u+' '+ptFmt(s.main.until,s.tz):'وقتها الآن');
+  h+='<a class="nw-m" href="#'+k[1]+'"><span><b>'+k[0]+'</b><small>'+sub+(n?' · '+ar(n)+(n<=10?' أذكار':' ذكرًا'):'')+'</small></span><i aria-hidden="true">'+CHL+'</i></a>'}
+ if(s.after)x.push('<a class="chip" href="#/dhikr/dhikr-hisn-025-01">أذكار بعد صلاة '+s.after+'</a>');
+ if(s.kahf)x.push('<a class="chip" href="#/quran/18">سورة الكهف</a>');
+ if(!h&&!x.length)return '';
+ return '<article class="occ nw">'+h+(x.length?'<p class="ocln">'+x.join('')+'</p>':'')+'</article>'}
+function nowRender(){var el=document.getElementById('nowc');if(!el)return;var c=nowOn()?nowCard(nowState(ocNow())):'';el.hidden=!c;el.innerHTML=c?'<h2>الآن</h2>'+c:''}
+document.addEventListener('visibilitychange',function(){if(!document.hidden&&document.body.classList.contains('home'))try{nowRender()}catch(e){}});
+setInterval(function(){if(!document.hidden&&document.body.classList.contains('home'))try{nowRender()}catch(e){}},60000);
+/* preview page for the owner: #/try-now turns the card on for this device and shows it at different moments */
+function vTryNow(){try{localStorage.setItem(NOW_TRY,'1')}catch(e){}
+ var b=new Date(),at=function(dd,h,m){var x=new Date(b.getFullYear(),b.getMonth(),b.getDate()+dd,h,m);return x},fri=(5-b.getDay()+7)%7,
+ L=[['بعد الفجر بنصف ساعة',at(0,5,10)],['الضحى',at(0,9,30)],['بين الظهر والعصر',at(0,13,45)],['بعد صلاة العصر',at(0,15,20)],['بعد المغرب',at(0,18,10)],['في الليل',at(0,22,30)],['صباح الجمعة',at(fri||7,9,30)]],WD=['الأحد','الاثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت'];
+ var T=nowTimes(b);
+ return head('تجربة «الآن»','هكذا تظهر بطاقة «الآن» في الرئيسية على جهازك، في أوقات مختلفة من اليوم. فُعّلت على جهازك فقط.','/')
+ +(T.exact?'':'<p class="card pt-card">لم تحدّد موقعك في مواقيت الصلاة، فتُقدَّر الأوقات تقديرًا ولا تُعرض الساعة. <a href="#/prayer">حدّد موقعك</a></p>')
+ +L.map(function(z){var c=nowCard(nowState(z[1]));return '<h3 class="nw-t">'+WD[z[1].getDay()]+' · '+z[0]+'</h3>'+(c||'<p class="kmmut nw-e">لا تظهر البطاقة في هذا الوقت.</p>')}).join('')
+ +'<div class="ms-a"><a class="btn primary" href="#/">انظر الرئيسية الآن</a><button class="btn" data-now="off">إيقاف التجربة</button></div>'}
+document.addEventListener('click',function(e){var b=e.target.closest('[data-now]');if(!b)return;try{localStorage.removeItem(NOW_TRY)}catch(x){}location.hash='#/'});
 /* ===== v26 «صفحات المصحف»: Madinah mushaf pages — KFGQPC QCF4 fonts (Madinah 1441 edition), layout from quran-qcf4 (built by tools/mushaf_qcf4.py) ===== */
 var QMM=true,MOFF=false,MBAD={},MD={},MP={},MFL={},MFC={};
 /* first page of each of the 47 page fonts */

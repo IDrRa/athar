@@ -1,0 +1,12 @@
+/* v36 «الآن» */
+#nowc{margin:0 0 26px}
+.nw .nw-m{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:56px;text-decoration:none;color:var(--text)}
+.nw .nw-m span{display:flex;flex-direction:column;gap:3px}
+.nw .nw-m b{font:700 1.15rem var(--ui)}
+.nw .nw-m small{color:var(--muted);font-size:.82rem}
+.nw .nw-m i{display:grid;place-items:center;width:40px;height:40px;flex:none;border-radius:50%;background:var(--green);color:var(--on-green);font-style:normal}
+.nw .nw-m i svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2}
+.nw .nw-m+.ocln{margin-top:10px}
+.nw .ocln:first-child{margin-top:0}
+.nw-t{font:600 .9rem var(--ui);color:var(--muted);margin:20px 0 8px}
+.nw-e{margin:0 0 6px}
