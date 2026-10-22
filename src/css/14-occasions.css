@@ -1,8 +1,8 @@
 /* v19 «ما يناسب اليوم» */
 #occs{margin:0 0 26px}
-.occ{background:var(--surface);border:1px solid var(--line);border-inline-start:4px solid var(--gold);border-radius:var(--r-lg);padding:16px 18px;margin:0 0 12px}
+.occ{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);box-shadow:inset 0 0 0 5px var(--surface),inset 0 0 0 6px var(--line);padding:18px 20px 16px;margin:0 0 12px}
 .ock{margin:0;color:var(--muted);font-size:.78rem}
-.occ .och{margin:2px 0 8px;font:700 1.15rem var(--ui);color:var(--green)}
+.occ .och{margin:0 0 6px;font:700 1.15rem var(--ui);color:var(--text)}
 .ocl{margin:10px 0 2px;color:var(--muted);font-size:.8rem}
 .oct{margin:0;font:400 1.3rem/2 var(--ar);color:var(--text);text-wrap:pretty}
 .ocr{margin:2px 0 0;color:var(--muted);font-size:.74rem}

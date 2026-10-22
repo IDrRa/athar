@@ -499,9 +499,9 @@ body.qon .wrap{padding-inline:12px}
 
 /* v19 «ما يناسب اليوم» */
 #occs{margin:0 0 26px}
-.occ{background:var(--surface);border:1px solid var(--line);border-inline-start:4px solid var(--gold);border-radius:var(--r-lg);padding:16px 18px;margin:0 0 12px}
+.occ{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);box-shadow:inset 0 0 0 5px var(--surface),inset 0 0 0 6px var(--line);padding:18px 20px 16px;margin:0 0 12px}
 .ock{margin:0;color:var(--muted);font-size:.78rem}
-.occ .och{margin:2px 0 8px;font:700 1.15rem var(--ui);color:var(--green)}
+.occ .och{margin:0 0 6px;font:700 1.15rem var(--ui);color:var(--text)}
 .ocl{margin:10px 0 2px;color:var(--muted);font-size:.8rem}
 .oct{margin:0;font:400 1.3rem/2 var(--ar);color:var(--text);text-wrap:pretty}
 .ocr{margin:2px 0 0;color:var(--muted);font-size:.74rem}
@@ -624,8 +624,8 @@ body.home{background-image:radial-gradient(ellipse 70% 260px at 50% 0,rgba(176,1
 .wqtop h3::before{content:"";flex:none;width:16px;height:16px;background:var(--orn) center/contain no-repeat}
 .today .wqtop .badge{margin:0;flex:none;font-size:.72rem}
 .wqc .ctext{font-size:calc(1.3rem*var(--rdk,1));line-height:2}
-.wqc .wqsn{-webkit-line-clamp:2;line-clamp:2;max-height:4em;margin-bottom:6px}
-.wqc .wqmeta{margin:2px 0 10px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.wqc .wqsn{margin-bottom:6px}
+.wqc .wqmeta{margin:2px 0 10px}
 .wqc .actions{gap:8px}.wqc .actions .btn{min-height:42px;padding:6px 18px;font-size:.92rem}
 .wqc .wqnr{margin:0 0 -4px;font-size:.8rem;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-align:center}
 
@@ -634,7 +634,7 @@ body.home{background-image:radial-gradient(ellipse 70% 260px at 50% 0,rgba(176,1
 :root[data-theme="dark"]{--hpf:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='390' height='1400' viewBox='0 0 390 1400'%3E%3Cg fill='none' stroke='rgba%28201%2C169%2C97%2C.22%29'%3E%3Cpath stroke-width='1.4' d='M95 1400V150C95 85 150 40 195 8c45 32 100 77 100 142v1250'/%3E%3Cpath stroke-width='1' d='M115 1400V155c0-55 45-95 80-122 35 27 80 67 80 122v1245'/%3E%3Cpath stroke-width='.8' d='M30 1400V190c0-40 30-70 55-88M360 1400V190c0-40-30-70-55-88'/%3E%3C/g%3E%3Cg fill='rgba%28201%2C169%2C97%2C.5%29'%3E%3Ccircle cx='195' cy='8' r='3'/%3E%3C/g%3E%3C/svg%3E")}
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--hpf:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='390' height='1400' viewBox='0 0 390 1400'%3E%3Cg fill='none' stroke='rgba%28201%2C169%2C97%2C.22%29'%3E%3Cpath stroke-width='1.4' d='M95 1400V150C95 85 150 40 195 8c45 32 100 77 100 142v1250'/%3E%3Cpath stroke-width='1' d='M115 1400V155c0-55 45-95 80-122 35 27 80 67 80 122v1245'/%3E%3Cpath stroke-width='.8' d='M30 1400V190c0-40 30-70 55-88M360 1400V190c0-40-30-70-55-88'/%3E%3C/g%3E%3Cg fill='rgba%28201%2C169%2C97%2C.5%29'%3E%3Ccircle cx='195' cy='8' r='3'/%3E%3C/g%3E%3C/svg%3E")}}
 body.home{background-image:none}
-body.home::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;background:radial-gradient(ellipse 70% 260px at 50% 0,rgba(176,141,74,.14),transparent 70%),var(--hpf) center -30px/min(100%,520px) auto no-repeat}
+body.home::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;-webkit-mask:linear-gradient(#000 0,#000 300px,rgba(0,0,0,.12) 560px,rgba(0,0,0,.12));mask:linear-gradient(#000 0,#000 300px,rgba(0,0,0,.12) 560px,rgba(0,0,0,.12));background:radial-gradient(ellipse 70% 260px at 50% 0,rgba(176,141,74,.14),transparent 70%),var(--hpf) center -30px/min(100%,520px) auto no-repeat}
 
 /* v30 prayer · qibla · stats */
 .btn .mri,.pt-ic{width:18px;height:18px;color:currentColor}
@@ -1094,6 +1094,7 @@ function wqFor(dn){var n=WQ.length;return WQ[((dn%n)+n)%n]}
 function wqById(id){for(var i=0;i<WQ.length;i++)if(WQ[i].id===id)return WQ[i];return null}
 function wqFmt(dn,h){var d=new Date(dn*864e5+432e5);try{return new Intl.DateTimeFormat(h?'ar-SA-u-ca-islamic-umalqura-nu-arab':'ar-u-nu-arab',h?{day:'numeric',month:'long',year:'numeric',timeZone:'UTC'}:{weekday:'long',day:'numeric',month:'long',timeZone:'UTC'}).format(d)}catch(e){return ''}}
 function wqBack(href){return '<a class="back" href="#'+href+'"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg>رجوع</a>'}
+function wqSnip(t,n){t=t.replace(/\s+/g,' ').trim();if(t.length<=n)return t;var c=t.slice(0,n+1),b=-1,m,re=/[،؛,.]\s|\s[\u06D6-\u06DB]\s/g;while((m=re.exec(c)))if(m.index>n*.55)b=m.index+m[0].length-1;if(b<0)b=c.lastIndexOf(' ');return t.slice(0,b>0?b:n).replace(/[\s،؛,.\u06D6-\u06DB]+$/,'')+' …'}
 function wqTextHtml(w){if(w.textType==='quran')return w.verses.map(function(v){return qam(v.text,v.a)}).join(' ');var t=w.text.replace(/\r\n?/g,'\n');if(w.textType==='hadith'){var k=t.indexOf('\n');if(k>0)return '<span class="wqnar">'+esc(t.slice(0,k))+'</span>'+esc(t.slice(k+1))}return esc(t)}
 function wqSec(cls,label,badge,body,foot){return '<section class="wqs '+cls+'" aria-label="'+label+'"><h3 class="wqh3"><span>'+label+'</span>'+(badge?'<em>'+badge+'</em>':'')+'</h3>'+body+(foot||'')+'</section>'}
 function wqSrc(a,b){var r=/^https?:\/\//.test(b)?'<a href="'+esc(b)+'" target="_blank" rel="noopener noreferrer" dir="ltr">'+esc(b.replace(/^https?:\/\//,''))+'</a>':esc(b);return '<p class="wqsrc"><b>المصدر:</b> '+esc(a)+' <span aria-hidden="true">·</span> <b>المرجع:</b> '+r+'</p>'}
@@ -1117,7 +1118,7 @@ function wqPage(w,dn){var q=w.textType==='quran',ex=w.explanation,st=1,ref=wqRef
  return h+'<p class="wqlg">النص ومعناه منقولان بحروفهما من مصادرهما · «عملٌ لك اليوم» من صياغة أثر</p></article>'}
 function wqArchive(){var NO=ntAll();return wqBack('/')+head('كل الوقفات',ar(WQ.length)+' وقفة — افتح منها ما شئت. تتّسع المكتبة كلما رُوجعت وقفات جديدة.')+'<a class="qcont" href="#/notes"><small>دفتر الأثر</small><b>ملاحظاتك وما طبّقته من الوقفات</b></a><ul class="list wqlist">'+WQ.map(function(w){return '<li><a class="row" href="#/waqfa/'+w.id+'"><div><b>'+esc(w.title)+'</b><span>'+esc(w.topic)+' · '+WQT[w.textType]+(NO[w.id]?(NO[w.id].a?' · طبّقتُه ✓':' · في دفترك'):'')+'</span></div><svg class="go" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></a></li>'}).join('')+'</ul>'}
 function wqShareText(w,dn){var L=['وقفة أثر: '+w.title];if(dn!=null)L.push(wqFmt(dn)+' · '+wqFmt(dn,1));L.push('','النص ('+WQT[w.textType]+'):',w.text.replace(/\r\n?/g,'\n'),'المصدر: '+wqRef(w));var ex=w.explanation;if(ex){L.push('','الشرح (من '+ex.source+' — '+ex.reference+'):');L.push(ex.items.length>1?ex.items.map(function(x,i){return (i+1)+'- '+x}).join('\n'):ex.items[0])}L.push('','عمل تطبّقه (تطبيق تحريري من «أثر»، ليس من النص ولا من الشرح):',w.application.text,'','— أثر');return L.join('\n')}
-function today(){var el=$('#today');if(!el)return;var w=wqCur(),q=w.textType==='quran';el.innerHTML='<article class="card today wqc"><div class="wqtop"><h3><a class="tl" href="#/waqfa">'+esc(w.title)+'</a></h3><span class="badge ty">'+WQT[w.textType]+'</span></div>'+(function(){var t=w.text.replace(/\r\n?/g,'\n'),k=w.textType==='hadith'?t.indexOf('\n'):-1;return (k>0?'<p class="wqnr" lang="ar">'+esc(t.slice(0,k))+'</p>':'')+'<p class="ctext wqsn'+(q?' q':'')+'" lang="ar" translate="no">'+esc(k>0?t.slice(k+1):t)+'</p>'})()+'<p class="wqmeta">'+esc(wqRef(w))+'</p><div class="actions"><a class="btn primary" href="#/waqfa">افتح الوقفة</a><a class="btn" href="#/waqfa/archive">كل الوقفات</a></div></article>'}
+function today(){var el=$('#today');if(!el)return;var w=wqCur(),q=w.textType==='quran';el.innerHTML='<article class="card today wqc"><div class="wqtop"><h3><a class="tl" href="#/waqfa">'+esc(w.title)+'</a></h3><span class="badge ty">'+WQT[w.textType]+'</span></div>'+(function(){var t=w.text.replace(/\r\n?/g,'\n'),k=w.textType==='hadith'?t.indexOf('\n'):-1;return (k>0?'<p class="wqnr" lang="ar">'+esc(t.slice(0,k))+'</p>':'')+'<p class="ctext wqsn'+(q?' q':'')+'" lang="ar" translate="no">'+esc(wqSnip(k>0?t.slice(k+1):t,100))+'</p>'})()+'<p class="wqmeta">'+esc(wqSnip(wqRef(w),56))+'</p><div class="actions"><a class="btn primary" href="#/waqfa">افتح الوقفة</a><a class="btn" href="#/waqfa/archive">كل الوقفات</a></div></article>'}
 document.addEventListener('click',function(e){var b=e.target.closest('[data-wq]');if(!b)return;var w=wqById(b.dataset.id);if(!w)return;var x=wqShareText(w,null);
 if(b.dataset.wq==='share'){if(navigator.share){navigator.share({title:'وقفة أثر',text:x}).catch(function(){})}else if(navigator.clipboard){navigator.clipboard.writeText(x).then(function(){toast('المشاركة غير متاحة هنا، نُسخ النص بدلًا منها')},function(){toast('تعذرت المشاركة')})}else toast('تعذرت المشاركة')}
 else copyT(x,'تم نسخ الوقفة')});
@@ -1398,12 +1399,12 @@ function ocList(){var d=ocNow(),wd=d.getDay(),h=ocHijri(d),L=[];
  if(wd===5)L.push({k:'jumua',t:'يوم الجمعة',ids:['jumua-salat','jumua-sa3a']});
  if(wd===1||wd===4)L.push({k:'ithnayn',t:wd===1?'يوم الاثنين':'يوم الخميس',ids:['ithnayn-khamis']});
  return L.slice(0,2)}
-function ocCard(o){var h='<article class="occ"><p class="ock">ما يناسب اليوم'+(o.hj?' · بحسب تقويم أم القرى':'')+'</p><h2 class="och">'+o.t+'</h2>';
+function ocCard(o){var h='<article class="occ"><h3 class="och">'+o.t+'</h3>'+(o.hj?'<p class="ock">بحسب تقويم أم القرى</p>':'');
  (o.ids||[]).forEach(function(id){var x=OCC[id];if(!x)return;h+='<p class="ocl">من حديث النبي ﷺ</p><p class="oct" lang="ar">«'+esc(x.t)+'»</p><p class="ocr">'+esc(x.r)+'</p>'});
  if(o.dua&&ALL[o.dua]){var a=ALL[o.dua];h+='<p class="ocl">'+esc(a.title||'دعاء')+'</p><p class="oct" lang="ar">'+esc(a.text)+'</p><p class="ocr">'+esc([a.source,a.reference].filter(Boolean).join(' · '))+'</p>'}
  if(o.links)h+='<p class="ocln">'+o.links.map(function(l){return '<a class="chip" href="#'+l[1]+'">'+l[0]+'</a>'}).join('')+'</p>';
  return h+'</article>'}
-function ocRender(){var el=document.getElementById('occs');if(!el)return;var L=[];try{L=ocList()}catch(e){}el.hidden=!L.length;el.innerHTML=L.map(ocCard).join('')}
+function ocRender(){var el=document.getElementById('occs');if(!el)return;var L=[];try{L=ocList()}catch(e){}el.hidden=!L.length;el.innerHTML=L.length?'<h2>ما يناسب اليوم</h2>'+L.map(ocCard).join(''):''}
 
 /* ===== v20 «دفتر الأثر» ===== */
 var NT_KEY='athar-notes',NT_MAX=2000,ntTm=null;

@@ -72,10 +72,10 @@ function ocList(){var d=ocNow(),wd=d.getDay(),h=ocHijri(d),L=[];
  if(wd===5)L.push({k:'jumua',t:'يوم الجمعة',ids:['jumua-salat','jumua-sa3a']});
  if(wd===1||wd===4)L.push({k:'ithnayn',t:wd===1?'يوم الاثنين':'يوم الخميس',ids:['ithnayn-khamis']});
  return L.slice(0,2)}
-function ocCard(o){var h='<article class="occ"><p class="ock">ما يناسب اليوم'+(o.hj?' · بحسب تقويم أم القرى':'')+'</p><h2 class="och">'+o.t+'</h2>';
+function ocCard(o){var h='<article class="occ"><h3 class="och">'+o.t+'</h3>'+(o.hj?'<p class="ock">بحسب تقويم أم القرى</p>':'');
  (o.ids||[]).forEach(function(id){var x=OCC[id];if(!x)return;h+='<p class="ocl">من حديث النبي ﷺ</p><p class="oct" lang="ar">«'+esc(x.t)+'»</p><p class="ocr">'+esc(x.r)+'</p>'});
  if(o.dua&&ALL[o.dua]){var a=ALL[o.dua];h+='<p class="ocl">'+esc(a.title||'دعاء')+'</p><p class="oct" lang="ar">'+esc(a.text)+'</p><p class="ocr">'+esc([a.source,a.reference].filter(Boolean).join(' · '))+'</p>'}
  if(o.links)h+='<p class="ocln">'+o.links.map(function(l){return '<a class="chip" href="#'+l[1]+'">'+l[0]+'</a>'}).join('')+'</p>';
  return h+'</article>'}
-function ocRender(){var el=document.getElementById('occs');if(!el)return;var L=[];try{L=ocList()}catch(e){}el.hidden=!L.length;el.innerHTML=L.map(ocCard).join('')}
+function ocRender(){var el=document.getElementById('occs');if(!el)return;var L=[];try{L=ocList()}catch(e){}el.hidden=!L.length;el.innerHTML=L.length?'<h2>ما يناسب اليوم</h2>'+L.map(ocCard).join(''):''}
 

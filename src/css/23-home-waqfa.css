@@ -6,8 +6,8 @@
 .wqtop h3::before{content:"";flex:none;width:16px;height:16px;background:var(--orn) center/contain no-repeat}
 .today .wqtop .badge{margin:0;flex:none;font-size:.72rem}
 .wqc .ctext{font-size:calc(1.3rem*var(--rdk,1));line-height:2}
-.wqc .wqsn{-webkit-line-clamp:2;line-clamp:2;max-height:4em;margin-bottom:6px}
-.wqc .wqmeta{margin:2px 0 10px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.wqc .wqsn{margin-bottom:6px}
+.wqc .wqmeta{margin:2px 0 10px}
 .wqc .actions{gap:8px}.wqc .actions .btn{min-height:42px;padding:6px 18px;font-size:.92rem}
 .wqc .wqnr{margin:0 0 -4px;font-size:.8rem;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-align:center}
 
