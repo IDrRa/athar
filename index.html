@@ -29,7 +29,7 @@
 box-sizing:border-box;padding-top:env(safe-area-inset-top,0px)}
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0F1714;--surface:#16201B;--text:#E7EDE8;--muted:#9BAAA1;--green:#86C2A3;--on-green:#0F1D17;--gold:#CDAE6E;--line:#26332D;--tint:#1B2822}}
 :root[data-theme="dark"]{--bg:#0F1714;--surface:#16201B;--text:#E7EDE8;--muted:#9BAAA1;--green:#86C2A3;--on-green:#0F1D17;--gold:#CDAE6E;--line:#26332D;--tint:#1B2822}
-*,*::before,*::after{box-sizing:inherit}
+*,*::before,*::after{box-sizing:border-box} /* not inherit: Safari does not pass it into <details>, so the notebook box overflowed */
 html{scroll-padding-top:env(safe-area-inset-top,0px)}
 body{margin:0;background:var(--bg);color:var(--text);font:400 1rem/1.7 var(--ui);-webkit-text-size-adjust:100%}
 button,input{font:inherit;color:inherit}
