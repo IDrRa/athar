@@ -1387,7 +1387,7 @@ document.addEventListener('keydown',function(e){var bk=document.getElementById('
 addEventListener('hashchange',function(){var bk=document.getElementById('cardS');if(bk&&!bk.hidden)cdClose()});
 
 document.addEventListener('click',function(e){if(!e.target.closest('[data-wqnext]'))return;var w=wqNext();try{today()}catch(x){}if(location.hash==='#/waqfa')route();else location.hash='#/waqfa';live('وقفة: '+w.title)});
-var OCC={"jumua-sa3a":{"t":"فِيهِ سَاعَةٌ لاَ يُوَافِقُهَا عَبْدٌ مُسْلِمٌ، وَهْوَ قَائِمٌ يُصَلِّي، يَسْأَلُ اللَّهَ تَعَالَى شَيْئًا إِلاَّ أَعْطَاهُ إِيَّاهُ","r":"صحيح البخاري، رقم 935"},"jumua-salat":{"t":"إِنَّ مِنْ أَفْضَلِ أَيَّامِكُمْ يَوْمَ الْجُمُعَةِ فِيهِ خُلِقَ آدَمُ وَفِيهِ قُبِضَ وَفِيهِ النَّفْخَةُ وَفِيهِ الصَّعْقَةُ فَأَكْثِرُوا عَلَىَّ مِنَ الصَّلاَةِ فِيهِ فَإِنَّ صَلاَتَكُمْ مَعْرُوضَةٌ عَلَىَّ","r":"سنن أبي داود، رقم 1047، صحّحه الألباني"},"ithnayn-khamis":{"t":"تُعْرَضُ الأَعْمَالُ يَوْمَ الاِثْنَيْنِ وَالْخَمِيسِ فَأُحِبُّ أَنْ يُعْرَضَ عَمَلِي وَأَنَا صَائِمٌ","r":"سنن الترمذي، رقم 747، صحّحه الألباني"},"bid":{"t":"يَا أَبَا ذَرٍّ إِذَا صُمْتَ مِنَ الشَّهْرِ ثَلاَثَةَ أَيَّامٍ فَصُمْ ثَلاَثَ عَشْرَةَ وَأَرْبَعَ عَشْرَةَ وَخَمْسَ عَشْرَةَ","r":"سنن الترمذي، رقم 761، قال الألباني: حسن صحيح"},"ramadan":{"t":"مَنْ صَامَ رَمَضَانَ إِيمَانًا وَاحْتِسَابًا غُفِرَ لَهُ مَا تَقَدَّمَ مِنْ ذَنْبِهِ","r":"صحيح البخاري، رقم 38"},"qadr":{"t":"مَنْ قَامَ لَيْلَةَ الْقَدْرِ إِيمَانًا وَاحْتِسَابًا غُفِرَ لَهُ مَا تَقَدَّمَ مِنْ ذَنْبِهِ","r":"صحيح البخاري، رقم 1901"},"qadr-witr":{"t":"تَحَرَّوْا لَيْلَةَ الْقَدْرِ فِي الْوِتْرِ مِنَ الْعَشْرِ الأَوَاخِرِ مِنْ رَمَضَانَ","r":"صحيح البخاري، رقم 2017"},"shawwal":{"t":"مَنْ صَامَ رَمَضَانَ ثُمَّ أَتْبَعَهُ سِتًّا مِنْ شَوَّالٍ كَانَ كَصِيَامِ الدَّهْرِ","r":"صحيح مسلم، رقم 1164"},"ashr-hijja":{"t":"مَا الْعَمَلُ فِي أَيَّامِ الْعَشْرِ أَفْضَلَ مِنَ الْعَمَلِ فِي هَذِهِ","r":"صحيح البخاري، رقم 969"},"arafa":{"t":"صِيَامُ يَوْمِ عَرَفَةَ أَحْتَسِبُ عَلَى اللَّهِ أَنْ يُكَفِّرَ السَّنَةَ الَّتِي قَبْلَهُ وَالسَّنَةَ الَّتِي بَعْدَهُ","r":"صحيح مسلم، رقم 1162"},"tashriq":{"t":"أَيَّامُ التَّشْرِيقِ أَيَّامُ أَكْلٍ وَشُرْبٍ","r":"صحيح مسلم، رقم 1141"},"muharram":{"t":"أَفْضَلُ الصِّيَامِ بَعْدَ رَمَضَانَ شَهْرُ اللَّهِ الْمُحَرَّمُ","r":"صحيح مسلم، رقم 1163"},"ashura":{"t":"وَصِيَامُ يَوْمِ عَاشُورَاءَ أَحْتَسِبُ عَلَى اللَّهِ أَنْ يُكَفِّرَ السَّنَةَ الَّتِي قَبْلَهُ","r":"صحيح مسلم، رقم 1162"}};
+var OCC={"jumua-layla":{"t":"أكثِروا الصَّلاةَ عليَّ يومَ الجمُعةِ وليلةَ الجمُعةِ، فمَن صلَّى عليَّ صلاةً صلَّى اللهُ عليهِ عَشرًا","r":"صحيح الجامع، رقم 1209، حسّنه الألباني"},"jumua-sa3a":{"t":"فِيهِ سَاعَةٌ لاَ يُوَافِقُهَا عَبْدٌ مُسْلِمٌ، وَهْوَ قَائِمٌ يُصَلِّي، يَسْأَلُ اللَّهَ تَعَالَى شَيْئًا إِلاَّ أَعْطَاهُ إِيَّاهُ","r":"صحيح البخاري، رقم 935"},"jumua-salat":{"t":"إِنَّ مِنْ أَفْضَلِ أَيَّامِكُمْ يَوْمَ الْجُمُعَةِ فِيهِ خُلِقَ آدَمُ وَفِيهِ قُبِضَ وَفِيهِ النَّفْخَةُ وَفِيهِ الصَّعْقَةُ فَأَكْثِرُوا عَلَىَّ مِنَ الصَّلاَةِ فِيهِ فَإِنَّ صَلاَتَكُمْ مَعْرُوضَةٌ عَلَىَّ","r":"سنن أبي داود، رقم 1047، صحّحه الألباني"},"ithnayn-khamis":{"t":"تُعْرَضُ الأَعْمَالُ يَوْمَ الاِثْنَيْنِ وَالْخَمِيسِ فَأُحِبُّ أَنْ يُعْرَضَ عَمَلِي وَأَنَا صَائِمٌ","r":"سنن الترمذي، رقم 747، صحّحه الألباني"},"bid":{"t":"يَا أَبَا ذَرٍّ إِذَا صُمْتَ مِنَ الشَّهْرِ ثَلاَثَةَ أَيَّامٍ فَصُمْ ثَلاَثَ عَشْرَةَ وَأَرْبَعَ عَشْرَةَ وَخَمْسَ عَشْرَةَ","r":"سنن الترمذي، رقم 761، قال الألباني: حسن صحيح"},"ramadan":{"t":"مَنْ صَامَ رَمَضَانَ إِيمَانًا وَاحْتِسَابًا غُفِرَ لَهُ مَا تَقَدَّمَ مِنْ ذَنْبِهِ","r":"صحيح البخاري، رقم 38"},"qadr":{"t":"مَنْ قَامَ لَيْلَةَ الْقَدْرِ إِيمَانًا وَاحْتِسَابًا غُفِرَ لَهُ مَا تَقَدَّمَ مِنْ ذَنْبِهِ","r":"صحيح البخاري، رقم 1901"},"qadr-witr":{"t":"تَحَرَّوْا لَيْلَةَ الْقَدْرِ فِي الْوِتْرِ مِنَ الْعَشْرِ الأَوَاخِرِ مِنْ رَمَضَانَ","r":"صحيح البخاري، رقم 2017"},"shawwal":{"t":"مَنْ صَامَ رَمَضَانَ ثُمَّ أَتْبَعَهُ سِتًّا مِنْ شَوَّالٍ كَانَ كَصِيَامِ الدَّهْرِ","r":"صحيح مسلم، رقم 1164"},"ashr-hijja":{"t":"مَا الْعَمَلُ فِي أَيَّامِ الْعَشْرِ أَفْضَلَ مِنَ الْعَمَلِ فِي هَذِهِ","r":"صحيح البخاري، رقم 969"},"arafa":{"t":"صِيَامُ يَوْمِ عَرَفَةَ أَحْتَسِبُ عَلَى اللَّهِ أَنْ يُكَفِّرَ السَّنَةَ الَّتِي قَبْلَهُ وَالسَّنَةَ الَّتِي بَعْدَهُ","r":"صحيح مسلم، رقم 1162"},"tashriq":{"t":"أَيَّامُ التَّشْرِيقِ أَيَّامُ أَكْلٍ وَشُرْبٍ","r":"صحيح مسلم، رقم 1141"},"muharram":{"t":"أَفْضَلُ الصِّيَامِ بَعْدَ رَمَضَانَ شَهْرُ اللَّهِ الْمُحَرَّمُ","r":"صحيح مسلم، رقم 1163"},"ashura":{"t":"وَصِيَامُ يَوْمِ عَاشُورَاءَ أَحْتَسِبُ عَلَى اللَّهِ أَنْ يُكَفِّرَ السَّنَةَ الَّتِي قَبْلَهُ","r":"صحيح مسلم، رقم 1162"}};
 
 function ocNow(){var d=null;try{var x=localStorage.getItem('athar-dbg-date');if(x)d=new Date(x)}catch(e){}return d&&!isNaN(d)?d:new Date()}
 function ocHijri(d){try{var p=new Intl.DateTimeFormat('en-u-ca-islamic-umalqura-nu-latn',{day:'numeric',month:'numeric'}).formatToParts(d),o={};p.forEach(function(x){o[x.type]=+x.value});return o.month&&o.day?{m:o.month,d:o.day}:null}catch(e){return null}}
@@ -1404,8 +1404,11 @@ function ocList(){var d=ocNow(),wd=d.getDay(),h=ocHijri(d),L=[];
   if(m===10&&dd>=2)L.push({k:'shawwal',t:'شهر شوّال',ids:['shawwal'],hj:1});
   if(dd>=13&&dd<=15&&m!==9&&!(m===12&&dd===13))L.push({k:'bid',t:'الأيام البيض',ids:['bid'],hj:1});
   if(dd<=2)L.push({k:'hilal',t:'أول الشهر الهجري',dua:'dua-hisn-068-01',hj:1})}
- if(wd===5)L.push({k:'jumua',t:'يوم الجمعة',ids:['jumua-salat','jumua-sa3a']});
- if(wd===1||wd===4)L.push({k:'ithnayn',t:wd===1?'يوم الاثنين':'يوم الخميس',ids:['ithnayn-khamis']});
+ /* weekday cards end at Maghrib: from Maghrib on Thursday until Fajr it is ليلة الجمعة */
+ var eve=false,pre=false;try{var PT=nowTimes(d).t;eve=d.getTime()>=PT.maghrib;pre=d.getTime()<PT.fajr}catch(e){}
+ if((wd===4&&eve)||(wd===5&&pre))L.push({k:'jumua-layla',t:'ليلة الجمعة',ids:['jumua-layla']});
+ if(wd===5&&!eve&&!pre)L.push({k:'jumua',t:'يوم الجمعة',ids:['jumua-salat','jumua-sa3a']});
+ if((wd===1||wd===4)&&!eve)L.push({k:'ithnayn',t:wd===1?'يوم الاثنين':'يوم الخميس',ids:['ithnayn-khamis']});
  return L.slice(0,2)}
 function ocCard(o){var h='<article class="occ"><h3 class="och">'+o.t+'</h3>'+(o.hj?'<p class="ock">بحسب تقويم أم القرى</p>':'');
  (o.ids||[]).forEach(function(id){var x=OCC[id];if(!x)return;h+='<p class="ocl">من حديث النبي ﷺ</p><p class="oct" lang="ar">«'+esc(x.t)+'»</p><p class="ocr">'+esc(x.r)+'</p>'});
@@ -1665,15 +1668,15 @@ document.addEventListener('change',function(e){var f=e.target;if(f.id!=='mrimp'|
 
 /* ===== v36 «الآن»: the home page shows what suits this moment, from the visitor's prayer times ===== */
 /* windows: الصباح من الفجر إلى الظهر · المساء من العصر إلى العشاء · النوم من العشاء إلى الفجر ·
-   سورة الكهف من فجر الجمعة إلى مغربها · الصلاة على النبي ﷺ من مغرب الخميس (ليلة الجمعة) إلى مغرب الجمعة */
+   سورة الكهف من فجر الجمعة إلى مغربها */
 function nowTimes(d){var l=ptLoc();if(l){try{var tz=ptTz(l),a=ptYMD(d,tz),o=ptDay(a[0],a[1],a[2],l.lat,l.lng,ptRamadan(d,tz));if(o.fajr&&o.dhuhr&&o.asr&&o.maghrib&&o.isha)return {t:o}}catch(e){}}
  /* no location: rough local-clock times, used only to choose the card */
  var b=function(h,m){return new Date(d.getFullYear(),d.getMonth(),d.getDate(),h,m)};return {t:{fajr:b(4,45),dhuhr:b(12,0),asr:b(15,15),maghrib:b(17,45),isha:b(19,15)}}}
-function nowState(d){var T=nowTimes(d),t=T.t,s={main:null,kahf:false,salat:false},m=d.getTime();
+function nowState(d){var T=nowTimes(d),t=T.t,s={main:null,kahf:false},m=d.getTime();
  if(m>=t.fajr&&m<t.dhuhr)s.main={k:'morning'};
  else if(m>=t.asr&&m<t.isha)s.main={k:'evening'};
  else if(m>=t.isha||m<t.fajr)s.main={k:'sleep'};
- var wd=d.getDay();s.kahf=wd===5&&m>=t.fajr&&m<t.maghrib;s.salat=(wd===4&&m>=t.maghrib)||(wd===5&&m<t.maghrib);return s}
+ var wd=d.getDay();s.kahf=wd===5&&m>=t.fajr&&m<t.maghrib;return s}
 var NOWK={morning:['أذكار الصباح','/adhkar/morning'],evening:['أذكار المساء','/adhkar/evening'],sleep:['أذكار النوم','/adhkar/sleep']};
 /* each suggestion looks like a phone notification: app icon, title, «الآن» — nothing more.
    Once opened (from the card or any other way) it is gone until its next time, like a read notification. */
@@ -1681,7 +1684,6 @@ function nowYMD(d,add){var x=new Date(d.getFullYear(),d.getMonth(),d.getDate()+(
 function nowList(d){var s=nowState(d),T=nowTimes(d).t,early=d.getTime()<T.fajr,x=[];
  if(s.main)x.push({id:s.main.k+':'+nowYMD(d,s.main.k==='sleep'&&early?-1:0),h:NOWK[s.main.k][1],t:NOWK[s.main.k][0]});
  if(s.kahf)x.push({id:'kahf:'+nowYMD(d),h:'/quran/18',t:'سورة الكهف'});
- if(s.salat)x.push({id:'salat:'+nowYMD(d,d.getDay()===4?1:0),h:'/dhikr/dhikr-hisn-028-22',t:'الصلاة على النبي ﷺ'});
  return x}
 var NOW_SEEN='athar-now-seen';
 function nowSeen(){var o=qget(NOW_SEEN,[]);return Array.isArray(o)?o:[]}
