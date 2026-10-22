@@ -1,6 +1,9 @@
-/* v36 «الآن»: suggestions styled like phone notifications, one line each (.nwn — .nw is taken by the Quran text) */
-#nowc:not([hidden]){display:flex;flex-direction:column;gap:6px;margin:0 0 24px}
-.nwn{display:flex;align-items:center;gap:10px;min-height:50px;padding:8px 12px;box-sizing:border-box;background:var(--surface);border:1px solid var(--line);border-radius:16px;text-decoration:none;color:var(--text)}
-.nwn img{width:32px;height:32px;flex:none;border-radius:8px}
+/* v36 «الآن»: an in-app notification banner (.nwn — .nw is taken by the Quran text) */
+#nwb{position:fixed;z-index:80;top:calc(env(safe-area-inset-top,0px) + 8px);inset-inline:12px;max-width:520px;margin:0 auto;display:flex;flex-direction:column;gap:6px;
+ transform:translateY(calc(-100% - 40px));opacity:0;transition:transform .45s cubic-bezier(.2,.8,.2,1),opacity .3s;pointer-events:none}
+#nwb.on{transform:none;opacity:1;pointer-events:auto}
+@media (prefers-reduced-motion:reduce){#nwb{transform:none;transition:opacity .2s}}
+.nwn{display:flex;align-items:center;gap:10px;min-height:56px;padding:10px 14px;background:var(--surface);border:1px solid var(--line);border-radius:18px;box-shadow:0 10px 30px rgba(0,0,0,.35);text-decoration:none;color:var(--text)}
+.nwn img{width:34px;height:34px;flex:none;border-radius:8px}
 .nwn b{flex:1;min-width:0;font:600 .95rem/1.4 var(--ui)}
 .nwn time{flex:none;color:var(--muted);font-size:.74rem}

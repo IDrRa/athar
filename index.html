@@ -749,10 +749,13 @@ body.home::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:no
 .in-s li span{color:var(--muted);font-size:.88rem;line-height:1.8}
 .in-n{flex:none;display:grid;place-items:center;width:30px;height:30px;border:1px solid var(--gold);border-radius:50%;color:var(--gold);font:600 .85rem/1 var(--ui)}
 .in-need .nt-go{margin-top:6px}
-/* v36 «الآن»: suggestions styled like phone notifications, one line each (.nwn — .nw is taken by the Quran text) */
-#nowc:not([hidden]){display:flex;flex-direction:column;gap:6px;margin:0 0 24px}
-.nwn{display:flex;align-items:center;gap:10px;min-height:50px;padding:8px 12px;box-sizing:border-box;background:var(--surface);border:1px solid var(--line);border-radius:16px;text-decoration:none;color:var(--text)}
-.nwn img{width:32px;height:32px;flex:none;border-radius:8px}
+/* v36 «الآن»: an in-app notification banner (.nwn — .nw is taken by the Quran text) */
+#nwb{position:fixed;z-index:80;top:calc(env(safe-area-inset-top,0px) + 8px);inset-inline:12px;max-width:520px;margin:0 auto;display:flex;flex-direction:column;gap:6px;
+ transform:translateY(calc(-100% - 40px));opacity:0;transition:transform .45s cubic-bezier(.2,.8,.2,1),opacity .3s;pointer-events:none}
+#nwb.on{transform:none;opacity:1;pointer-events:auto}
+@media (prefers-reduced-motion:reduce){#nwb{transform:none;transition:opacity .2s}}
+.nwn{display:flex;align-items:center;gap:10px;min-height:56px;padding:10px 14px;background:var(--surface);border:1px solid var(--line);border-radius:18px;box-shadow:0 10px 30px rgba(0,0,0,.35);text-decoration:none;color:var(--text)}
+.nwn img{width:34px;height:34px;flex:none;border-radius:8px}
 .nwn b{flex:1;min-width:0;font:600 .95rem/1.4 var(--ui)}
 .nwn time{flex:none;color:var(--muted);font-size:.74rem}
 </style>
@@ -779,7 +782,6 @@ body.home::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:no
 
   <main id="app" tabindex="-1">
   <section id="insh" aria-label="تثبيت أثر" hidden></section>
-  <section id="nowc" aria-label="الآن" hidden></section>
   <section id="occs" aria-label="ما يناسب اليوم" hidden></section>
   <section aria-labelledby="t-today">
     <h2 id="t-today">وقفة أثر</h2>
@@ -1392,7 +1394,7 @@ document.addEventListener('keydown',function(e){var bk=document.getElementById('
 addEventListener('hashchange',function(){var bk=document.getElementById('cardS');if(bk&&!bk.hidden)cdClose()});
 
 document.addEventListener('click',function(e){if(!e.target.closest('[data-wqnext]'))return;var w=wqNext();try{today()}catch(x){}if(location.hash==='#/waqfa')route();else location.hash='#/waqfa';live('وقفة: '+w.title)});
-var OCC={"jumua-layla":{"t":"أكثِروا الصَّلاةَ عليَّ يومَ الجمُعةِ وليلةَ الجمُعةِ، فمَن صلَّى عليَّ صلاةً صلَّى اللهُ عليهِ عَشرًا","r":"صحيح الجامع، رقم 1209، حسّنه الألباني"},"jumua-sa3a":{"t":"فِيهِ سَاعَةٌ لاَ يُوَافِقُهَا عَبْدٌ مُسْلِمٌ، وَهْوَ قَائِمٌ يُصَلِّي، يَسْأَلُ اللَّهَ تَعَالَى شَيْئًا إِلاَّ أَعْطَاهُ إِيَّاهُ","r":"صحيح البخاري، رقم 935"},"jumua-salat":{"t":"إنَّ من أفضلِ أيَّامِكم يومَ الجمعةِ فيه خُلِق آدمُ، وفيه قُبِض، وفيه النَّفخةُ، وفيه الصَّعقةُ، فأكثِروا عليَّ من الصَّلاةِ فإنَّ صلاتَكم معروضةٌ عليَّ. قالوا: يا رسولَ اللهِ كيف تُعرَضُ عليك صلاتُنا وقد أرِمتَ؟ يقولون: قد بَلِيتَ، قال: إنَّ اللهَ حرَّم على الأرضِ أن تأكُلَ أجسادَ الأنبياءِ","r":"صحيح أبي داود، رقم 1047، صحّحه الألباني"},"ithnayn-khamis":{"t":"تُعْرَضُ الأَعْمَالُ يَوْمَ الاِثْنَيْنِ وَالْخَمِيسِ فَأُحِبُّ أَنْ يُعْرَضَ عَمَلِي وَأَنَا صَائِمٌ","r":"سنن الترمذي، رقم 747، صحّحه الألباني"},"bid":{"t":"يَا أَبَا ذَرٍّ إِذَا صُمْتَ مِنَ الشَّهْرِ ثَلاَثَةَ أَيَّامٍ فَصُمْ ثَلاَثَ عَشْرَةَ وَأَرْبَعَ عَشْرَةَ وَخَمْسَ عَشْرَةَ","r":"سنن الترمذي، رقم 761، قال الألباني: حسن صحيح"},"ramadan":{"t":"مَنْ صَامَ رَمَضَانَ إِيمَانًا وَاحْتِسَابًا غُفِرَ لَهُ مَا تَقَدَّمَ مِنْ ذَنْبِهِ","r":"صحيح البخاري، رقم 38"},"qadr":{"t":"مَنْ قَامَ لَيْلَةَ الْقَدْرِ إِيمَانًا وَاحْتِسَابًا غُفِرَ لَهُ مَا تَقَدَّمَ مِنْ ذَنْبِهِ","r":"صحيح البخاري، رقم 1901"},"qadr-witr":{"t":"تَحَرَّوْا لَيْلَةَ الْقَدْرِ فِي الْوِتْرِ مِنَ الْعَشْرِ الأَوَاخِرِ مِنْ رَمَضَانَ","r":"صحيح البخاري، رقم 2017"},"shawwal":{"t":"مَنْ صَامَ رَمَضَانَ ثُمَّ أَتْبَعَهُ سِتًّا مِنْ شَوَّالٍ كَانَ كَصِيَامِ الدَّهْرِ","r":"صحيح مسلم، رقم 1164"},"ashr-hijja":{"t":"مَا الْعَمَلُ فِي أَيَّامِ الْعَشْرِ أَفْضَلَ مِنَ الْعَمَلِ فِي هَذِهِ","r":"صحيح البخاري، رقم 969"},"arafa":{"t":"صِيَامُ يَوْمِ عَرَفَةَ أَحْتَسِبُ عَلَى اللَّهِ أَنْ يُكَفِّرَ السَّنَةَ الَّتِي قَبْلَهُ وَالسَّنَةَ الَّتِي بَعْدَهُ","r":"صحيح مسلم، رقم 1162"},"tashriq":{"t":"أَيَّامُ التَّشْرِيقِ أَيَّامُ أَكْلٍ وَشُرْبٍ","r":"صحيح مسلم، رقم 1141"},"muharram":{"t":"أَفْضَلُ الصِّيَامِ بَعْدَ رَمَضَانَ شَهْرُ اللَّهِ الْمُحَرَّمُ","r":"صحيح مسلم، رقم 1163"},"ashura":{"t":"وَصِيَامُ يَوْمِ عَاشُورَاءَ أَحْتَسِبُ عَلَى اللَّهِ أَنْ يُكَفِّرَ السَّنَةَ الَّتِي قَبْلَهُ","r":"صحيح مسلم، رقم 1162"}};
+var OCC={"jumua-layla":{"t":"أكثِروا الصَّلاةَ عليَّ يومَ الجمُعةِ وليلةَ الجمُعةِ، فمَن صلَّى عليَّ صلاةً صلَّى اللهُ عليهِ عَشرًا","r":"صحيح الجامع، رقم 1209، حسّنه الألباني"},"jumua-sa3a":{"t":"فِيهِ سَاعَةٌ لاَ يُوَافِقُهَا عَبْدٌ مُسْلِمٌ، وَهْوَ قَائِمٌ يُصَلِّي، يَسْأَلُ اللَّهَ تَعَالَى شَيْئًا إِلاَّ أَعْطَاهُ إِيَّاهُ","r":"صحيح البخاري، رقم 935"},"jumua-salat":{"t":"إنَّ من أفضلِ أيَّامِكم يومَ الجمعةِ فيه خُلِق آدمُ، وفيه قُبِض، وفيه النَّفخةُ، وفيه الصَّعقةُ، فأكثِروا عليَّ من الصَّلاةِ فإنَّ صلاتَكم معروضةٌ عليَّ","r":"صحيح أبي داود، رقم 1047، صحّحه الألباني"},"ithnayn-khamis":{"t":"تُعْرَضُ الأَعْمَالُ يَوْمَ الاِثْنَيْنِ وَالْخَمِيسِ فَأُحِبُّ أَنْ يُعْرَضَ عَمَلِي وَأَنَا صَائِمٌ","r":"سنن الترمذي، رقم 747، صحّحه الألباني"},"bid":{"t":"يَا أَبَا ذَرٍّ إِذَا صُمْتَ مِنَ الشَّهْرِ ثَلاَثَةَ أَيَّامٍ فَصُمْ ثَلاَثَ عَشْرَةَ وَأَرْبَعَ عَشْرَةَ وَخَمْسَ عَشْرَةَ","r":"سنن الترمذي، رقم 761، قال الألباني: حسن صحيح"},"ramadan":{"t":"مَنْ صَامَ رَمَضَانَ إِيمَانًا وَاحْتِسَابًا غُفِرَ لَهُ مَا تَقَدَّمَ مِنْ ذَنْبِهِ","r":"صحيح البخاري، رقم 38"},"qadr":{"t":"مَنْ قَامَ لَيْلَةَ الْقَدْرِ إِيمَانًا وَاحْتِسَابًا غُفِرَ لَهُ مَا تَقَدَّمَ مِنْ ذَنْبِهِ","r":"صحيح البخاري، رقم 1901"},"qadr-witr":{"t":"تَحَرَّوْا لَيْلَةَ الْقَدْرِ فِي الْوِتْرِ مِنَ الْعَشْرِ الأَوَاخِرِ مِنْ رَمَضَانَ","r":"صحيح البخاري، رقم 2017"},"shawwal":{"t":"مَنْ صَامَ رَمَضَانَ ثُمَّ أَتْبَعَهُ سِتًّا مِنْ شَوَّالٍ كَانَ كَصِيَامِ الدَّهْرِ","r":"صحيح مسلم، رقم 1164"},"ashr-hijja":{"t":"مَا الْعَمَلُ فِي أَيَّامِ الْعَشْرِ أَفْضَلَ مِنَ الْعَمَلِ فِي هَذِهِ","r":"صحيح البخاري، رقم 969"},"arafa":{"t":"صِيَامُ يَوْمِ عَرَفَةَ أَحْتَسِبُ عَلَى اللَّهِ أَنْ يُكَفِّرَ السَّنَةَ الَّتِي قَبْلَهُ وَالسَّنَةَ الَّتِي بَعْدَهُ","r":"صحيح مسلم، رقم 1162"},"tashriq":{"t":"أَيَّامُ التَّشْرِيقِ أَيَّامُ أَكْلٍ وَشُرْبٍ","r":"صحيح مسلم، رقم 1141"},"muharram":{"t":"أَفْضَلُ الصِّيَامِ بَعْدَ رَمَضَانَ شَهْرُ اللَّهِ الْمُحَرَّمُ","r":"صحيح مسلم، رقم 1163"},"ashura":{"t":"وَصِيَامُ يَوْمِ عَاشُورَاءَ أَحْتَسِبُ عَلَى اللَّهِ أَنْ يُكَفِّرَ السَّنَةَ الَّتِي قَبْلَهُ","r":"صحيح مسلم، رقم 1162"}};
 
 function ocNow(){var d=null;try{var x=localStorage.getItem('athar-dbg-date');if(x)d=new Date(x)}catch(e){}return d&&!isNaN(d)?d:new Date()}
 function ocHijri(d){try{var p=new Intl.DateTimeFormat('en-u-ca-islamic-umalqura-nu-latn',{day:'numeric',month:'numeric'}).formatToParts(d),o={};p.forEach(function(x){o[x.type]=+x.value});return o.month&&o.day?{m:o.month,d:o.day}:null}catch(e){return null}}
@@ -1683,8 +1685,9 @@ function nowState(d){var T=nowTimes(d),t=T.t,s={main:null,kahf:false},m=d.getTim
  else if(m>=t.isha||m<t.fajr)s.main={k:'sleep'};
  var wd=d.getDay();s.kahf=wd===5&&m>=t.fajr&&m<t.maghrib;return s}
 var NOWK={morning:['أذكار الصباح','/adhkar/morning'],evening:['أذكار المساء','/adhkar/evening'],sleep:['أذكار النوم','/adhkar/sleep']};
-/* each suggestion looks like a phone notification: app icon, title, «الآن» — nothing more.
-   Once opened (from the card or any other way) it is gone until its next time, like a read notification. */
+/* «الآن» is an in-app notification: it slides down from the top when the app opens, once per time window,
+   hides by itself after a few seconds or with a swipe up, and opens its page when tapped.
+   Once its page is opened (from the banner or any other way) it does not come back until its next time. */
 function nowYMD(d,add){var x=new Date(d.getFullYear(),d.getMonth(),d.getDate()+(add||0));return x.getFullYear()+'-'+(x.getMonth()+1)+'-'+x.getDate()}
 function nowList(d){var s=nowState(d),T=nowTimes(d).t,early=d.getTime()<T.fajr,x=[];
  if(s.main)x.push({id:s.main.k+':'+nowYMD(d,s.main.k==='sleep'&&early?-1:0),h:NOWK[s.main.k][1],t:NOWK[s.main.k][0]});
@@ -1692,14 +1695,24 @@ function nowList(d){var s=nowState(d),T=nowTimes(d).t,early=d.getTime()<T.fajr,x
  return x}
 var NOW_SEEN='athar-now-seen';
 function nowSeen(){var o=qget(NOW_SEEN,[]);return Array.isArray(o)?o:[]}
-function nowCard(d){var seen=nowSeen();return nowList(d).filter(function(n){return seen.indexOf(n.id)<0}).map(function(n){
- return '<a class="nwn" href="#'+n.h+'"><img src="icons/icon-192-m4.png" alt="" width="32" height="32"><b>'+n.t+'</b><time>الآن</time></a>'}).join('')}
-function nowRender(){var el=document.getElementById('nowc');if(!el)return;var c=nowCard(ocNow());el.hidden=!c;el.innerHTML=c}
+var NOW_SHOWN='athar-now-shown',nowTm=null;
+function nowPop(){var seen=nowSeen(),shown=qget(NOW_SHOWN,[]);if(!Array.isArray(shown))shown=[];
+ var L=nowList(ocNow()).filter(function(n){return seen.indexOf(n.id)<0&&shown.indexOf(n.id)<0});if(!L.length)return;
+ var el=document.getElementById('nwb');if(!el){el=document.createElement('div');el.id='nwb';el.setAttribute('role','status');document.body.appendChild(el)}
+ el.innerHTML=L.map(function(n){return '<a class="nwn" href="#'+n.h+'"><img src="icons/icon-192-m4.png" alt="" width="32" height="32"><b>'+n.t+'</b><time>الآن</time></a>'}).join('');
+ L.forEach(function(n){shown.push(n.id)});qset(NOW_SHOWN,shown.slice(-30));
+ requestAnimationFrame(function(){requestAnimationFrame(function(){el.classList.add('on')})});
+ clearTimeout(nowTm);nowTm=setTimeout(nowHide,6000)}
+function nowHide(){var el=document.getElementById('nwb');if(el)el.classList.remove('on');clearTimeout(nowTm)}
+(function(){var y0=null;document.addEventListener('touchstart',function(e){if(e.target.closest('#nwb'))y0=e.touches[0].clientY},{passive:true});
+ document.addEventListener('touchmove',function(e){if(y0!==null&&e.touches[0].clientY-y0<-20){y0=null;nowHide()}},{passive:true});
+ document.addEventListener('touchend',function(){y0=null},{passive:true});
+ document.addEventListener('click',function(e){if(e.target.closest('#nwb .nwn'))nowHide()})})();
+function nowRender(){try{setTimeout(nowPop,600)}catch(e){}}
 /* opening the page a note points to marks it as read */
 function nowMark(){try{var h=location.hash,seen=nowSeen(),ch=false;nowList(ocNow()).forEach(function(n){var u='#'+n.h;if((h===u||h.indexOf(u+'/')===0||h.indexOf(u+'?')===0)&&seen.indexOf(n.id)<0){seen.push(n.id);ch=true}});if(ch)qset(NOW_SEEN,seen.slice(-30))}catch(e){}}
 window.addEventListener('hashchange',nowMark);nowMark();
-document.addEventListener('visibilitychange',function(){if(!document.hidden&&document.body.classList.contains('home'))try{nowRender()}catch(e){}});
-setInterval(function(){if(!document.hidden&&document.body.classList.contains('home'))try{nowRender()}catch(e){}},60000);
+document.addEventListener('visibilitychange',function(){if(!document.hidden&&document.body.classList.contains('home'))nowRender()});
 /* ===== v26 «صفحات المصحف»: Madinah mushaf pages — KFGQPC QCF4 fonts (Madinah 1441 edition), layout from quran-qcf4 (built by tools/mushaf_qcf4.py) ===== */
 var QMM=true,MOFF=false,MBAD={},MD={},MP={},MFL={},MFC={};
 /* first page of each of the 47 page fonts */

@@ -10,8 +10,9 @@ function nowState(d){var T=nowTimes(d),t=T.t,s={main:null,kahf:false},m=d.getTim
  else if(m>=t.isha||m<t.fajr)s.main={k:'sleep'};
  var wd=d.getDay();s.kahf=wd===5&&m>=t.fajr&&m<t.maghrib;return s}
 var NOWK={morning:['أذكار الصباح','/adhkar/morning'],evening:['أذكار المساء','/adhkar/evening'],sleep:['أذكار النوم','/adhkar/sleep']};
-/* each suggestion looks like a phone notification: app icon, title, «الآن» — nothing more.
-   Once opened (from the card or any other way) it is gone until its next time, like a read notification. */
+/* «الآن» is an in-app notification: it slides down from the top when the app opens, once per time window,
+   hides by itself after a few seconds or with a swipe up, and opens its page when tapped.
+   Once its page is opened (from the banner or any other way) it does not come back until its next time. */
 function nowYMD(d,add){var x=new Date(d.getFullYear(),d.getMonth(),d.getDate()+(add||0));return x.getFullYear()+'-'+(x.getMonth()+1)+'-'+x.getDate()}
 function nowList(d){var s=nowState(d),T=nowTimes(d).t,early=d.getTime()<T.fajr,x=[];
  if(s.main)x.push({id:s.main.k+':'+nowYMD(d,s.main.k==='sleep'&&early?-1:0),h:NOWK[s.main.k][1],t:NOWK[s.main.k][0]});
@@ -19,11 +20,21 @@ function nowList(d){var s=nowState(d),T=nowTimes(d).t,early=d.getTime()<T.fajr,x
  return x}
 var NOW_SEEN='athar-now-seen';
 function nowSeen(){var o=qget(NOW_SEEN,[]);return Array.isArray(o)?o:[]}
-function nowCard(d){var seen=nowSeen();return nowList(d).filter(function(n){return seen.indexOf(n.id)<0}).map(function(n){
- return '<a class="nwn" href="#'+n.h+'"><img src="icons/icon-192-m4.png" alt="" width="32" height="32"><b>'+n.t+'</b><time>الآن</time></a>'}).join('')}
-function nowRender(){var el=document.getElementById('nowc');if(!el)return;var c=nowCard(ocNow());el.hidden=!c;el.innerHTML=c}
+var NOW_SHOWN='athar-now-shown',nowTm=null;
+function nowPop(){var seen=nowSeen(),shown=qget(NOW_SHOWN,[]);if(!Array.isArray(shown))shown=[];
+ var L=nowList(ocNow()).filter(function(n){return seen.indexOf(n.id)<0&&shown.indexOf(n.id)<0});if(!L.length)return;
+ var el=document.getElementById('nwb');if(!el){el=document.createElement('div');el.id='nwb';el.setAttribute('role','status');document.body.appendChild(el)}
+ el.innerHTML=L.map(function(n){return '<a class="nwn" href="#'+n.h+'"><img src="icons/icon-192-m4.png" alt="" width="32" height="32"><b>'+n.t+'</b><time>الآن</time></a>'}).join('');
+ L.forEach(function(n){shown.push(n.id)});qset(NOW_SHOWN,shown.slice(-30));
+ requestAnimationFrame(function(){requestAnimationFrame(function(){el.classList.add('on')})});
+ clearTimeout(nowTm);nowTm=setTimeout(nowHide,6000)}
+function nowHide(){var el=document.getElementById('nwb');if(el)el.classList.remove('on');clearTimeout(nowTm)}
+(function(){var y0=null;document.addEventListener('touchstart',function(e){if(e.target.closest('#nwb'))y0=e.touches[0].clientY},{passive:true});
+ document.addEventListener('touchmove',function(e){if(y0!==null&&e.touches[0].clientY-y0<-20){y0=null;nowHide()}},{passive:true});
+ document.addEventListener('touchend',function(){y0=null},{passive:true});
+ document.addEventListener('click',function(e){if(e.target.closest('#nwb .nwn'))nowHide()})})();
+function nowRender(){try{setTimeout(nowPop,600)}catch(e){}}
 /* opening the page a note points to marks it as read */
 function nowMark(){try{var h=location.hash,seen=nowSeen(),ch=false;nowList(ocNow()).forEach(function(n){var u='#'+n.h;if((h===u||h.indexOf(u+'/')===0||h.indexOf(u+'?')===0)&&seen.indexOf(n.id)<0){seen.push(n.id);ch=true}});if(ch)qset(NOW_SEEN,seen.slice(-30))}catch(e){}}
 window.addEventListener('hashchange',nowMark);nowMark();
-document.addEventListener('visibilitychange',function(){if(!document.hidden&&document.body.classList.contains('home'))try{nowRender()}catch(e){}});
-setInterval(function(){if(!document.hidden&&document.body.classList.contains('home'))try{nowRender()}catch(e){}},60000);
+document.addEventListener('visibilitychange',function(){if(!document.hidden&&document.body.classList.contains('home'))nowRender()});
