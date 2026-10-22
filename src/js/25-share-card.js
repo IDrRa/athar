@@ -44,7 +44,7 @@ function cdNum(n){return ' '+ar(n)+' '}
 function cdFromItem(o){var q=o.kind==='quran'||o.kind==='prophets',src=[];if(o.source&&o.source!==NS&&(o.reference||'').indexOf(o.source)!==0)src.push(o.source);if(o.reference&&o.reference!==NS)src.push(o.reference);
  var tx=o.verses?o.verses.map(function(v){return v.text+cdNum(v.a)}).join(' ').trim():rdtx(o).replace(/<[^>]*>/g,'');
  return{label:o.type==='dua'?(DT[o.kind||'general']||'دعاء'):'ذكر',title:o.title||'',text:tx,ref:src.join(' · '),quran:q,name:o.id}}
-document.addEventListener('click',function(e){var t=e.target,b=t.closest('[data-cdid]');if(b){var o=ALL[b.dataset.cdid];if(o)cdOpen(cdFromItem(o));return}
+document.addEventListener('click',function(e){var t=e.target,b=t.closest('[data-cdid]');if(b){var o=ALL[b.dataset.cdid];if(o){var x=cdFromItem(o);if(b.dataset.cdt)x.title=b.dataset.cdt;cdOpen(x)}return}
  b=t.closest('[data-cdwq]');if(b){var w=wqById(b.dataset.cdwq);if(w){var q=w.textType==='quran';cdOpen({label:'وقفة أثر · '+WQT[w.textType],title:w.title,text:q?w.verses.map(function(v){return v.text+(w.verses.length>1?cdNum(v.a):'')}).join(' ').trim():w.text,ref:wqRef(w),quran:q,name:w.id})}return}
  var bk=document.getElementById('cardS');if(!bk||bk.hidden)return;if(t===bk||t.closest('[data-cdclose]')){cdClose();return}
  b=t.closest('[data-cd]');if(!b||!CD)return;
@@ -76,8 +76,8 @@ function ocList(){var d=ocNow(),wd=d.getDay(),h=ocHijri(d),L=[];
   if(dd<=2)L.push({k:'hilal',t:'أول الشهر الهجري',dua:'dua-hisn-068-01',hj:1})}
  /* weekday cards end at Maghrib: from Maghrib on Thursday until Fajr it is ليلة الجمعة */
  var eve=false,pre=false;try{var PT=nowTimes(d).t;eve=d.getTime()>=PT.maghrib;pre=d.getTime()<PT.fajr}catch(e){}
- if((wd===4&&eve)||(wd===5&&pre))L.push({k:'jumua-layla',t:'ليلة الجمعة',ids:['jumua-salat'],links:[['صيغة الصلاة على النبي ﷺ','/dhikr/dhikr-hisn-023-01']]});
- if(wd===5&&!eve&&!pre)L.push({k:'jumua',t:'يوم الجمعة',ids:['jumua-salat','jumua-sa3a'],links:[['صيغة الصلاة على النبي ﷺ','/dhikr/dhikr-hisn-023-01']]});
+ if((wd===4&&eve)||(wd===5&&pre))L.push({k:'jumua-layla',t:'ليلة الجمعة',ids:['jumua-salat'],links:[['صيغة الصلاة على النبي ﷺ','/salawat']]});
+ if(wd===5&&!eve&&!pre)L.push({k:'jumua',t:'يوم الجمعة',ids:['jumua-salat','jumua-sa3a'],links:[['صيغة الصلاة على النبي ﷺ','/salawat']]});
  if((wd===1||wd===4)&&!eve)L.push({k:'ithnayn',t:wd===1?'يوم الاثنين':'يوم الخميس',ids:['ithnayn-khamis']});
  return L.slice(0,2)}
 function ocCard(o){var h='<article class="occ"><h3 class="och">'+o.t+'</h3>'+(o.hj?'<p class="ock">بحسب تقويم أم القرى</p>':'');

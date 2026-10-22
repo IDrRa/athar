@@ -1203,6 +1203,7 @@ else if(a==='report'){t='أبلغ عن خطأ';d='أبلغ عن خطأ في مح
 else if(a==='mission'){t='رسالة أثر';d='هدف موقع أثر ورؤيته';h=vMission()}
 else if(a==='notify'){t='التنبيهات';d='تنبيهات الأذان والأذكار';h=vNotify()}
 else if(a==='install'){t='ثبّت أثر على جوالك';d='طريقة تثبيت أثر كتطبيق';h=vInstall()}
+else if(a==='salawat'&&ALL['dhikr-hisn-023-01']){t='الصلاة على النبي ﷺ';d='صيغة الصلاة على النبي ﷺ من حصن المسلم';var sw=ALL['dhikr-hisn-023-01'];h=head(t,'','/')+'<article class="card"><p class="ctext" lang="ar">'+sw.text+'</p>'+srcB(sw)+'<div class="actions"><button class="btn primary" data-a="share" data-id="'+sw.id+'">مشاركة</button><button class="btn" data-a="copy" data-id="'+sw.id+'">نسخ</button><button class="btn" data-cdid="'+sw.id+'" data-cdt="الصلاة على النبي ﷺ">بطاقة</button></div></article>'}
 else if(a==='about'){t='المزيد';d='أدوات أثر وإعداداته ومصادر المحتوى';h=vAbout()}
 else if(a==='adhkar'&&!b){t='الأذكار';d='أذكار الصباح والمساء والنوم والاستيقاظ والصلاة';var DL=PL('dhikr');h=head(t,d)+'<ul class="list">'+CA.map(function(c){var n=DL.filter(function(o){return o.category===c[0]}).length;return cat('/adhkar/'+c[0],c[1],n?ndh(n):'')}).join('')+'</ul>'+(DL.length?'':EM)}
 else if(a==='adhkar'&&CA.some(function(c){return c[0]===b})){t=CA.filter(function(c){return c[0]===b})[0][1];h=rdInit(rdList('dhikr',b),t,'/adhkar','/adhkar/'+b,(+p[2]||1)-1)}
@@ -1384,7 +1385,7 @@ function cdNum(n){return ' '+ar(n)+' '}
 function cdFromItem(o){var q=o.kind==='quran'||o.kind==='prophets',src=[];if(o.source&&o.source!==NS&&(o.reference||'').indexOf(o.source)!==0)src.push(o.source);if(o.reference&&o.reference!==NS)src.push(o.reference);
  var tx=o.verses?o.verses.map(function(v){return v.text+cdNum(v.a)}).join(' ').trim():rdtx(o).replace(/<[^>]*>/g,'');
  return{label:o.type==='dua'?(DT[o.kind||'general']||'دعاء'):'ذكر',title:o.title||'',text:tx,ref:src.join(' · '),quran:q,name:o.id}}
-document.addEventListener('click',function(e){var t=e.target,b=t.closest('[data-cdid]');if(b){var o=ALL[b.dataset.cdid];if(o)cdOpen(cdFromItem(o));return}
+document.addEventListener('click',function(e){var t=e.target,b=t.closest('[data-cdid]');if(b){var o=ALL[b.dataset.cdid];if(o){var x=cdFromItem(o);if(b.dataset.cdt)x.title=b.dataset.cdt;cdOpen(x)}return}
  b=t.closest('[data-cdwq]');if(b){var w=wqById(b.dataset.cdwq);if(w){var q=w.textType==='quran';cdOpen({label:'وقفة أثر · '+WQT[w.textType],title:w.title,text:q?w.verses.map(function(v){return v.text+(w.verses.length>1?cdNum(v.a):'')}).join(' ').trim():w.text,ref:wqRef(w),quran:q,name:w.id})}return}
  var bk=document.getElementById('cardS');if(!bk||bk.hidden)return;if(t===bk||t.closest('[data-cdclose]')){cdClose();return}
  b=t.closest('[data-cd]');if(!b||!CD)return;
@@ -1416,8 +1417,8 @@ function ocList(){var d=ocNow(),wd=d.getDay(),h=ocHijri(d),L=[];
   if(dd<=2)L.push({k:'hilal',t:'أول الشهر الهجري',dua:'dua-hisn-068-01',hj:1})}
  /* weekday cards end at Maghrib: from Maghrib on Thursday until Fajr it is ليلة الجمعة */
  var eve=false,pre=false;try{var PT=nowTimes(d).t;eve=d.getTime()>=PT.maghrib;pre=d.getTime()<PT.fajr}catch(e){}
- if((wd===4&&eve)||(wd===5&&pre))L.push({k:'jumua-layla',t:'ليلة الجمعة',ids:['jumua-salat'],links:[['صيغة الصلاة على النبي ﷺ','/dhikr/dhikr-hisn-023-01']]});
- if(wd===5&&!eve&&!pre)L.push({k:'jumua',t:'يوم الجمعة',ids:['jumua-salat','jumua-sa3a'],links:[['صيغة الصلاة على النبي ﷺ','/dhikr/dhikr-hisn-023-01']]});
+ if((wd===4&&eve)||(wd===5&&pre))L.push({k:'jumua-layla',t:'ليلة الجمعة',ids:['jumua-salat'],links:[['صيغة الصلاة على النبي ﷺ','/salawat']]});
+ if(wd===5&&!eve&&!pre)L.push({k:'jumua',t:'يوم الجمعة',ids:['jumua-salat','jumua-sa3a'],links:[['صيغة الصلاة على النبي ﷺ','/salawat']]});
  if((wd===1||wd===4)&&!eve)L.push({k:'ithnayn',t:wd===1?'يوم الاثنين':'يوم الخميس',ids:['ithnayn-khamis']});
  return L.slice(0,2)}
 function ocCard(o){var h='<article class="occ"><h3 class="och">'+o.t+'</h3>'+(o.hj?'<p class="ock">بحسب تقويم أم القرى</p>':'');
