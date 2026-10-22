@@ -71,6 +71,33 @@ let si = 0;
 for (const m of html.matchAll(/<script>([\s\S]*?)<\/script>/g)) { si++; try { new vm.Script(m[1]); } catch (e) { bad(`خطأ نحوي في سكربت الصفحة رقم ${si}: ${e.message}`); } }
 try { new vm.Script(fs.readFileSync(path.join(ROOT, 'sw.js'), 'utf8')); ok(`الشيفرة سليمة نحويًا (${si} سكربت + عامل الخدمة)`); } catch (e) { bad('خطأ نحوي في sw.js: ' + e.message); }
 
+// ---------- 2ب. تعارض الأسماء بين أجزاء الموقع ----------
+// حدث مرتين: نفس السمة data-nt استُخدمت للدفتر وللتنبيهات فأوقف الضغطُ على الدفتر التنبيهات، ونفس الفئة .nw استُخدمت لنص القرآن ولإشعار «الآن».
+// القاعدة: سمة data-* يلتقطها معالج عام (closest) لا تُقرأ في ملف آخر، وفئة تولّدها أكثر من شيفرة يجب أن تكون مشتركة عن قصد (في القائمة أدناه).
+try {
+  const JS = path.join(ROOT, 'src', 'js'), files = fs.readdirSync(JS).map((f) => [f, fs.readFileSync(path.join(JS, f), 'utf8')]);
+  const pageHtml = fs.readFileSync(path.join(ROOT, 'src', 'page.html'), 'utf8'), errs = [];
+  const dashed = (k) => k.replace(/[A-Z]/g, (c) => '-' + c.toLowerCase());
+  const delegated = {}, read = {};
+  for (const [f, s] of files) {
+    for (const m of s.matchAll(/closest\(\s*'[a-z]*\[data-([a-z0-9-]+)/g)) (delegated[m[1]] ||= new Set()).add(f);
+    for (const m of s.matchAll(/\[data-([a-z0-9-]+)|dataset\.([a-zA-Z0-9]+)/g)) (read[m[1] || dashed(m[2])] ||= new Set()).add(f);
+  }
+  for (const [a, fs1] of Object.entries(delegated)) {
+    const others = [...(read[a] || [])].filter((f) => !fs1.has(f));
+    if (fs1.size > 1 || others.length) errs.push(`data-${a}: ${[...new Set([...fs1, ...others])].join(' و ')}`);
+  }
+  // classes intentionally shared by several features (shared look); add a class here only after checking it means the same thing everywhere
+  const SHARED = new Set(['qcont', 'apseg', 'qtrack', 'qclip', 'wqs', 'tfmsg', 'kmmut', 'kmend', 'mri', 'pt-card', 'pt-loc', 'nt-go', 'pt-note', 'pt-l', 'rp-f', 'rp-l', 'rp-i', 'rp-b', 'ms-a']);
+  const base = new Set();
+  for (const f of ['00-base.css', '01-interface.css']) for (const m of fs.readFileSync(path.join(ROOT, 'src', 'css', f), 'utf8').matchAll(/\.([a-zA-Z][\w-]*)/g)) base.add(m[1]);
+  const emit = {};
+  for (const [f, s] of [...files, ['page.html', pageHtml]]) for (const m of s.matchAll(/class(?:Name\s*=\s*|=\\?)["']([^"'\\+]+)/g)) for (const c of m[1].split(/\s+/).filter(Boolean)) (emit[c] ||= new Set()).add(f);
+  for (const [c, fs1] of Object.entries(emit)) if (fs1.size > 1 && !base.has(c) && !SHARED.has(c)) errs.push(`.${c}: ${[...fs1].join(' و ')}`);
+  if (errs.length) bad('أسماء متعارضة بين أجزاء الموقع: ' + errs.join('، '));
+  else ok('لا تعارض في أسماء السمات والفئات بين أجزاء الموقع');
+} catch (e) { bad('تعذّر فحص تعارض الأسماء: ' + e.message); }
+
 // ---------- 3. مواقيت الصلاة: مطابقة لمكتبة adhan المعتمدة (أم القرى) بفارق لا يتجاوز دقيقة ----------
 try {
   const a = html.indexOf('/* ===== v30 prayer times'), b = html.indexOf('/* ---- qibla ---- */', a);

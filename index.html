@@ -1562,8 +1562,8 @@ function vStats(){var s=rdStats(),h=head('إحصاءات قراءتك','صفحا
  h+='<div class="st-g"><div><b>'+ar(s.today)+'</b><span>اليوم</span></div><div><b>'+ar(s.streak)+'</b><span>أيام متتالية</span></div><div><b>'+ar(s.wk)+'</b><span>آخر ٧ أيام</span></div><div><b>'+ar(s.mo)+'</b><span>هذا الشهر</span></div></div>'
  +'<section class="card st-w"><h3>آخر سبعة أيام</h3><div class="st-bars">'+s.week.map(function(x,i){var lb='';try{lb=x[0].toLocaleDateString('ar',{weekday:'short'})}catch(e){}return '<div class="st-b'+(i===6?' on':'')+'"><i style="height:'+Math.max(3,Math.round(x[1]/mx*96))+'px" aria-hidden="true"></i><b>'+ar(x[1])+'</b><span>'+(i===6?'اليوم':lb)+'</span></div>'}).join('')+'</div></section>'
  +'<ul class="list pt-l"><li><span>مجموع الصفحات</span><b>'+ar(s.tot)+'</b></li><li><span>أيام القراءة</span><b>'+ar(s.days)+'</b></li><li><span>أكثر يوم قرأت فيه</span><b>'+ar(s.best)+' '+rdPg(s.best)+'</b></li></ul>'
- +'<p class="kmmut pt-note">تُحسب الصفحة مرة واحدة في اليوم إذا بقيت عليها ثماني ثوانٍ أو أكثر.</p><button class="lnk kmend" data-rd="clear">مسح الإحصاءات</button>';return h}
-document.addEventListener('click',function(e){var b=e.target.closest('[data-rd]');if(!b)return;if(b.dataset.rd==='clear'&&confirm('مسح كل إحصاءات القراءة من هذا الجهاز؟')){try{localStorage.removeItem('athar-rd')}catch(x){}route()}});
+ +'<p class="kmmut pt-note">تُحسب الصفحة مرة واحدة في اليوم إذا بقيت عليها ثماني ثوانٍ أو أكثر.</p><button class="lnk kmend" data-rdclear="1">مسح الإحصاءات</button>';return h}
+document.addEventListener('click',function(e){var b=e.target.closest('[data-rdclear]');if(!b)return;if(confirm('مسح كل إحصاءات القراءة من هذا الجهاز؟')){try{localStorage.removeItem('athar-rd')}catch(x){}route()}});
 /* ---- after each render ---- */
 var PTI=null;
 function atPost(a){clearInterval(PTI);PTI=null;if(a!=='qibla')qbStop();
