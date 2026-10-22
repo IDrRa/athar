@@ -232,7 +232,8 @@ input[type=search]::-webkit-search-cancel-button,input[type=search]::-webkit-sea
 .loading{text-align:center;color:var(--muted);font:500 .95rem var(--ui);padding:28px 0}
 .qsr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
 .qsr:focus-within{position:static;width:auto;height:auto;overflow:visible;clip:auto;display:flex;gap:8px;justify-content:center;margin-top:14px}
-
+/* the search bar shows on the home page and the search page only */
+body:not(.home):not(.srch) .search{display:none}
 /* ===== Quran v4: mushaf page ===== */
 :root{--m-ayah:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Cg fill='none' stroke='black' stroke-width='1.5'%3E%3Ccircle cx='20' cy='20' r='13.2'/%3E%3Ccircle cx='20' cy='20' r='16.4'/%3E%3C/g%3E%3Cg fill='black'%3E%3Ccircle cx='36.4' cy='20' r='2.1'/%3E%3Ccircle cx='31.6' cy='31.6' r='2.1'/%3E%3Ccircle cx='20' cy='36.4' r='2.1'/%3E%3Ccircle cx='8.4' cy='31.6' r='2.1'/%3E%3Ccircle cx='3.6' cy='20' r='2.1'/%3E%3Ccircle cx='8.4' cy='8.4' r='2.1'/%3E%3Ccircle cx='20' cy='3.6' r='2.1'/%3E%3Ccircle cx='31.6' cy='8.4' r='2.1'/%3E%3C/g%3E%3C/svg%3E");--m-star:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cg fill='none' stroke='black' stroke-width='1.5'%3E%3Cpath d='M12 2.5L21.5 12L12 21.5L2.5 12Z'/%3E%3Cpath d='M12 7L17 12L12 17L7 12Z'/%3E%3C/g%3E%3Ccircle cx='12' cy='12' r='1.6' fill='black'/%3E%3C/svg%3E")}
 .qpg{position:relative}
@@ -1212,7 +1213,7 @@ else if(a==='dua'&&b==='type'&&DK.some(function(k){return k[0]===p[2]})){t=DK.fi
 else if(a==='dua'&&dt(b,'dua')){var o2=dt(b,'dua'),k2=o2.kind||'general',L2=rdList('dua',k2);d=o2.text.slice(0,140);t=DK.filter(function(k){return k[0]===k2})[0][1];if(k2==='general'){var g2=o2.category||'other';L2=dgL(g2);t=dgN(g2)||t;h=rdInit(L2,t,'/dua/general/'+g2,'/dua/general/'+g2,L2.indexOf(o2))}else h=rdInit(L2,t,'/dua','/dua/type/'+k2,L2.indexOf(o2))}
 else if(a==='search'){var qv=new URLSearchParams(Q).get('q')||'';t='البحث'+(qv?': '+qv:'');d='ابحث في القرآن والأذكار والأدعية';$('#q').value=qv;var cb=$('.clr');if(cb)cb.hidden=!qv;if(qv.trim()&&!IX){h=head('البحث','ابحث في القرآن والأذكار والأدعية')+'<p class="loading" role="status">جارٍ تجهيز البحث…</p>';setTimeout(function(){if(location.hash.indexOf('#/search')===0&&!IX){ix();V.innerHTML=sv(qv)}},30)}else h=sv(qv)}
 else if(!home){t='الصفحة غير موجودة';h=head(t,'الرابط غير صحيح.')+'<a class="btn primary" href="#/">الرئيسية</a>'}
-HS.forEach(function(s){s.hidden=!home});V.hidden=home;V.innerHTML=h;try{atPost(a)}catch(x){}document.body.classList.toggle('rdon',!!(RS||QPS));document.body.classList.toggle('qon',!!QPS);document.body.classList.toggle('home',home);
+HS.forEach(function(s){s.hidden=!home});V.hidden=home;V.innerHTML=h;try{atPost(a)}catch(x){}document.body.classList.toggle('rdon',!!(RS||QPS));document.body.classList.toggle('qon',!!QPS);document.body.classList.toggle('home',home);document.body.classList.toggle('srch',a==='search');
 if(home)try{kmHomeRender();ocRender();insHomeRender();nowRender()}catch(x){}document.title=home?'أثر — ما ينفعك ويبقى أثره':t+' | أثر';var md=$('meta[name=description]');if(md)md.content=d;
 var nb=document.querySelectorAll('nav button');nb.forEach(function(x,i){x.removeAttribute('aria-current');if(i===(home?0:NAVMAP[a]||-1))x.setAttribute('aria-current','page')});
 SEOX(a);window.scrollTo(0,0);QJ(a,p);qfit();if(QPS)qhint();if(!home&&!QS){V.setAttribute('tabindex','-1');try{V.focus({preventScroll:true})}catch(e){}}}
@@ -1597,7 +1598,7 @@ function vNotify(){var o=ntSt(),L=ptLoc(),h=head('التنبيهات','تنبي�
  return h+'<form class="card nt-f" id="ntf"><h3 class="nt-h">الأذان</h3>'+(L?'<div class="nt-p" role="group" aria-label="الصلوات">'+NT_P.map(function(x){return '<label><input type="checkbox" name="ntp" value="'+x[0]+'"'+(o.pr.indexOf(x[0])>-1?' checked':'')+'><span>'+x[2]+'</span></label>'}).join('')+'</div><p class="kmmut nt-loc">حسب '+(L.name||'موقعك الحالي')+' · <a href="#/prayer">تغيير</a></p>':'<p class="kmmut">لتنبيهات الأذان اختر موقعك أولًا من <a href="#/prayer">مواقيت الصلاة</a>.</p>')+'<h3 class="nt-h">الأذكار</h3><label class="nt-r"><input type="checkbox" id="ntmo"'+(o.mo?' checked':'')+'><span><b>أذكار الصباح</b></span><select id="ntm" aria-label="وقت أذكار الصباح">'+ntOpts(3,12,o.m)+'</select></label>'
  +'<label class="nt-r"><input type="checkbox" id="nteo"'+(o.eo?' checked':'')+'><span><b>أذكار المساء</b></span><select id="nte" aria-label="وقت أذكار المساء">'+ntOpts(12,24,o.e)+'</select></label>'
  +'<button class="btn primary rp-b" type="submit" id="ntb">'+(o.on?'حفظ الأوقات':'تفعيل التنبيهات')+'</button></form>'
- +(o.on?'<div class="ms-a"><button class="btn" data-push="test">إرسال تنبيه تجريبي</button><button class="btn" data-push="off">إيقاف التنبيهات</button></div>':'')
+ +(o.on?'<div class="ms-a"><button class="btn" data-push="off">إيقاف التنبيهات</button></div>':'')
  +'<p class="kmmut pt-note">قد يتأخر التنبيه دقائق عن الوقت المختار.</p>'}
 function ntKey(s){s=s.replace(/-/g,'+').replace(/_/g,'/');s+='='.repeat((4-s.length%4)%4);var r=atob(s),a=new Uint8Array(r.length);for(var i=0;i<r.length;i++)a[i]=r.charCodeAt(i);return a}
 function ntPost(path,o){return fetch('/api/push/'+path,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(o)}).then(function(r){return r.json().catch(function(){return {}}).then(function(j){j.status=r.status;return j})})}
@@ -1620,9 +1621,8 @@ document.addEventListener('submit',function(e){if(e.target.id!=='ntf')return;e.p
  .then(function(s){return ntPost('sub',{endpoint:s.endpoint,tz:ntTz(),m:o.mo?o.m:null,e:o.eo?o.e:null,pr:o.pr,lat:L?L.lat:null,lng:L?L.lng:null})})
  .then(function(j){if(!j.ok)throw 'srv';qset('athar-push',o);ntSched();kmTo('فُعّلت التنبيهات، بارك الله فيك');route()})
  .catch(function(x){b.disabled=false;b.textContent='تفعيل التنبيهات';kmTo(x==='perm'?'لم يُسمح بالتنبيهات':'تعذّر التفعيل، حاول مرة أخرى')})});
-document.addEventListener('click',function(e){var b=e.target.closest('button[data-push]');if(!b)return;var a=b.dataset.push;if(a!=='test'&&a!=='off')return;b.disabled=true;
+document.addEventListener('click',function(e){var b=e.target.closest('button[data-push]');if(!b)return;var a=b.dataset.push;if(a!=='off')return;b.disabled=true;
  ntGetSub(false).then(function(s){if(!s){if(a==='off'){var o=ntSt();o.on=false;qset('athar-push',o);route();return}throw 'nosub'}
-  if(a==='test')return ntPost('test',{endpoint:s.endpoint}).then(function(j){b.disabled=false;kmTo(j.ok?'أُرسل تنبيه تجريبي، سيصلك خلال لحظات':j.status===429?'جرّبت كثيرًا، حاول بعد قليل':'تعذّر الإرسال')});
   return ntPost('sub',{endpoint:s.endpoint,action:'del'}).then(function(){return s.unsubscribe()}).then(function(){var o=ntSt();o.on=false;qset('athar-push',o);kmTo('أُوقفت التنبيهات');route()})})
  .catch(function(){b.disabled=false;kmTo('تعذّر التنفيذ، حاول مرة أخرى')})});
 /* ---- install guide (#/install) + one-time home hint ---- */

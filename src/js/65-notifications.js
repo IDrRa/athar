@@ -15,7 +15,7 @@ function vNotify(){var o=ntSt(),L=ptLoc(),h=head('التنبيهات','تنبي�
  return h+'<form class="card nt-f" id="ntf"><h3 class="nt-h">الأذان</h3>'+(L?'<div class="nt-p" role="group" aria-label="الصلوات">'+NT_P.map(function(x){return '<label><input type="checkbox" name="ntp" value="'+x[0]+'"'+(o.pr.indexOf(x[0])>-1?' checked':'')+'><span>'+x[2]+'</span></label>'}).join('')+'</div><p class="kmmut nt-loc">حسب '+(L.name||'موقعك الحالي')+' · <a href="#/prayer">تغيير</a></p>':'<p class="kmmut">لتنبيهات الأذان اختر موقعك أولًا من <a href="#/prayer">مواقيت الصلاة</a>.</p>')+'<h3 class="nt-h">الأذكار</h3><label class="nt-r"><input type="checkbox" id="ntmo"'+(o.mo?' checked':'')+'><span><b>أذكار الصباح</b></span><select id="ntm" aria-label="وقت أذكار الصباح">'+ntOpts(3,12,o.m)+'</select></label>'
  +'<label class="nt-r"><input type="checkbox" id="nteo"'+(o.eo?' checked':'')+'><span><b>أذكار المساء</b></span><select id="nte" aria-label="وقت أذكار المساء">'+ntOpts(12,24,o.e)+'</select></label>'
  +'<button class="btn primary rp-b" type="submit" id="ntb">'+(o.on?'حفظ الأوقات':'تفعيل التنبيهات')+'</button></form>'
- +(o.on?'<div class="ms-a"><button class="btn" data-push="test">إرسال تنبيه تجريبي</button><button class="btn" data-push="off">إيقاف التنبيهات</button></div>':'')
+ +(o.on?'<div class="ms-a"><button class="btn" data-push="off">إيقاف التنبيهات</button></div>':'')
  +'<p class="kmmut pt-note">قد يتأخر التنبيه دقائق عن الوقت المختار.</p>'}
 function ntKey(s){s=s.replace(/-/g,'+').replace(/_/g,'/');s+='='.repeat((4-s.length%4)%4);var r=atob(s),a=new Uint8Array(r.length);for(var i=0;i<r.length;i++)a[i]=r.charCodeAt(i);return a}
 function ntPost(path,o){return fetch('/api/push/'+path,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(o)}).then(function(r){return r.json().catch(function(){return {}}).then(function(j){j.status=r.status;return j})})}
@@ -38,8 +38,7 @@ document.addEventListener('submit',function(e){if(e.target.id!=='ntf')return;e.p
  .then(function(s){return ntPost('sub',{endpoint:s.endpoint,tz:ntTz(),m:o.mo?o.m:null,e:o.eo?o.e:null,pr:o.pr,lat:L?L.lat:null,lng:L?L.lng:null})})
  .then(function(j){if(!j.ok)throw 'srv';qset('athar-push',o);ntSched();kmTo('فُعّلت التنبيهات، بارك الله فيك');route()})
  .catch(function(x){b.disabled=false;b.textContent='تفعيل التنبيهات';kmTo(x==='perm'?'لم يُسمح بالتنبيهات':'تعذّر التفعيل، حاول مرة أخرى')})});
-document.addEventListener('click',function(e){var b=e.target.closest('button[data-push]');if(!b)return;var a=b.dataset.push;if(a!=='test'&&a!=='off')return;b.disabled=true;
+document.addEventListener('click',function(e){var b=e.target.closest('button[data-push]');if(!b)return;var a=b.dataset.push;if(a!=='off')return;b.disabled=true;
  ntGetSub(false).then(function(s){if(!s){if(a==='off'){var o=ntSt();o.on=false;qset('athar-push',o);route();return}throw 'nosub'}
-  if(a==='test')return ntPost('test',{endpoint:s.endpoint}).then(function(j){b.disabled=false;kmTo(j.ok?'أُرسل تنبيه تجريبي، سيصلك خلال لحظات':j.status===429?'جرّبت كثيرًا، حاول بعد قليل':'تعذّر الإرسال')});
   return ntPost('sub',{endpoint:s.endpoint,action:'del'}).then(function(){return s.unsubscribe()}).then(function(){var o=ntSt();o.on=false;qset('athar-push',o);kmTo('أُوقفت التنبيهات');route()})})
  .catch(function(){b.disabled=false;kmTo('تعذّر التنفيذ، حاول مرة أخرى')})});

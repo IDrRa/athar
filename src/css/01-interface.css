@@ -71,4 +71,5 @@ input[type=search]::-webkit-search-cancel-button,input[type=search]::-webkit-sea
 .loading{text-align:center;color:var(--muted);font:500 .95rem var(--ui);padding:28px 0}
 .qsr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
 .qsr:focus-within{position:static;width:auto;height:auto;overflow:visible;clip:auto;display:flex;gap:8px;justify-content:center;margin-top:14px}
-
+/* the search bar shows on the home page and the search page only */
+body:not(.home):not(.srch) .search{display:none}
