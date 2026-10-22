@@ -1,0 +1,16 @@
+name: ci-test
+on:
+  push:
+    branches: [ci-test]
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    container:
+      image: mcr.microsoft.com/playwright:v1.56.0-noble
+    steps:
+      - run: node --version; npm --version; python3 --version || echo NO_PY; git --version || echo NO_GIT; ls /ms-playwright
+      - uses: actions/checkout@v5
+      - run: npm i --no-save --no-package-lock adhan@4 playwright@1.56.0 && python3 tools/build.py --check && node tools/check.mjs | tail -2 && node tools/smoke.mjs | tail -2
+      - run: node -e "const {webkit}=require('playwright');(async()=>{const b=await webkit.launch();const p=await b.newPage();await p.goto('about:blank');console.log('webkit ok',b.version());await b.close()})()"
+      - run: git status | head -3 && git remote -v
