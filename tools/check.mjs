@@ -49,7 +49,7 @@ try {
   const QC = []; for (let n = 1; n <= 114; n++) QC.push(JSON.parse(html.match(new RegExp(`id="qs${n}">([\\s\\S]*?)</script>`))[1]).length);
   let prev = null, endsN = 0, errs = [];
   for (let p = 1; p <= 604; p++) {
-    const d = JSON.parse(fs.readFileSync(path.join(ROOT, 'mushaf', 'l', String(p).padStart(3, '0') + '.json'), 'utf8'));
+    const d = JSON.parse(fs.readFileSync(path.join(ROOT, 'mushaf', 'q4', 'l', String(p).padStart(3, '0') + '.json'), 'utf8'));
     const fonts = new Set([d.f]); let first = null;
     for (const r of d.r) {
       if (r[0] === 'h') continue;

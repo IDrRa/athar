@@ -1664,8 +1664,8 @@ function mff(i){if(!MFL[i])MFL[i]=mfont('QF'+i,'mushaf/q4/QCF4_Hafs_'+('0'+i).sl
 function mpad(p){return ('00'+p).slice(-3)}
 function mfont(fam,url){if(!window.FontFace||!document.fonts)return Promise.reject('nf');var f=new FontFace(fam,'url('+url+')',{display:'block'});return f.load().then(function(x){document.fonts.add(x)})}
 function mload(p){if(MD[p])return Promise.resolve(MD[p]);if(MP[p])return MP[p];
- MP[p]=Promise.all([fetch('mushaf/l/'+mpad(p)+'.json').then(function(r){if(!r.ok)throw 'nf';return r.json()}),mff(mfi(p))])
- .then(function(a){var d=a[0];if(!d||d.p!==p||!d.r)throw 'bad';var x=[];d.r.forEach(function(r){if(r[0]==='b'&&r[2]!==d.f)x.push(mff(r[2]))});return Promise.all(x).then(function(){MD[p]=d;delete MP[p];return d})})
+ MP[p]=Promise.all([fetch('mushaf/q4/l/'+mpad(p)+'.json').then(function(r){if(!r.ok)throw 'nf';return r.json()}),mff(mfi(p))])
+ .then(function(a){var d=a[0];if(!d||d.p!==p||!d.r||!d.f)throw 'bad';var x=[];d.r.forEach(function(r){if(r[0]==='b'&&r[2]!==d.f)x.push(mff(r[2]))});return Promise.all(x).then(function(){MD[p]=d;delete MP[p];return d})})
  .catch(function(e){delete MP[p];throw e});return MP[p]}
 function mwait(p){mload(p).then(function(){if(QPS&&QPS.p===p&&document.querySelector('.qpg.mus .mwait')){V.innerHTML=qpage(p);qfit();var m=location.hash.match(/^#\/quran\/(\d+)\/(\d+)$/);if(m)qsel(+m[1],+m[2],true)}},
  function(e){if(e==='nf')MOFF=true;else MBAD[p]=1;if(QPS&&QPS.p===p&&document.querySelector('.qpg.mus .mwait')){V.innerHTML=qpage(p);qfit();if(MBAD[p])toast('تعذّر تحميل صفحة المصحف، فعُرض النص')}});
