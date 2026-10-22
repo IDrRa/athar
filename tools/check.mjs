@@ -88,7 +88,7 @@ try {
     if (fs1.size > 1 || others.length) errs.push(`data-${a}: ${[...new Set([...fs1, ...others])].join(' و ')}`);
   }
   // classes intentionally shared by several features (shared look); add a class here only after checking it means the same thing everywhere
-  const SHARED = new Set(['qcont', 'apseg', 'qtrack', 'qclip', 'wqs', 'tfmsg', 'kmmut', 'kmend', 'mri', 'pt-card', 'pt-loc', 'nt-go', 'pt-note', 'pt-l', 'rp-f', 'rp-l', 'rp-i', 'rp-b', 'ms-a']);
+  const SHARED = new Set(['qcont', 'apseg', 'qtrack', 'qclip', 'wqs', 'tfmsg', 'kmmut', 'kmend', 'mri', 'pt-card', 'pt-loc', 'nt-go', 'pt-note', 'pt-l', 'rp-f', 'rp-l', 'rp-i', 'rp-b', 'ms-a', 'mrs']);
   const base = new Set();
   for (const f of ['00-base.css', '01-interface.css']) for (const m of fs.readFileSync(path.join(ROOT, 'src', 'css', f), 'utf8').matchAll(/\.([a-zA-Z][\w-]*)/g)) base.add(m[1]);
   const emit = {};
