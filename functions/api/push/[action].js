@@ -31,7 +31,8 @@ async function send(env, v, endpoint) {
   const p = b64u(enc(JSON.stringify({ aud, exp: Math.floor(Date.now() / 1000) + 12 * 3600, sub: 'https://iathar.pages.dev/' })));
   const key = await crypto.subtle.importKey('jwk', v.jwk, { name: 'ECDSA', namedCurve: 'P-256' }, false, ['sign']);
   const sig = await crypto.subtle.sign({ name: 'ECDSA', hash: 'SHA-256' }, key, enc(h + '.' + p));
-  const r = await fetch(endpoint, { method: 'POST', headers: { Authorization: `vapid t=${h}.${p}.${b64u(sig)}, k=${v.pub}`, TTL: '3600', Urgency: 'normal', 'Content-Length': '0' } });
+  // high urgency: the phone delivers a time-sensitive azan right away instead of batching it; TTL 30 min: an azan that could not be delivered (phone offline) is dropped instead of arriving late
+  const r = await fetch(endpoint, { method: 'POST', headers: { Authorization: `vapid t=${h}.${p}.${b64u(sig)}, k=${v.pub}`, TTL: '1800', Urgency: 'high', 'Content-Length': '0' } });
   return r.status;
 }
 
