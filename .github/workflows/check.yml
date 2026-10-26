@@ -33,8 +33,16 @@ jobs:
   publish:
     needs: check
     runs-on: ubuntu-latest
-    timeout-minutes: 3
+    timeout-minutes: 6
     steps:
       - uses: actions/checkout@v5
       - name: النشر (نقل التعديل إلى فرع live)
         run: git push origin HEAD:refs/heads/live --force
+      - name: إبلاغ محركات البحث بالتحديث (IndexNow — بينق وياندكس وغيرهما)
+        continue-on-error: true
+        run: |
+          sleep 120
+          K=$(ls | grep -E "^[0-9a-f]{32}\.txt$" | head -1 | cut -d. -f1)
+          curl -sS -m 20 -o /dev/null -w "IndexNow: %{http_code}\n" -H "Content-Type: application/json; charset=utf-8" \
+            -d "{\"host\":\"iathar.pages.dev\",\"key\":\"$K\",\"keyLocation\":\"https://iathar.pages.dev/$K.txt\",\"urlList\":[\"https://iathar.pages.dev/\"]}" \
+            https://api.indexnow.org/indexnow

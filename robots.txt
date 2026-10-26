@@ -1,2 +1,4 @@
 User-agent: *
 Allow: /
+
+Sitemap: https://iathar.pages.dev/sitemap.xml
