@@ -13,12 +13,16 @@ function cdWrap(c,t,w){var out=[];String(t).replace(/\r\n?/g,'\n').split('\n').f
  if(D[k][n]>=INF){out.push(ws.join(' '));return}var res=[],e2=n;for(r=k;r>0;r--){var s2=B[r][e2];res.unshift(ws.slice(s2,e2).join(' '));e2=s2}out.push.apply(out,res)});return out}
 function cdRR(c,x,y,w,h,r){c.beginPath();c.moveTo(x+r,y);c.arcTo(x+w,y,x+w,y+h,r);c.arcTo(x+w,y+h,x,y+h,r);c.arcTo(x,y+h,x,y,r);c.arcTo(x,y,x+w,y,r);c.closePath()}
 function cdStar(c,x,y,s,col){var k=s*1.3/64;c.save();c.translate(x,y);c.scale(k,k);c.translate(-32,-31.5);c.strokeStyle=col;c.fillStyle=col;c.lineWidth=2.6;c.lineJoin='round';c.lineCap='round';c.beginPath();c.moveTo(14,58);c.lineTo(14,30);c.quadraticCurveTo(14,14,32,5);c.quadraticCurveTo(50,14,50,30);c.lineTo(50,58);c.closePath();c.stroke();c.beginPath();c.moveTo(22,58);c.lineTo(22,33);c.quadraticCurveTo(22,22,32,15);c.quadraticCurveTo(42,22,42,33);c.lineTo(42,58);c.stroke();c.beginPath();c.moveTo(8,58);c.lineTo(56,58);c.stroke();c.restore()}
-/* Safari (WebKit) can draw a line of Arabic text above or below its baseline (cursive joins in the Quran font move the whole line),
-   so each line is first drawn off-screen, its real baseline found as the densest row of ink, and the line drawn so that row sits on the grid */
-function cdShift(c,l,fs){try{var h=Math.ceil(fs*4),y0=Math.round(fs*2.6),w=c.canvas.width,k=document.createElement('canvas');k.width=w;k.height=h;var x=k.getContext('2d');
- x.font=c.font;x.direction='rtl';x.textAlign='center';x.textBaseline='alphabetic';x.fillStyle='#000';x.fillText(l,w/2,y0);
- var d=x.getImageData(0,0,w,h).data,best=-1,row=y0;for(var r=0;r<h;r++){var s=0;for(var q=r*w*4+3,e=q+w*4;q<e;q+=4)s+=d[q];if(s>best){best=s;row=r}}
- var sh=row-y0;return Math.abs(sh)<fs*.9?sh:0}catch(e){return 0}}
+/* Safari (WebKit) draws each stretch of Arabic text between ayah numbers on its own, and the cursive joins of the Quran font can lift
+   or drop that stretch. So a line is drawn piece by piece (text stretches and ayah numbers), each text stretch first drawn off-screen,
+   its real baseline found as the densest row of ink, and moved back only when it is clearly off. Where nothing moves (Chrome) the line is unchanged. */
+function cdInk(c,t,fs){try{var h=Math.ceil(fs*4),y0=Math.round(fs*2.6),w=Math.ceil(c.measureText(t).width)+40,k=document.createElement('canvas');k.width=w;k.height=h;var x=k.getContext('2d');
+ x.font=c.font;x.direction='rtl';x.textAlign='center';x.textBaseline='alphabetic';x.fillStyle='#000';x.fillText(t,w/2,y0);
+ var d=x.getImageData(0,0,w,h).data,best=-1,row=y0;for(var r=0;r<h;r++){var s=0;for(var q=r*w*4+3,e=q+w*4;q<e;q+=4)s+=d[q];if(s>best){best=s;row=r}}return row-y0}catch(e){return null}}
+function cdLine(c,l,cx,y,fs,ratio){var ws=l.split(/([ \u00A0]+)/),P=[];for(var i=0;i<ws.length;i+=2){var w=ws[i],sep=ws[i+1]||'',num=/^[\u0660-\u0669]+$/.test(w),last=P[P.length-1];
+  if(last&&!num&&!last.num&&last.sep.indexOf('\u00A0')<0){last.t+=last.sep+w;last.sep=sep}else if(w)P.push({t:w,sep:sep,num:num})}
+ var tot=0;P.forEach(function(p,k){p.w=c.measureText(p.t).width;p.sw=k<P.length-1?c.measureText(p.sep).width:0;tot+=p.w+p.sw});
+ var x=cx+tot/2,al=c.textAlign;c.textAlign='right';P.forEach(function(p){var adj=0;if(!p.num){var sh=cdInk(c,p.t,fs);if(sh!==null&&Math.abs(sh-ratio*fs)>fs*.06)adj=sh-ratio*fs}c.fillText(p.t,x,y-adj);x-=p.w+p.sw});c.textAlign=al}
 function cdDraw(o){var T=cdTok(),W=1080,P=72,IW=W-2*P-120,c0=document.createElement('canvas').getContext('2d'),
  FQ="'KFGQPC Hafs','Amiri Quran','Amiri',serif",FA="'Amiri','Traditional Arabic','Times New Roman',serif",FU="'IBM Plex Sans Arabic',system-ui,'Segoe UI',Tahoma,sans-serif",fam=o.quran?FQ:FA;
  c0.direction='rtl';var fs=66,L,lh,top=P+150+(o.title?70:0),bot=0,H;
@@ -33,7 +37,7 @@ function cdDraw(o){var T=cdTok(),W=1080,P=72,IW=W-2*P-120,c0=document.createElem
  c.font='500 30px '+FU;var lw=c.measureText(o.label).width+56;cdRR(c,W/2-lw/2,y-26,lw,52,26);c.lineWidth=2;c.strokeStyle=T.ln;c.stroke();c.fillStyle=T.mu;c.fillText(o.label,W/2,y+1);y+=60;
  if(o.title){c.font='700 38px '+FU;c.fillStyle=T.gr;var tl=cdWrap(c,o.title,IW)[0]||'';c.fillText(tl,W/2,y+8);y+=70}
  var avail=H-P-bot-y,blk=L.length*lh;y+=Math.max(30,(avail-blk)/2);
- c.font='400 '+fs+'px '+fam;c.fillStyle=T.tx;c.textBaseline='alphabetic';var b0=null;L.forEach(function(l){var sh=cdShift(c,l,fs);if(b0===null)b0=sh;c.fillText(l,W/2,y+lh/2+fs*.32-(sh-b0));y+=lh});c.textBaseline='middle';
+ c.font='400 '+fs+'px '+fam;c.fillStyle=T.tx;c.textBaseline='alphabetic';L.forEach(function(l){cdLine(c,l,W/2,y+lh/2+fs*.32,fs,o.quran?-.07:-.09);y+=lh});c.textBaseline='middle';
  var yb=H-P-bot+40;c.setLineDash([10,10]);c.strokeStyle=T.ln;c.lineWidth=2;c.beginPath();c.moveTo(P+90,yb);c.lineTo(W-P-90,yb);c.stroke();c.setLineDash([]);
  c.font='400 30px '+FU;c.fillStyle=T.mu;var yr=yb+46;RL.forEach(function(l){c.fillText(l,W/2,yr);yr+=44});
  c.font='700 60px '+FA;c.fillStyle=T.gr;c.fillText('أثر',W/2,H-P-84);c.font='400 26px '+FU;c.fillStyle=T.mu;c.fillText('ما ينفعك ويبقى أثره',W/2,H-P-32);
