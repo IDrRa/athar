@@ -1,6 +1,8 @@
 
 /* Phase 2 — DATA layer: all content below is PLACEHOLDER (not real Quran/Hadith/Adhkar). Replace with a verified source later. */
 (function(){
+/* العنوان الرسمي لأثر، تُبنى عليه روابط المشاركة */
+var SITE='https://iathar.pages.dev/';
 var $=function(s){return document.querySelector(s)},V=$('#view'),HS=document.querySelectorAll('#app > section'),ALL={};
 var PH='نص تجريبي — ليس محتوى حقيقيًا',NS='يُضاف بعد ربط مصدر موثّق',NA='غير متوفر (تجريبي)';
 function mk(type,id,title,text,cat,x){var o={id:id,type:type,title:title,text:text||PH,source:NS,reference:NS,category:cat||'',status:'draft',createdAt:'2026-10-13',updatedAt:'2026-10-13'};for(var k in x)o[k]=x[k];ALL[id]=o;return o}

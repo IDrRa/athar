@@ -120,8 +120,8 @@ function qz(a){var ae=document.activeElement;if(ae&&ae.blur&&/^(INPUT|TEXTAREA)$
 if(a==='toggle'){var pn=document.getElementById('qpanel'),bt=document.querySelector('.qg');if(pn){pn.hidden=!pn.hidden;if(bt)bt.setAttribute('aria-expanded',String(!pn.hidden))}qza();return}if(a==='+'){QFIT=false;qzi=Math.min(QZ.length-1,qzi+1)}else if(a==='-'){QFIT=false;qzi=Math.max(0,qzi-1)}else{QFIT=true;qzi=1}try{localStorage.setItem('athar-qz',qzi);localStorage.setItem('athar-qf',QFIT?'1':'0')}catch(e){}var g=document.querySelector('.qpg');if(g){g.classList.toggle('fit',QFIT);if(QFIT)qfit();else{g.style.removeProperty('--qfs');g.style.removeProperty('--qlh');g.style.minHeight='';qclr(g)}}qza()}
 qza();
 var QCMAX=1500;
-/* رابط المشاركة: صفحة السورة المستقلة عند الآية (تظهر في واتساب باسم السورة، وزرها يفتح المصحف عند الآية نفسها) */
-function qlink(n,v){return 'https://iathar.pages.dev/surah/'+n+'/#a'+v}
+/* رابط المشاركة يفتح أثر نفسه عند الآية (صفحات surah/ لمحركات البحث فقط) */
+function qlink(n,v){return SITE+'#/quran/'+n+'/'+v}
 function qtext(n,v){return QV(n)[v-1]+' — سورة '+QN[n-1]+'، آية '+v}
 function copyT(x,m){if(navigator.clipboard){navigator.clipboard.writeText(x).then(function(){toast(m)},function(){toast('تعذر النسخ')})}else toast('تعذر النسخ')}
 document.addEventListener('click',function(e){var z=e.target.closest('[data-qs]');if(z){qz(z.dataset.qs);return}var b=e.target.closest('[data-q]')||e.target.closest('.qv');if(b){var gs=window.getSelection?String(getSelection()):'';if(!gs||b.dataset.q)var kk=(b.dataset.q||b.id.slice(1)).split('_');qsel(+kk[0],+kk[1]);return}b=e.target.closest('[data-qa]');if(!b||!QS)return;var a=b.dataset.qa,QE=QS.e>QS.v?QS.e:0,x=QE?qrange(QS.n,QS.v,QE):qtext(QS.n,QS.v);

@@ -893,6 +893,8 @@ body.home::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:no
 <script>
 /* Phase 2 — DATA layer: all content below is PLACEHOLDER (not real Quran/Hadith/Adhkar). Replace with a verified source later. */
 (function(){
+/* العنوان الرسمي لأثر، تُبنى عليه روابط المشاركة */
+var SITE='https://iathar.pages.dev/';
 var $=function(s){return document.querySelector(s)},V=$('#view'),HS=document.querySelectorAll('#app > section'),ALL={};
 var PH='نص تجريبي — ليس محتوى حقيقيًا',NS='يُضاف بعد ربط مصدر موثّق',NA='غير متوفر (تجريبي)';
 function mk(type,id,title,text,cat,x){var o={id:id,type:type,title:title,text:text||PH,source:NS,reference:NS,category:cat||'',status:'draft',createdAt:'2026-10-13',updatedAt:'2026-10-13'};for(var k in x)o[k]=x[k];ALL[id]=o;return o}
@@ -1026,8 +1028,8 @@ function qz(a){var ae=document.activeElement;if(ae&&ae.blur&&/^(INPUT|TEXTAREA)$
 if(a==='toggle'){var pn=document.getElementById('qpanel'),bt=document.querySelector('.qg');if(pn){pn.hidden=!pn.hidden;if(bt)bt.setAttribute('aria-expanded',String(!pn.hidden))}qza();return}if(a==='+'){QFIT=false;qzi=Math.min(QZ.length-1,qzi+1)}else if(a==='-'){QFIT=false;qzi=Math.max(0,qzi-1)}else{QFIT=true;qzi=1}try{localStorage.setItem('athar-qz',qzi);localStorage.setItem('athar-qf',QFIT?'1':'0')}catch(e){}var g=document.querySelector('.qpg');if(g){g.classList.toggle('fit',QFIT);if(QFIT)qfit();else{g.style.removeProperty('--qfs');g.style.removeProperty('--qlh');g.style.minHeight='';qclr(g)}}qza()}
 qza();
 var QCMAX=1500;
-/* رابط المشاركة: صفحة السورة المستقلة عند الآية (تظهر في واتساب باسم السورة، وزرها يفتح المصحف عند الآية نفسها) */
-function qlink(n,v){return 'https://iathar.pages.dev/surah/'+n+'/#a'+v}
+/* رابط المشاركة يفتح أثر نفسه عند الآية (صفحات surah/ لمحركات البحث فقط) */
+function qlink(n,v){return SITE+'#/quran/'+n+'/'+v}
 function qtext(n,v){return QV(n)[v-1]+' — سورة '+QN[n-1]+'، آية '+v}
 function copyT(x,m){if(navigator.clipboard){navigator.clipboard.writeText(x).then(function(){toast(m)},function(){toast('تعذر النسخ')})}else toast('تعذر النسخ')}
 document.addEventListener('click',function(e){var z=e.target.closest('[data-qs]');if(z){qz(z.dataset.qs);return}var b=e.target.closest('[data-q]')||e.target.closest('.qv');if(b){var gs=window.getSelection?String(getSelection()):'';if(!gs||b.dataset.q)var kk=(b.dataset.q||b.id.slice(1)).split('_');qsel(+kk[0],+kk[1]);return}b=e.target.closest('[data-qa]');if(!b||!QS)return;var a=b.dataset.qa,QE=QS.e>QS.v?QS.e:0,x=QE?qrange(QS.n,QS.v,QE):qtext(QS.n,QS.v);
@@ -1102,9 +1104,8 @@ var TQ={},TOF=0;
 function hj(){try{return new Intl.DateTimeFormat('ar-SA-u-ca-islamic-umalqura',{day:'numeric',month:'long',year:'numeric'}).format(new Date())}catch(e){try{return new Intl.DateTimeFormat('ar',{day:'numeric',month:'long',year:'numeric'}).format(new Date())}catch(e2){return ''}}}
 function tpick(k){var A=Object.keys(ALL).map(function(x){return ALL[x]}).filter(isPub),ty=['quran','dhikr','dua'],lim={dhikr:300,dua:300};for(var i=0;i<3;i++){var t=ty[(k+i)%3],c=Math.floor(k/3);if(t==='quran'){var Q=[];for(var n=1;n<=114;n++){var V=QV(n);for(var v=1;v<=V.length;v++)if(V[v-1].length<=150&&!(n===1&&v===1))Q.push([n,v])}var g=Q[c%Q.length],o={id:'quran-'+g[0]+'-'+g[1],type:'quran',title:'سورة '+QN[g[0]-1]+' — آية '+ar(g[1]),text:QV(g[0])[g[1]-1],source:'',reference:'',label:'آية قرآنية'};TQ[o.id]=o;return o}var L=A.filter(function(o){return o.type===t&&o.text.length<=lim[t]});if(L.length)return L[c%L.length]}return null}
 
-/* رابط الصفحة المستقلة للعنصر (surah/ adhkar/ dua/ التي يبنيها tools/pages.py): يظهر في واتساب وغيره باسم الصفحة وصورة أثر */
-var SITE='https://iathar.pages.dev/';
-function pgUrl(o){var m=/^quran-(\d+)-(\d+)$/.exec(o.id||'');if(m)return SITE+'surah/'+m[1]+'/#a'+m[2];if(o.type==='dhikr')return CA.some(function(c){return c[0]===o.category})?SITE+'adhkar/'+o.category+'/':'';if(o.type==='dua'){var k=o.kind||'general';return k==='general'?SITE+'dua/general/'+(o.category||'other')+'/':SITE+'dua/'+k+'/'}return ''}
+/* رابط المشاركة: يفتح العنصر نفسه داخل أثر */
+function pgUrl(o){var m=/^quran-(\d+)-(\d+)$/.exec(o.id||'');if(m)return SITE+'#/quran/'+m[1]+'/'+m[2];if(o.type==='dhikr'){var L=rdList('dhikr',o.category),k=L.indexOf(o);return k<0?'':SITE+'#/adhkar/'+o.category+'/'+(k+1)}if(o.type==='dua')return SITE+'#/dua/'+o.id;return ''}
 function stext(o){var r=[];if(o.title)r.push(o.title);r.push(o.text);if(o.fawaid&&o.fawaid.length)r.push('من فوائد الحديث:\n'+o.fawaid.map(function(f,i){return (i+1)+'- '+f}).join('\n'));if(o.source&&o.source!==NS&&(o.reference||'').indexOf(o.source)!==0)r.push('المصدر: '+o.source);if(o.reference&&o.reference!==NS)r.push('المرجع: '+o.reference);if(o.count)r.push('التكرار: '+o.count);r.push('— أثر');return r.join('\n')}
 var DK=[['quran','أدعية قرآنية','من دعاء المؤمنين في القرآن الكريم'],['prophets','أدعية الأنبياء','كما وردت في القرآن الكريم'],['sunnah','أدعية النبي ﷺ','جوامع من دعائه ﷺ الصحيح لكل وقت'],['general','أدعية عامة','في المواقف والأحوال اليومية']],RC={},RS=null;
 function ndh(n){return n===1?'ذكر واحد':n===2?'ذكران':n<=10?ar(n)+' أذكار':ar(n)+' ذكرًا'}
