@@ -56,6 +56,18 @@ MIHRAB = ('<svg viewBox="0 0 64 64" aria-hidden="true"><g fill="none" stroke="cu
           '<path d="M14 58 V30 Q14 14 32 5 Q50 14 50 30 V58 Z"/><path d="M22 58 V33 Q22 22 32 15 Q42 22 42 33 V58"/><line x1="8" y1="58" x2="56" y2="58"/></g></svg>')
 
 
+PAGE_HTML = read(os.path.join(SRC, 'page.html'))
+THEME_JS = re.search(r"<script>try\{var _a=localStorage.*?</script>", PAGE_HTML).group(0)
+NAV_SVGS = re.findall(r'<li><button[^>]*>(<svg.*?</svg>)([^<]+)</button></li>', re.search(r'<nav aria-label="التنقل الرئيسي">(.*?)</nav>', PAGE_HTML, re.S).group(1))
+NAV_HREF = {'الرئيسية': '', 'القرآن': '#/quran', 'الأذكار': '#/adhkar', 'الأدعية': '#/dua', 'البحث': '#/search', 'المزيد': '#/about'}
+assert [t for _, t in NAV_SVGS] == list(NAV_HREF), NAV_SVGS
+
+
+def bottom_nav(up, cur):
+    return '<nav class="pnv" aria-label="التنقل الرئيسي"><ul>' + ''.join(
+        '<li><a href="%s%s"%s>%s%s</a></li>' % (up, NAV_HREF[t], ' aria-current="page"' if t == cur else '', svg, t) for svg, t in NAV_SVGS) + '</ul></nav>'
+
+
 def page(path, title, desc, crumbs, body, note='', comment=''):
     """path مثل 'surah/18/'؛ الروابط داخل الصفحة نسبية فتعمل في أي مكان يُنشر فيه الموقع."""
     up = '../' * path.count('/')
@@ -83,17 +95,19 @@ def page(path, title, desc, crumbs, body, note='', comment=''):
 <link rel="apple-touch-icon" href="%(up)sicons/apple-touch-icon-m4.png">
 <link rel="stylesheet" href="%(up)sfonts.css">
 <link rel="stylesheet" href="%(up)sp.css">
+%(theme)s
 </head>
 <body>
-<header class="ph"><a class="pb" href="%(up)s">%(mihrab)s<span>أثر</span></a><nav class="pc" aria-label="مسار الصفحة">%(cr)s</nav></header>
+<header class="ph"><a class="pb" href="%(up)s"><span class="brand">أثر</span><span class="tag">ما ينفعك ويبقى أثره</span></a><nav class="pc" aria-label="مسار الصفحة">%(cr)s</nav></header>
 <main>
 %(body)s
 </main>
 <footer class="pf"><nav aria-label="أقسام أثر"><a href="%(up)ssurah/">سور القرآن</a><a href="%(up)sadhkar/">الأذكار</a><a href="%(up)sdua/">الأدعية</a></nav>
-%(note)s<p><a href="%(up)s">أثر</a> — ما ينفعك ويبقى أثره</p></footer>%(comment)s
+%(note)s<p><a href="%(up)s">أثر</a> — ما ينفعك ويبقى أثره</p></footer>
+%(nav)s%(comment)s
 </body>
 </html>
-''' % {'t': esc(title), 'd': attr(desc), 'url': SITE + '/' + path, 'site': SITE, 'up': up, 'mihrab': MIHRAB, 'cr': cr, 'body': body, 'note': note, 'comment': comment}
+''' % {'t': esc(title), 'd': attr(desc), 'url': SITE + '/' + path, 'site': SITE, 'up': up, 'mihrab': MIHRAB, 'cr': cr, 'body': body, 'theme': THEME_JS, 'nav': bottom_nav(up, {'surah': 'القرآن', 'adhkar': 'الأذكار', 'dua': 'الأدعية'}[path.split('/')[0]]), 'note': note, 'comment': comment}
 
 
 def open_btn(up, hash_, label):
@@ -244,7 +258,11 @@ def pages():
                        '<h1>الأدعية</h1>' + open_btn('../', 'dua', 'افتح الأدعية في أثر') + '<ul class="pl">%s</ul><h2>الأدعية العامة</h2><ul class="pl">%s</ul>' % (''.join(rows), ''.join(grows)))
 
     files = {p + 'index.html': h for p, h in out.items()}
-    files['p.css'] = read(os.path.join(SRC, 'pages', 'p.css'))
+    # ألوان أثر نفسها (الوضع الليلي ولون الموقع الذي اختاره الزائر في التطبيق) ثم تنسيق الصفحات
+    base = read(os.path.join(SRC, 'css', '00-base.css'))
+    tokens = '\n'.join(base.split('\n')[:6])  # أول ستة أسطر في 00-base.css: ألوان الوضعين الفاتح والداكن
+    assert tokens.count('{') == tokens.count('}') == 4 and ':root[data-theme="dark"]' in tokens, 'تغيّر أول 00-base.css'
+    files['p.css'] = tokens + '\n' + read(os.path.join(SRC, 'css', '09-themes.css')) + read(os.path.join(SRC, 'pages', 'p.css'))
     urls = [''] + sorted(out, key=lambda p: [(0, int(x), '') if x.isdigit() else (1, 0, x) for x in p.split('/')])
     files['sitemap.xml'] = ('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
                             + ''.join('  <url><loc>%s/%s</loc></url>\n' % (SITE, u) for u in urls) + '</urlset>\n')
