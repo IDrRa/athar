@@ -5,3 +5,10 @@
 .qpno>span{position:relative;font:700 .95rem/1 var(--ui);color:var(--text)}
 .qpg.mus .qft{margin-top:6px}
 
+
+/* سجود التلاوة: a quiet gold mark beside the page number */
+.qsj{display:inline-flex;align-items:center;gap:4px;min-height:32px;padding:0 10px;border:1px solid var(--gold);border-radius:999px;background:none;color:var(--text);font:600 .8rem var(--ui);cursor:pointer}
+.qsj i{font:400 1.05rem/1 'KFGQPC Hafs',var(--qf);font-style:normal;color:var(--gold)}
+.qsj:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+.sjd{padding:12px 0;border-bottom:1px solid var(--line)}.sjd:last-child{border-bottom:0}
+.sjt{font:400 calc(1.3rem*var(--rdk,1))/2 var(--ar);margin:0 0 6px}
