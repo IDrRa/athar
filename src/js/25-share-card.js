@@ -61,6 +61,13 @@ var OCC={"jumua-layla":{"t":"أكثِروا الصَّلاةَ عليَّ يوم
 
 function ocNow(){var d=null;try{var x=localStorage.getItem('athar-dbg-date');if(x)d=new Date(x)}catch(e){}return d&&!isNaN(d)?d:new Date()}
 function ocHijri(d){try{var p=new Intl.DateTimeFormat('en-u-ca-islamic-umalqura-nu-latn',{day:'numeric',month:'numeric'}).formatToParts(d),o={};p.forEach(function(x){o[x.type]=+x.value});return o.month&&o.day?{m:o.month,d:o.day}:null}catch(e){return null}}
+/* sunnah fasting: no reminder for a day on which fasting is not done (Ramadan is already fasted; Eid al-Fitr; the Day of Nahr and the days of Tashriq) */
+function snFast(h){return !!h&&h.m!==9&&!(h.m===10&&h.d===1)&&!(h.m===12&&h.d>=10&&h.d<=13)}
+/* the white days start on the 13th; not in Ramadan, and not in Dhu al-Hijjah where the 13th is a day of Tashriq */
+function snBeed(h){return !!h&&h.d===13&&h.m!==9&&h.m!==12}
+/* the evening before a sunnah fast (from Asr): «غدًا الاثنين» / «غدًا أول الأيام البيض» with the same hadiths */
+function ocEve(d,PT){if(!(d.getTime()>=PT.asr))return null;var wd=d.getDay(),th=ocHijri(new Date(d.getFullYear(),d.getMonth(),d.getDate()+1,12)),f=(wd===0||wd===3)&&snFast(th),b=snBeed(th);if(!f&&!b)return null;
+ return {k:'fast-eve',t:'غدًا '+(f?(wd===0?'الاثنين':'الخميس'):'')+(f&&b?'، و':'')+(b?'أول الأيام البيض':''),ids:(f?['ithnayn-khamis']:[]).concat(b?['bid']:[]),hj:b?1:0}}
 function ocList(){var d=ocNow(),wd=d.getDay(),h=ocHijri(d),L=[];
  if(h){var m=h.m,dd=h.d;
   if(m===12&&dd===9)L.push({k:'arafa',t:'يوم عرفة',ids:['arafa','ashr-hijja'],hj:1});
@@ -75,11 +82,11 @@ function ocList(){var d=ocNow(),wd=d.getDay(),h=ocHijri(d),L=[];
   if(dd>=13&&dd<=15&&m!==9&&!(m===12&&dd===13))L.push({k:'bid',t:'الأيام البيض',ids:['bid'],hj:1});
   if(dd<=2)L.push({k:'hilal',t:'أول الشهر الهجري',dua:'dua-hisn-068-01',hj:1})}
  /* weekday cards end at Maghrib: from Maghrib on Thursday until Fajr it is ليلة الجمعة */
- var eve=false,pre=false;try{var PT=nowTimes(d).t;eve=d.getTime()>=PT.maghrib;pre=d.getTime()<PT.fajr}catch(e){}
+ var eve=false,pre=false,E=null;try{var PT=nowTimes(d).t;eve=d.getTime()>=PT.maghrib;pre=d.getTime()<PT.fajr;E=ocEve(d,PT)}catch(e){}
  if((wd===4&&eve)||(wd===5&&pre))L.push({k:'jumua-layla',t:'ليلة الجمعة',ids:['jumua-salat'],links:[['صيغة الصلاة على النبي ﷺ','/salawat']]});
  if(wd===5&&!eve&&!pre)L.push({k:'jumua',t:'يوم الجمعة',ids:['jumua-salat','jumua-sa3a'],links:[['صيغة الصلاة على النبي ﷺ','/salawat']]});
- if((wd===1||wd===4)&&!eve)L.push({k:'ithnayn',t:wd===1?'يوم الاثنين':'يوم الخميس',ids:['ithnayn-khamis']});
- return L.slice(0,2)}
+ if((wd===1||wd===4)&&!eve&&(!h||snFast(h)||h.m===9))L.push({k:'ithnayn',t:wd===1?'يوم الاثنين':'يوم الخميس',ids:['ithnayn-khamis']});
+ return E?L.slice(0,1).concat([E]):L.slice(0,2)}
 function ocCard(o){var h='<article class="occ"><h3 class="och">'+o.t+'</h3>'+(o.hj?'<p class="ock">بحسب تقويم أم القرى</p>':'');
  (o.ids||[]).forEach(function(id){var x=OCC[id];if(!x)return;h+='<p class="ocl">من حديث النبي ﷺ</p><p class="oct" lang="ar">«'+esc(x.t)+'»</p><p class="ocr">'+esc(x.r)+'</p>'});
  if(o.dua&&ALL[o.dua]){var a=ALL[o.dua];h+='<p class="ocl">'+esc(a.title||'دعاء')+'</p><p class="oct" lang="ar">'+esc(a.text)+'</p><p class="ocr">'+esc([a.source,a.reference].filter(Boolean).join(' · '))+'</p>'}

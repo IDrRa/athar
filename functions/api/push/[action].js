@@ -56,6 +56,13 @@ function ptDay(y,m,d,lat,lng,ramadan){const jd0=Date.UTC(y,m-1,d)/864e5+2440587.
 function ramadan(now,tz){try{return parseInt(new Intl.DateTimeFormat('en-u-ca-islamic-umalqura',{timeZone:tz,month:'numeric'}).format(now),10)===9}catch{return false}}
 const PR={f:'fajr',d:'dhuhr',a:'asr',m:'maghrib',i:'isha'};
 
+// ---- sunnah reminders (same rules as the site): الكهف on Friday; Monday/Thursday fasting and the white days on the evening before
+function hijri(d,tz){try{const p=new Intl.DateTimeFormat('en-u-ca-islamic-umalqura-nu-latn',{timeZone:tz,month:'numeric',day:'numeric'}).formatToParts(d),o={};for(const x of p)o[x.type]=+x.value;return o.month&&o.day?{m:o.month,d:o.day}:null}catch{return null}}
+const snFast=(h)=>!!h&&h.m!==9&&!(h.m===10&&h.d===1)&&!(h.m===12&&h.d>=10&&h.d<=13);
+const snBeed=(h)=>!!h&&h.d===13&&h.m!==9&&h.m!==12;
+function sunnahTimes(md,day,now){const wd=new Date(day+'T12:00:00Z').getUTCDay(),out=[];if(md.kt&&wd===5)out.push(md.kt);
+ if(md.ft||md.bt){const th=hijri(new Date(now.getTime()+864e5),md.tz);if(md.ft&&(wd===0||wd===3)&&snFast(th))out.push(md.ft);if(md.bt&&snBeed(th))out.push(md.bt)}return out}
+
 async function body(request) { try { return await request.json(); } catch { return null; } }
 function sameOrigin(request) { const o = request.headers.get('origin'); return !o || new URL(o).host === new URL(request.url).host; }
 
@@ -76,12 +83,14 @@ export async function onRequest({ request, env, params }) {
     if (!b || !okEndpoint(b.endpoint)) return json({ ok: false, error: 'endpoint' }, 400);
     const id = 's:' + (await sha(b.endpoint)).slice(0, 32);
     if (b.action === 'del') { await env.REPORTS.delete(id); return json({ ok: true }); }
-    const m = b.m ?? null, e = b.e ?? null, pr = typeof b.pr === 'string' ? [...new Set(b.pr.replace(/[^fdami]/g, ''))].join('') : '';
-    if (!okTime(m) || !okTime(e) || !okTz(b.tz)) return json({ ok: false, error: 'bad' }, 400);
+    const m = b.m ?? null, e = b.e ?? null, kt = b.kt ?? null, ft = b.ft ?? null, bt = b.bt ?? null, pr = typeof b.pr === 'string' ? [...new Set(b.pr.replace(/[^fdami]/g, ''))].join('') : '';
+    if (!okTime(m) || !okTime(e) || !okTime(kt) || !okTime(ft) || !okTime(bt) || !okTz(b.tz)) return json({ ok: false, error: 'bad' }, 400);
     let la = null, lo = null;
     if (pr) { la = Math.round(+b.lat * 10) / 10; lo = Math.round(+b.lng * 10) / 10; if (!(la >= -66 && la <= 66 && lo >= -180 && lo <= 180)) return json({ ok: false, error: 'loc' }, 400); }
-    if (!m && !e && !pr) { await env.REPORTS.delete(id); return json({ ok: true }); }
-    await env.REPORTS.put(id, '1', { metadata: { u: b.endpoint, tz: b.tz, m, e, pr, la, lo } });
+    if (!m && !e && !pr && !kt && !ft && !bt) { await env.REPORTS.delete(id); return json({ ok: true }); }
+    const md = { u: b.endpoint, tz: b.tz, m, e, pr, la, lo };
+    if (kt) md.kt = kt; if (ft) md.ft = ft; if (bt) md.bt = bt; // only when chosen, to keep each subscriber's metadata small
+    await env.REPORTS.put(id, '1', { metadata: md });
     return json({ ok: true });
   }
 
@@ -142,6 +151,11 @@ export async function onRequest({ request, env, params }) {
       }
       // adhkar: due in the 5 minutes after their time; if a prayer took that run, they go out on the next one
       if (!hit) for (const slot of ['m', 'e']) { if (md[slot]) { const d = t.min - toMin(md[slot]); if ((d >= 0 && d < w) || (prev && d >= w && d < 2 * w)) { hit = slot; break; } } }
+      // sunnah reminders come last: if a prayer or adhkar took the previous run, they go out on this one
+      if (!hit && (md.kt || md.ft || md.bt)) {
+        const busy = prev || ['m', 'e'].some(s => md[s] && t.min - toMin(md[s]) >= w && t.min - toMin(md[s]) < 2 * w);
+        for (const s of sunnahTimes(md, t.day, now)) { const d = t.min - toMin(s); if ((d >= 0 && d < w) || (busy && d >= w && d < 2 * w)) { hit = 'sunnah'; break; } }
+      }
       if (hit) due.push({ k: name, md, prayer: hit === 'prayer' });
     }
     due.sort((x, y) => (y.prayer ? 1 : 0) - (x.prayer ? 1 : 0) || (x.k < y.k ? -1 : 1));

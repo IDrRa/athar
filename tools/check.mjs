@@ -136,5 +136,41 @@ try {
   else bad(`التنبيهات: denied=${denied} unique=${Object.keys(got).length} twice=${twice} more=${more}`);
 } catch (e) { bad('تعذّر فحص التنبيهات: ' + e.message); }
 
+// ---------- 5. تذكير السنن: الكهف يوم الجمعة، وصيام الاثنين والخميس والأيام البيض مساء اليوم الذي قبلها، ولا تذكير في رمضان وأيام التشريق ----------
+try {
+  const RealDate = Date; let fake = null;
+  globalThis.Date = class extends RealDate { constructor(...a) { if (!a.length && fake) super(fake); else super(...a); } static now() { return fake ?? RealDate.now(); } };
+  globalThis.caches = { default: { put: async () => {}, match: async () => undefined } };
+  const { onRequest } = await import(path.join(ROOT, 'functions/api/push/[action].js') + '?sunnah');
+  const kv = new Map(); const KV = { get: async (k, t) => { const x = kv.get(k); return x ? (t === 'json' ? JSON.parse(x.v) : x.v) : null; }, put: async (k, v, o) => kv.set(k, { v, o }), delete: async (k) => kv.delete(k), list: async ({ prefix }) => ({ keys: [...kv.keys()].filter(k => k.startsWith(prefix)).map(name => ({ name, metadata: kv.get(name).o && kv.get(name).o.metadata })), list_complete: true }) };
+  const env = { REPORTS: KV, PUSH_KEY: 'test-key' }, got = {};
+  globalThis.fetch = async (u) => { u = String(u); got[u] = (got[u] || 0) + 1; return new Response(null, { status: 201 }); };
+  const req = (a, q, b, h = {}) => onRequest({ request: new Request('https://iathar.pages.dev/api/push/' + a + q, { method: 'POST', headers: { 'content-type': 'application/json', origin: 'https://iathar.pages.dev', ...h }, body: b ? JSON.stringify(b) : undefined }), env, params: { action: a } });
+  const U = (n) => 'https://fcm.googleapis.com/fcm/send/sn-' + n, base = { tz: 'Asia/Riyadh', m: null, e: null, pr: '' };
+  // [name, subscription, local date and hour, expected pushes] — dates checked against the Umm al-Qura calendar
+  const cases = [
+    ['fast+beed same time', { ft: '21:00', bt: '21:00' }, '2026-11-22T21', 1],      // Sunday, tomorrow 13 Jumada II
+    ['fast+beed two times', { ft: '21:00', bt: '21:30' }, '2026-11-22T21', 2],
+    ['thursday eve', { ft: '21:00' }, '2027-01-20T21', 1],                           // Wednesday, tomorrow 13 Sha'ban
+    ['ramadan monday', { ft: '21:00', bt: '21:00' }, '2027-02-14T21', 0],            // tomorrow 8 Ramadan
+    ['tashriq monday', { ft: '21:00' }, '2027-05-16T21', 0],                         // tomorrow 11 Dhu al-Hijjah
+    ['13 dhu al-hijjah', { bt: '21:00' }, '2027-05-18T21', 0],
+    ['tuesday', { ft: '21:00' }, '2026-11-24T21', 0],
+    ['kahf friday', { kt: '09:00' }, '2026-10-30T09', 1],
+    ['kahf + morning adhkar', { kt: '09:00', m: '09:00' }, '2026-10-30T09', 2],
+    ['kahf thursday', { kt: '09:00' }, '2026-10-29T09', 0],
+  ];
+  for (const [i, c] of cases.entries()) { // each case alone: subscribe, run every minute around its time, unsubscribe
+    fake = null; await req('sub', '', { ...base, ...c[1], endpoint: U(i) });
+    const [d, h] = c[2].split('T');
+    for (let mm = -1; mm <= 32; mm++) { fake = new RealDate(`${d}T${h}:00:05+03:00`).getTime() + mm * 6e4; await req('run', '?w=1&n=1', null, { 'x-push-key': 'test-key' }); }
+    fake = null; await req('sub', '', { endpoint: U(i), action: 'del' });
+  }
+  globalThis.Date = RealDate;
+  const wrong = cases.map((c, i) => [c[0], got[U(i)] || 0, c[3]]).filter(x => x[1] !== x[2]);
+  if (!wrong.length) ok(`تذكير السنن: ${cases.length} حالات صحيحة (الكهف، الاثنين والخميس، الأيام البيض، ولا تذكير في رمضان وأيام التشريق)`);
+  else bad('تذكير السنن: ' + wrong.map(x => `${x[0]} وصل ${x[1]} والمتوقع ${x[2]}`).join('، '));
+} catch (e) { bad('تعذّر فحص تذكير السنن: ' + e.message); }
+
 if (failed) { console.error(`\nفشل ${failed} فحص — لن يُنشر التعديل.`); process.exit(1); }
 console.log('\nكل الفحوص نجحت.');
