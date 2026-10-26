@@ -37,4 +37,3 @@ h2{font:600 1.15rem/1.5 var(--ui);margin:28px 0 12px}
 .pf nav{display:flex;flex-wrap:wrap;gap:6px 18px;margin-bottom:8px}
 .pf a{text-decoration:none}.pf a:hover{text-decoration:underline}
 .pf p{margin:0}
-.ps{margin:0 0 6px;font-size:.82rem}.ps a{text-decoration:underline}

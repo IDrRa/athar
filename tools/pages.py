@@ -124,7 +124,6 @@ def pages():
     sura = [json.loads(read(os.path.join(SRC, 'data', 'quran', '%03d.json' % n))) for n in range(1, 115)]
     bism = sura[0][0]
     lic = json.loads('"' + re.search(r'QLIC="((?:[^"\\]|\\.)*)"', q_js).group(1) + '"')
-    q_note = '<p class="ps">نص القرآن الكريم من <a href="https://tanzil.net/">مشروع تنزيل</a>.</p>'
     q_comment = '\n<!--\n' + lic.replace('--', '- -') + '\n-->'
 
     def start_page(n):
@@ -151,7 +150,7 @@ def pages():
                 + '<div class="q" lang="ar">%s<p>%s</p></div>' % (head, vs.strip()) + nav)
         out[path] = page(path, 'سورة %s مكتوبة كاملة بالتشكيل' % nm,
                          'سورة %s كاملة بالتشكيل: %s، %s آية. اقرأها في أثر نصًّا أو في المصحف بخط المدينة.' % (nm, md, ar(cnt)),
-                         [('surah/', 'القرآن الكريم')], body, q_note, q_comment)
+                         [('surah/', 'القرآن الكريم')], body, '', q_comment)
     lst = ''.join('<li><a href="%d/"><span class="nn">%s</span><b>سورة %s</b><small>%s · %s آية</small></a></li>'
                   % (n, ar(n), esc(QN[n - 1]), 'مدنية' if QMD[n - 1] == '1' else 'مكية', ar(QC[n - 1])) for n in range(1, 115))
     out['surah/'] = page('surah/', 'سور القرآن الكريم مكتوبة كاملة', 'سور القرآن الكريم الأربع عشرة بعد المئة مكتوبة كاملة بالتشكيل، مرتبة بحسب المصحف.',

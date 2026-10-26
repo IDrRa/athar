@@ -191,7 +191,7 @@ try {
     const h = rd(`surah/${n}/index.html`), V = JSON.parse(rd(`src/data/quran/${String(n).padStart(3, '0')}.json`));
     let at = 0;
     V.forEach((v, i) => { const k = h.indexOf(he(v) + ' <span class="vn">', at); if (k < 0) errs.push(`سورة ${n} آية ${i + 1}`); else { at = k + 1; nv++; } });
-    if (!h.includes('tanzil.net') || !h.includes('PLEASE DO NOT REMOVE OR CHANGE THIS COPYRIGHT BLOCK')) errs.push(`سورة ${n}: ذكر مصدر النص`);
+    if (!h.includes('PLEASE DO NOT REMOVE OR CHANGE THIS COPYRIGHT BLOCK')) errs.push(`سورة ${n}: كتلة ترخيص النص (تعليق مخفي)`);
   }
   const C = JSON.parse(rd('src/data/content.json')).filter((o) => o.status === 'published');
   for (const o of C.filter((o) => o.category !== 'salawat')) { // salawat: has its own page in the app (#/salawat), not an adhkar section
