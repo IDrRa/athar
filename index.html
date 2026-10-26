@@ -780,7 +780,7 @@ body.home::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:no
 .nwn b{flex:1;min-width:0;font:600 .95rem/1.4 var(--ui)}
 .nwn time{flex:none;color:var(--muted);font-size:.74rem}
 /* «الآن» on the home page */
-#hbn{display:flex;flex-direction:column;gap:10px;margin:0 0 22px}
+#hbn:not([hidden]){display:flex;flex-direction:column;gap:10px;margin:0 0 22px}
 .hbnow{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .hbc{display:flex;flex-direction:column;gap:2px;min-width:0;padding:14px 16px;border:1px solid var(--line);border-radius:18px;background:var(--surface);color:var(--text);text-decoration:none}
 .hbc small{color:var(--muted);font-size:.76rem;font-weight:500}

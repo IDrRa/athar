@@ -65,14 +65,16 @@ for (const name of names) {
       const notFound = text.includes('الصفحة غير موجودة');
       const wide = await page.evaluate(() => document.documentElement.scrollWidth > window.innerWidth + 1);
       const out = await page.evaluate(OUT);
+      // an element marked hidden that still shows (a CSS display rule beat [hidden]: the home «الآن» cards appeared on every page)
+      const shown = await page.evaluate(() => [...document.querySelectorAll('[hidden]')].filter((e) => e.getClientRects().length).map((e) => e.id ? '#' + e.id : e.tagName.toLowerCase() + (e.className ? '.' + String(e.className).split(' ')[0] : '')));
       let a11y = [];
       if (AXE && name === 'chromium') {
         await page.evaluate(AXE);
         a11y = await page.evaluate(async () => (await axe.run({ exclude: [['#toast'], ['#nwb']] }, { resultTypes: ['violations'] })).violations.filter((v) => v.impact === 'serious' || v.impact === 'critical').map((v) => v.id + ' ← ' + v.nodes[0].target.join(' ')));
       }
-      if (errs.length || notFound || wide || out.length || a11y.length) {
+      if (errs.length || notFound || wide || out.length || shown.length || a11y.length) {
         failed++;
-        console.error(`✗ [${name} ${scheme}] #/${r}: ${errs.join(' | ') || (notFound ? 'غير موجودة' : wide ? 'عرض الصفحة أكبر من الشاشة' : out.length ? 'عنصر يخرج عن حدوده: ' + out.join('، ') : 'سهولة الوصول: ' + a11y.join('، '))}`);
+        console.error(`✗ [${name} ${scheme}] #/${r}: ${errs.join(' | ') || (notFound ? 'غير موجودة' : wide ? 'عرض الصفحة أكبر من الشاشة' : out.length ? 'عنصر يخرج عن حدوده: ' + out.join('، ') : shown.length ? 'عنصر مخفي يظهر: ' + shown.join('، ') : 'سهولة الوصول: ' + a11y.join('، '))}`);
       }
     }
     await ctx.close();
