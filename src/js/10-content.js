@@ -122,6 +122,7 @@ else if(a==='admin'){t='البلاغات';d='';h=vAdmin()}
 else if(a==='report'){t='أبلغ عن خطأ';d='أبلغ عن خطأ في محتوى أثر';h=vReport(new URLSearchParams(Q))}
 else if(a==='mission'){t='رسالة أثر';d='هدف موقع أثر ورؤيته';h=vMission()}
 else if(a==='notify'){t='التنبيهات';d='تنبيهات الأذان والأذكار';h=vNotify()}
+else if(a==='offline'){t='المصحف بدون إنترنت';d='احفظ المصحف كاملًا على جهازك ليفتح دون اتصال';h=vOffline()}
 else if(a==='install'){t='ثبّت أثر على جوالك';d='طريقة تثبيت أثر كتطبيق';h=vInstall()}
 else if(a==='salawat'&&ALL['dhikr-hisn-023-01']){t='الصلاة على النبي ﷺ';d='صيغة الصلاة على النبي ﷺ من حصن المسلم';var sw=ALL['dhikr-hisn-023-01'];h=head(t,'','/')+'<article class="card"><p class="ctext" lang="ar">'+sw.text+'</p>'+srcB(sw)+'<div class="actions"><button class="btn primary" data-a="share" data-id="'+sw.id+'">مشاركة</button><button class="btn" data-a="copy" data-id="'+sw.id+'">نسخ</button><button class="btn" data-cdid="'+sw.id+'" data-cdt="الصلاة على النبي ﷺ">بطاقة</button></div></article>'+(function(){var F=PL('dhikr').filter(function(x){return x.category==='salawat'});return F.length?'<h2 class="mrs">'+esc(F[0].title)+'</h2>'+F.map(function(x){return '<article class="card"><p class="ctext" lang="ar">'+x.text+'</p>'+srcB(x)+'<div class="actions"><button class="btn" data-a="share" data-id="'+x.id+'">مشاركة</button><button class="btn" data-a="copy" data-id="'+x.id+'">نسخ</button></div></article>'}).join(''):''})()}
 else if(a==='about'){t='المزيد';d='أدوات أثر وإعداداته ومصادر المحتوى';h=vAbout()}

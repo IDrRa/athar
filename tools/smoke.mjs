@@ -18,7 +18,7 @@ const server = http.createServer((req, res) => {
 const base = `http://localhost:${server.address().port}/index.html`;
 
 const ROUTES = ['', 'quran', 'quran/1', 'quran/2/255', 'quran/page/604', 'adhkar', 'adhkar/morning', 'adhkar/evening', 'adhkar/tasbih', 'dua', 'dua/type/quran', 'dua/type/general',
-  'dua/now', 'waqfa', 'waqfa/archive', 'waqfa/wq-030', 'khatma', 'notes', 'search?q=الصبر', 'about', 'mission', 'prayer', 'qibla', 'stats', 'notify', 'install', 'report', 'salawat'];
+  'dua/now', 'waqfa', 'waqfa/archive', 'waqfa/wq-030', 'khatma', 'notes', 'search?q=الصبر', 'about', 'mission', 'prayer', 'qibla', 'stats', 'offline', 'notify', 'install', 'report', 'salawat'];
 
 // an element that sticks out of the screen sideways (the notebook box in Safari did this); scrolling rows and the mushaf track are allowed
 const OUT = () => {

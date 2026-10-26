@@ -69,6 +69,16 @@ try {
 // ---------- 2. الشيفرة: كل سكربت في الصفحة وعامل الخدمة والدوال صالحة نحويًا ----------
 let si = 0;
 for (const m of html.matchAll(/<script>([\s\S]*?)<\/script>/g)) { si++; try { new vm.Script(m[1]); } catch (e) { bad(`خطأ نحوي في سكربت الصفحة رقم ${si}: ${e.message}`); } }
+// «المصحف بدون إنترنت» يحفظ في نفس الذاكرة التي يقرأ منها عامل الخدمة، ويحتاج كل الملفات التي يطلبها موجودة
+try {
+  const sw = fs.readFileSync(path.join(ROOT, 'sw.js'), 'utf8'), off = fs.readFileSync(path.join(ROOT, 'src', 'js', '74-offline.js'), 'utf8');
+  const a = (sw.match(/const MCACHE='([^']+)'/) || [])[1], b = (off.match(/OFF_C='([^']+)'/) || [])[1];
+  const fonts = fs.readdirSync(path.join(ROOT, 'mushaf', 'q4')).filter((f) => /^QCF4_Hafs_\d\d_W\.woff2$/.test(f)).length;
+  const lay = fs.readdirSync(path.join(ROOT, 'mushaf', 'q4', 'l')).filter((f) => /^\d{3}\.json$/.test(f)).length;
+  const taf = fs.readdirSync(path.join(ROOT, 'tafsir', 'muyassar')).filter((f) => /^\d+\.json$/.test(f)).length;
+  if (a && a === b && fonts === 47 && lay === 604 && taf === 114) ok('المصحف بدون إنترنت: يحفظ في ذاكرة عامل الخدمة نفسها، وملفاته كاملة (٤٧ خطًا و٦٠٤ صفحات و١١٤ سورة تفسير)');
+  else bad(`المصحف بدون إنترنت: الذاكرة ${a} / ${b}، الخطوط ${fonts}، الصفحات ${lay}، التفسير ${taf}`);
+} catch (e) { bad('تعذّر فحص المصحف بدون إنترنت: ' + e.message); }
 try { new vm.Script(fs.readFileSync(path.join(ROOT, 'sw.js'), 'utf8')); ok(`الشيفرة سليمة نحويًا (${si} سكربت + عامل الخدمة)`); } catch (e) { bad('خطأ نحوي في sw.js: ' + e.message); }
 
 // ---------- 2ب. تعارض الأسماء بين أجزاء الموقع ----------

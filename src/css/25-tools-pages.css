@@ -81,6 +81,8 @@
 .nt-r span{flex:1}
 .nt-r small{display:block;color:var(--muted);font-size:.8rem;margin-top:2px}
 .nt-hj{margin:8px 0 0;font-size:.8rem}
+.off-c{display:flex;flex-direction:column;gap:6px}.off-c p{margin:0}.off-c .btn{justify-content:center;width:100%;margin-top:10px;min-height:48px}
+.off-n{display:flex;justify-content:space-between;gap:12px;padding:8px 0;border-bottom:1px solid var(--line);font-size:.92rem}.off-n span{color:var(--muted)}.off-n b{font-variant-numeric:tabular-nums}
 .nt-r select{min-height:44px;border:1px solid var(--line);border-radius:10px;background:var(--bg);color:var(--text);font:16px var(--ui);padding:0 10px}
 .nt-h{font:700 .95rem var(--ui);margin:6px 0 4px;color:var(--muted)}
 .nt-h~.nt-h{margin-top:18px}
