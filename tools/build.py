@@ -18,6 +18,8 @@
           python3 tools/build.py --check  يتأكد أن index.html ورقم الإصدار مطابقان للمصدر (يستعمله الفحص التلقائي)
 """
 import os, re, sys, glob, json, hashlib, datetime
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import pages as static_pages
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SRC = os.path.join(ROOT, 'src')
@@ -96,6 +98,11 @@ if __name__ == '__main__':
         if sw != sw_new:
             sys.exit('✗ رقم الإصدار في sw.js لا يطابق الملفات — شغّل: python3 tools/build.py ثم احفظ التعديل')
         print('✓ index.html مطابق لملفات المصدر، ورقم الإصدار %s مطابق للملفات' % version)
+        files = static_pages.pages()
+        bad = [n for n, c in files.items() if not os.path.exists(os.path.join(ROOT, n)) or read(os.path.join(ROOT, n)) != c] + static_pages.stale(files)
+        if bad:
+            sys.exit('✗ صفحات البحث غير مطابقة (%s…) — شغّل: python3 tools/build.py ثم احفظ التعديل' % ', '.join(bad[:3]))
+        print('✓ صفحات البحث (%d ملفًا) مطابقة للمحتوى' % len(files))
     else:
         with open(target, 'w', encoding='utf-8', newline='') as f:
             f.write(out)
@@ -106,3 +113,13 @@ if __name__ == '__main__':
             print('✓ رقم الإصدار في sw.js صار %s' % version)
         else:
             print('✓ رقم الإصدار في sw.js لم يتغيّر (%s)' % version)
+        files = static_pages.pages()
+        for n in static_pages.stale(files):
+            os.remove(os.path.join(ROOT, n))
+        for n, c in files.items():
+            fp = os.path.join(ROOT, n)
+            os.makedirs(os.path.dirname(fp), exist_ok=True)
+            if not os.path.exists(fp) or read(fp) != c:
+                with open(fp, 'w', encoding='utf-8', newline='') as f:
+                    f.write(c)
+        print('✓ صفحات البحث: %d ملفًا (السور والأذكار والأدعية وخريطة الموقع)' % len(files))

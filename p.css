@@ -1,0 +1,40 @@
+/* أثر — تنسيق الصفحات المستقلة (surah/ adhkar/ dua/) التي يبنيها tools/pages.py. نفس ألوان أثر الافتراضية: أبيض وأسود مع لمسة ذهبية. */
+:root{--bg:#FFFFFF;--surface:#F7F7F7;--text:#111111;--muted:#5C5C5C;--line:#E4E4E4;--gold:#A9822F;--btn:#111111;--on-btn:#FFFFFF;
+--ui:"IBM Plex Sans Arabic",system-ui,"Segoe UI",Tahoma,sans-serif;--ar:"Amiri","Traditional Arabic",serif;--qf:"Amiri Quran","Amiri","Traditional Arabic",serif}
+@media (prefers-color-scheme:dark){:root{--bg:#000000;--surface:#111111;--text:#F2F2F2;--muted:#A6A6A6;--line:#262626;--gold:#CDAE6E;--btn:#EDEDED;--on-btn:#000000}}
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0 auto;max-width:720px;padding:0 20px calc(28px + env(safe-area-inset-bottom,0px));background:var(--bg);color:var(--text);font:400 1rem/1.7 var(--ui)}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--gold);outline-offset:2px;border-radius:6px}
+.ph{padding:calc(18px + env(safe-area-inset-top,0px)) 0 6px}
+.pb{display:inline-flex;align-items:center;gap:8px;text-decoration:none;font:700 1.7rem/1 var(--ar)}
+.pb svg{width:30px;height:30px;color:var(--gold)}
+.pc{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px;font-size:.9rem;color:var(--muted)}
+.pc a{text-decoration:none}.pc a:hover{text-decoration:underline}
+h1{font:700 1.7rem/1.4 var(--ui);margin:18px 0 4px}
+h2{font:600 1.15rem/1.5 var(--ui);margin:28px 0 12px}
+.pm{margin:0 0 16px;color:var(--muted);font-size:.95rem}
+.po{margin:0 0 22px}
+.btn{display:inline-flex;align-items:center;min-height:44px;padding:0 20px;border-radius:10px;background:var(--btn);color:var(--on-btn);text-decoration:none;font-weight:500}
+.q{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:18px 18px 22px}
+.q p{margin:0;font:400 1.55rem/2.3 var(--qf);text-align:justify;text-align-last:center}
+.q .bs{text-align:center;margin-bottom:6px}
+.vn{color:var(--gold);font-size:.85em;white-space:nowrap}
+.pn{display:flex;justify-content:space-between;gap:12px;margin:22px 0 8px}
+.pn a{display:inline-flex;align-items:center;min-height:44px;padding:0 14px;border:1px solid var(--line);border-radius:10px;text-decoration:none}
+.pi{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px 18px;margin-bottom:12px}
+.pt{margin:0 0 8px;font:400 1.35rem/2.1 var(--ar)}
+.pi dl{display:grid;grid-template-columns:auto 1fr;gap:2px 12px;margin:0;font-size:.88rem}
+.pi dt{color:var(--muted)}.pi dd{margin:0}
+.pl{list-style:none;margin:0;padding:0;background:var(--surface);border:1px solid var(--line);border-radius:14px}
+.pl li+li{border-top:1px solid var(--line)}
+.pl a{display:flex;align-items:center;gap:12px;min-height:60px;padding:10px 16px;text-decoration:none}
+.pl b{font-weight:600}
+.pl small{margin-inline-start:auto;color:var(--muted);font-size:.85rem;white-space:nowrap}
+.nn{flex:none;width:34px;height:34px;display:grid;place-items:center;border:1px solid var(--line);border-radius:50%;font-size:.85rem;color:var(--gold)}
+.pf{margin-top:36px;padding-top:16px;border-top:1px solid var(--line);color:var(--muted);font-size:.9rem}
+.pf nav{display:flex;flex-wrap:wrap;gap:6px 18px;margin-bottom:8px}
+.pf a{text-decoration:none}.pf a:hover{text-decoration:underline}
+.pf p{margin:0}
+.ps{margin:0 0 6px;font-size:.82rem}.ps a{text-decoration:underline}

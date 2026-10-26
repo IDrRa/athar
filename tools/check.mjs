@@ -182,5 +182,26 @@ try {
   else bad('تذكير السنن: ' + wrong.map(x => `${x[0]} وصل ${x[1]} والمتوقع ${x[2]}`).join('، '));
 } catch (e) { bad('تعذّر فحص تذكير السنن: ' + e.message); }
 
+// ---------- 6. صفحات البحث (surah/ adhkar/ dua/): نص كل آية وكل ذكر ودعاء فيها كما هو في المصدر حرفًا بحرف، وبالترتيب ----------
+try {
+  const he = (t) => t.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  const rd = (p) => fs.readFileSync(path.join(ROOT, p), 'utf8');
+  const errs = []; let nv = 0, ni = 0;
+  for (let n = 1; n <= 114; n++) {
+    const h = rd(`surah/${n}/index.html`), V = JSON.parse(rd(`src/data/quran/${String(n).padStart(3, '0')}.json`));
+    let at = 0;
+    V.forEach((v, i) => { const k = h.indexOf(he(v) + ' <span class="vn">', at); if (k < 0) errs.push(`سورة ${n} آية ${i + 1}`); else { at = k + 1; nv++; } });
+    if (!h.includes('tanzil.net') || !h.includes('PLEASE DO NOT REMOVE OR CHANGE THIS COPYRIGHT BLOCK')) errs.push(`سورة ${n}: ذكر مصدر النص`);
+  }
+  const C = JSON.parse(rd('src/data/content.json')).filter((o) => o.status === 'published');
+  for (const o of C.filter((o) => o.category !== 'salawat')) { // salawat: has its own page in the app (#/salawat), not an adhkar section
+    const f = o.type === 'dhikr' ? `adhkar/${o.category}/index.html` : (o.kind || 'general') === 'general' ? `dua/general/${o.category || 'other'}/index.html` : `dua/${o.kind}/index.html`;
+    if (!fs.existsSync(path.join(ROOT, f)) || !rd(f).includes('<p class="pt">' + he(o.text) + '</p>')) errs.push(o.id); else ni++;
+  }
+  const locs = (rd('sitemap.xml').match(/<loc>/g) || []).length;
+  if (!errs.length && nv === 6236 && locs === 140) ok(`صفحات البحث: ٦٢٣٦ آية و${ni} ذكرًا ودعاءً كما هي في المصدر، وخريطة الموقع ${locs} رابطًا`);
+  else bad('صفحات البحث: ' + (errs.slice(0, 5).join('، ') || `آيات ${nv}، روابط ${locs}`));
+} catch (e) { bad('تعذّر فحص صفحات البحث: ' + e.message); }
+
 if (failed) { console.error(`\nفشل ${failed} فحص — لن يُنشر التعديل.`); process.exit(1); }
 console.log('\nكل الفحوص نجحت.');
