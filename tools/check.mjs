@@ -186,20 +186,27 @@ try {
 try {
   const he = (t) => t.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
   const rd = (p) => fs.readFileSync(path.join(ROOT, p), 'utf8');
-  const errs = []; let nv = 0, ni = 0;
+  const errs = []; let nv = 0, ni = 0, nt = 0;
   for (let n = 1; n <= 114; n++) {
     const h = rd(`surah/${n}/index.html`), V = JSON.parse(rd(`src/data/quran/${String(n).padStart(3, '0')}.json`));
     let at = 0;
     V.forEach((v, i) => { const k = h.indexOf(he(v) + ' <span class="vn">', at); if (k < 0) errs.push(`سورة ${n} آية ${i + 1}`); else { at = k + 1; nv++; } });
     if (!h.includes('PLEASE DO NOT REMOVE OR CHANGE THIS COPYRIGHT BLOCK')) errs.push(`سورة ${n}: كتلة ترخيص النص (تعليق مخفي)`);
+    const T = JSON.parse(rd(`tafsir/muyassar/${n}.json`)).t, th = rd(`surah/${n}/tafsir/index.html`);
+    T.forEach((x, i) => { if (typeof x === 'string') { if (th.includes('<p class="tt">' + he(x) + '</p>')) nt++; else errs.push(`تفسير سورة ${n} آية ${i + 1}`); } });
+    V.forEach((v, i) => { if (!th.includes(he(v) + ' <span class="vn">')) errs.push(`تفسير سورة ${n}: نص الآية ${i + 1}`); });
   }
   const C = JSON.parse(rd('src/data/content.json')).filter((o) => o.status === 'published');
   for (const o of C.filter((o) => o.category !== 'salawat')) { // salawat: has its own page in the app (#/salawat), not an adhkar section
     const f = o.type === 'dhikr' ? `adhkar/${o.category}/index.html` : (o.kind || 'general') === 'general' ? `dua/general/${o.category || 'other'}/index.html` : `dua/${o.kind}/index.html`;
     if (!fs.existsSync(path.join(ROOT, f)) || !rd(f).includes('<p class="pt">' + he(o.text) + '</p>')) errs.push(o.id); else ni++;
   }
-  const locs = (rd('sitemap.xml').match(/<loc>/g) || []).length;
-  if (!errs.length && nv === 6236 && locs === 140) ok(`صفحات البحث: ٦٢٣٦ آية و${ni} ذكرًا ودعاءً كما هي في المصدر، وخريطة الموقع ${locs} رابطًا`);
+  for (const [p, n, a, b] of [['surah/2/255', 2, 255, 255], ['surah/2/285-286', 2, 285, 286], ['surah/2/282', 2, 282, 282], ['surah/24/35', 24, 35, 35]]) {
+    const h = rd(p + '/index.html'), V = JSON.parse(rd(`src/data/quran/${String(n).padStart(3, '0')}.json`));
+    for (let v = a; v <= b; v++) if (!h.includes(he(V[v - 1]) + ' <span class="vn">')) errs.push(`${p} آية ${v}`);
+  }
+  const locs = (rd('sitemap.xml').match(/<loc>/g) || []).length; // الرئيسية + ١١٤ سورة وفهرسها + ١١٤ تفسيرًا + ٤ آيات مشهورة + ٨ أذكار + ١٦ أدعية
+  if (!errs.length && nv === 6236 && locs === 258) ok(`صفحات البحث: ٦٢٣٦ آية و${nt} نص تفسير و${ni} ذكرًا ودعاءً كما هي في المصدر، وخريطة الموقع ${locs} رابطًا`);
   else bad('صفحات البحث: ' + (errs.slice(0, 5).join('، ') || `آيات ${nv}، روابط ${locs}`));
 } catch (e) { bad('تعذّر فحص صفحات البحث: ' + e.message); }
 
