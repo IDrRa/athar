@@ -779,8 +779,23 @@ body.home::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:no
 .nwn img{width:34px;height:34px;flex:none;border-radius:8px}
 .nwn b{flex:1;min-width:0;font:600 .95rem/1.4 var(--ui)}
 .nwn time{flex:none;color:var(--muted);font-size:.74rem}
-#ptl{margin:-14px 0 22px}
-#ptl a{color:var(--muted);font-size:.86rem;text-decoration:none}
+/* «الآن» on the home page */
+#hbn{display:flex;flex-direction:column;gap:10px;margin:0 0 22px}
+.hbnow{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.hbc{display:flex;flex-direction:column;gap:2px;min-width:0;padding:14px 16px;border:1px solid var(--line);border-radius:18px;background:var(--surface);color:var(--text);text-decoration:none}
+.hbc small{color:var(--muted);font-size:.76rem;font-weight:500}
+.hbc b{font:700 1.18rem/1.5 var(--ui);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.hbc b i{font-style:normal;font-weight:500;font-size:.88rem;color:var(--muted)}
+.hbc span{color:var(--muted);font-size:.8rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.hba{border-color:var(--gold);box-shadow:inset 0 0 0 1px var(--gold)}
+.hba small{color:var(--gold);font-weight:700}
+.hbcont{display:flex;align-items:center;gap:12px;min-height:56px;padding:8px 16px;border:1px solid var(--line);border-radius:16px;background:var(--surface);color:var(--text);text-decoration:none}
+.hbcont>svg:first-child{color:var(--gold)}
+.hbcont span{flex:1;min-width:0;display:flex;flex-direction:column}
+.hbcont small{color:var(--muted);font-size:.74rem}.hbcont b{font-weight:600;font-size:.95rem}
+.hbcont .go{color:var(--muted);width:18px;height:18px}
+.hbc:active,.hbcont:active{background:var(--tint)}
+[aria-labelledby="t-explore"]{margin:0 0 26px}
 /* v37 lighter home cards: «ما يناسب اليوم» without the double frame, explore tiles as one small row */
 .occ{box-shadow:none;padding:14px 18px 14px;border-radius:var(--r-lg)}
 .occ .och{font:600 .85rem var(--ui);color:var(--gold);margin:0 0 4px}
@@ -818,16 +833,16 @@ body.home::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:no
   </form>
 
   <main id="app" tabindex="-1">
-  <section id="ptl" aria-label="وقت الصلاة" hidden></section>
+  <section id="hbn" aria-label="الآن" hidden></section>
   <section id="insh" aria-label="تثبيت أثر" hidden></section>
-  <section id="occs" aria-label="ما يناسب اليوم" hidden></section>
+  <section aria-labelledby="t-explore"><h2 id="t-explore" class="sr">استكشف</h2><ul class="list tiles"><li><button class="row tile"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2zM4 19V5"/></svg><div><b>القرآن</b><span>السور والآيات</span></div></button></li><li><button class="row tile"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 18h18M7 18a5 5 0 0 1 10 0M12 6v3M5.6 9.6l2.1 2.1M18.4 9.6l-2.1 2.1"/></svg><div><b>الأذكار</b><span>الصباح والمساء والنوم</span></div></button></li><li><button class="row tile"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><g transform="translate(0.13 2.4) scale(0.53 0.8)" stroke-width="2.073"><path d="M18 11V6a2 2 0 0 0-2-2a2 2 0 0 0-2 2"/><path d="M14 10V4a2 2 0 0 0-2-2a2 2 0 0 0-2 2v2"/><path d="M10 10.5V6a2 2 0 0 0-2-2a2 2 0 0 0-2 2v8"/><path d="M18 8a2 2 0 1 1 4 0v6a8 8 0 0 1-8 8h-2c-2.8 0-4.5-.86-5.99-2.34l-3.6-3.6a2 2 0 0 1 2.83-2.82L7 15"/></g><g transform="translate(11.15 2.4) scale(0.53 0.8) translate(24 0) scale(-1 1)" stroke-width="2.073"><path d="M18 11V6a2 2 0 0 0-2-2a2 2 0 0 0-2 2"/><path d="M14 10V4a2 2 0 0 0-2-2a2 2 0 0 0-2 2v2"/><path d="M10 10.5V6a2 2 0 0 0-2-2a2 2 0 0 0-2 2v8"/><path d="M18 8a2 2 0 1 1 4 0v6a8 8 0 0 1-8 8h-2c-2.8 0-4.5-.86-5.99-2.34l-3.6-3.6a2 2 0 0 1 2.83-2.82L7 15"/></g></svg><div><b>الأدعية</b><span>من القرآن والسنة</span></div></button></li><li><button class="row tile"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 21V11.5Q6 6 12 2.5Q18 6 18 11.5V21"/><path d="M3.5 21h17"/></svg><div><b>وقفة أثر</b><span>اقرأ وافهم واعمل</span></div></button></li></ul></section>
   <section aria-labelledby="t-today">
     <h2 id="t-today">وقفة أثر</h2>
     <div id="today"></div>
     <div id="kmh"></div>
   </section>
 
-  <section aria-labelledby="t-explore"><h2 id="t-explore" class="sr">استكشف</h2><ul class="list tiles"><li><button class="row tile"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2zM4 19V5"/></svg><div><b>القرآن</b><span>السور والآيات</span></div></button></li><li><button class="row tile"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 18h18M7 18a5 5 0 0 1 10 0M12 6v3M5.6 9.6l2.1 2.1M18.4 9.6l-2.1 2.1"/></svg><div><b>الأذكار</b><span>الصباح والمساء والنوم</span></div></button></li><li><button class="row tile"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><g transform="translate(0.13 2.4) scale(0.53 0.8)" stroke-width="2.073"><path d="M18 11V6a2 2 0 0 0-2-2a2 2 0 0 0-2 2"/><path d="M14 10V4a2 2 0 0 0-2-2a2 2 0 0 0-2 2v2"/><path d="M10 10.5V6a2 2 0 0 0-2-2a2 2 0 0 0-2 2v8"/><path d="M18 8a2 2 0 1 1 4 0v6a8 8 0 0 1-8 8h-2c-2.8 0-4.5-.86-5.99-2.34l-3.6-3.6a2 2 0 0 1 2.83-2.82L7 15"/></g><g transform="translate(11.15 2.4) scale(0.53 0.8) translate(24 0) scale(-1 1)" stroke-width="2.073"><path d="M18 11V6a2 2 0 0 0-2-2a2 2 0 0 0-2 2"/><path d="M14 10V4a2 2 0 0 0-2-2a2 2 0 0 0-2 2v2"/><path d="M10 10.5V6a2 2 0 0 0-2-2a2 2 0 0 0-2 2v8"/><path d="M18 8a2 2 0 1 1 4 0v6a8 8 0 0 1-8 8h-2c-2.8 0-4.5-.86-5.99-2.34l-3.6-3.6a2 2 0 0 1 2.83-2.82L7 15"/></g></svg><div><b>الأدعية</b><span>من القرآن والسنة</span></div></button></li><li><button class="row tile"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 21V11.5Q6 6 12 2.5Q18 6 18 11.5V21"/><path d="M3.5 21h17"/></svg><div><b>وقفة أثر</b><span>اقرأ وافهم واعمل</span></div></button></li></ul></section>
+  <section id="occs" aria-label="ما يناسب اليوم" hidden></section>
   <div id="view" hidden></div></main>
 </div>
 
@@ -1156,7 +1171,7 @@ else if(a==='dua'&&dt(b,'dua')){var o2=dt(b,'dua'),k2=o2.kind||'general',L2=rdLi
 else if(a==='search'){var qv=new URLSearchParams(Q).get('q')||'';t='البحث'+(qv?': '+qv:'');d='ابحث في القرآن ومعانيه والأذكار والأدعية';$('#q').value=qv;var cb=$('.clr');if(cb)cb.hidden=!qv;if(qv.trim()&&!IX){h=head('البحث','ابحث في القرآن والأذكار والأدعية')+'<p class="loading" role="status">جارٍ تجهيز البحث…</p>';setTimeout(function(){if(location.hash.indexOf('#/search')===0&&!IX){ix();V.innerHTML=sv(qv)}},30)}else h=sv(qv)}
 else if(!home){t='الصفحة غير موجودة';h=head(t,'الرابط غير صحيح.')+'<a class="btn primary" href="#/">الرئيسية</a>'}
 HS.forEach(function(s){s.hidden=!home});V.hidden=home;V.innerHTML=h;try{atPost(a)}catch(x){}document.body.classList.toggle('rdon',!!(RS||QPS));document.body.classList.toggle('qon',!!QPS);document.body.classList.toggle('home',home);document.body.classList.toggle('srch',a==='search');
-if(home)try{kmHomeRender();ocRender();insHomeRender();nowRender()}catch(x){}try{ptLineRender()}catch(x){}document.title=home?'أثر — ما ينفعك ويبقى أثره':t+' | أثر';var md=$('meta[name=description]');if(md)md.content=d;
+if(home)try{kmHomeRender();ocRender();insHomeRender();nowRender()}catch(x){}try{hbRender()}catch(x){}document.title=home?'أثر — ما ينفعك ويبقى أثره':t+' | أثر';var md=$('meta[name=description]');if(md)md.content=d;
 var nb=document.querySelectorAll('nav button');nb.forEach(function(x,i){x.removeAttribute('aria-current');if(i===(home?0:NAVMAP[a]||-1))x.setAttribute('aria-current','page')});
 SEOX(a);window.scrollTo(0,0);QJ(a,p);qfit();if(QPS)qhint();if(!home&&!QS){V.setAttribute('tabindex','-1');try{V.focus({preventScroll:true})}catch(e){}}}
 function toast(m){var e=$('#toast');e.textContent=m;e.classList.add('on');setTimeout(function(){e.classList.remove('on')},2000)}
@@ -1680,19 +1695,21 @@ function nowMark(){try{var h=location.hash,seen=nowSeen(),ch=false;nowList(ocNow
 window.addEventListener('hashchange',function(){nowMark();nowHide()});nowMark();
 document.addEventListener('visibilitychange',function(){if(!document.hidden&&document.body.classList.contains('home'))nowRender()});
 
-/* ===== a quiet prayer-time line under the search on the home page ===== */
+/* ===== «الآن» on the home page: the next prayer, what suits this moment, and «تابع القراءة» (last mushaf page, when no khatma is running) ===== */
 function arN(n,one,two,few,many){return n===1?one:n===2?two:(n>=3&&n<=10?ar(n)+' '+few:ar(n)+' '+many)}
 function arDur(min){var h=Math.floor(min/60),m=min%60,x=[];if(h)x.push(arN(h,'ساعة','ساعتان','ساعات','ساعة'));if(m||!h)x.push(arN(m,'دقيقة','دقيقتان','دقائق','دقيقة'));return x.join(' و')}
-function ptLineText(d){var l=ptLoc();if(!l)return '';try{var tz=ptTz(l),a=ptYMD(d,tz),o=ptDay(a[0],a[1],a[2],l.lat,l.lng,ptRamadan(d,tz)),
- b=ptYMD(new Date(d.getTime()+864e5),tz),o2=ptDay(b[0],b[1],b[2],l.lat,l.lng,ptRamadan(d,tz)),
- P=[['fajr','الفجر',o],['dhuhr','الظهر',o],['asr','العصر',o],['maghrib','المغرب',o],['isha','العشاء',o],['fajr','الفجر',o2]].filter(function(p){return p[2][p[0]]}),m=d.getTime(),last=null,next=null;
- P.forEach(function(p){var t=p[2][p[0]].getTime();if(t<=m)last=[p[1],t];else if(!next)next=[p[1],t]});
- if(d.getDay()===5&&next&&next[0]==='الظهر')next[0]='الجمعة';if(d.getDay()===5&&last&&last[0]==='الظهر')last[0]='الجمعة';
- if(last&&m-last[1]<30*6e4)return 'مضى على أذان '+last[0]+' '+arDur(Math.max(1,Math.floor((m-last[1])/6e4)));
- if(next)return 'بقي على أذان '+next[0]+' '+arDur(Math.max(1,Math.ceil((next[1]-m)/6e4)));return ''}catch(e){return ''}}
-function ptLineRender(){var el=document.getElementById('ptl');if(!el)return;var t=document.body.classList.contains('home')?ptLineText(ocNow()):'';el.hidden=!t;el.innerHTML=t?'<a href="#/prayer">'+t+'</a>':''}
-setInterval(function(){if(!document.hidden)try{ptLineRender()}catch(e){}},30000);
-
+var HBN={fajr:'الفجر',dhuhr:'الظهر',asr:'العصر',maghrib:'المغرب',isha:'العشاء'};
+function hbNext(d){var l=ptLoc(),T=nowTimes(d).t,m=d.getTime(),o=null;['fajr','dhuhr','asr','maghrib','isha'].forEach(function(k){if(!o&&T[k]&&T[k].getTime()>m)o=[k,T[k]]});
+ if(!o)o=['fajr',nowTimes(new Date(d.getFullYear(),d.getMonth(),d.getDate()+1,12)).t.fajr];var nm=HBN[o[0]];if(d.getDay()===5&&o[0]==='dhuhr')nm='الجمعة';
+ return {l:!!l,name:nm,at:l?ptFmt(o[1],ptTz(l)):'',left:arDur(Math.max(1,Math.ceil((o[1].getTime()-m)/6e4)))}}
+function hbNow(){var d=ocNow(),n=hbNext(d),s=nowState(d),a;
+ if(s.main)a=[NOWK[s.main.k][0],'#'+NOWK[s.main.k][1],s.main.k==='sleep'?'قبل أن تنام':'وقتها الآن'];else if(s.kahf)a=['سورة الكهف','#/quran/18','يوم الجمعة'];else a=['التسبيح والاستغفار','#/adhkar/tasbih','ذكرٌ في كل وقت'];
+ return '<div class="hbnow">'+(n.l?'<a class="hbc" href="#/prayer"><small>الصلاة القادمة</small><b>'+n.name+' <i>'+n.at+'</i></b><span>بعد '+n.left+'</span></a>':'<a class="hbc" href="#/prayer"><small>مواقيت الصلاة</small><b>اختر موقعك</b><span>لتظهر الصلاة القادمة</span></a>')
+  +'<a class="hbc hba" href="'+a[1]+'"><small>الآن</small><b>'+a[0]+'</b><span>'+a[2]+'</span></a></div>'}
+function hbCont(){var o=qget('athar-qlp',null),k=null;try{k=kmGet()}catch(e){}if((k&&!k.done)||!o||!(o.p>=1&&o.p<=604))return '';
+ return '<a class="hbcont" href="#/quran/page/'+o.p+'"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4h10v16l-5-4-5 4z"/></svg><span><small>تابع القراءة</small><b>سورة '+QN[QPG[o.p-1][0]-1]+' · صفحة '+ar(o.p)+'</b></span><svg class="go" viewBox="0 0 24 24" aria-hidden="true"><path d="m15 6-6 6 6 6"/></svg></a>'}
+function hbRender(){var el=document.getElementById('hbn');if(!el)return;var on=document.body.classList.contains('home');el.hidden=!on;if(on)el.innerHTML=hbNow()+hbCont()}
+setInterval(function(){if(!document.hidden)try{hbRender()}catch(e){}},30000);
 /* ===== سجود التلاوة: the 15 sajda ayat of the Hafs mushaf (quran-meta, SajdaList, MIT — the same package the mushaf pages are built from).
    A page that holds one shows «۩ سجدة» by the page number; it opens Hisn al-Muslim's chapter «دعاء سجود التلاوة» (already in the adhkar data). ===== */
 var SJ=[[7,206],[13,15],[16,50],[17,109],[19,58],[22,18],[22,77],[25,60],[27,26],[32,15],[38,24],[41,38],[53,62],[84,21],[96,19]],SJIDS=['dhikr-hisn-021-01','dhikr-hisn-021-02'],sjOpener=null;

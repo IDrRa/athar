@@ -7,5 +7,20 @@
 .nwn img{width:34px;height:34px;flex:none;border-radius:8px}
 .nwn b{flex:1;min-width:0;font:600 .95rem/1.4 var(--ui)}
 .nwn time{flex:none;color:var(--muted);font-size:.74rem}
-#ptl{margin:-14px 0 22px}
-#ptl a{color:var(--muted);font-size:.86rem;text-decoration:none}
+/* «الآن» on the home page */
+#hbn{display:flex;flex-direction:column;gap:10px;margin:0 0 22px}
+.hbnow{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.hbc{display:flex;flex-direction:column;gap:2px;min-width:0;padding:14px 16px;border:1px solid var(--line);border-radius:18px;background:var(--surface);color:var(--text);text-decoration:none}
+.hbc small{color:var(--muted);font-size:.76rem;font-weight:500}
+.hbc b{font:700 1.18rem/1.5 var(--ui);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.hbc b i{font-style:normal;font-weight:500;font-size:.88rem;color:var(--muted)}
+.hbc span{color:var(--muted);font-size:.8rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.hba{border-color:var(--gold);box-shadow:inset 0 0 0 1px var(--gold)}
+.hba small{color:var(--gold);font-weight:700}
+.hbcont{display:flex;align-items:center;gap:12px;min-height:56px;padding:8px 16px;border:1px solid var(--line);border-radius:16px;background:var(--surface);color:var(--text);text-decoration:none}
+.hbcont>svg:first-child{color:var(--gold)}
+.hbcont span{flex:1;min-width:0;display:flex;flex-direction:column}
+.hbcont small{color:var(--muted);font-size:.74rem}.hbcont b{font-weight:600;font-size:.95rem}
+.hbcont .go{color:var(--muted);width:18px;height:18px}
+.hbc:active,.hbcont:active{background:var(--tint)}
+[aria-labelledby="t-explore"]{margin:0 0 26px}
