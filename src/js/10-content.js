@@ -96,7 +96,7 @@ return '<div class="rd"><h1 class="sr">'+RS.title+'</h1><div class="rdtop"><a cl
 +'<div class="rdnav"><button class="btn" data-rd="prev"'+(i?'':' disabled')+'>'+CHV+'السابق</button><button class="btn primary'+(done||!n?'':' soft')+'" data-rd="next">'+(last?'إنهاء':'التالي')+(last?'':CHL)+'</button></div></div>'}
 function rdsplit(o){var tx=o.text.replace(/\r\n?/g,'\n'),k=tx.indexOf('\n');return o.type==='benefit'&&k>0?[tx.slice(0,k),tx.slice(k+1)]:['',tx]}
 function rdnar(o){var a=rdsplit(o)[0];return a?'<p class="rdnar">'+a+'</p>':''}
-function rdtx(o){if(o.verses)return o.verses.map(function(v){return qam(v.text,v.a,1)}).join(' ');return rdsplit(o)[1]}
+function rdtx(o){if(o.verses)return o.verses.map(function(v){return qam(v.text,v.a,1)}).join(' ');return hlHtml(o,rdsplit(o)[1])}
 function rdDraw(sc){V.innerHTML=rdHtml();if(sc)window.scrollTo(0,0)}
 function rdGo(k){if(!RS)return;if(k>=RS.L.length){location.hash='#'+RS.back;return}if(k<0)return;RS.i=k;try{history.replaceState(null,'','#'+RS.base+'/'+(k+1))}catch(e){}rdDraw(true);live(ar(RS.i+1)+' من '+ar(RS.L.length))}
 document.addEventListener('click',function(e){var b=e.target.closest('[data-rd]');if(!b||!RS)return;var a=b.dataset.rd,o=RS.L[RS.i];

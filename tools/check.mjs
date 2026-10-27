@@ -210,5 +210,15 @@ try {
   else bad('صفحات البحث: ' + (errs.slice(0, 5).join('، ') || `آيات ${nv}، روابط ${locs}`));
 } catch (e) { bad('تعذّر فحص صفحات البحث: ' + e.message); }
 
+// ---------- 7. تمييز ألفاظ الذكر بالذهبي: كل عبارة في highlights.json موجودة في نص عنصرها حرفًا بحرف ----------
+try {
+  const HL = JSON.parse(fs.readFileSync(path.join(ROOT, 'src/data/highlights.json'), 'utf8'));
+  const C = Object.fromEntries(JSON.parse(fs.readFileSync(path.join(ROOT, 'src/data/content.json'), 'utf8')).map((o) => [o.id, o]));
+  const miss = []; let n = 0;
+  for (const [id, ps] of Object.entries(HL)) for (const p of ps) { if (!C[id] || !p || !C[id].text.includes(p)) miss.push(id); else n++; }
+  if (!miss.length) ok(`تمييز ألفاظ الذكر: ${n} عبارة في ${Object.keys(HL).length} نصًا، كلها من النص نفسه حرفًا بحرف`);
+  else bad('تمييز ألفاظ الذكر: عبارة غير موجودة في نصها: ' + miss.slice(0, 5).join('، '));
+} catch (e) { bad('تعذّر فحص تمييز ألفاظ الذكر: ' + e.message); }
+
 if (failed) { console.error(`\nفشل ${failed} فحص — لن يُنشر التعديل.`); process.exit(1); }
 console.log('\nكل الفحوص نجحت.');

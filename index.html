@@ -808,6 +808,8 @@ body.home::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:no
 .hbcont .go{color:var(--muted);width:18px;height:18px}
 .hbc:active,.hbcont:active{background:var(--tint)}
 [aria-labelledby="t-explore"]{margin:0 0 26px}
+/* ألفاظ الذكر أو الدعاء داخل الرواية: بالذهبي (src/js/26-highlight.js) */
+mark.dk{background:none;color:var(--gold)}
 /* v37 lighter home cards: «ما يناسب اليوم» without the double frame, explore tiles as one small row */
 .occ{box-shadow:none;padding:14px 18px 14px;border-radius:var(--r-lg)}
 .occ .och{font:600 .85rem var(--ui);color:var(--gold);margin:0 0 4px}
@@ -1041,7 +1043,7 @@ else if(navigator.share){navigator.share({title:'أثر — سورة '+QN[QS.n-1
 else copyT(x+'\n'+qlink(QS.n,QS.v),'المشاركة غير متاحة هنا، نُسخ نص الآية ورابطها')});
 function vAbout(){var k=kmGet(),nn=Object.keys(ntAll()).filter(function(x){return wqById(x)}).length,fs=mrFs();return head('المزيد','')+'<h2 class="mrs">أدوات أثر</h2><ul class="list mrl">'+mrRow('#/khatma','khatma','ختمة أثر',k&&!k.done?'اليوم '+ar(Math.min(k.ends.length,wqDay()-k.start+1))+' من '+ar(k.ends.length)+' · قرأت '+ar(Math.max(0,k.through-k.from+1))+' صفحة':'خطة يومية لختم القرآن')+mrRow('#/notes','notes','دفتر الأثر',nn?ar(nn)+' '+(nn===1?'ملاحظة':nn===2?'ملاحظتان':nn<=10?'ملاحظات':'ملاحظة'):'ملاحظاتك الخاصة على الوقفات')+mrRow('#/dua/now','now','ماذا أدعو الآن؟','اختر حالك، تظهر لك الأدعية المناسبة')+mrRow('#/waqfa/archive','waqfa','كل الوقفات',ar(WQ.length)+' وقفة')+mrRow('#/stats','stats','إحصاءات قراءتك',rdSub())+mrRow('#/offline','offline','المصحف بدون إنترنت',offSub())+'</ul>'+'<h2 class="mrs">الصلاة والأذكار</h2><ul class="list mrl">'+mrRow('#/prayer','prayer','مواقيت الصلاة',ptSub())+mrRow('#/qibla','qibla','اتجاه القبلة','بوصلة نحو الكعبة المشرفة')+mrRow('#/notify','bell','التنبيهات',ntSub())+(ntApp()?'':mrRow('#/install','install','ثبّت أثر على جوالك','للتنبيهات وحفظ بياناتك'))+'</ul>'+'<h2 class="mrs">الإعدادات</h2><ul class="list mrl"><li><button class="row" data-apopen>'+MRI.palette+'<div><b>المظهر والألوان</b><span>الوضع الليلي ولون الموقع</span></div></button></li>'+'<li class="mrfs"><div class="row">'+MRI.font+'<div><b id="mrfsl">حجم خط القراءة</b><span>في الأذكار والأدعية والمعاني</span></div></div><div class="apseg mrseg" role="radiogroup" aria-labelledby="mrfsl">'+[['s','صغير'],['m','متوسط'],['l','كبير'],['xl','أكبر']].map(function(x){return '<button role="radio" aria-checked="'+(fs===x[0])+'" data-fs="'+x[0]+'">'+x[1]+'</button>'}).join('')+'</div><p class="mrprev" lang="ar">سُبْحَانَ اللَّهِ وَبِحَمْدِهِ</p></li></ul>'+'<h2 class="mrs">بياناتك</h2><ul class="list mrl"><li><button class="row" data-mr="export">'+MRI.export+'<div><b>حفظ نسخة احتياطية</b><span>الختمة والدفتر والفواصل والإعدادات في ملف واحد</span></div></button></li>'+'<li><label class="row" for="mrimp">'+MRI.import+'<div><b>استعادة من نسخة احتياطية</b><span>اختر ملف أثر الذي حفظته سابقًا</span></div></label><input type="file" id="mrimp" class="sr" accept="application/json,.json"></li></ul>'+'<p class="mrnote">بياناتك محفوظة على هذا الجهاز فقط. احفظ نسخة احتياطية قبل مسح بيانات المتصفح أو تغيير الجوال.</p>'+'<h2 class="mrs">عن أثر</h2><ul class="list mrl">'+mrRow('https://whatsapp.com/channel/0029VbDNWIjIiRoypf8SSB08','channel','قناة أثر على واتساب','تابع جديد أثر')+mrRow('#/report','flag','أبلغ عن خطأ','لاحظت خطأ في نص أو مصدر؟ أخبرنا')+(adPass()?mrRow('#/admin','notes','البلاغات','بلاغات الزوار — تظهر لك وحدك'):'')+mrRow('#/mission','waqfa','رسالة أثر','لماذا وُجد أثر، وما الذي نرجوه منه')+'<li><button class="row" data-mr="share">'+MRI.share+'<div><b>شارك أثر</b><span>أرسل رابط الموقع لمن تحب</span></div></button></li>'+'<li><div class="row">'+MRI.shield+'<div><b>الخصوصية</b><span>لا حسابات ولا إعلانات، ولا نطلب اسمك ولا بريدك في أي مكان. نحسب عدد الزيارات فقط، بلا ملفات تعريف ولا بيانات شخصية. ما تحفظه من ختمة ودفتر وإحصاءات وموقع يبقى على جهازك، والتذكير يحفظ أوقاتك فقط.</span></div></div></li></ul>'+'<p>أثر مشروع إسلامي نافع، وصدقة جارية بإذن الله، يجمع بين صحة المحتوى وجمال التجربة وسهولة الانتفاع. لا يُنشر فيه محتوى ديني إلا بعد إسناده إلى مصدر ومراجعته.</p>'+'<details class="mrsrc"><summary>المصادر والتراخيص</summary><p><b>خط المصحف:</b> «KFGQPC Uthmanic Script HAFS» © مجمع الملك فهد لطباعة المصحف الشريف، المدينة المنورة. يُستخدم كما هو دون تعديل بموجب رخصة المستخدم المجانية المضمّنة في ملف الخط، وهي تسمح بالاستخدام والنسخ والتوزيع مجانًا مع منع البيع والتعديل.</p><p><b>صفحات المصحف:</b> خطوط صفحات مصحف المدينة النبوية «QCF4» (طبعة ١٤٤١هـ) بخط الخطاط عثمان طه، © مجمع الملك فهد لطباعة المصحف الشريف، في نسختها الرقمية التي أعدّها أحمد الغريب. تُستخدم كما هي دون أي تعديل، لعرض المصحف فقط. وترتيب الكلمات على الأسطر من بيانات <a href="https://www.npmjs.com/package/quran-qcf4" rel="noopener">quran-qcf4</a> (رخصة MIT)، وقد طوبق آليًا مع النص: ٦٠٤ صفحات و٦٢٣٦ آية لكل منها علامة نهاية واحدة.</p><p><b>أيقونة الأدعية:</b> مبنية من أيقونة اليد في مكتبة <a href="https://lucide.dev" target="_blank" rel="noopener">Lucide</a> (رخصة ISC).</p><p><b>الأذكار والأدعية:</b> من كتاب «حصن المسلم من أذكار الكتاب والسنة» للشيخ سعيد بن علي بن وهف القحطاني، عبر ملف البيانات المفتوح <a href="https://github.com/asellam/HisnElMuslim" target="_blank" rel="noopener">asellam/HisnElMuslim</a> (رخصة MIT). النص والمرجع كما في المصدر دون تعديل.</p><p><b>القرآن الكريم:</b> مصدر النص مشروع <a href="https://tanzil.net/" target="_blank" rel="noopener">Tanzil</a> (Tanzil Quran Text — Simple، الإصدار 1.1)، ويُعرض كما ورد في المصدر دون أي تغيير في حروفه. حقوق النسخ © 2007–2026 Tanzil Project، والترخيص Creative Commons Attribution 3.0. الرابط: <a href="https://tanzil.net/" target="_blank" rel="noopener">tanzil.net</a></p><p>تأتي البسملة في ملف المصدر في أول الآية الأولى من كل سورة عدا الفاتحة والتوبة، فتُعرض في رأس السورة بحروفها نفسها.</p><p><b>الأدعية القرآنية وأدعية الأنبياء:</b> كلمات الدعاء مقتطعة من نص الآية في Tanzil كما هي، دون أي تغيير، مع اسم السورة ورقم الآية. وأُسند كل دعاء إلى النبي القائل بعد التحقق من ذكره في «التفسير الميسر» لتلك الآيات.</p><p><b>أدعية النبي ﷺ:</b> أدعية جامعة غير مرتبطة بوقت أو مناسبة، من صحيحي البخاري ومسلم، أو من السنن مما صحّحه الشيخ الألباني. لفظها منقول من ملف البيانات المفتوح <a href="https://github.com/fawazahmed0/hadith-api" target="_blank" rel="noopener">fawazahmed0/hadith-api</a> (ملكية عامة)، مع رقم الحديث.</p><p><b>معنى الآيات في المصحف وشرح «وقفة أثر»:</b> «التفسير الميسر» لمجمع الملك فهد لطباعة المصحف الشريف، بنصه كما في نسخة Tanzil (ar.muyassar) عبر fawazahmed0/quran-api، دون تعديل، وقد طوبق آليًا مع نسخة ثانية (QUL). يُحمَّل معنى السورة عند طلبه فقط. وفوائد الأحاديث من موسوعة الأحاديث النبوية HadeethEnc.com.</p><p><b>«ما يناسب اليوم»:</b> يظهر في الرئيسية يوم الجمعة والاثنين والخميس وفي المواسم (رمضان، عشر ذي الحجة، عرفة، أيام التشريق، المحرّم وعاشوراء، الأيام البيض، أول الشهر)، بحديث صحيح من الصحيحين أو مما صحّحه الألباني، ونصه منقول من fawazahmed0/hadith-api. التاريخ الهجري بحسب تقويم أم القرى في جهازك، وقد يختلف يومًا عن رؤية الهلال في بلدك.</p><details><summary>إشعار الترخيص وشروط الاستخدام الأصلية</summary><p class="lic">'+QLIC+'</p></details></details>'+'<p class="mrver">'+mrRel()+'</p>'}
 /* the date of the last site update, written by tools/build.py into src/data/release.json whenever the site's files change */
-var REL={"date": "2026-10-26"};
+var REL={"date": "2026-10-27"};
 function mrRel(){var d=REL&&/^(\d{4})-(\d\d)-(\d\d)$/.exec(REL.date);if(!d)return 'أثر';return 'أثر · آخر تحديث '+ar(+d[3])+' '+['يناير','فبراير','مارس','أبريل','مايو','يونيو','يوليو','أغسطس','سبتمبر','أكتوبر','نوفمبر','ديسمبر'][+d[2]-1]+' '+ar(+d[1])}
 /* ===== Phase 4 — CONTENT SYSTEM =====
  Content = {id,type,title,text,source,reference,category,status,createdAt,updatedAt}
@@ -1141,7 +1143,7 @@ return '<div class="rd"><h1 class="sr">'+RS.title+'</h1><div class="rdtop"><a cl
 +'<div class="rdnav"><button class="btn" data-rd="prev"'+(i?'':' disabled')+'>'+CHV+'السابق</button><button class="btn primary'+(done||!n?'':' soft')+'" data-rd="next">'+(last?'إنهاء':'التالي')+(last?'':CHL)+'</button></div></div>'}
 function rdsplit(o){var tx=o.text.replace(/\r\n?/g,'\n'),k=tx.indexOf('\n');return o.type==='benefit'&&k>0?[tx.slice(0,k),tx.slice(k+1)]:['',tx]}
 function rdnar(o){var a=rdsplit(o)[0];return a?'<p class="rdnar">'+a+'</p>':''}
-function rdtx(o){if(o.verses)return o.verses.map(function(v){return qam(v.text,v.a,1)}).join(' ');return rdsplit(o)[1]}
+function rdtx(o){if(o.verses)return o.verses.map(function(v){return qam(v.text,v.a,1)}).join(' ');return hlHtml(o,rdsplit(o)[1])}
 function rdDraw(sc){V.innerHTML=rdHtml();if(sc)window.scrollTo(0,0)}
 function rdGo(k){if(!RS)return;if(k>=RS.L.length){location.hash='#'+RS.back;return}if(k<0)return;RS.i=k;try{history.replaceState(null,'','#'+RS.base+'/'+(k+1))}catch(e){}rdDraw(true);live(ar(RS.i+1)+' من '+ar(RS.L.length))}
 document.addEventListener('click',function(e){var b=e.target.closest('[data-rd]');if(!b||!RS)return;var a=b.dataset.rd,o=RS.L[RS.i];
@@ -1336,10 +1338,11 @@ function cdStar(c,x,y,s,col){var k=s*1.3/64;c.save();c.translate(x,y);c.scale(k,
 function cdInk(c,t,fs){try{var h=Math.ceil(fs*4),y0=Math.round(fs*2.6),w=Math.ceil(c.measureText(t).width)+40,k=document.createElement('canvas');k.width=w;k.height=h;var x=k.getContext('2d');
  x.font=c.font;x.direction='rtl';x.textAlign='center';x.textBaseline='alphabetic';x.fillStyle='#000';x.fillText(t,w/2,y0);
  var d=x.getImageData(0,0,w,h).data,best=-1,row=y0;for(var r=0;r<h;r++){var s=0;for(var q=r*w*4+3,e=q+w*4;q<e;q+=4)s+=d[q];if(s>best){best=s;row=r}}return row-y0}catch(e){return null}}
-function cdLine(c,l,cx,y,fs,ratio){var ws=l.split(/([ \u00A0]+)/),P=[];for(var i=0;i<ws.length;i+=2){var w=ws[i],sep=ws[i+1]||'',num=/^[\u0660-\u0669]+$/.test(w),last=P[P.length-1];
-  if(last&&!num&&!last.num&&last.sep.indexOf('\u00A0')<0){last.t+=last.sep+w;last.sep=sep}else if(w)P.push({t:w,sep:sep,num:num})}
+/* hf: لكل كلمة في السطر هل هي مميزة بالذهبي (hlWords)، وgd لونها */
+function cdLine(c,l,cx,y,fs,ratio,hf,gd){var ws=l.split(/([ \u00A0]+)/),P=[];for(var i=0;i<ws.length;i+=2){var w=ws[i],sep=ws[i+1]||'',num=/^[\u0660-\u0669]+$/.test(w),h=!!(hf&&hf[i/2]),last=P[P.length-1];
+  if(last&&!num&&!last.num&&last.sep.indexOf('\u00A0')<0&&last.hl===h){last.t+=last.sep+w;last.sep=sep}else if(w)P.push({t:w,sep:sep,num:num,hl:h})}
  var tot=0;P.forEach(function(p,k){p.w=c.measureText(p.t).width;p.sw=k<P.length-1?c.measureText(p.sep).width:0;tot+=p.w+p.sw});
- var x=cx+tot/2,al=c.textAlign;c.textAlign='right';P.forEach(function(p){var adj=0;if(!p.num){var sh=cdInk(c,p.t,fs);if(sh!==null&&Math.abs(sh-ratio*fs)>fs*.06)adj=sh-ratio*fs}c.fillText(p.t,x,y-adj);x-=p.w+p.sw});c.textAlign=al}
+ var x=cx+tot/2,al=c.textAlign;c.textAlign='right';P.forEach(function(p){var adj=0;if(!p.num){var sh=cdInk(c,p.t,fs);if(sh!==null&&Math.abs(sh-ratio*fs)>fs*.06)adj=sh-ratio*fs}var fc=c.fillStyle;if(p.hl&&gd)c.fillStyle=gd;c.fillText(p.t,x,y-adj);c.fillStyle=fc;x-=p.w+p.sw});c.textAlign=al}
 function cdDraw(o){var T=cdTok(),W=1080,P=72,IW=W-2*P-120,c0=document.createElement('canvas').getContext('2d'),
  FQ="'KFGQPC Hafs','Amiri Quran','Amiri',serif",FA="'Amiri','Traditional Arabic','Times New Roman',serif",FU="'IBM Plex Sans Arabic',system-ui,'Segoe UI',Tahoma,sans-serif",fam=o.quran?FQ:FA;
  c0.direction='rtl';var fs=66,L,lh,top=P+150+(o.title?70:0),bot=0,H;
@@ -1354,7 +1357,7 @@ function cdDraw(o){var T=cdTok(),W=1080,P=72,IW=W-2*P-120,c0=document.createElem
  c.font='500 30px '+FU;var lw=c.measureText(o.label).width+56;cdRR(c,W/2-lw/2,y-26,lw,52,26);c.lineWidth=2;c.strokeStyle=T.ln;c.stroke();c.fillStyle=T.mu;c.fillText(o.label,W/2,y+1);y+=60;
  if(o.title){c.font='700 38px '+FU;c.fillStyle=T.gr;var tl=cdWrap(c,o.title,IW)[0]||'';c.fillText(tl,W/2,y+8);y+=70}
  var avail=H-P-bot-y,blk=L.length*lh;y+=Math.max(30,(avail-blk)/2);
- c.font='400 '+fs+'px '+fam;c.fillStyle=T.tx;c.textBaseline='alphabetic';L.forEach(function(l){cdLine(c,l,W/2,y+lh/2+fs*.32,fs,o.quran?-.07:-.09);y+=lh});c.textBaseline='middle';
+ c.font='400 '+fs+'px '+fam;c.fillStyle=T.tx;c.textBaseline='alphabetic';var wi=0;L.forEach(function(l){var n=l.split(/[ \t]+/).filter(Boolean).length,hf=o.hlw?o.hlw.slice(wi,wi+n):null;wi+=n;cdLine(c,l,W/2,y+lh/2+fs*.32,fs,o.quran?-.07:-.09,hf,T.gd);y+=lh});c.textBaseline='middle';
  var yb=H-P-bot+40;c.setLineDash([10,10]);c.strokeStyle=T.ln;c.lineWidth=2;c.beginPath();c.moveTo(P+90,yb);c.lineTo(W-P-90,yb);c.stroke();c.setLineDash([]);
  c.font='400 30px '+FU;c.fillStyle=T.mu;var yr=yb+46;RL.forEach(function(l){c.fillText(l,W/2,yr);yr+=44});
  c.font='700 60px '+FA;c.fillStyle=T.gr;c.fillText('أثر',W/2,H-P-84);c.font='400 26px '+FU;c.fillStyle=T.mu;c.fillText('ما ينفعك ويبقى أثره',W/2,H-P-32);
@@ -1379,7 +1382,7 @@ function cdClose(){document.getElementById('cardS').hidden=true;CD=null;if(cdOpe
 function cdNum(n){return ' '+ar(n)+' '}
 function cdFromItem(o){var q=o.kind==='quran'||o.kind==='prophets',src=[];if(o.source&&o.source!==NS&&(o.reference||'').indexOf(o.source)!==0)src.push(o.source);if(o.reference&&o.reference!==NS)src.push(o.reference);
  var tx=o.verses?o.verses.map(function(v){return v.text+cdNum(v.a)}).join(' ').trim():rdtx(o).replace(/<[^>]*>/g,'');
- return{label:o.type==='dua'?(DT[o.kind||'general']||'دعاء'):'ذكر',title:o.title||'',text:tx,ref:src.join(' · '),quran:q,name:o.id}}
+ return{label:o.type==='dua'?(DT[o.kind||'general']||'دعاء'):'ذكر',title:o.title||'',text:tx,ref:src.join(' · '),quran:q,name:o.id,hlw:o.verses?null:hlWords(o,tx)}}
 document.addEventListener('click',function(e){var t=e.target,b=t.closest('[data-cdid]');if(b){var o=ALL[b.dataset.cdid];if(o){var x=cdFromItem(o);if(b.dataset.cdt)x.title=b.dataset.cdt;cdOpen(x)}return}
  b=t.closest('[data-cdwq]');if(b){var w=wqById(b.dataset.cdwq);if(w){var q=w.textType==='quran';cdOpen({label:'وقفة أثر · '+WQT[w.textType],title:w.title,text:q?w.verses.map(function(v){return v.text+(w.verses.length>1?cdNum(v.a):'')}).join(' ').trim():w.text,ref:wqRef(w),quran:q,name:w.id})}return}
  var bk=document.getElementById('cardS');if(!bk||bk.hidden)return;if(t===bk||t.closest('[data-cdclose]')){cdClose();return}
@@ -1430,6 +1433,96 @@ function ocCard(o){var h='<article class="occ"><h3 class="och">'+o.t+'</h3>'+(o.
  return h+'</article>'}
 function ocRender(){var el=document.getElementById('occs');if(!el)return;var L=[];try{L=ocList()}catch(e){}el.hidden=!L.length;el.innerHTML=L.length?'<h2>ما يناسب اليوم</h2>'+L.map(ocCard).join(''):''}
 
+/* تمييز ألفاظ الذكر أو الدعاء بالذهبي داخل النصوص التي فيها رواية أو إرشاد (مثل: «كلمتان خفيفتان… سبحان الله وبحمده…»).
+   العبارات في src/data/highlights.json منقولة من النص نفسه حرفًا بحرف (يتحقق منها tools/check.mjs)، ولا يتغيّر النص؛ التمييز في العرض والبطاقة فقط. */
+var HL={
+"dhikr-hisn-034-01": [
+"سُبْحَانَ المَلِكِ القُدُّوسِ",
+"رَبِّ المَلَائِكَةِ وَالرُّوحِ"
+],
+"dhikr-hisn-130-03": [
+"أَسْتَغْفِرُ اللَّهَ العَظِيمَ الذِي لَا إِلَهَ إِلَّا هُوَ الحَيُّ القَيُّومُ وَأَتُوبُ إِلَيْهِ"
+],
+"dhikr-hisn-131-01": [
+"سُبْحَانَ اللَّهِ وَبِحَمْدِهِ"
+],
+"dhikr-hisn-131-02": [
+"لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ، لَهُ المُلْكُ، وَلَهُ الحَمْدُ، وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ"
+],
+"dhikr-hisn-131-03": [
+"سُبْحَانَ اللَّهِ وَبِحَمْدِهِ سُبْحَانَ اللَّهِ العَظِيمِ"
+],
+"dhikr-hisn-131-04": [
+"سُبْحَانَ اللَّهِ، وَالحَمْدُ لِلَّهِ، وَلَا إِلَهَ إِلَّا اللَّهُ، وَاللَّهُ أَكْبَرُ"
+],
+"dhikr-hisn-131-07": [
+"لَا حَوْلَ وَلَا قُوَّةَ إِلَّا بِاللَّهِ"
+],
+"dhikr-hisn-131-08": [
+"سُبْحَانَ اللَّهِ، وَالحَمْدُ لِلَّهِ، وَلَا إِلَهَ إِلَّا اللَّهُ، وَاللَّهُ أَكْبَرُ"
+],
+"dhikr-hisn-131-09": [
+"لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ، اللَّهُ أَكْبَرُ كَبِيرًا، وَالحَمْدُ لِلَّهِ كَثِيرًا، سُبْحَانَ اللَّهِ رَبِّ العَالَمِينَ، لَاحَوْلَ وَلَا قُوَّةَ إِلَّا بِاللَّهِ العَزِيزِ الحَكِيمِ",
+"اللَّهُمَّ اِغْفِرْ لِي، وَاِرْحَمْنِي، وَاِهْدِنِي، وَارْزُقْنِي"
+],
+"dhikr-hisn-131-10": [
+"اللَّهُمَّ اغْفِرْ لِي، وَارْحَمْنِي، وَاهْدِنِي، وَعَافِنِي وَارْزُقْنِي"
+],
+"dua-hisn-026-01": [
+"اللَّهُمَّ إِنِّي أَسْتَخِيرُكَ بِعِلْمِكَ، وَأَسْتَقْدِرُكَ بِقُدْرَتِكَ، وَأَسْأَلُكَ مِنْ فَضْلِكَ العَظِيمِ فَإِنَّكَ تَقْدِرُ وَلَا أَقْدِرُ، وَتَعْلَمُ وَلَا أَعْلَمُ، وَأَنْتَ عَلَّامُ الغُيُوبِ، اللَّهُمَّ إِنْ كُنْتَ تَعْلَمُ أَنَّ هَذَا الأَمْرَ",
+"خَيْرٌ لِي فِي دِينِي وَمَعَاشِي وَعَاقِبَةِ أَمْرِي",
+"فَاقْدُرْهُ لِي وَيَسِّرْهُ لِي، ثُمَّ بَارِكْ لِي فِيهِ، وَإِنْ كُنْتَ تَعْلَمُ أَنَّ هَذَا الأَمْرَ شَرٌّ لِي فِي دِينِي وَمَعَاشِي وَعَاقِبَةِ أَمْرِي",
+"فَاصْرِفْهُ عَنِّي وَاصْرِفْنِي عَنْهُ، وَاقْدُرْ لِيَ الخَيْرَ حَيْثُ كَانَ، ثُمَّ أَرْضِنِي بِهِ"
+],
+"dua-hisn-041-03": [
+"آمَنْتُ بِاللَّهِ وَرُسُلِهِ"
+],
+"dua-hisn-043-01": [
+"أَعُوذُ بِاللَّهِ مِنَ الشَّيْطَانِ الرَّجِيمِ"
+],
+"dua-hisn-048-01": [
+"بَارَكَ اللَّهُ لَكَ فِي المَوْهُوبِ لَكَ، وَشَكَرْتَ الوَاهِبَ، وَبَلَغَ أَشُدَّهُ، وَرُزِقْتَ بِرَّهُ",
+"بَارَكَ اللَّهُ لَكَ وَبَارَكَ عَلَيْكَ، وَجَزَاكَ اللَّهُ خَيْرًا، وَرَزَقَكَ اللَّهُ مِثْلَهُ، وَأَجْزَلَ ثَوَابَكَ"
+],
+"dua-hisn-049-01": [
+"أُعِيذُكُمَا بِكَلِمَاتِ اللَّهِ التَّامَّةِ مِنْ كُلِّ شَيْطَانٍ وَهَامَّةٍ، وَمِنْ كُلِّ عَيْنٍ لَامَّةٍ"
+],
+"dua-hisn-070-02": [
+"اللَّهُمَّ بَارِكْ لَنَا فِيهِ وَأَطْعِمْنَا خَيْرًا مِنْهُ",
+"اللَّهُمَّ بَارِكْ لَنَا فِيهِ وَزِدْنَا مِنْهُ"
+],
+"dua-hisn-078-01": [
+"الحَمْدُ لِلَّهِ",
+"يَرْحَمُكَ اللَّهُ",
+"يَهْدِيكُمُ اللَّهُ وَيُصْلِحُ بَالَكُمُ"
+],
+"dua-hisn-081-01": [
+"اللَّهُمَّ إِنِّي أَسْأَلُكَ خَيْرَهَا وَخَيْرَ مَا جَبَلْتَهَا عَلَيْهِ وَأَعُوذُ بِكَ مِنْ شَرِّهَا وَشَرِّ مَا جَبَلْتَهَا عَلَيْهِ"
+],
+"dua-hisn-106-01": [
+"لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ، لَهُ المُلْكُ، وَلَهُ الحَمْدُ وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ، آيِبُونَ، تَائِبُونَ، عَابِدُونَ، لِرَبِّنَا حَامِدُونَ، صَدَقَ اللَّهُ وَعْدَهُ، وَنَصَرَ عَبْدَهُ، وَهَزَمَ الأَحْزَابَ وَحْدَهُ"
+],
+"dua-hisn-107-01": [
+"الحَمْدُ لِلَّهِ الذِي بِنِعْمَتِهِ تَتِمُّ الصَّالِحَاتُ",
+"الحَمْدُ لِلَّهِ عَلَى كُلِّ حَالٍ"
+],
+"dua-hisn-113-01": [
+"اللَّهُمَّ فَأَيُّمَا مُؤْمِنٍ سَبَبْتُهُ فَاجْعَلْ ذَلِكَ لَهُ قُرْبَةً إِلَيْكَ يَوْمَ القِيَامَةِ"
+],
+"dua-hisn-114-01": [
+"أَحْسَبُ فُلَانًا وَاللَّهُ حَسِيبُهُ، وَلَا أُزَكِّي عَلَى اللَّهِ أَحَدًا، أَحْسِبُهُ",
+"كَذَا وَكَذَا"
+],
+"dua-hisn-125-01": [
+"بِسْمِ اللَّهِ",
+"أَعُوذُ بِاللَّهِ وَقُدْرَتِهِ مِنْ شَرِّ مَا أَجِدُ وَأُحَاذِرُ"
+]
+};
+function hlRanges(o,t){var P=HL[o.id];if(!P||!t)return null;var R=[];P.forEach(function(p){var k=0;while((k=t.indexOf(p,k))>-1){R.push([k,k+p.length]);k+=p.length}});
+ R.sort(function(a,b){return a[0]-b[0]});var M=[];R.forEach(function(r){var l=M[M.length-1];if(l&&r[0]<=l[1])l[1]=Math.max(l[1],r[1]);else M.push(r.slice())});return M.length?M:null}
+function hlHtml(o,t){var R=hlRanges(o,t);if(!R)return t;var s='',k=0;R.forEach(function(r){s+=t.slice(k,r[0])+'<mark class="dk">'+t.slice(r[0],r[1])+'</mark>';k=r[1]});return s+t.slice(k)}
+/* لكل كلمة في النص (كما تقسمها البطاقة): هل هي من الألفاظ المميزة؟ */
+function hlWords(o,t){var R=hlRanges(o,t);if(!R)return null;var w=[],re=/\S+/g,m;while((m=re.exec(t)))w.push(R.some(function(r){return m.index<r[1]&&m.index+m[0].length>r[0]}));return w}
 /* ===== v20 «دفتر الأثر» ===== */
 var NT_KEY='athar-notes',NT_MAX=2000,ntTm=null;
 function ntAll(){var o=qget(NT_KEY,null);return o&&typeof o==='object'?o:{}}

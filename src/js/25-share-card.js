@@ -19,10 +19,11 @@ function cdStar(c,x,y,s,col){var k=s*1.3/64;c.save();c.translate(x,y);c.scale(k,
 function cdInk(c,t,fs){try{var h=Math.ceil(fs*4),y0=Math.round(fs*2.6),w=Math.ceil(c.measureText(t).width)+40,k=document.createElement('canvas');k.width=w;k.height=h;var x=k.getContext('2d');
  x.font=c.font;x.direction='rtl';x.textAlign='center';x.textBaseline='alphabetic';x.fillStyle='#000';x.fillText(t,w/2,y0);
  var d=x.getImageData(0,0,w,h).data,best=-1,row=y0;for(var r=0;r<h;r++){var s=0;for(var q=r*w*4+3,e=q+w*4;q<e;q+=4)s+=d[q];if(s>best){best=s;row=r}}return row-y0}catch(e){return null}}
-function cdLine(c,l,cx,y,fs,ratio){var ws=l.split(/([ \u00A0]+)/),P=[];for(var i=0;i<ws.length;i+=2){var w=ws[i],sep=ws[i+1]||'',num=/^[\u0660-\u0669]+$/.test(w),last=P[P.length-1];
-  if(last&&!num&&!last.num&&last.sep.indexOf('\u00A0')<0){last.t+=last.sep+w;last.sep=sep}else if(w)P.push({t:w,sep:sep,num:num})}
+/* hf: لكل كلمة في السطر هل هي مميزة بالذهبي (hlWords)، وgd لونها */
+function cdLine(c,l,cx,y,fs,ratio,hf,gd){var ws=l.split(/([ \u00A0]+)/),P=[];for(var i=0;i<ws.length;i+=2){var w=ws[i],sep=ws[i+1]||'',num=/^[\u0660-\u0669]+$/.test(w),h=!!(hf&&hf[i/2]),last=P[P.length-1];
+  if(last&&!num&&!last.num&&last.sep.indexOf('\u00A0')<0&&last.hl===h){last.t+=last.sep+w;last.sep=sep}else if(w)P.push({t:w,sep:sep,num:num,hl:h})}
  var tot=0;P.forEach(function(p,k){p.w=c.measureText(p.t).width;p.sw=k<P.length-1?c.measureText(p.sep).width:0;tot+=p.w+p.sw});
- var x=cx+tot/2,al=c.textAlign;c.textAlign='right';P.forEach(function(p){var adj=0;if(!p.num){var sh=cdInk(c,p.t,fs);if(sh!==null&&Math.abs(sh-ratio*fs)>fs*.06)adj=sh-ratio*fs}c.fillText(p.t,x,y-adj);x-=p.w+p.sw});c.textAlign=al}
+ var x=cx+tot/2,al=c.textAlign;c.textAlign='right';P.forEach(function(p){var adj=0;if(!p.num){var sh=cdInk(c,p.t,fs);if(sh!==null&&Math.abs(sh-ratio*fs)>fs*.06)adj=sh-ratio*fs}var fc=c.fillStyle;if(p.hl&&gd)c.fillStyle=gd;c.fillText(p.t,x,y-adj);c.fillStyle=fc;x-=p.w+p.sw});c.textAlign=al}
 function cdDraw(o){var T=cdTok(),W=1080,P=72,IW=W-2*P-120,c0=document.createElement('canvas').getContext('2d'),
  FQ="'KFGQPC Hafs','Amiri Quran','Amiri',serif",FA="'Amiri','Traditional Arabic','Times New Roman',serif",FU="'IBM Plex Sans Arabic',system-ui,'Segoe UI',Tahoma,sans-serif",fam=o.quran?FQ:FA;
  c0.direction='rtl';var fs=66,L,lh,top=P+150+(o.title?70:0),bot=0,H;
@@ -37,7 +38,7 @@ function cdDraw(o){var T=cdTok(),W=1080,P=72,IW=W-2*P-120,c0=document.createElem
  c.font='500 30px '+FU;var lw=c.measureText(o.label).width+56;cdRR(c,W/2-lw/2,y-26,lw,52,26);c.lineWidth=2;c.strokeStyle=T.ln;c.stroke();c.fillStyle=T.mu;c.fillText(o.label,W/2,y+1);y+=60;
  if(o.title){c.font='700 38px '+FU;c.fillStyle=T.gr;var tl=cdWrap(c,o.title,IW)[0]||'';c.fillText(tl,W/2,y+8);y+=70}
  var avail=H-P-bot-y,blk=L.length*lh;y+=Math.max(30,(avail-blk)/2);
- c.font='400 '+fs+'px '+fam;c.fillStyle=T.tx;c.textBaseline='alphabetic';L.forEach(function(l){cdLine(c,l,W/2,y+lh/2+fs*.32,fs,o.quran?-.07:-.09);y+=lh});c.textBaseline='middle';
+ c.font='400 '+fs+'px '+fam;c.fillStyle=T.tx;c.textBaseline='alphabetic';var wi=0;L.forEach(function(l){var n=l.split(/[ \t]+/).filter(Boolean).length,hf=o.hlw?o.hlw.slice(wi,wi+n):null;wi+=n;cdLine(c,l,W/2,y+lh/2+fs*.32,fs,o.quran?-.07:-.09,hf,T.gd);y+=lh});c.textBaseline='middle';
  var yb=H-P-bot+40;c.setLineDash([10,10]);c.strokeStyle=T.ln;c.lineWidth=2;c.beginPath();c.moveTo(P+90,yb);c.lineTo(W-P-90,yb);c.stroke();c.setLineDash([]);
  c.font='400 30px '+FU;c.fillStyle=T.mu;var yr=yb+46;RL.forEach(function(l){c.fillText(l,W/2,yr);yr+=44});
  c.font='700 60px '+FA;c.fillStyle=T.gr;c.fillText('أثر',W/2,H-P-84);c.font='400 26px '+FU;c.fillStyle=T.mu;c.fillText('ما ينفعك ويبقى أثره',W/2,H-P-32);
@@ -62,7 +63,7 @@ function cdClose(){document.getElementById('cardS').hidden=true;CD=null;if(cdOpe
 function cdNum(n){return ' '+ar(n)+' '}
 function cdFromItem(o){var q=o.kind==='quran'||o.kind==='prophets',src=[];if(o.source&&o.source!==NS&&(o.reference||'').indexOf(o.source)!==0)src.push(o.source);if(o.reference&&o.reference!==NS)src.push(o.reference);
  var tx=o.verses?o.verses.map(function(v){return v.text+cdNum(v.a)}).join(' ').trim():rdtx(o).replace(/<[^>]*>/g,'');
- return{label:o.type==='dua'?(DT[o.kind||'general']||'دعاء'):'ذكر',title:o.title||'',text:tx,ref:src.join(' · '),quran:q,name:o.id}}
+ return{label:o.type==='dua'?(DT[o.kind||'general']||'دعاء'):'ذكر',title:o.title||'',text:tx,ref:src.join(' · '),quran:q,name:o.id,hlw:o.verses?null:hlWords(o,tx)}}
 document.addEventListener('click',function(e){var t=e.target,b=t.closest('[data-cdid]');if(b){var o=ALL[b.dataset.cdid];if(o){var x=cdFromItem(o);if(b.dataset.cdt)x.title=b.dataset.cdt;cdOpen(x)}return}
  b=t.closest('[data-cdwq]');if(b){var w=wqById(b.dataset.cdwq);if(w){var q=w.textType==='quran';cdOpen({label:'وقفة أثر · '+WQT[w.textType],title:w.title,text:q?w.verses.map(function(v){return v.text+(w.verses.length>1?cdNum(v.a):'')}).join(' ').trim():w.text,ref:wqRef(w),quran:q,name:w.id})}return}
  var bk=document.getElementById('cardS');if(!bk||bk.hidden)return;if(t===bk||t.closest('[data-cdclose]')){cdClose();return}
