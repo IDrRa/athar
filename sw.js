@@ -1,16 +1,20 @@
 /* أثر — service worker. Caches the app shell as-is (content is embedded in index.html, so offline = the exact bytes last fetched online).
    Navigations to the app (/ or index.html): network first; other pages (surah/ adhkar/ dua/ for search engines) come from the network and are never stored as the app.
    Navigations: network first (fresh content when online), cached copy when offline. Static files: cache first. Cache name changes whenever any file changes. */
-const VERSION='8eef8d986883',CACHE='athar-'+VERSION,SHELL=["./", "index.html", "manifest.webmanifest", "pwa.js", "fonts.css", "fonts/hafs.18.woff2", "fonts/amiri-quran-arabic-400-normal.woff2", "fonts/amiri-quran-latin-400-normal.woff2", "fonts/amiri-arabic-400-normal.woff2", "fonts/amiri-arabic-700-normal.woff2", "fonts/amiri-latin-400-normal.woff2", "fonts/amiri-latin-700-normal.woff2", "fonts/ibm-plex-sans-arabic-arabic-400-normal.woff2", "fonts/ibm-plex-sans-arabic-arabic-500-normal.woff2", "fonts/ibm-plex-sans-arabic-arabic-600-normal.woff2", "fonts/ibm-plex-sans-arabic-latin-400-normal.woff2", "fonts/ibm-plex-sans-arabic-latin-500-normal.woff2", "fonts/ibm-plex-sans-arabic-latin-600-normal.woff2", "icons/favicon-m4.svg", "icons/icon-192-m4.png", "icons/icon-512-m4.png", "icons/maskable-512-m4.png", "icons/apple-touch-icon-m4.png"];
+const VERSION='e81d15f78754',CACHE='athar-'+VERSION,SHELL=["./", "manifest.webmanifest", "pwa.js", "fonts.css", "fonts/hafs.18.woff2", "fonts/amiri-quran-arabic-400-normal.woff2", "fonts/amiri-quran-latin-400-normal.woff2", "fonts/amiri-arabic-400-normal.woff2", "fonts/amiri-arabic-700-normal.woff2", "fonts/amiri-latin-400-normal.woff2", "fonts/amiri-latin-700-normal.woff2", "fonts/ibm-plex-sans-arabic-arabic-400-normal.woff2", "fonts/ibm-plex-sans-arabic-arabic-500-normal.woff2", "fonts/ibm-plex-sans-arabic-arabic-600-normal.woff2", "fonts/ibm-plex-sans-arabic-latin-400-normal.woff2", "fonts/ibm-plex-sans-arabic-latin-500-normal.woff2", "fonts/ibm-plex-sans-arabic-latin-600-normal.woff2", "icons/favicon-m4.svg", "icons/icon-192-m4.png", "icons/icon-512-m4.png", "icons/maskable-512-m4.png", "icons/apple-touch-icon-m4.png"];
+/* The app page is cached under the site root (./), never under index.html: Cloudflare answers /index.html with a redirect to /,
+   and Safari refuses to open a page from a cached redirected response ("Response served by service worker has redirections") — the app then failed offline. */
+const APP=new URL('./',self.registration.scope).href;
+const appShell=()=>caches.match(APP).then(m=>!m?Response.error():!m.redirected?m:m.blob().then(b=>new Response(b,{status:m.status,statusText:m.statusText,headers:m.headers})));
 self.addEventListener('install',e=>{e.waitUntil(caches.open(CACHE).then(c=>c.addAll(SHELL)).then(()=>self.skipWaiting()))});
 /* mushaf pages, page fonts and tafsir: kept across site updates (also filled by «المصحف بدون إنترنت»); change the name only when those files change */
 const MCACHE='athar-mushaf-2';
 self.addEventListener('activate',e=>{e.waitUntil(caches.keys().then(ks=>Promise.all(ks.filter(k=>k.startsWith('athar-')&&k!==CACHE&&k!==MCACHE).map(k=>caches.delete(k)))).then(()=>self.clients.claim()))});
 self.addEventListener('fetch',e=>{const r=e.request;if(r.method!=='GET')return;const u=new URL(r.url);if(u.origin!==location.origin||u.pathname.indexOf('/api/')>-1)return;
- if(r.mode==='navigate'&&!/^\/(|index\.html)$/.test(u.pathname.slice(self.registration.scope.length-location.origin.length-1))){e.respondWith(fetch(r).catch(()=>caches.match('index.html').then(m=>m||Response.error())));return}
- if(r.mode==='navigate'){e.respondWith(new Promise(res=>{let done=false;const fb=()=>caches.match('index.html').then(m=>m||Response.error());
+ if(r.mode==='navigate'&&!/^\/(|index\.html)$/.test(u.pathname.slice(self.registration.scope.length-location.origin.length-1))){e.respondWith(fetch(r).catch(appShell));return}
+ if(r.mode==='navigate'){e.respondWith(new Promise(res=>{let done=false;const fb=appShell;
   const t=setTimeout(()=>{if(!done){done=true;fb().then(res)}},4000);
-  fetch(r).then(n=>{if(done)return;done=true;clearTimeout(t);if(n&&n.ok){const c=n.clone();caches.open(CACHE).then(ch=>ch.put('index.html',c))}res(n)}).catch(()=>{if(done)return;done=true;clearTimeout(t);fb().then(res)})}));return}
+  fetch(r).then(n=>{if(done)return;done=true;clearTimeout(t);if(n&&n.ok){const c=n.clone();caches.open(CACHE).then(ch=>ch.put(APP,c))}res(n)}).catch(()=>{if(done)return;done=true;clearTimeout(t);fb().then(res)})}));return}
  if(u.pathname.indexOf('/mushaf/')>-1||u.pathname.indexOf('/tafsir/')>-1){e.respondWith(caches.open(MCACHE).then(ch=>ch.match(r,{ignoreVary:true}).then(m=>m||fetch(r).then(n=>{if(n&&n.ok)ch.put(r,n.clone());return n}))));return}
  e.respondWith(caches.match(r).then(m=>m||fetch(r).then(n=>{if(n&&n.ok){const c=n.clone();caches.open(CACHE).then(ch=>ch.put(r,c))}return n})))});
 

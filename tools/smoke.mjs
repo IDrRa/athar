@@ -83,6 +83,31 @@ for (const name of names) {
   await browser.close();
 }
 server.close();
+
+// بلا إنترنت: خادم يتصرف مثل Cloudflare (يحوّل /index.html إلى /)، ثم يُفتح الموقع وعامل الخدمة يعمل، ثم يُقطع الاتصال.
+// حدث في سفاري: حُفظت الصفحة من رابط محوَّل، فرفض سفاري فتحها بلا إنترنت («Response served by service worker has redirections»).
+{
+  const cf = http.createServer((req, res) => {
+    let p = decodeURIComponent(new URL(req.url, 'http://x').pathname);
+    if (p.endsWith('/index.html')) { res.writeHead(308, { location: p.slice(0, -10) }); return res.end(); }
+    if (p.endsWith('/')) p += 'index.html';
+    const f = path.join(ROOT, p);
+    if (!f.startsWith(ROOT) || !fs.existsSync(f) || fs.statSync(f).isDirectory()) { res.writeHead(404); return res.end(); }
+    res.writeHead(200, { 'content-type': TYPES[path.extname(f)] || 'application/octet-stream' }); fs.createReadStream(f).pipe(res);
+  }).listen(0);
+  const root = `http://localhost:${cf.address().port}/`;
+  const b = await pw.chromium.launch(); const c = await b.newContext(); const p = await c.newPage();
+  let why = '';
+  try {
+    await p.goto(root); await p.evaluate(() => navigator.serviceWorker.ready); await p.waitForTimeout(1500);
+    const redir = await p.evaluate(async () => { const o = []; for (const k of await caches.keys()) { const ch = await caches.open(k); for (const r of await ch.keys()) { const m = await ch.match(r); if (m && m.redirected) o.push(r.url.replace(location.origin, '')); } } return o; });
+    if (redir.length) why = 'ملف محفوظ من رابط محوَّل (سفاري يرفض فتحه بلا إنترنت): ' + redir.join('، ');
+    await c.setOffline(true);
+    for (const u of ['', '#/adhkar/morning', 'index.html']) { if (why) break; await p.goto(root + u, { timeout: 10000 }); await p.waitForTimeout(400); if (!/أثر/.test(await p.title())) why = 'لم تفتح بلا إنترنت: /' + u; }
+  } catch (e) { why = e.message.split('\n')[0]; }
+  await b.close(); cf.close();
+  if (why) { failed++; console.error('✗ بلا إنترنت: ' + why); } else console.log('✓ الموقع يفتح بلا إنترنت بعد زيارته، ولا شيء محفوظ من رابط محوَّل');
+}
 if (!ran.length) { console.error('✗ لم يعمل أي متصفح'); process.exit(1); }
 if (failed) { console.error(`\nفشلت ${failed} صفحة.`); process.exit(1); }
 console.log(`✓ فُتحت ${ROUTES.length} صفحة في ${ran.join(' و')}، في الوضع الداكن والفاتح والميسّر، بلا أخطاء ولا عناصر خارجة عن حدودها${AXE ? '، واجتازت فحص سهولة الوصول' : ''}`);
