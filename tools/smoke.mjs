@@ -87,7 +87,9 @@ server.close();
 // بلا إنترنت: خادم يتصرف مثل Cloudflare (يحوّل /index.html إلى /)، ثم يُفتح الموقع وعامل الخدمة يعمل، ثم يُقطع الاتصال.
 // حدث في سفاري: حُفظت الصفحة من رابط محوَّل، فرفض سفاري فتحها بلا إنترنت («Response served by service worker has redirections»).
 {
+  let down = false; // «بلا إنترنت» حقيقي: الخادم يقطع الاتصال (قطع الشبكة في Playwright لا يشمل عامل الخدمة)
   const cf = http.createServer((req, res) => {
+    if (down) return res.socket.destroy();
     let p = decodeURIComponent(new URL(req.url, 'http://x').pathname);
     if (p.endsWith('/index.html')) { res.writeHead(308, { location: p.slice(0, -10) }); return res.end(); }
     if (p.endsWith('/')) p += 'index.html';
@@ -102,8 +104,8 @@ server.close();
     await p.goto(root); await p.evaluate(() => navigator.serviceWorker.ready); await p.waitForTimeout(1500);
     const redir = await p.evaluate(async () => { const o = []; for (const k of await caches.keys()) { const ch = await caches.open(k); for (const r of await ch.keys()) { const m = await ch.match(r); if (m && m.redirected) o.push(r.url.replace(location.origin, '')); } } return o; });
     if (redir.length) why = 'ملف محفوظ من رابط محوَّل (سفاري يرفض فتحه بلا إنترنت): ' + redir.join('، ');
-    await c.setOffline(true);
-    for (const u of ['', '#/adhkar/morning', 'index.html']) { if (why) break; await p.goto(root + u, { timeout: 10000 }); await p.waitForTimeout(400); if (!/أثر/.test(await p.title())) why = 'لم تفتح بلا إنترنت: /' + u; }
+    down = true;
+    for (const u of ['', '#/adhkar/morning', '#/quran/page/300', 'surah/18/', 'index.html']) { if (why) break; await p.goto(root + u, { timeout: 10000 }); await p.waitForTimeout(400); if (!/أثر/.test(await p.title())) why = 'لم تفتح بلا إنترنت: /' + u; }
   } catch (e) { why = e.message.split('\n')[0]; }
   await b.close(); cf.close();
   if (why) { failed++; console.error('✗ بلا إنترنت: ' + why); } else console.log('✓ الموقع يفتح بلا إنترنت بعد زيارته، ولا شيء محفوظ من رابط محوَّل');
