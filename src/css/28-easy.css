@@ -1,0 +1,18 @@
+/* الوضع الميسّر (src/js/28-easy.js): كل المقاسات بالـrem تكبر مع خط الصفحة، والألوان الرمادية أغمق، والأزرار أكبر */
+:root[data-easy]{font-size:118.75%;--muted:#3A3A3A}
+@media (prefers-color-scheme:dark){:root[data-easy]:not([data-theme="light"]){--muted:#CFCFCF}}
+:root[data-easy][data-theme="dark"]{--muted:#CFCFCF}
+:root[data-easy] .btn{min-height:3rem}
+:root[data-easy] .rdfs button{height:2.6rem;min-width:2.9rem}
+:root[data-easy] .chip{min-height:2.75rem}
+:root[data-easy] nav button{font-size:.8rem;min-height:4.2rem}
+.apezh{margin:8px 2px 0;color:var(--muted);font-size:.85rem;line-height:1.6}
+.apez{grid-template-columns:1fr 1fr}
+.qez{position:fixed;inset-inline:0;bottom:0;z-index:40;display:flex;gap:10px;padding:10px 16px calc(10px + env(safe-area-inset-bottom,0px));background:var(--bg);border-top:1px solid var(--line)}
+.qez[hidden]{display:none}
+.qez .btn{flex:1;justify-content:center;min-height:3.2rem;font-size:1.05rem;background:var(--surface)}
+/* الشريط السفلي أطول في الوضع الميسّر: ما يقف فوقه يرتفع معه */
+:root[data-easy] .rdnav{bottom:calc(4.2rem + 4px + env(safe-area-inset-bottom,0px))}
+:root[data-easy] .toast{bottom:calc(4.2rem + 16px + env(safe-area-inset-bottom,0px))}
+body.ezq .qbar{bottom:calc(5.4rem + env(safe-area-inset-bottom,0px))}
+body.ezq .toast{bottom:calc(5.4rem + env(safe-area-inset-bottom,0px))}

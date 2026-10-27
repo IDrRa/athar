@@ -50,14 +50,15 @@ for (const name of names) {
     continue;
   }
   ran.push(name === 'webkit' ? 'سفاري' : 'كروم');
-  for (const scheme of ['dark', 'light']) {
-    const ctx = await browser.newContext({ viewport: { width: 390, height: 844 }, colorScheme: scheme, serviceWorkers: 'block' });
+  for (const scheme of ['dark', 'light', 'easy']) { // easy: الوضع الميسّر لكبار السن (خط أكبر) على شاشة أضيق
+    const ctx = await browser.newContext({ viewport: scheme === 'easy' ? { width: 360, height: 740 } : { width: 390, height: 844 }, colorScheme: scheme === 'dark' ? 'dark' : 'light', serviceWorkers: 'block' });
     const page = await ctx.newPage();
     const errs = [];
     page.on('pageerror', (e) => errs.push(e.message));
     page.on('console', (m) => { if (m.type() === 'error' && !/Failed to load resource|favicon/.test(m.text())) errs.push(m.text()); });
     await page.goto(base);
     await page.evaluate(() => localStorage.setItem('athar-loc', JSON.stringify({ lat: 24.7136, lng: 46.6753, name: 'الرياض', tz: 'Asia/Riyadh' })));
+    if (scheme === 'easy') { await page.evaluate(() => localStorage.setItem('athar-easy', '1')); await page.reload(); }
     for (const r of ROUTES) {
       errs.length = 0;
       await page.goto(base + '#/' + r); await page.waitForTimeout(250);
@@ -84,4 +85,4 @@ for (const name of names) {
 server.close();
 if (!ran.length) { console.error('✗ لم يعمل أي متصفح'); process.exit(1); }
 if (failed) { console.error(`\nفشلت ${failed} صفحة.`); process.exit(1); }
-console.log(`✓ فُتحت ${ROUTES.length} صفحة في ${ran.join(' و')}، في الوضعين الداكن والفاتح، بلا أخطاء ولا عناصر خارجة عن حدودها${AXE ? '، واجتازت فحص سهولة الوصول' : ''}`);
+console.log(`✓ فُتحت ${ROUTES.length} صفحة في ${ran.join(' و')}، في الوضع الداكن والفاتح والميسّر، بلا أخطاء ولا عناصر خارجة عن حدودها${AXE ? '، واجتازت فحص سهولة الوصول' : ''}`);
