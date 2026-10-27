@@ -1,7 +1,7 @@
 /* أثر — service worker. Caches the app shell as-is (content is embedded in index.html, so offline = the exact bytes last fetched online).
    Navigations to the app (/ or index.html): network first; other pages (surah/ adhkar/ dua/ for search engines) come from the network and are never stored as the app.
    Navigations: network first (fresh content when online), cached copy when offline. Static files: cache first. Cache name changes whenever any file changes. */
-const VERSION='53572f210102',CACHE='athar-'+VERSION,SHELL=["./", "index.html", "manifest.webmanifest", "pwa.js", "fonts.css", "fonts/hafs.18.woff2", "fonts/amiri-quran-arabic-400-normal.woff2", "fonts/amiri-quran-latin-400-normal.woff2", "fonts/amiri-arabic-400-normal.woff2", "fonts/amiri-arabic-700-normal.woff2", "fonts/amiri-latin-400-normal.woff2", "fonts/amiri-latin-700-normal.woff2", "fonts/ibm-plex-sans-arabic-arabic-400-normal.woff2", "fonts/ibm-plex-sans-arabic-arabic-500-normal.woff2", "fonts/ibm-plex-sans-arabic-arabic-600-normal.woff2", "fonts/ibm-plex-sans-arabic-latin-400-normal.woff2", "fonts/ibm-plex-sans-arabic-latin-500-normal.woff2", "fonts/ibm-plex-sans-arabic-latin-600-normal.woff2", "icons/favicon-m4.svg", "icons/icon-192-m4.png", "icons/icon-512-m4.png", "icons/maskable-512-m4.png", "icons/apple-touch-icon-m4.png"];
+const VERSION='8eef8d986883',CACHE='athar-'+VERSION,SHELL=["./", "index.html", "manifest.webmanifest", "pwa.js", "fonts.css", "fonts/hafs.18.woff2", "fonts/amiri-quran-arabic-400-normal.woff2", "fonts/amiri-quran-latin-400-normal.woff2", "fonts/amiri-arabic-400-normal.woff2", "fonts/amiri-arabic-700-normal.woff2", "fonts/amiri-latin-400-normal.woff2", "fonts/amiri-latin-700-normal.woff2", "fonts/ibm-plex-sans-arabic-arabic-400-normal.woff2", "fonts/ibm-plex-sans-arabic-arabic-500-normal.woff2", "fonts/ibm-plex-sans-arabic-arabic-600-normal.woff2", "fonts/ibm-plex-sans-arabic-latin-400-normal.woff2", "fonts/ibm-plex-sans-arabic-latin-500-normal.woff2", "fonts/ibm-plex-sans-arabic-latin-600-normal.woff2", "icons/favicon-m4.svg", "icons/icon-192-m4.png", "icons/icon-512-m4.png", "icons/maskable-512-m4.png", "icons/apple-touch-icon-m4.png"];
 self.addEventListener('install',e=>{e.waitUntil(caches.open(CACHE).then(c=>c.addAll(SHELL)).then(()=>self.skipWaiting()))});
 /* mushaf pages, page fonts and tafsir: kept across site updates (also filled by «المصحف بدون إنترنت»); change the name only when those files change */
 const MCACHE='athar-mushaf-2';
@@ -16,6 +16,7 @@ self.addEventListener('fetch',e=>{const r=e.request;if(r.method!=='GET')return;c
 
 /* Reminders: pushes carry no payload. The page stores the coming week's schedule (adhkar and prayer times)
    in the "athar_meta" cache; the reminder nearest to now decides the text. Without it, the hour decides. */
+/* تنبيه الأذان يفتح «أذكار الأذان» (ما يقال عند سماعه والدعاء بعده) */
 const PNAME={fajr:'الفجر',dhuhr:'الظهر',asr:'العصر',maghrib:'المغرب',isha:'العشاء'};
 /* sunnah reminders: k الكهف يوم الجمعة · n/t مساء ما قبل الاثنين/الخميس · b مساء ما قبل الأيام البيض · N/T both on the same evening */
 const SNAME={k:['سورة الكهف','تذكير بقراءة سورة الكهف يوم الجمعة','./#/quran/18'],n:['صيام الاثنين','تذكير: غدًا يوم الاثنين','./'],t:['صيام الخميس','تذكير: غدًا يوم الخميس','./'],
@@ -25,7 +26,7 @@ function pick(){return caches.open('athar_meta').then(c=>Promise.all([c.match('s
  if(j&&Array.isArray(j.ev))for(const [ts,k] of j.ev){const id=ts+k,d=now-ts;if(shown.indexOf(id)>-1||d<-120000||d>3000000)continue;const pr=k.length>1;
   if(!best||(pr&&!best.pr&&Math.abs(d)<=Math.abs(best.d)+60000)||(pr===best.pr&&Math.abs(d)<Math.abs(best.d)))best={d,k,id,pr}}
  if(best){shown.push(best.id);c.put('shown.json',new Response(JSON.stringify(shown.slice(-30)))).catch(()=>{})}
- if(best&&PNAME[best.k])return {t:'صلاة '+PNAME[best.k],b:'حان الآن وقت صلاة '+PNAME[best.k],u:'./#/prayer',tag:'athar-prayer'};
+ if(best&&PNAME[best.k])return {t:'صلاة '+PNAME[best.k],b:'حان الآن وقت صلاة '+PNAME[best.k],u:'./#/adhkar/prayer/dhikr-hisn-015-01',tag:'athar-prayer'};
  if(best&&SNAME[best.k]){const s=SNAME[best.k];return {t:s[0],b:s[1],u:s[2],tag:'athar-sunan'}}
  const m=best?best.k==='m':new Date().getHours()<12;return {t:m?'أذكار الصباح':'أذكار المساء',b:m?'حان وقت أذكار الصباح، افتحها الآن':'حان وقت أذكار المساء، افتحها الآن',u:'./#/adhkar/'+(m?'morning':'evening'),tag:'athar-adhkar'}})).catch(()=>({t:'أثر',b:'حان وقت الذكر',u:'./',tag:'athar'}))}
 self.addEventListener('push',e=>{e.waitUntil(pick().then(n=>self.registration.showNotification(n.t,{body:n.b,icon:'icons/icon-192-m4.png',tag:n.tag,renotify:true,lang:'ar',dir:'rtl',data:{url:n.u}})))});
