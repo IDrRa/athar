@@ -37,7 +37,7 @@ function vPrayer(){var l=ptLoc(),h=head('مواقيت الصلاة','','/about')
  +'<a class="btn nt-go" href="#/notify">'+MRI.bell+'تنبيه عند دخول وقت الصلاة</a><div id="ptchg" hidden>'+ptPicker()+'</div><p class="kmmut pt-note">طريقة الحساب: أم القرى (الفجر ١٨٫٥ درجة، والعشاء بعد المغرب بساعة ونصف، وفي رمضان بساعتين). قد يختلف الوقت دقيقة أو دقيقتين عن تقويم مسجدك.</p>';return h}
 function ptBody(l){var p=ptToday(l),now=new Date();return '<p class="pt-date">'+ptDateLine(p.tz)+'</p><div class="pt-next"><small>الصلاة القادمة</small><b>'+ptName(p.next[0])+'</b><span>بعد '+ptLeft(p.next[1]-now)+' · '+ptFmt(p.next[1],p.tz)+'</span></div><ul class="list pt-l">'
  +PT_NAMES.map(function(n){var on=n[0]===p.next[0]&&p.t[n[0]]&&p.t[n[0]].getTime()===p.next[1].getTime(),past=p.t[n[0]]&&p.t[n[0]]<=now;return '<li class="'+(on?'on':past?'past':'')+'"><span>'+n[1]+'</span><b>'+ptFmt(p.t[n[0]],p.tz)+'</b></li>'}).join('')+'</ul>'}
-function ptSet(l){qset('athar-loc',l);route()}
+function ptSet(l){qset('athar-loc',l);try{ntRelocate()}catch(e){}route()}
 function ptGeo(){if(!navigator.geolocation){kmTo('جهازك لا يدعم تحديد الموقع، اختر مدينة');return}kmTo('جارٍ تحديد موقعك…');
  navigator.geolocation.getCurrentPosition(function(p){ptSet({lat:Math.round(p.coords.latitude*1e3)/1e3,lng:Math.round(p.coords.longitude*1e3)/1e3,name:'موقعك الحالي'})},
  function(e){kmTo(e&&e.code===1?'لم يُسمح بالوصول للموقع، اختر مدينة من القائمة':'تعذّر تحديد الموقع، اختر مدينة من القائمة')},{enableHighAccuracy:false,timeout:15000,maximumAge:6e5})}

@@ -42,6 +42,10 @@ function ntSched(){var o=ntSt();if(!o.on||!('caches' in window))return;var L=ptL
    if(o.jo&&wd===5&&P.maghrib)ev.push([P.maghrib.getTime()-36e5,'J']);if(rm&&o.ro&&P.maghrib)ev.push([P.maghrib.getTime()-o.ri*6e4,'R']);if(rm&&o.so&&P.fajr)ev.push([P.fajr.getTime()-o.rs*6e4,'S'])}}
  caches.open('athar_meta').then(function(c){return c.put('sched.json',new Response(JSON.stringify({at:Date.now(),ev:ev}),{headers:{'Content-Type':'application/json'}}))}).catch(function(){})}
 try{setTimeout(ntSched,1500)}catch(e){}
+/* بيانات الاشتراك التي تُرسل للخادم (مواقيت الصلاة تُحسب هناك من الموقع) */
+function ntBody(o,s,L){if(!L)o.pr='';return {endpoint:s.endpoint,tz:ntTz(),m:o.mo?o.m:null,e:o.eo?o.e:null,pr:o.pr,kt:o.ko?o.k:null,ft:o.fo?o.f:null,bt:o.bo?o.b:null,ap:L&&o.ao?o.ap:null,jt:!!(L&&o.jo),ri:L&&o.ro?o.ri:null,rs:L&&o.so?o.rs:null,lat:L?L.lat:null,lng:L?L.lng:null}}
+/* تغيّر الموقع (سفر أو اختيار مدينة أخرى): تُحدَّث التنبيهات بالمواقيت الجديدة دون أن يعيد الزائر حفظها */
+function ntRelocate(){var o=ntSt();if(!o.on||!ntCan()||!navigator.onLine)return;ntGetSub(false).then(function(s){if(s)return ntPost('sub',ntBody(o,s,ptLoc())).then(function(){ntSched()})}).catch(function(){})}
 function ntCk(id){var x=document.getElementById(id);return !!(x&&x.checked)}
 function ntNum(id,d){var x=document.getElementById(id),v=x?parseInt(x.value,10):NaN;return isFinite(v)?v:d}
 function ntTz(){try{return Intl.DateTimeFormat().resolvedOptions().timeZone}catch(e){return 'Asia/Riyadh'}}
@@ -51,7 +55,7 @@ document.addEventListener('submit',function(e){if(e.target.id!=='ntf')return;e.p
  if(!navigator.onLine){kmTo('لا يوجد اتصال، حاول لاحقًا');return}
  b.disabled=true;b.textContent='جارٍ التفعيل…';
  Notification.requestPermission().then(function(p){if(p!=='granted')throw 'perm';return ntGetSub(true)})
- .then(function(s){return ntPost('sub',{endpoint:s.endpoint,tz:ntTz(),m:o.mo?o.m:null,e:o.eo?o.e:null,pr:o.pr,kt:o.ko?o.k:null,ft:o.fo?o.f:null,bt:o.bo?o.b:null,ap:o.ao?o.ap:null,jt:o.jo,ri:o.ro?o.ri:null,rs:o.so?o.rs:null,lat:L?L.lat:null,lng:L?L.lng:null})})
+ .then(function(s){return ntPost('sub',ntBody(o,s,L))})
  .then(function(j){if(!j.ok)throw 'srv';qset('athar-push',o);ntSched();kmTo('فُعّلت التنبيهات، بارك الله فيك');route()})
  .catch(function(x){b.disabled=false;b.textContent='تفعيل التنبيهات';kmTo(x==='perm'?'لم يُسمح بالتنبيهات':'تعذّر التفعيل، حاول مرة أخرى')})});
 document.addEventListener('click',function(e){var b=e.target.closest('button[data-push]');if(!b)return;var a=b.dataset.push;if(a!=='off')return;b.disabled=true;
