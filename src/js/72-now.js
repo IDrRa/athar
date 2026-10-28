@@ -41,13 +41,22 @@ document.addEventListener('visibilitychange',function(){if(!document.hidden&&doc
 
 /* ===== «الآن» on the home page: the next prayer, what suits this moment, and «تابع القراءة» (last mushaf page, when no khatma is running) ===== */
 function arN(n,one,two,few,many){return n===1?one:n===2?two:(n>=3&&n<=10?ar(n)+' '+few:ar(n)+' '+many)}
-function arDur(min){var h=Math.floor(min/60),m=min%60,x=[];if(h)x.push(arN(h,'ساعة','ساعتان','ساعات','ساعة'));if(m||!h)x.push(arN(m,'دقيقة','دقيقتان','دقائق','دقيقة'));return x.join(' و')}
+/* تأتي بعد «بعد»، فالمثنى مجرور: بعد ساعتين، بعد دقيقتين */
+function arDur(min){var h=Math.floor(min/60),m=min%60,x=[];if(h)x.push(arN(h,'ساعة','ساعتين','ساعات','ساعة'));if(m||!h)x.push(arN(m,'دقيقة','دقيقتين','دقائق','دقيقة'));return x.join(' و')}
 var HBN={fajr:'الفجر',dhuhr:'الظهر',asr:'العصر',maghrib:'المغرب',isha:'العشاء'};
 function hbNext(d){var l=ptLoc(),T=nowTimes(d).t,m=d.getTime(),o=null;['fajr','dhuhr','asr','maghrib','isha'].forEach(function(k){if(!o&&T[k]&&T[k].getTime()>m)o=[k,T[k]]});
  if(!o)o=['fajr',nowTimes(new Date(d.getFullYear(),d.getMonth(),d.getDate()+1,12)).t.fajr];var nm=HBN[o[0]];if(d.getDay()===5&&o[0]==='dhuhr')nm='الجمعة';
  return {l:!!l,name:nm,at:l?ptFmt(o[1],ptTz(l)):'',left:arDur(Math.max(1,Math.ceil((o[1].getTime()-m)/6e4)))}}
-function hbNow(){var d=ocNow(),n=hbNext(d),s=nowState(d),a;
- if(s.main)a=[NOWK[s.main.k][0],'#'+NOWK[s.main.k][1],s.main.k==='sleep'?'قبل أن تنام':'وقتها الآن'];else if(s.kahf)a=['سورة الكهف','#/quran/18','يوم الجمعة'];else a=['التسبيح والاستغفار','#/adhkar/tasbih','ذكرٌ في كل وقت'];
+/* رمضان (تقويم أم القرى، بمواقيت موقع الزائر): قبل الفجر «السحور»، ومن الفجر إلى المغرب «الإفطار»،
+   وبعد المغرب ٤٥ دقيقة «دعاء الإفطار»، وبعد العشاء «السحور» إن كان الغد من رمضان */
+function hbRam(d){var l=ptLoc();if(!l)return null;var T=nowTimes(d).t,m=d.getTime(),h=ocHijri(d);
+ if(h&&h.m===9){if(m<T.fajr)return {k:'s',t:T.fajr,day:h.d};if(m<T.maghrib)return {k:'i',t:T.maghrib,day:h.d};if(m<T.maghrib.getTime()+45*6e4)return {k:'d',day:h.d}}
+ var tm=new Date(d.getFullYear(),d.getMonth(),d.getDate()+1,12),h2=ocHijri(tm);if(h2&&h2.m===9&&m>=T.isha)return {k:'s',t:nowTimes(tm).t.fajr,day:h2.d};return null}
+function hbNow(){var d=ocNow(),n=hbNext(d),s=nowState(d),r=hbRam(d),a;
+ if(r&&r.k==='d')a=['دعاء الإفطار','#/dua/dua-hisn-069-01','عند الإفطار'];
+ else if(s.main)a=[NOWK[s.main.k][0],'#'+NOWK[s.main.k][1],s.main.k==='sleep'?'قبل أن تنام':'وقتها الآن'];else if(s.kahf)a=['سورة الكهف','#/quran/18','يوم الجمعة'];else a=['التسبيح والاستغفار','#/adhkar/tasbih','ذكرٌ في كل وقت'];
+ if(r&&r.k!=='d'){var l=ptLoc();return '<div class="hbnow"><a class="hbc hbr" href="#/prayer"><small>رمضان · اليوم '+ar(r.day)+'</small><b>'+(r.k==='i'?'الإفطار':'السحور')+' <i>'+ptFmt(r.t,ptTz(l))+'</i></b><span>بعد '+arDur(Math.max(1,Math.ceil((r.t.getTime()-d.getTime())/6e4)))+'</span></a>'
+  +'<a class="hbc hba" href="'+a[1]+'"><small>الآن</small><b>'+a[0]+'</b><span>'+a[2]+'</span></a></div>'}
  return '<div class="hbnow">'+(n.l?'<a class="hbc" href="#/prayer"><small>الصلاة القادمة</small><b>'+n.name+' <i>'+n.at+'</i></b><span>بعد '+n.left+'</span></a>':'<a class="hbc" href="#/prayer"><small>مواقيت الصلاة</small><b>اختر موقعك</b><span>لتظهر الصلاة القادمة</span></a>')
   +'<a class="hbc hba" href="'+a[1]+'"><small>الآن</small><b>'+a[0]+'</b><span>'+a[2]+'</span></a></div>'}
 function hbCont(){var o=qget('athar-qlp',null),k=null;try{k=kmGet()}catch(e){}if((k&&!k.done)||!o||!(o.p>=1&&o.p<=604))return '';

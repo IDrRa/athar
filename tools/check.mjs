@@ -28,7 +28,8 @@ function contentPrints() {
   // adhkar & duas: text + reference of every item
   const dec = (i) => { let depth = 0, j = i, str = false; for (; j < html.length; j++) { const c = html[j]; if (str) { if (c === '\\') j++; else if (c === '"') str = false; } else if (c === '"') str = true; else if (c === '{') depth++; else if (c === '}') { depth--; if (!depth) break; } } return JSON.parse(html.slice(i, j + 1)); };
   const items = {};
-  for (const m of html.matchAll(/\{"id":"((?:dua|dhikr)-[a-z]+-\d{3}-\d{2})"/g)) { try { const o = dec(m.index); items[o.id] = o.text + '|' + (o.reference || ''); } catch { /* not a data object */ } }
+  for (const m of html.matchAll(/\{"id": ?"((?:dua|dhikr)-[a-z]+(?:-\d+)+)"/g)) { try { const o = dec(m.index); items[o.id] = o.text + '|' + (o.reference || ''); } catch { /* not a data object */ } }
+  if (Object.keys(items).length < 300) bad('بصمات الأذكار والأدعية: لم تُقرأ نصوصها من الصفحة (' + Object.keys(items).length + ')');
   p['adhkar+duas'] = sha(JSON.stringify(Object.keys(items).sort().map(k => [k, items[k]]))) + ':' + Object.keys(items).length;
   // waqfat: the sourced parts only (text, verses, source, explanation); titles/applications are editorial
   const wi = html.indexOf('var WQ=') + 7; let WQ = null;
@@ -169,6 +170,13 @@ try {
     ['kahf friday', { kt: '09:00' }, '2026-10-30T09', 1],
     ['kahf + morning adhkar', { kt: '09:00', m: '09:00' }, '2026-10-30T09', 2],
     ['kahf thursday', { kt: '09:00' }, '2026-10-29T09', 0],
+    // أذكار بعد الصلاة وآخر ساعة من الجمعة ورمضان: بمواقيت الرياض (العصر ٢:٥٥م يوم ٢٠٢٦-١٠-٢١)
+    ['after asr +15', { ap: 15, lat: 24.7136, lng: 46.6753 }, '2026-10-21T15', 1],
+    ['friday last hour', { jt: true, lat: 24.7136, lng: 46.6753 }, '2026-10-30T16', 1],
+    ['thursday last hour', { jt: true, lat: 24.7136, lng: 46.6753 }, '2026-10-29T16', 0],
+    ['ramadan iftar -30', { ri: 30, lat: 24.7136, lng: 46.6753 }, '2027-02-20T17', 1],                 // 13 Ramadan, maghrib 5:50pm
+    ['iftar outside ramadan', { ri: 10, lat: 24.7136, lng: 46.6753 }, '2026-10-28T17', 0],
+    ['ramadan suhoor -45', { rs: 45, lat: 24.7136, lng: 46.6753 }, '2027-02-21T04', 1],              // fajr 5:05am
   ];
   for (const [i, c] of cases.entries()) { // each case alone: subscribe, run every minute around its time, unsubscribe
     fake = null; await req('sub', '', { ...base, ...c[1], endpoint: U(i) });
@@ -178,7 +186,7 @@ try {
   }
   globalThis.Date = RealDate;
   const wrong = cases.map((c, i) => [c[0], got[U(i)] || 0, c[3]]).filter(x => x[1] !== x[2]);
-  if (!wrong.length) ok(`تذكير السنن: ${cases.length} حالات صحيحة (الكهف، الاثنين والخميس، الأيام البيض، ولا تذكير في رمضان وأيام التشريق)`);
+  if (!wrong.length) ok(`تذكير السنن: ${cases.length} حالة صحيحة (الكهف، الاثنين والخميس، الأيام البيض، أذكار بعد الصلاة، آخر ساعة من الجمعة، الإفطار والسحور في رمضان فقط)`);
   else bad('تذكير السنن: ' + wrong.map(x => `${x[0]} وصل ${x[1]} والمتوقع ${x[2]}`).join('، '));
 } catch (e) { bad('تعذّر فحص تذكير السنن: ' + e.message); }
 
