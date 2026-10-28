@@ -82,6 +82,21 @@ try {
 } catch (e) { bad('تعذّر فحص المصحف بدون إنترنت: ' + e.message); }
 try { new vm.Script(fs.readFileSync(path.join(ROOT, 'sw.js'), 'utf8')); ok(`الشيفرة سليمة نحويًا (${si} سكربت + عامل الخدمة)`); } catch (e) { bad('خطأ نحوي في sw.js: ' + e.message); }
 
+// ---------- 2أ. متغير واحد يُعرَّف في ملفين: كل ملفات src/js في دالة واحدة، فالثاني يغطي الأول ----------
+// حدث: QB (نص البسملة في المصحف) أعادت البوصلة تعريفه، فظهر «[object Object]» مكان البسملة.
+{
+  const dir = path.join(ROOT, 'src/js'), seen = {}, dup = [];
+  for (const f of fs.readdirSync(dir).filter((x) => x.endsWith('.js')).sort()) {
+    const src = fs.readFileSync(path.join(dir, f), 'utf8');
+    const names = new Set();
+    for (const m of src.matchAll(/^(?:var|function)\s+([A-Za-z_$][\w$]*)/gm)) names.add(m[1]); // top level only: these files start lines inside functions with a space
+    for (const m of src.matchAll(/^var\s+([^;]*);/gm)) for (const p of m[1].split(/,(?![^{[(]*[}\])])/)) { const n = /^\s*([A-Za-z_$][\w$]*)\s*=/.exec(p); if (n) names.add(n[1]); }
+    for (const n of names) { if (seen[n] && seen[n] !== f) dup.push(`${n}: ${seen[n]} و ${f}`); else seen[n] = f; }
+  }
+  if (dup.length) bad('اسم معرَّف في ملفين (الثاني يغطي الأول): ' + dup.slice(0, 6).join('، '));
+  else ok('لا اسم معرَّفًا في ملفين من ملفات الشيفرة');
+}
+
 // ---------- 2ب. تعارض الأسماء بين أجزاء الموقع ----------
 // حدث مرتين: نفس السمة data-nt استُخدمت للدفتر وللتنبيهات فأوقف الضغطُ على الدفتر التنبيهات، ونفس الفئة .nw استُخدمت لنص القرآن ولإشعار «الآن».
 // القاعدة: سمة data-* يلتقطها معالج عام (closest) لا تُقرأ في ملف آخر، وفئة تولّدها أكثر من شيفرة يجب أن تكون مشتركة عن قصد (في القائمة أدناه).
