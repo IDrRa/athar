@@ -1,7 +1,6 @@
 /* «ما الجديد»: ما أُضيف في كل تحديث (src/data/news.json، الأحدث أولًا). يُضاف سطر لكل تحديث يلمسه الزائر.
    بعد تحديث جديد يظهر إشعار «الجديد في أثر» مرة واحدة؛ ولا يظهر لمن يفتح أثر أول مرة. */
 var NEWS=/*@data:news*/;
-MRI.news='<svg class="mri" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 12a8 8 0 1 1-2.34-5.66M20 4v4h-4"/><path d="M12 8v4l2.5 2.5"/></svg>';
 function nwDate(s){var d=/^(\d{4})-(\d\d)-(\d\d)$/.exec(s);return d?ar(+d[3])+' '+['يناير','فبراير','مارس','أبريل','مايو','يونيو','يوليو','أغسطس','سبتمبر','أكتوبر','نوفمبر','ديسمبر'][+d[2]-1]+' '+ar(+d[1]):s}
 function nwLast(){return NEWS.length?NEWS[0].date:''}
 function nwUnseen(){var s=qget('athar-news0',null);return !!s&&s<nwLast()}
