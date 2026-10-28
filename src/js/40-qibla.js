@@ -11,15 +11,15 @@ function vQibla(){var l=ptLoc(),h=head('اتجاه القبلة','','/about');
  +'<p class="kmmut kb-info">المسافة إلى الكعبة نحو '+ar(Math.round(km).toLocaleString('en').replace(/,/g,'٬'))+' كم</p>'
  +'<div class="kb-btn"><button class="btn primary" data-pt="compass" id="qbgo">'+MRI.qibla+'تشغيل البوصلة</button></div>'
  +'<p class="kmmut pt-note">ضع الجوال مسطّحًا وأبعده عن المعادن والمغناطيس. إن بدت البوصلة غير دقيقة فحرّك الجوال على شكل الرقم ٨ لمعايرتها. ومن غير البوصلة: اتجاه القبلة بالدرجات أعلاه، يُقاس من الشمال باتجاه عقارب الساعة.</p>'}
-var QB={on:false,h:null,hit:false};
+var QBL={on:false,h:null,hit:false};
 function qbHead(e){var h=null;if(typeof e.webkitCompassHeading==='number'&&!isNaN(e.webkitCompassHeading))h=e.webkitCompassHeading;else if(e.absolute&&typeof e.alpha==='number')h=(360-e.alpha)%360;if(h===null)return;
- var so=(screen.orientation&&screen.orientation.angle)||window.orientation||0;h=(h+so+360)%360;QB.h=h;qbDraw()}
-function qbDraw(){var d=document.getElementById('kb-dial'),st=document.getElementById('kb-st'),l=ptLoc();if(!d||!l||QB.h===null)return;var bg=qbBearing(l),diff=((bg-QB.h+540)%360)-180;
- d.style.transform='rotate('+(-QB.h).toFixed(1)+'deg)';var ok=Math.abs(diff)<=4;d.parentNode.classList.toggle('ok',ok);
+ var so=(screen.orientation&&screen.orientation.angle)||window.orientation||0;h=(h+so+360)%360;QBL.h=h;qbDraw()}
+function qbDraw(){var d=document.getElementById('kb-dial'),st=document.getElementById('kb-st'),l=ptLoc();if(!d||!l||QBL.h===null)return;var bg=qbBearing(l),diff=((bg-QBL.h+540)%360)-180;
+ d.style.transform='rotate('+(-QBL.h).toFixed(1)+'deg)';var ok=Math.abs(diff)<=4;d.parentNode.classList.toggle('ok',ok);
  if(st)st.textContent=ok?'أنت باتجاه القبلة':(diff>0?'استدر يمينًا ':'استدر يسارًا ')+ar(Math.round(Math.abs(diff)))+'°';
- if(ok&&!QB.hit){QB.hit=true;try{navigator.vibrate&&navigator.vibrate(40)}catch(x){}}else if(!ok&&Math.abs(diff)>10)QB.hit=false}
-function qbStart(){var go=function(){if(QB.on)return;QB.on=true;var ev='ondeviceorientationabsolute' in window?'deviceorientationabsolute':'deviceorientation';window.addEventListener(ev,qbHead);QB.ev=ev;
-  var b=document.getElementById('qbgo');if(b)b.hidden=true;setTimeout(function(){if(QB.on&&QB.h===null){var st=document.getElementById('kb-st');if(st)st.textContent='لم نجد بوصلة في هذا الجهاز. استخدم الدرجة: القبلة على '+ar(Math.round(qbBearing(ptLoc())))+'° من الشمال.'}},3000)};
+ if(ok&&!QBL.hit){QBL.hit=true;try{navigator.vibrate&&navigator.vibrate(40)}catch(x){}}else if(!ok&&Math.abs(diff)>10)QBL.hit=false}
+function qbStart(){var go=function(){if(QBL.on)return;QBL.on=true;var ev='ondeviceorientationabsolute' in window?'deviceorientationabsolute':'deviceorientation';window.addEventListener(ev,qbHead);QBL.ev=ev;
+  var b=document.getElementById('qbgo');if(b)b.hidden=true;setTimeout(function(){if(QBL.on&&QBL.h===null){var st=document.getElementById('kb-st');if(st)st.textContent='لم نجد بوصلة في هذا الجهاز. استخدم الدرجة: القبلة على '+ar(Math.round(qbBearing(ptLoc())))+'° من الشمال.'}},3000)};
  if(window.DeviceOrientationEvent&&typeof DeviceOrientationEvent.requestPermission==='function')DeviceOrientationEvent.requestPermission().then(function(r){if(r==='granted')go();else kmTo('لم يُسمح باستخدام البوصلة')}).catch(function(){kmTo('تعذّر تشغيل البوصلة')});
  else if(window.DeviceOrientationEvent)go();else kmTo('جهازك لا يدعم البوصلة')}
-function qbStop(){if(QB.on){window.removeEventListener(QB.ev,qbHead);QB.on=false;QB.h=null;QB.hit=false}}
+function qbStop(){if(QBL.on){window.removeEventListener(QBL.ev,qbHead);QBL.on=false;QBL.h=null;QBL.hit=false}}
