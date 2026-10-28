@@ -228,5 +228,14 @@ try {
   else bad('تمييز ألفاظ الذكر: عبارة غير موجودة في نصها: ' + miss.slice(0, 5).join('، '));
 } catch (e) { bad('تعذّر فحص تمييز ألفاظ الذكر: ' + e.message); }
 
+// ---------- 8. «ما الجديد»: كل تحديث للموقع له سطر في src/data/news.json بتاريخه ----------
+try {
+  const N = JSON.parse(fs.readFileSync(path.join(ROOT, 'src/data/news.json'), 'utf8')), R = JSON.parse(fs.readFileSync(path.join(ROOT, 'src/data/release.json'), 'utf8'));
+  const sorted = N.every((x, i) => /^\d{4}-\d\d-\d\d$/.test(x.date) && Array.isArray(x.items) && x.items.length && (!i || N[i - 1].date > x.date));
+  if (!sorted) bad('ما الجديد: التواريخ يجب أن تكون من الأحدث إلى الأقدم وفي كل تاريخ سطر واحد على الأقل');
+  else if (N[0].date < R.date) bad(`ما الجديد: آخر تحديث للموقع ${R.date} وليس له سطر — أضف ما تغيّر في src/data/news.json`);
+  else ok(`ما الجديد: آخر تحديث (${R.date}) مكتوب للزائر`);
+} catch (e) { bad('تعذّر فحص «ما الجديد»: ' + e.message); }
+
 if (failed) { console.error(`\nفشل ${failed} فحص — لن يُنشر التعديل.`); process.exit(1); }
 console.log('\nكل الفحوص نجحت.');

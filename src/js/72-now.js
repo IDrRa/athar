@@ -17,6 +17,7 @@ function nowYMD(d,add){var x=new Date(d.getFullYear(),d.getMonth(),d.getDate()+(
 function nowList(d){var s=nowState(d),T=nowTimes(d).t,early=d.getTime()<T.fajr,x=[];
  if(s.main)x.push({id:s.main.k+':'+nowYMD(d,s.main.k==='sleep'&&early?-1:0),h:NOWK[s.main.k][1],t:NOWK[s.main.k][0]});
  if(s.kahf)x.push({id:'kahf:'+nowYMD(d),h:'/quran/18',t:'سورة الكهف'});
+ try{if(nwUnseen())x.push({id:'news:'+nwLast(),h:'/news',t:'الجديد في أثر'})}catch(e){}
  return x}
 var NOW_SEEN='athar-now-seen';
 function nowSeen(){var o=qget(NOW_SEEN,[]);return Array.isArray(o)?o:[]}
