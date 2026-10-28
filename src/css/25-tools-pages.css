@@ -114,3 +114,16 @@
 .in-s li span{color:var(--muted);font-size:.88rem;line-height:1.8}
 .in-n{flex:none;display:grid;place-items:center;width:30px;height:30px;border:1px solid var(--gold);border-radius:50%;color:var(--gold);font:600 .85rem/1 var(--ui)}
 .in-need .nt-go{margin-top:6px}
+/* الإقامة (36-iqama.js) */
+.pt-l li b{text-align:end}
+.pt-iq{display:block;font-weight:400;font-size:.78rem;color:var(--muted)}
+.pt-l li.on .pt-iq{color:var(--text)}
+.iq{margin:14px 0 0;padding:4px 18px 10px}
+.iq summary{min-height:52px;display:flex;align-items:center;font-weight:600;cursor:pointer}
+.iq .kmmut{margin:0 0 6px;font-size:.88rem}
+.iq-r{display:flex;align-items:center;gap:12px;min-height:56px;border-bottom:1px solid var(--line)}
+.iq-r:last-child{border-bottom:0}
+.iq-r input{width:22px;height:22px;flex:none;accent-color:var(--green)}
+.iq-r span{flex:1}
+.iq-r small{display:block;color:var(--muted);font-size:.8rem;margin-top:2px}
+.iq-r select{min-height:44px;border:1px solid var(--line);border-radius:10px;background:var(--bg);color:var(--text);font:16px var(--ui);padding:0 10px}

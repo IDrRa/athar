@@ -783,6 +783,19 @@ body.home::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:no
 .in-s li span{color:var(--muted);font-size:.88rem;line-height:1.8}
 .in-n{flex:none;display:grid;place-items:center;width:30px;height:30px;border:1px solid var(--gold);border-radius:50%;color:var(--gold);font:600 .85rem/1 var(--ui)}
 .in-need .nt-go{margin-top:6px}
+/* الإقامة (36-iqama.js) */
+.pt-l li b{text-align:end}
+.pt-iq{display:block;font-weight:400;font-size:.78rem;color:var(--muted)}
+.pt-l li.on .pt-iq{color:var(--text)}
+.iq{margin:14px 0 0;padding:4px 18px 10px}
+.iq summary{min-height:52px;display:flex;align-items:center;font-weight:600;cursor:pointer}
+.iq .kmmut{margin:0 0 6px;font-size:.88rem}
+.iq-r{display:flex;align-items:center;gap:12px;min-height:56px;border-bottom:1px solid var(--line)}
+.iq-r:last-child{border-bottom:0}
+.iq-r input{width:22px;height:22px;flex:none;accent-color:var(--green)}
+.iq-r span{flex:1}
+.iq-r small{display:block;color:var(--muted);font-size:.8rem;margin-top:2px}
+.iq-r select{min-height:44px;border:1px solid var(--line);border-radius:10px;background:var(--bg);color:var(--text);font:16px var(--ui);padding:0 10px}
 /* v36 «الآن»: an in-app notification banner (.nwn — .nw is taken by the Quran text) */
 #nwb{position:fixed;z-index:80;top:calc(env(safe-area-inset-top,0px) + 8px);inset-inline:12px;max-width:520px;margin:0 auto;display:flex;flex-direction:column;gap:6px;
  transform:translateY(calc(-100% - 40px));opacity:0;transition:transform .45s cubic-bezier(.2,.8,.2,1),opacity .3s;pointer-events:none}
@@ -1620,8 +1633,9 @@ function vPrayer(){var l=ptLoc(),h=head('مواقيت الصلاة','','/about')
  if(!l)return h+'<section class="card pt-card"><p>نحتاج موقعك لحساب مواقيت الصلاة بدقة.</p>'+ptPicker()+'</section>';
  h+='<div class="pt-loc"><span>'+MRI.pin+(l.name||'موقعك الحالي')+'</span><button class="lnk" data-pt="change">تغيير</button></div><div id="ptbody">'+ptBody(l)+'</div>'
  +'<a class="btn nt-go" href="#/notify">'+MRI.bell+'تنبيه عند دخول وقت الصلاة</a><div id="ptchg" hidden>'+ptPicker()+'</div><p class="kmmut pt-note">طريقة الحساب: أم القرى (الفجر ١٨٫٥ درجة، والعشاء بعد المغرب بساعة ونصف، وفي رمضان بساعتين). قد يختلف الوقت دقيقة أو دقيقتين عن تقويم مسجدك.</p>';return h}
-function ptBody(l){var p=ptToday(l),now=new Date();return '<p class="pt-date">'+ptDateLine(p.tz)+'</p><div class="pt-next"><small>الصلاة القادمة</small><b>'+ptName(p.next[0])+'</b><span>بعد '+ptLeft(p.next[1]-now)+' · '+ptFmt(p.next[1],p.tz)+'</span></div><ul class="list pt-l">'
- +PT_NAMES.map(function(n){var on=n[0]===p.next[0]&&p.t[n[0]]&&p.t[n[0]].getTime()===p.next[1].getTime(),past=p.t[n[0]]&&p.t[n[0]]<=now;return '<li class="'+(on?'on':past?'past':'')+'"><span>'+n[1]+'</span><b>'+ptFmt(p.t[n[0]],p.tz)+'</b></li>'}).join('')+'</ul>'}
+function ptBody(l){var p=ptToday(l),now=new Date(),iq=iqNow(p.t,now);return '<p class="pt-date">'+ptDateLine(p.tz)+'</p>'
+ +(iq?'<div class="pt-next"><small>حان وقت '+ptName(iq[0])+'</small><b>الإقامة</b><span>بعد '+ptLeft(iq[1]-now)+' · '+ptFmt(iq[1],p.tz)+'</span></div>':'<div class="pt-next"><small>الصلاة القادمة</small><b>'+ptName(p.next[0])+'</b><span>بعد '+ptLeft(p.next[1]-now)+' · '+ptFmt(p.next[1],p.tz)+'</span></div>')+'<ul class="list pt-l">'
+ +PT_NAMES.map(function(n){var on=iq?n[0]===iq[0]:n[0]===p.next[0]&&p.t[n[0]]&&p.t[n[0]].getTime()===p.next[1].getTime(),past=p.t[n[0]]&&p.t[n[0]]<=now,q=iqAt(n[0],p.t[n[0]]);return '<li class="'+(on?'on':past?'past':'')+'"><span>'+n[1]+'</span><b>'+ptFmt(p.t[n[0]],p.tz)+(q?'<small class="pt-iq">الإقامة '+ptFmt(q,p.tz)+'</small>':'')+'</b></li>'}).join('')+'</ul>'+iqForm()}
 function ptSet(l){qset('athar-loc',l);try{ntRelocate()}catch(e){}route()}
 function ptGeo(){if(!navigator.geolocation){kmTo('جهازك لا يدعم تحديد الموقع، اختر مدينة');return}kmTo('جارٍ تحديد موقعك…');
  navigator.geolocation.getCurrentPosition(function(p){ptSet({lat:Math.round(p.coords.latitude*1e3)/1e3,lng:Math.round(p.coords.longitude*1e3)/1e3,name:'موقعك الحالي'})},
@@ -1630,6 +1644,18 @@ document.addEventListener('click',function(e){var b=e.target.closest('[data-pt]'
  if(a==='geo')ptGeo();else if(a==='change'){var c=document.getElementById('ptchg');if(c)c.hidden=!c.hidden}
  else if(a==='compass')qbStart()});
 document.addEventListener('change',function(e){if(e.target.id!=='ptcity'||e.target.value==='')return;var c=PT_CITIES[+e.target.value];if(c)ptSet({lat:c[1],lng:c[2],name:c[0],tz:c[3]})});
+/* الإقامة: دقائق بعد الأذان لكل صلاة، يضبطها الزائر حسب مسجده. الافتراضي هو الشائع في مساجد المملكة،
+   وقد يتغير بتعاميم موسمية، فيُعرض على أنه قابل للتعديل لا على أنه رسمي. ظهر الجمعة بلا إقامة (الخطبة). */
+var IQ_K=[['fajr','الفجر',25],['dhuhr','الظهر',20],['asr','العصر',20],['maghrib','المغرب',10],['isha','العشاء',20]];
+function iqGet(){var o=qget('athar-iq',null);o=o&&typeof o==='object'?o:{};var r={on:o.on!==false};IQ_K.forEach(function(k){var v=o[k[0]];r[k[0]]=typeof v==='number'&&v%1===0&&v>=1&&v<=60?v:k[2]});return r}
+function iqAt(k,t){var q=iqGet();if(!q.on||!t||!q[k]||(k==='dhuhr'&&t.getDay()===5))return null;return new Date(t.getTime()+q[k]*6e4)}
+/* الصلاة التي أُذّن لها ولم تُقم بعد: [الاسم، وقت الإقامة] */
+function iqNow(T,d){var m=d.getTime(),r=null;IQ_K.forEach(function(k){var t=T[k[0]],q=t&&iqAt(k[0],t);if(q&&t.getTime()<=m&&m<q.getTime())r=[k[0],q]});return r}
+function iqForm(){var q=iqGet();return '<details class="card iq"><summary>أوقات الإقامة في مسجدك</summary><p class="kmmut">بعد الأذان بكم دقيقة تقام الصلاة؟ الأوقات المكتوبة هي الشائعة في مساجد المملكة، وعدّلها إن اختلف مسجدك.</p>'
+ +'<label class="iq-r"><input type="checkbox" data-iq="on"'+(q.on?' checked':'')+'><span><b>إظهار وقت الإقامة</b></span></label>'
+ +IQ_K.map(function(k){var o='';for(var v=5;v<=45;v+=5)o+='<option value="'+v+'"'+(v===q[k[0]]?' selected':'')+'>'+ar(v)+' دقيقة</option>';if(q[k[0]]%5)o='<option value="'+q[k[0]]+'" selected>'+ar(q[k[0]])+' دقيقة</option>'+o;return '<label class="iq-r"><span><b>'+k[1]+'</b>'+(k[0]==='dhuhr'?'<small>إلا يوم الجمعة</small>':'')+'</span><select data-iq="'+k[0]+'" aria-label="الإقامة بعد أذان '+k[1]+'">'+o+'</select></label>'}).join('')+'</details>'}
+document.addEventListener('change',function(e){var x=e.target.closest('[data-iq]');if(!x)return;var o=qget('athar-iq',null);o=o&&typeof o==='object'?o:{};
+ if(x.dataset.iq==='on')o.on=x.checked;else o[x.dataset.iq]=parseInt(x.value,10);qset('athar-iq',o);var l=ptLoc(),b=document.getElementById('ptbody');if(l&&b)b.innerHTML=ptBody(l)});
 /* ---- qibla ---- */
 function qbBearing(l){var r=Math.PI/180,f1=l.lat*r,f2=KAABA[0]*r,dl=(KAABA[1]-l.lng)*r,y=Math.sin(dl)*Math.cos(f2),x=Math.cos(f1)*Math.sin(f2)-Math.sin(f1)*Math.cos(f2)*Math.cos(dl);return (Math.atan2(y,x)/r+360)%360}
 function qbDist(l){var r=Math.PI/180,a=Math.sin((KAABA[0]-l.lat)*r/2),b=Math.sin((KAABA[1]-l.lng)*r/2),h=a*a+Math.cos(l.lat*r)*Math.cos(KAABA[0]*r)*b*b;return 2*6371*Math.asin(Math.sqrt(h))}
@@ -1874,7 +1900,8 @@ function arN(n,one,two,few,many){return n===1?one:n===2?two:(n>=3&&n<=10?ar(n)+'
 /* تأتي بعد «بعد»، فالمثنى مجرور: بعد ساعتين، بعد دقيقتين */
 function arDur(min){var h=Math.floor(min/60),m=min%60,x=[];if(h)x.push(arN(h,'ساعة','ساعتين','ساعات','ساعة'));if(m||!h)x.push(arN(m,'دقيقة','دقيقتين','دقائق','دقيقة'));return x.join(' و')}
 var HBN={fajr:'الفجر',dhuhr:'الظهر',asr:'العصر',maghrib:'المغرب',isha:'العشاء'};
-function hbNext(d){var l=ptLoc(),T=nowTimes(d).t,m=d.getTime(),o=null;['fajr','dhuhr','asr','maghrib','isha'].forEach(function(k){if(!o&&T[k]&&T[k].getTime()>m)o=[k,T[k]]});
+function hbNext(d){var l=ptLoc(),T=nowTimes(d).t,m=d.getTime(),o=null,iq=l&&iqNow(T,d);
+ if(iq)return {l:true,small:'حان وقت '+HBN[iq[0]],name:'الإقامة',at:ptFmt(iq[1],ptTz(l)),left:arDur(Math.max(1,Math.ceil((iq[1].getTime()-m)/6e4)))};['fajr','dhuhr','asr','maghrib','isha'].forEach(function(k){if(!o&&T[k]&&T[k].getTime()>m)o=[k,T[k]]});
  if(!o)o=['fajr',nowTimes(new Date(d.getFullYear(),d.getMonth(),d.getDate()+1,12)).t.fajr];var nm=HBN[o[0]];if(d.getDay()===5&&o[0]==='dhuhr')nm='الجمعة';
  return {l:!!l,name:nm,at:l?ptFmt(o[1],ptTz(l)):'',left:arDur(Math.max(1,Math.ceil((o[1].getTime()-m)/6e4)))}}
 /* رمضان (تقويم أم القرى، بمواقيت موقع الزائر): قبل الفجر «السحور»، ومن الفجر إلى المغرب «الإفطار»،
@@ -1887,7 +1914,7 @@ function hbNow(){var d=ocNow(),n=hbNext(d),s=nowState(d),r=hbRam(d),a;
  else if(s.main)a=[NOWK[s.main.k][0],'#'+NOWK[s.main.k][1],s.main.k==='sleep'?'قبل أن تنام':'وقتها الآن'];else if(s.kahf)a=['سورة الكهف','#/quran/18','يوم الجمعة'];else a=['التسبيح والاستغفار','#/adhkar/tasbih','ذكرٌ في كل وقت'];
  if(r&&r.k!=='d'){var l=ptLoc();return '<div class="hbnow"><a class="hbc hbr" href="#/prayer"><small>رمضان · اليوم '+ar(r.day)+'</small><b>'+(r.k==='i'?'الإفطار':'السحور')+' <i>'+ptFmt(r.t,ptTz(l))+'</i></b><span>بعد '+arDur(Math.max(1,Math.ceil((r.t.getTime()-d.getTime())/6e4)))+'</span></a>'
   +'<a class="hbc hba" href="'+a[1]+'"><small>الآن</small><b>'+a[0]+'</b><span>'+a[2]+'</span></a></div>'}
- return '<div class="hbnow">'+(n.l?'<a class="hbc" href="#/prayer"><small>الصلاة القادمة</small><b>'+n.name+' <i>'+n.at+'</i></b><span>بعد '+n.left+'</span></a>':'<a class="hbc" href="#/prayer"><small>مواقيت الصلاة</small><b>اختر موقعك</b><span>لتظهر الصلاة القادمة</span></a>')
+ return '<div class="hbnow">'+(n.l?'<a class="hbc" href="#/prayer"><small>'+(n.small||'الصلاة القادمة')+'</small><b>'+n.name+' <i>'+n.at+'</i></b><span>بعد '+n.left+'</span></a>':'<a class="hbc" href="#/prayer"><small>مواقيت الصلاة</small><b>اختر موقعك</b><span>لتظهر الصلاة القادمة</span></a>')
   +'<a class="hbc hba" href="'+a[1]+'"><small>الآن</small><b>'+a[0]+'</b><span>'+a[2]+'</span></a></div>'}
 function hbCont(){var o=qget('athar-qlp',null),k=null;try{k=kmGet()}catch(e){}if((k&&!k.done)||!o||!(o.p>=1&&o.p<=604))return '';
  return '<a class="hbcont" href="#/quran/page/'+o.p+'"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4h10v16l-5-4-5 4z"/></svg><span><small>تابع القراءة</small><b>سورة '+QN[QPG[o.p-1][0]-1]+' · صفحة '+ar(o.p)+'</b></span><svg class="go" viewBox="0 0 24 24" aria-hidden="true"><path d="m15 6-6 6 6 6"/></svg></a>'}
