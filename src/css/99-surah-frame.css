@@ -26,3 +26,5 @@
 .msh::before,.qbn::before{outline:none!important;border-width:1.5px!important}
 .qbn{--frh:40px;height:40px}
 .msn,.qbn h2{height:68%!important}
+.msn{display:flex!important;align-items:center;height:80%!important;font-size:.8em!important;padding-bottom:.12em!important}
+.qbn h2{height:76%!important;font-size:17px!important;padding-bottom:2px!important}
