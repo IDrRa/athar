@@ -20,3 +20,5 @@
 .qmd{display:flex;gap:8px;width:100%}.qmd .btn{flex:1}.qmd .btn.on{background:var(--green);color:var(--on-green);border-color:var(--green)}
 .qszr{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;width:100%}.qszr[hidden]{display:none}
 
+.qpg.mus[data-p="1"],.qpg.mus[data-p="2"]{display:flex;flex-direction:column;min-height:calc(100dvh - 16px)}
+.qpg.mus[data-p="1"]>.mbody,.qpg.mus[data-p="2"]>.mbody{margin-block:auto}
