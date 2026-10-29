@@ -3,3 +3,4 @@
 .qfl i{margin-inline:0}
 .qpg.fit .qt{margin-block:auto}
 
+.qpg.fit .qh+.qt,.qpg.fit .qb+.qt{margin-top:6px}
