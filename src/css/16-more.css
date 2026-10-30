@@ -24,3 +24,17 @@
 .rdfs button small{font-size:.75em;margin-inline-start:1px}
 .rdfs button:active{background:var(--tint)}
 .card:not(.today) .ctext{font-size:calc(1.4rem*var(--rdk,1))}
+/* المزيد المختصر: شبكة أدوات ٣×٣، وصفوف قصيرة بلا أسطر شرح */
+.mrg{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;background:none;border:0;border-radius:0;overflow:visible}
+.mrg li+li{border-top:0}
+.mrg .row{flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:8px;min-height:88px;height:100%;box-sizing:border-box;padding:12px 4px;background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg)}
+.mrg .row span,.mrg .go{display:none}
+.mrg b{font-size:.84rem;line-height:1.35;font-weight:600}
+.mri1{margin-top:8px}
+.mrl:not(.mrg) .row{min-height:52px;padding-block:8px}
+.mrl:not(.mrg) .row span{display:none}
+.mrl [data-ezt][aria-pressed="true"] span{display:block}
+.mrl .mri{width:22px;height:22px}
+.mrfs{padding-bottom:12px}.mrprev{display:none}
+.mrpv summary{list-style:none;cursor:pointer}.mrpv summary::-webkit-details-marker{display:none}
+.mrpv p{margin:0;padding:0 18px 14px;color:var(--muted);font-size:.85rem;line-height:1.8}
