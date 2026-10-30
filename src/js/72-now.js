@@ -1,21 +1,23 @@
 /* ===== v36 «الآن»: the home page shows what suits this moment, from the visitor's prayer times ===== */
-/* windows: الصباح من الفجر إلى الظهر · المساء من العصر إلى العشاء · النوم من العشاء إلى الفجر ·
+/* windows: أذكار بعد الصلاة من الأذان إلى ما بعد الإقامة بعشرين دقيقة في كل صلاة، ثم: الصباح إلى الظهر · المساء إلى العشاء · النوم من بعد العشاء بساعتين إلى الفجر ·
    سورة الكهف من فجر الجمعة إلى مغربها */
 function nowTimes(d){var l=ptLoc();if(l){try{var tz=ptTz(l),a=ptYMD(d,tz),o=ptDay(a[0],a[1],a[2],l.lat,l.lng,ptRamadan(d,tz));if(o.fajr&&o.dhuhr&&o.asr&&o.maghrib&&o.isha)return {t:o}}catch(e){}}
  /* no location: rough local-clock times, used only to choose the card */
  var b=function(h,m){return new Date(d.getFullYear(),d.getMonth(),d.getDate(),h,m)};return {t:{fajr:b(4,45),dhuhr:b(12,0),asr:b(15,15),maghrib:b(17,45),isha:b(19,15)}}}
 function nowState(d){var T=nowTimes(d),t=T.t,s={main:null,kahf:false},m=d.getTime();
- if(m>=t.fajr&&m<t.dhuhr)s.main={k:'morning'};
+ IQ_K.forEach(function(k){var a=t[k[0]];if(!a||s.main)return;var q=iqAt(k[0],a)||new Date(a.getTime()+(k[0]==='dhuhr'&&a.getDay()===5?45:k[2])*6e4);if(m>=a.getTime()&&m<q.getTime()+20*6e4)s.main={k:'prayer',p:k[0],n:k[1]}});
+ if(s.main);
+ else if(m>=t.fajr&&m<t.dhuhr)s.main={k:'morning'};
  else if(m>=t.asr&&m<t.isha)s.main={k:'evening'};
- else if(m>=t.isha||m<t.fajr)s.main={k:'sleep'};
+ else if(m>=t.isha.getTime()+2*36e5||m<t.fajr)s.main={k:'sleep'};
  var wd=d.getDay();s.kahf=wd===5&&m>=t.fajr&&m<t.maghrib;return s}
-var NOWK={morning:['أذكار الصباح','/adhkar/morning'],evening:['أذكار المساء','/adhkar/evening'],sleep:['أذكار النوم','/adhkar/sleep']};
+var NOWK={prayer:['أذكار بعد الصلاة','/adhkar/prayer'],morning:['أذكار الصباح','/adhkar/morning'],evening:['أذكار المساء','/adhkar/evening'],sleep:['أذكار النوم','/adhkar/sleep']};
 /* «الآن» is an in-app notification: it slides down from the top when the app opens, once per time window,
    hides by itself after a few seconds or with a swipe up, and opens its page when tapped.
    Once its page is opened (from the banner or any other way) it does not come back until its next time. */
 function nowYMD(d,add){var x=new Date(d.getFullYear(),d.getMonth(),d.getDate()+(add||0));return x.getFullYear()+'-'+(x.getMonth()+1)+'-'+x.getDate()}
 function nowList(d){var s=nowState(d),T=nowTimes(d).t,early=d.getTime()<T.fajr,x=[];
- if(s.main)x.push({id:s.main.k+':'+nowYMD(d,s.main.k==='sleep'&&early?-1:0),h:NOWK[s.main.k][1],t:NOWK[s.main.k][0]});
+ if(s.main)x.push({id:s.main.k+(s.main.p?'-'+s.main.p:'')+':'+nowYMD(d,s.main.k==='sleep'&&early?-1:0),h:NOWK[s.main.k][1],t:NOWK[s.main.k][0]});
  if(s.kahf)x.push({id:'kahf:'+nowYMD(d),h:'/quran/18',t:'سورة الكهف'});
  return x}
 var NOW_SEEN='athar-now-seen';
@@ -55,7 +57,7 @@ function hbRam(d){var l=ptLoc();if(!l)return null;var T=nowTimes(d).t,m=d.getTim
  var tm=new Date(d.getFullYear(),d.getMonth(),d.getDate()+1,12),h2=ocHijri(tm);if(h2&&h2.m===9&&m>=T.isha)return {k:'s',t:nowTimes(tm).t.fajr,day:h2.d};return null}
 function hbNow(){var d=ocNow(),n=hbNext(d),s=nowState(d),r=hbRam(d),a;
  if(r&&r.k==='d')a=['دعاء الإفطار','#/dua/dua-hisn-069-01','عند الإفطار'];
- else if(s.main)a=[NOWK[s.main.k][0],'#'+NOWK[s.main.k][1],s.main.k==='sleep'?'قبل أن تنام':'وقتها الآن'];else if(s.kahf)a=['سورة الكهف','#/quran/18','يوم الجمعة'];else a=['التسبيح والاستغفار','#/adhkar/tasbih','ذكرٌ في كل وقت'];
+ else if(s.main)a=[NOWK[s.main.k][0],'#'+NOWK[s.main.k][1],s.main.k==='sleep'?'قبل أن تنام':s.main.k==='prayer'?'بعد صلاة '+s.main.n:'وقتها الآن'];else if(s.kahf)a=['سورة الكهف','#/quran/18','يوم الجمعة'];else a=['التسبيح والاستغفار','#/adhkar/tasbih','ذكرٌ في كل وقت'];
  if(r&&r.k!=='d'){var l=ptLoc();return '<div class="hbnow"><a class="hbc hbr" href="#/prayer"><small>رمضان · اليوم '+ar(r.day)+'</small><b>'+(r.k==='i'?'الإفطار':'السحور')+' <i>'+ptFmt(r.t,ptTz(l))+'</i></b><span>بعد '+arDur(Math.max(1,Math.ceil((r.t.getTime()-d.getTime())/6e4)))+'</span></a>'
   +'<a class="hbc hba" href="'+a[1]+'"><small>الآن</small><b>'+a[0]+'</b><span>'+a[2]+'</span></a></div>'}
  return '<div class="hbnow">'+(n.l?'<a class="hbc" href="#/prayer"><small>'+(n.small||'الصلاة القادمة')+'</small><b>'+n.name+' <i>'+n.at+'</i></b><span>بعد '+n.left+'</span></a>':'<a class="hbc" href="#/prayer"><small>مواقيت الصلاة</small><b>اختر موقعك</b><span>لتظهر الصلاة القادمة</span></a>')
