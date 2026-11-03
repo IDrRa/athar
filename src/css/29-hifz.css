@@ -21,3 +21,4 @@
 .hzbar{position:fixed;inset-inline:12px;bottom:calc(12px + env(safe-area-inset-bottom,0px));max-width:616px;margin:0 auto;display:flex;flex-wrap:wrap;align-items:center;gap:6px;padding:8px 10px;background:var(--surface);border:1px solid var(--gold);border-radius:14px;box-shadow:0 6px 24px rgb(0 0 0/.18);z-index:30;font:400 .88rem var(--ui)}
 .hzbar span{flex:1 1 100%;color:var(--muted)}.hzbar b{min-width:2ch;text-align:center}.hzbar [data-hzd]{flex:1}
 .qbar{z-index:31}
+.hzdel{flex:none;width:36px;height:36px;border:0;background:none;color:var(--muted);font-size:1.3rem;cursor:pointer}

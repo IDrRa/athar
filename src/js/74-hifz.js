@@ -24,7 +24,7 @@ function hfFirst(n){for(var v=1;v<=QC[n-1];v++)if(!hfHas(n,v))return v;return 1}
 function hpMk(n,a,c){var m=QC[n-1];c=Math.max(1,Math.min(50,c));a=Math.max(1,Math.min(m,a));return {n:n,a:a,c:c,b:Math.min(m,a+c-1)}}
 function hfSub(){if(HP)return 'الآن: سورة '+QN[HP.n-1]+' · '+ar(HP.a)+'–'+ar(HP.b);var n=hfTotal();return n?ar(n)+' '+(n===1?'آية':n===2?'آيتان':n<=10?'آيات':'آية')+' محفوظة':'ابدأ خطة حفظ'}
 function hzList(){var ns=Object.keys(HF).map(Number).sort(function(a,b){return a-b});if(!ns.length)return '';
- return '<h3 class="hzh">ما حفظته</h3><ul class="list hzl">'+ns.map(function(n){var r=HF[n],c=hfCnt(n),full=c===QC[n-1];return '<li><a href="#/quran/'+n+'/'+r[0][0]+'"><b>سورة '+QN[n-1]+'</b><span>'+(full?'السورة كاملة':'الآيات '+r.map(function(x){return x[0]===x[1]?ar(x[0]):ar(x[0])+'–'+ar(x[1])}).join('، '))+'</span><small>'+ar(c)+' من '+ar(QC[n-1])+'</small></a><button class="btn" data-hzgo="'+n+'_'+r[0][0]+'">سمّع</button></li>'}).join('')+'</ul>'}
+ return '<h3 class="hzh">ما حفظته</h3><ul class="list hzl">'+ns.map(function(n){var r=HF[n],c=hfCnt(n),full=c===QC[n-1];return '<li><a href="#/quran/'+n+'/'+r[0][0]+'"><b>سورة '+QN[n-1]+'</b><span>'+(full?'السورة كاملة':'الآيات '+r.map(function(x){return x[0]===x[1]?ar(x[0]):ar(x[0])+'–'+ar(x[1])}).join('، '))+'</span><small>'+ar(c)+' من '+ar(QC[n-1])+'</small></a><button class="btn" data-hzgo="'+n+'_'+r[0][0]+'">سمّع</button><button class="hzdel" data-hzdel="'+n+'" aria-label="حذف محفوظ سورة '+QN[n-1]+'">×</button></li>'}).join('')+'</ul>'}
 function hpIn(n,v){return !!HP&&HP.n===n&&v>=HP.a&&v<=HP.b}
 function hzCls(n,v){return (hfHas(n,v)?' hf':'')+(hpIn(n,v)?' hp':'')}
 /* شريط الحفظ في المصحف (وضع 3): الآيات المطلوبة مميّزة، «أخفِ» يخفيها للتسميع، «حفظتها» ينقلك للحفظ التالي */
@@ -45,3 +45,4 @@ document.addEventListener('click',function(e){var b=e.target.closest('[data-hzt]
  if(d.hzc!==undefined){HP=hpMk(HP.n,HP.a,HP.b-HP.a+1+ +d.hzc);hpSave();hpGo();return}
  if(d.hzd!==undefined){hfSet(HP.n,HP.a,HP.b,true);var c2=HP.b-HP.a+1,na=HP.b+1;delete r.dataset.hzh;if(na>QC[HP.n-1]){HP=null;toast('أتممت السورة، بارك الله فيك')}else{HP=hpMk(HP.n,na,c2);toast('هذا حفظك التالي')}hpSave();hpGo()}});
 document.addEventListener('click',function(e){var b=e.target.closest('[data-hzgo]');if(!b)return;var k=b.dataset.hzgo.split('_');document.documentElement.dataset.hz='2';location.hash='#/quran/page/'+qpageOf(+k[0],+k[1])});
+document.addEventListener('click',function(e){var b=e.target.closest('[data-hzdel]');if(!b)return;var n=+b.dataset.hzdel;if(!confirm('حذف محفوظ سورة '+QN[n-1]+'؟'))return;delete HF[n];qset('athar-hf',HF);toast('حُذف');route()});
