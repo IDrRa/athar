@@ -1,0 +1,26 @@
+/* علامة المحفوظ: خط ذهبي رفيع تحت الكلمة. التسميع: الكلمات المخفية تبقى مكانها كمستطيلات باهتة */
+.mw.hf:not(.mvn),.qv.hf>.w,.qv.hf>.nw{background-image:linear-gradient(var(--gold),var(--gold));background-repeat:no-repeat;background-size:100% 2px;background-position:0 100%}
+[data-hz="1"] .qpg:not(.rva) .mw:not(.mvn):not(.mq):not(.rv),
+[data-hz="2"] .qpg:not(.rva) .mw.hf:not(.mvn):not(.mq):not(.rv),
+[data-hz="1"] .qpg:not(.rva) .qv:not(.rv)>.w,[data-hz="1"] .qpg:not(.rva) .qv:not(.rv)>.nw,
+[data-hz="2"] .qpg:not(.rva) .qv.hf:not(.rv)>.w,[data-hz="2"] .qpg:not(.rva) .qv.hf:not(.rv)>.nw{color:transparent;-webkit-text-fill-color:transparent;background:rgb(128 128 128/.2);border-radius:5px}
+.qhz{display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:space-between;margin-top:12px;font:400 .9rem var(--ui)}
+.qhz>div{display:flex;flex-wrap:wrap;gap:8px}
+.qhz .btn.on{background:var(--green);color:var(--on-green);border-color:var(--green)}
+.qbar .btn.on{background:var(--green);color:var(--on-green);border-color:var(--green)}
+.hzq{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:12px;padding:12px 14px;background:var(--surface);border:1px solid var(--line);border-radius:14px;color:var(--text);text-decoration:none}
+.hzq span{color:var(--muted);font-size:.9rem}
+.hzl{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+.hzl li{display:flex;align-items:center;gap:10px;padding:12px 14px;background:var(--surface);border:1px solid var(--line);border-radius:14px}
+.hzl a{flex:1;display:grid;gap:2px;color:var(--text);text-decoration:none}
+.hzl span,.hzl small{color:var(--muted);font-size:.88rem}
+.hzf{display:grid;gap:10px}.hzf label{font:500 .9rem var(--ui);color:var(--muted)}
+.hzf select,.hzf input{min-height:44px;border:1px solid var(--line);border-radius:10px;background:var(--surface);color:var(--text);font:inherit;font-size:16px;padding:0 10px}
+.hzt{display:grid;gap:8px;margin:12px 0}
+.hzv{display:flex;gap:10px;align-items:flex-start;text-align:start;width:100%;padding:10px 12px;background:var(--bg);border:1px solid var(--line);border-radius:12px;color:var(--text);font:inherit;cursor:pointer}
+.hzv b{flex:none;min-width:1.6em;color:var(--gold);font-family:var(--ui)}
+.hzv .hzx{font-family:'Amiri Quran','KFGQPC Uthmanic Script HAFS',serif;font-size:1.35rem;line-height:2}
+.hzp.hid .hzv:not(.rv) .hzx{color:transparent;-webkit-text-fill-color:transparent;background:rgb(128 128 128/.2);border-radius:6px}
+.hzc{display:flex;align-items:center;gap:10px;margin:8px 0;font:400 .95rem var(--ui)}.hzc span{flex:1;color:var(--muted)}.hzc b{min-width:2ch;text-align:center}
+.hzb{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}.hzb .btn{flex:1}.hzd{width:100%}
+.hzh{margin:22px 0 10px;font:600 1rem var(--ui)}

@@ -119,6 +119,7 @@ else if(a==='notes'){t='دفتر الأثر';d='ملاحظاتك الخاصة ع
 else if(a==='khatma'){t='ختمة أثر';d='خطة شخصية لختم القرآن الكريم';h=vKhatma()}
 else if(a==='prayer'){t='مواقيت الصلاة';d='مواقيت الصلاة حسب موقعك بطريقة أم القرى';h=vPrayer()}
 else if(a==='qibla'){t='اتجاه القبلة';d='اتجاه القبلة من موقعك';h=vQibla()}
+else if(a==='hifz'){t='حفظي';d='خطة حفظ القرآن';h=vHifz()}
 else if(a==='stats'){t='إحصاءات قراءتك';d='صفحات المصحف التي قرأتها';h=vStats()}
 else if(a==='admin'){t='البلاغات';d='';h=vAdmin()}
 else if(a==='report'){t='أبلغ عن خطأ';d='أبلغ عن خطأ في محتوى أثر';h=vReport(new URLSearchParams(Q))}
