@@ -52,7 +52,7 @@ ls.forEach(function(ln,li){if(ln.length<2)return;var minL=Math.min.apply(null,ln
 if(qlns(us,b.lh).length!==n0)mods.forEach(function(u){u.style.marginInlineEnd=''})})}
 function qlh0(){return document.fonts&&document.fonts.check("20px 'KFGQPC Hafs'")?1.75:2.3}
 /* ارتفاع الشاشة المتاح للصفحة؛ في الوضع الميسّر يُطرح منه شريط «السابقة/التالية» أسفل المصحف */
-function qvh(){var ez=document.getElementById('qez');return Math.max(document.documentElement.clientHeight||0,window.innerHeight||0)-(ez&&!ez.hidden?ez.offsetHeight:0)}
+function qvh(){var ez=document.getElementById('qez');return Math.max(document.documentElement.clientHeight||0,window.innerHeight||0)-(ez&&!ez.hidden?ez.offsetHeight:0)-hzH()}
 function qfit1(g){if(g.classList.contains('mus')){mfit1(g);return}var top=g.getBoundingClientRect().top,avail=qvh()-Math.max(0,top)-34,L0=qlh0(),key=g.dataset.p+'|'+innerWidth+'x'+qvh()+'|'+Math.round(top)+'|'+L0,c=QFC[key],i,f,mid;g.style.minHeight='';qclr(g);
 if(c){g.style.setProperty('--qfs',c.fs+'px');g.style.setProperty('--qlh',c.lh);qapply(g,c.br)}else{g.style.setProperty('--qlh',L0);var cand=[],fMax=0;
 for(f=32;f>=14;f-=1){g.style.setProperty('--qfs',f+'px');qclr(g);var gh=g.getBoundingClientRect().height,pl=qplan(g),est=gh-pl.qh+pl.lines*f*L0;if(est>avail)continue;if(!fMax)fMax=f;cand.push({f:f,bad:pl.worst,br:pl.br});if(pl.worst<=.14)break}
