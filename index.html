@@ -1010,6 +1010,32 @@ main input:focus,main select:focus,main textarea:focus{outline:2px solid color-m
 .hbc{justify-content:center}
 body.home::before{-webkit-mask:linear-gradient(#000 0,#000 130px,transparent 215px)!important;mask:linear-gradient(#000 0,#000 130px,transparent 215px)!important}
 .card.today.wqc{box-shadow:none!important}
+/* فهرس المصحف v3: بطاقة متابعة واحدة، ثنائي ختمة/حفظ، فواصل قابلة للطي */
+.qix2 .qgo{display:flex;align-items:center;gap:14px;margin:0 0 10px;padding:18px 18px;border-radius:18px;background:color-mix(in srgb,var(--gold) 10%,var(--surface));color:var(--text);text-decoration:none}
+.qix2 .qgo span{flex:1;min-width:0;display:flex;flex-direction:column;gap:3px}
+.qix2 .qgo small{color:var(--gold);font:600 .78rem var(--ui)}
+.qix2 .qgo b{font:700 1.15rem/1.45 var(--ui);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.qix2 .qgo i{font-style:normal;color:var(--muted);font-size:.8rem}
+.qix2 .qgo em{flex:none;display:grid;place-items:center;width:46px;height:54px;padding-top:6px;box-sizing:border-box;font:600 .9rem var(--ui);font-style:normal;color:var(--gold);border:1.4px solid var(--gold);border-radius:23px 23px 6px 6px}
+.qix2 .qduo{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:10px;margin:0 0 10px}
+.qix2 .qduo a{display:flex;flex-direction:column;gap:3px;padding:12px 14px;border-radius:16px;background:var(--surface);color:var(--text);text-decoration:none;min-height:64px}
+.qix2 .qduo small{color:var(--gold);font:600 .76rem var(--ui)}
+.qix2 .qduo b{font:600 .88rem/1.45 var(--ui)}
+.qix2 .qbk2{margin:0 0 14px;border-radius:16px;background:var(--surface)}
+.qix2 .qbk2 summary{display:flex;align-items:center;gap:8px;min-height:50px;padding:0 16px;cursor:pointer;list-style:none;font:600 .95rem var(--ui)}
+.qix2 .qbk2 summary::-webkit-details-marker{display:none}
+.qix2 .qbk2 summary span{flex:1}
+.qix2 .qbk2 summary i{font-style:normal;min-width:24px;padding:1px 8px;border-radius:999px;background:var(--goldt);color:var(--gold);font-size:.8rem;text-align:center}
+.qix2 .qbk2 summary::after{content:"";width:7px;height:7px;border-left:1.6px solid var(--muted);border-bottom:1.6px solid var(--muted);transform:rotate(-45deg);margin-inline-start:6px;transition:transform .2s}
+.qix2 .qbk2[open] summary::after{transform:rotate(135deg)}
+.qix2 .qbk2 ul{list-style:none;margin:0;padding:0 16px 6px}
+.qix2 .qbk2 li{display:flex;align-items:center;gap:8px;border-top:1px solid color-mix(in srgb,var(--line) 65%,transparent)}
+.qix2 .qbk2 li a{flex:1;display:flex;flex-direction:column;gap:2px;padding:10px 2px;color:var(--text);text-decoration:none}
+.qix2 .qbk2 li b{font:600 .92rem var(--ui)}
+.qix2 .qbk2 li small{color:var(--muted);font-size:.76rem}
+.qix2 .qdel{display:grid;place-items:center;min-width:44px;min-height:44px;font-size:0;background:none;border:0;cursor:pointer}
+.qix2 .qdel::before{content:"";width:28px;height:28px;border-radius:50%;background:var(--soft) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M7 7l10 10M17 7 7 17' stroke='%23888' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E") center/14px no-repeat}
+@media (prefers-reduced-motion:reduce){.qix2 .qbk2 summary::after{transition:none}}
 /* إطار اسم السورة (زخرفة إسلامية ذهبية): حدّان ذهبيان مزدوجان، وبينهما لوحة مفصّصة الطرفين بإطار ذهبي عريض وفيها الاسم. بلا نجوم. */
 :root{--fr-band:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 60' preserveAspectRatio='none'%3E%3CclipPath id='c'%3E%3Crect x='0' y='8' width='40' height='44'/%3E%3C/clipPath%3E%3Cg clip-path='url%28%23c%29'%3E%3Crect x='0' y='8' width='40' height='44' fill='%23000' fill-opacity='.22'/%3E%3C/g%3E%3Cpath d='M0 2H40V4.4H0ZM0 55.6H40V58H0Z' fill='%23000'/%3E%3Cpath d='M0 7.5H40M0 52.5H40' stroke='%23000' stroke-width='.9'/%3E%3C/svg%3E");--fr-cart:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 240 52' preserveAspectRatio='none'%3E%3Cpath fill-rule='evenodd' fill='%23000' d='M26.9 1.5H213.1C223.1 1.5 223.1 8.5 229.1 10.5C234.5 13.5 238.5 20 238.5 26S234.5 38.5 229.1 41.5C223.1 43.5 223.1 50.5 213.1 50.5H26.9C16.9 50.5 16.9 43.5 10.899999999999999 41.5C5.5 38.5 1.5 32 1.5 26S5.5 13.5 10.899999999999999 10.5C16.9 8.5 16.9 1.5 26.9 1.5ZM28.52 4.2H211.48C221.48 4.2 221.48 11.2 227.48 13.2C231.8 16.2 235.8 20 235.8 26S231.8 35.8 227.48 38.8C221.48 40.8 221.48 47.8 211.48 47.8H28.52C18.52 47.8 18.52 40.8 12.52 38.8C8.2 35.8 4.2 32 4.2 26S8.2 16.2 12.52 13.2C18.52 11.2 18.52 4.2 28.52 4.2Z'/%3E%3Cpath d='M30.2 7H209.8C219.8 7 219.8 14 225.8 16C229 19 233 20 233 26S229 33 225.8 36C219.8 38 219.8 45 209.8 45H30.2C20.2 45 20.2 38 14.2 36C11 33 7 32 7 26S11 19 14.2 16C20.2 14 20.2 7 30.2 7Z' fill='none' stroke='%23000' stroke-width='.8'/%3E%3C/svg%3E");--fr-cartf:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 240 52' preserveAspectRatio='none'%3E%3Cpath fill='%23000' d='M26.9 1.5H213.1C223.1 1.5 223.1 8.5 229.1 10.5C234.5 13.5 238.5 20 238.5 26S234.5 38.5 229.1 41.5C223.1 43.5 223.1 50.5 213.1 50.5H26.9C16.9 50.5 16.9 43.5 10.899999999999999 41.5C5.5 38.5 1.5 32 1.5 26S5.5 13.5 10.899999999999999 10.5C16.9 8.5 16.9 1.5 26.9 1.5Z'/%3E%3C/svg%3E")}
 .msh,.qbn{position:relative;border:0;border-radius:0;box-shadow:none;background:none;isolation:isolate}
@@ -1206,11 +1232,14 @@ else if(t==='hizb'){h='<ul class="qls">'+QHZ.map(function(g,i){return qrow('/qur
 else{var lp=(qget('athar-qlp',null)||{}).p;h='<div class="qpgrid">';for(i=1;i<=604;i++)h+='<a class="qpn'+(i===lp?' on':'')+'" href="#/quran/page/'+i+'" aria-label="صفحة '+i+'">'+ar(i)+'</a>';h+='</div>'}
 return h}
 function kmQ(){var k=kmGet();if(!k||k.done)return '<a class="qcont kmq" href="#/khatma"><small>ختمة أثر</small><b>ابدأ ختمة بخطة يومية تناسبك</b></a>';var i=kmIdx(k);return '<a class="qcont kmq" href="#/khatma"><small>ختمة أثر · اليوم '+ar(Math.min(k.ends.length,wqDay()-k.start+1))+' من '+ar(k.ends.length)+'</small><b>'+(k.through>=k.ends[i]?'أتممت ورد اليوم ✓':'ورد اليوم: إلى صفحة '+ar(k.ends[i]))+'</b></a>'}
-function qlist(){var lp=qget('athar-qlp',null),lv=qget('athar-qlv',null),bk=qbks(),h='<div class="qix">'+kmQ()+hfQ(),c='';
-if(lp)c+='<a class="qcard" href="#/quran/page/'+lp.p+'"><small>آخر صفحة</small><b>سورة '+QN[QPG[lp.p-1][0]-1]+'</b><i>صفحة '+ar(lp.p)+' · '+qdt(lp.t)+'</i></a>';
-if(lv)c+='<a class="qcard" href="#/quran/'+lv.n+'/'+lv.v+'"><small>آخر آية</small><b>سورة '+QN[lv.n-1]+' · الآية '+ar(lv.v)+'</b><i>'+qdt(lv.t)+' · صفحة '+ar(lv.p)+'</i></a>';
-if(c)h+='<div class="qlc">'+c+'</div>';
-if(bk.length){h+='<section class="qbkl" aria-labelledby="qbh"><h2 id="qbh">فواصل</h2><ul>'+bk.slice(0,8).map(function(b,i){var href=b.v?'/quran/'+b.n+'/'+b.v:'/quran/page/'+b.p;return '<li><a href="#'+href+'"><b>سورة '+QN[b.n-1]+(b.v?' · الآية '+ar(b.v):'')+'</b><small>صفحة '+ar(b.p)+' · الجزء '+ar(QPG[b.p-1][2])+' · '+qdt(b.t)+'</small></a><button class="qdel" data-qbd="'+i+'" aria-label="حذف الفاصل">×</button></li>'}).join('')+'</ul></section>'}
+var QBKO=0;
+function qlist(){var lp=qget('athar-qlp',null),lv=qget('athar-qlv',null),bk=qbks(),h='<div class="qix qix2">',k=kmGet(),kt;
+var useV=lv&&(!lp||lv.t>=lp.t-1000),qg=useV?{h:'/quran/'+lv.n+'/'+lv.v,b:'سورة '+QN[lv.n-1]+' · الآية '+ar(lv.v),s:'صفحة '+ar(lv.p)+' · '+qdt(lv.t),p:lv.p}:lp?{h:'/quran/page/'+lp.p,b:'سورة '+QN[QPG[lp.p-1][0]-1],s:'صفحة '+ar(lp.p)+' · '+qdt(lp.t),p:lp.p}:null;
+h+=qg?'<a class="qgo" href="#'+qg.h+'"><span><small>تابع القراءة</small><b>'+qg.b+'</b><i>'+qg.s+'</i></span><em aria-hidden="true">'+ar(qg.p)+'</em></a>'
+ :'<a class="qgo" href="#/quran/page/1"><span><small>ابدأ القراءة</small><b>سورة الفاتحة</b><i>من أول المصحف</i></span><em aria-hidden="true">'+ar(1)+'</em></a>';
+if(!k||k.done)kt='ابدأ خطة';else{var ki=kmIdx(k);kt=k.through>=k.ends[ki]?'أتممت ورد اليوم':'ورد اليوم إلى ص '+ar(k.ends[ki])}
+h+='<div class="qduo"><a href="#/khatma"><small>ختمة أثر</small><b>'+kt+'</b></a><a href="#/hifz"><small>حفظي</small><b>'+hfSub()+'</b></a></div>';
+if(bk.length){h+='<details class="qbk2"'+(QBKO?' open':'')+'><summary><span>فواصل</span><i>'+ar(bk.length)+'</i></summary><ul>'+bk.slice(0,8).map(function(b,i){var href=b.v?'/quran/'+b.n+'/'+b.v:'/quran/page/'+b.p;return '<li><a href="#'+href+'"><b>سورة '+QN[b.n-1]+(b.v?' · الآية '+ar(b.v):'')+'</b><small>صفحة '+ar(b.p)+' · '+qdt(b.t)+'</small></a><button class="qdel" data-qbd="'+i+'" aria-label="حذف الفاصل">×</button></li>'}).join('')+'</ul></details>'}
 h+='<div class="qtabs" role="tablist" aria-label="تصفح المصحف">'+[['sur','السور'],['juz','الأجزاء'],['hizb','الأحزاب'],['page','الصفحات']].map(function(t){return '<button role="tab" class="qtb2" data-qt="'+t[0]+'" aria-selected="'+(QTAB===t[0])+'">'+t[1]+'</button>'}).join('')+'</div><div id="qtp" role="tabpanel">'+qtab(QTAB)+'</div></div>';return h}
 function qhint(){try{if(!localStorage.getItem('athar-qh')){localStorage.setItem('athar-qh','1');toast(ezOn()?'اسحب يمينًا أو يسارًا، أو استعمل الزرين في الأسفل لتقليب الصفحات':'اسحب يمينًا أو يسارًا لتقليب الصفحات')}}catch(e){}}
 var QRM=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -1223,7 +1252,7 @@ function qfits(){var d=document.scrollingElement||document.documentElement;retur
 document.addEventListener('touchmove',function(e){if(QPS&&!RS&&SX!==null&&e.cancelable&&qfits())e.preventDefault();if(!QPS||RS||SX===null||QRM||QBUSY||e.touches.length!==1)return;var t=e.touches[0],dx=t.clientX-SX,dy=t.clientY-SY;if(!QD){if(Math.abs(dx)>10&&Math.abs(dx)>1.3*Math.abs(dy))qdBegin(dx);else return}if(e.cancelable)e.preventDefault();qdMove(dx)},{passive:false});
 document.addEventListener('touchcancel',function(){if(QD){SX=null;qdFinish(false)}},{passive:true});
 document.addEventListener('click',function(e){var t=e.target.closest('[data-qt]');if(t){QTAB=t.dataset.qt;document.querySelectorAll('.qtb2').forEach(function(x){x.setAttribute('aria-selected',String(x===t))});var pn=document.getElementById('qtp');if(pn)pn.innerHTML=qtab(QTAB);return}
-var d=e.target.closest('[data-qbd]');if(d){var b=qbks();b.splice(+d.dataset.qbd,1);qset('athar-qbk',b);V.innerHTML=head('القرآن الكريم','سور القرآن الكريم')+qlist();return}
+var d=e.target.closest('[data-qbd]');if(d){QBKO=1;var b=qbks();b.splice(+d.dataset.qbd,1);qset('athar-qbk',b);V.innerHTML=head('القرآن الكريم','سور القرآن الكريم')+qlist();return}
 var k=e.target.closest('[data-qbm]');if(k&&QPS){var on=qbkPage();k.classList.toggle('on',on);k.setAttribute('aria-pressed',String(on));k.setAttribute('aria-label',on?'إزالة الفاصل من هذه الصفحة':'حفظ فاصل في هذه الصفحة')}});
 document.addEventListener('input',function(e){if(e.target.id!=='qf')return;var q=nz(e.target.value.trim()).s,n=0;document.querySelectorAll('.qc').forEach(function(li){var ok=!q||li.dataset.k.indexOf(q)>-1;li.hidden=!ok;if(ok)n++});var m=document.querySelector('.qno');if(m)m.hidden=n>0});
 if(document.fonts&&document.fonts.load)document.fonts.load("20px 'KFGQPC Hafs'",'\u0627').then(function(){qfit()}).catch(function(){});
