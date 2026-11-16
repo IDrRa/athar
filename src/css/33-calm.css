@@ -3,7 +3,7 @@
 .card,.list,.rdc,.wqs,.hbc,.hbcont,.tile,.qcont,.empty{border:0!important;box-shadow:none}
 .card,.list,.wqs,.hbc,.hbcont,.tile,.qcont,.empty{border-radius:16px}
 .rdc{border-radius:18px}
-.list li+li{border-top:1px solid color-mix(in srgb,var(--line) 65%,transparent)}
+.list:not(.tiles):not(.mrg) li+li{border-top:1px solid color-mix(in srgb,var(--line) 65%,transparent)}
 .qcont small,.hbc small,.hbcont small{color:var(--gold);font-weight:600}
 .hba{background:color-mix(in srgb,var(--gold) 10%,var(--surface))!important;box-shadow:none!important}
 .empty{background:var(--surface)}
@@ -25,3 +25,10 @@ main input:focus,main select:focus,main textarea:focus{outline:2px solid color-m
 /* الوقفة */
 .wqrel,.wqtl{border:0!important}
 .mrsrc,details.wqs{border:0!important;background:var(--surface);border-radius:16px}
+.list.tiles li+li,.list.mrg li+li{border-top:0}
+/* المزيد: أدوات أثر قائمة بأيقونات ذهبية ووصف قصير */
+.mrl .mri{color:var(--gold)}
+.mrl.mrt .row{min-height:64px;padding-block:10px}
+.mrl.mrt .row span{display:block;color:var(--muted);font-size:.8rem;margin-top:2px}
+.mrl .go{color:var(--muted);opacity:.7}
+.hba b{margin-top:2px}
