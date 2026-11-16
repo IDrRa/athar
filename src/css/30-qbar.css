@@ -1,0 +1,19 @@
+/* شريط خيارات الآية — v2: لوح سفلي هادئ، أيقونات بخط رفيع */
+.qbar{display:block!important;flex-wrap:nowrap;padding:12px 10px calc(10px + env(safe-area-inset-bottom,0px));inset-inline:0;bottom:0!important;max-width:640px;border-radius:20px 20px 0 0;border:0;border-top:1px solid var(--line);box-shadow:0 -8px 30px rgba(0,0,0,.22);background:var(--surface)}
+.qbar[hidden]{display:none!important}
+body.ezq .qbar{bottom:0!important}
+.qbar .qbh{display:flex;align-items:center;gap:8px;padding:0 6px 10px}
+.qbar #qlbl{flex:1;display:flex;align-items:center;justify-content:flex-start;gap:8px 10px;flex-wrap:wrap;font-size:.9rem;color:var(--muted);text-align:start}
+.qbar #qlbl>span{color:var(--text);font-weight:600}
+.qbar .qto{height:32px;padding:0 10px;border-radius:999px;border:1px solid var(--line);background:transparent;color:var(--muted);font:inherit;font-size:.82rem}
+.qbar .qx{flex:0 0 36px;width:36px;height:36px;display:grid;place-items:center;border:0;border-radius:50%;background:color-mix(in srgb,var(--text) 7%,transparent);color:var(--muted);cursor:pointer;padding:0}
+.qbar .qx svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round}
+.qbar .qas{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:2px}
+.qbar .qa{display:flex;flex-direction:column;align-items:center;gap:6px;min-height:62px;padding:8px 2px 6px;border:0;border-radius:14px;background:transparent;color:var(--text);font:inherit;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.qbar .qa svg{width:24px;height:24px;fill:none;stroke:var(--gold,#b8954a);stroke-width:1.6;stroke-linejoin:round;stroke-linecap:round}
+.qbar .qa b{font-weight:500;font-size:.78rem;line-height:1.2;white-space:nowrap}
+.qbar .qa:active{background:color-mix(in srgb,var(--text) 8%,transparent)}
+.qbar .qa:focus-visible,.qbar .qx:focus-visible{outline:2px solid var(--gold,#b8954a);outline-offset:1px}
+.qbar .qa.on{background:transparent;color:var(--text)}
+.qbar .qa.on svg{fill:var(--gold,#b8954a)}
+@media (max-width:340px){.qbar .qa b{font-size:.7rem}}
