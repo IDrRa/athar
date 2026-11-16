@@ -1,5 +1,0 @@
-/* تنبيه الانتقال على العنوان القديم */
-.mvbar{position:relative;z-index:50;display:flex;flex-direction:column;gap:6px;margin:10px 12px 0;padding:14px 16px;border-radius:16px;background:color-mix(in srgb,var(--gold) 14%,var(--surface));color:var(--text)}
-.mvbar b{font:700 1rem var(--ui)}
-.mvbar span{font-size:.85rem;color:var(--muted);line-height:1.7}
-.mvbar .btn{align-self:flex-start;margin-top:4px;min-height:42px;padding:0 16px;border:0;border-radius:12px;background:var(--gold);color:#111;font:600 .9rem var(--ui)}
