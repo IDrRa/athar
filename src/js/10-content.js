@@ -77,7 +77,6 @@ var JM=[["open","فواتح الدعاء","حمد الله والثناء علي
 function jmL(k){var e=JM.filter(function(x){return x[0]===k})[0];if(!e)return[];var A=Object.keys(ALL).map(function(x){return ALL[x]}).filter(isPub),out=[],seen={};e[3].forEach(function(id){A.forEach(function(o){var hit=id.charAt(id.length-1)==='-'?o.id.indexOf(id)===0:o.id===id;if(hit&&!seen[o.id]){seen[o.id]=1;out.push(o)}})});return out}
 function jmN(k){var e=JM.filter(function(x){return x[0]===k})[0];return e?e[1]:''}
 function jmPage(){var s=OCC['jumua-sa3a'];return '<p class="note">قال رسول الله ﷺ: «إِذَا صَلَّى أَحَدُكُمْ فَلْيَبْدَأْ بِتَحْمِيدِ رَبِّهِ جَلَّ وَعَزَّ وَالثَّنَاءِ عَلَيْهِ ثُمَّ يُصَلِّي عَلَى النَّبِيِّ صلى الله عليه وسلم ثُمَّ يَدْعُو بَعْدُ بِمَا شَاءَ» — سنن أبي داود، رقم 1481، صححه الألباني</p>'+(s?'<p class="note">وفي يوم الجمعة: «'+s.t+'» — '+s.r+'</p>':'')+'<ul class="list">'+JM.map(function(k){return cat('/dua/jumua/'+k[0],k[1],k[2]+' · '+nds(jmL(k[0]).length))}).join('')+'</ul>'}
-function jmList(k){return '<ul class="list">'+jmL(k).map(function(o,i){var w=o.text.replace(/\s+/g,' ').split(' ');return cat('/dua/jumua/'+k+'/'+(i+1),esc(w.slice(0,6).join(' ')+(w.length>6?'…':'')),esc(o.type==='dua'&&(o.kind==='quran'||o.kind==='prophets')?o.reference.split('،')[0]:o.source||''))}).join('')+'</ul>'}
 function dnL(key){var e=DN.filter(function(x){return x[0]===key})[0];if(!e)return[];var A=PL('dua'),out=[],seen={};
  e[2].forEach(function(id){A.forEach(function(o){var hit=id.charAt(id.length-1)==='-'?o.id.indexOf(id)===0:o.id===id;if(hit&&!seen[o.id]){seen[o.id]=1;out.push(o)}})});return out}
 function dnN(key){var e=DN.filter(function(x){return x[0]===key})[0];return e?e[1]:''}
@@ -140,8 +139,7 @@ else if(a==='adhkar'&&CA.some(function(c){return c[0]===b})){t=CA.filter(functio
 else if(a==='dhikr'&&dt(b,'dhikr')){var o1=dt(b,'dhikr'),c1=CA.filter(function(c){return c[0]===o1.category})[0];d=o1.text.slice(0,140);if(c1){var L1=rdList('dhikr',c1[0]);t=c1[1];h=rdInit(L1,t,'/adhkar','/adhkar/'+c1[0],L1.indexOf(o1))}else{t=o1.title||o1.label;h=head(t,'','/adhkar')+xc(o1)}}
 else if(a==='dua'&&!b){t='الأدعية';d='أدعية القرآن والأنبياء والنبي ﷺ وجوامع الدعاء';var DD=PL('dua');h=head(t,d)+'<a class="qcont dnow" href="#/dua/now"><small>ماذا أدعو الآن؟</small><b>اختر حالك، تظهر لك الأدعية المناسبة</b></a><a class="qcont dnow" href="#/dua/jumua"><small>يوم الجمعة</small><b>فواتح الدعاء وجوامعه</b></a><ul class="list">'+DK.map(function(k){var n=DD.filter(function(o){return(o.kind||'general')===k[0]}).length;return cat('/dua/type/'+k[0],k[1],k[2]+(n?' · '+nds(n):''))}).join('')+'</ul>'}
 else if(a==='dua'&&b==='jumua'&&!p[2]){t='يوم الجمعة';d='فواتح الدعاء وجوامعه، لساعة الإجابة وكل وقت';h=head(t,d,'/dua')+jmPage()}
-else if(a==='dua'&&b==='jumua'&&jmN(p[2])&&!(+p[3]>0)){t=jmN(p[2]);d='يوم الجمعة — '+t;h=head(t,nds(jmL(p[2]).length),'/dua/jumua')+jmList(p[2])}
-else if(a==='dua'&&b==='jumua'&&jmN(p[2])){t=jmN(p[2]);h=rdInit(jmL(p[2]),t,'/dua/jumua/'+p[2],'/dua/jumua/'+p[2],+p[3]-1)}
+else if(a==='dua'&&b==='jumua'&&jmN(p[2])){t=jmN(p[2]);h=rdInit(jmL(p[2]),t,'/dua/jumua','/dua/jumua/'+p[2],(+p[3]||1)-1)}
 else if(a==='dua'&&b==='now'&&!p[2]){t='ماذا أدعو الآن؟';d='اختر حالك، تظهر لك الأدعية المناسبة';h=head(t,d,'/dua')+dnTiles()}
 else if(a==='dua'&&b==='now'&&dnN(p[2])&&!(+p[3]>0)){t=dnN(p[2]);d='ماذا أدعو الآن؟ — '+t;h=head(t,nds(dnL(p[2]).length),'/dua/now')+dnList(p[2])}
 else if(a==='dua'&&b==='now'&&dnN(p[2])){t=dnN(p[2]);h=rdInit(dnL(p[2]),t,'/dua/now/'+p[2],'/dua/now/'+p[2],+p[3]-1)}
