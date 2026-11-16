@@ -25,3 +25,13 @@
 .qix2 .qdel{display:grid;place-items:center;min-width:44px;min-height:44px;font-size:0;background:none;border:0;cursor:pointer}
 .qix2 .qdel::before{content:"";width:28px;height:28px;border-radius:50%;background:var(--soft) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M7 7l10 10M17 7 7 17' stroke='%23888' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E") center/14px no-repeat}
 @media (prefers-reduced-motion:reduce){.qix2 .qbk2 summary::after{transition:none}}
+/* تبويب الصفحات: مقسّم بالأجزاء، أرقام صغيرة هادئة بلا مربعات ثقيلة */
+.qix .qpj{display:flex;flex-direction:column;gap:6px}
+.qix .qpjs h3{display:flex;align-items:baseline;justify-content:space-between;margin:14px 4px 8px;font:600 .82rem var(--ui);color:var(--goldtx)}
+.qix .qpjs h3 span{color:var(--muted);font-weight:500;font-size:.76rem}
+.qix .qpj .qpgrid{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:4px;padding:8px;border-radius:16px;background:var(--surface)}
+.qix .qpj .qpn{min-height:44px;border:0;border-radius:10px;background:transparent;font:500 .88rem var(--ui);color:var(--text)}
+.qix .qpj .qpn:active{background:var(--soft)}
+.qix .qpj .qpn.on{background:var(--goldt);color:var(--goldtx);box-shadow:none;font-weight:700}
+.qix .qpj .qpn:focus-visible{outline:2px solid var(--gold);outline-offset:-2px}
+@media (min-width:520px){.qix .qpj .qpgrid{grid-template-columns:repeat(8,minmax(0,1fr))}}
