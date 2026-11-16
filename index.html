@@ -922,6 +922,8 @@ body.ezq .qbar{bottom:0!important}
 .qbar .qa.on{background:transparent;color:var(--text)}
 .qbar .qa.on svg{fill:var(--gold,#b8954a)}
 @media (max-width:340px){.qbar .qa b{font-size:.7rem}}
+.qbar .qa[data-qa=copy].on svg{fill:none;stroke-width:2.2}
+.qbar .qa.on b{color:var(--gold)}
 /* «المعنى» v2 — بنفس روح شريط خيارات الآية */
 .tf2{padding:16px 18px calc(10px + env(safe-area-inset-bottom,0px));border:0;border-top:1px solid var(--line);border-radius:20px 20px 0 0}
 .tf2 .tfhd{align-items:flex-start;gap:12px;margin-bottom:12px}
@@ -1168,7 +1170,7 @@ function qrg(){if(!QS)return;var n=QS.n,v=QS.v,e=QS.e||v,mx=Math.min(QC[n-1],v+4
  for(var k=v+1;k<=mx;k++)o+='<option value="'+k+'"'+(k===e?' selected':'')+'>إلى الآية '+ar(k)+'</option>';
  var l=document.getElementById('qlbl');if(l)l.innerHTML='<span>سورة '+QN[n-1]+' · '+(e>v?'من ':'')+'الآية '+ar(v)+'</span>'+(mx>v?'<select id="qto" class="qto" aria-label="عدد الآيات المحددة">'+o+'</select>':'');
  document.querySelectorAll('.qv.on,.mw.on').forEach(function(x){x.classList.remove('on')});
- for(var j=v;j<=e;j++){var t=document.getElementById('v'+n+'_'+j);if(t&&t.classList.contains('qv'))t.classList.add('on');document.querySelectorAll('.qpg [data-q="'+n+'_'+j+'"]').forEach(function(x){x.classList.add('on')})}try{hfBtn()}catch(x){}}
+ for(var j=v;j<=e;j++){var t=document.getElementById('v'+n+'_'+j);if(t&&t.classList.contains('qv'))t.classList.add('on');document.querySelectorAll('.qpg [data-q="'+n+'_'+j+'"]').forEach(function(x){x.classList.add('on')})}try{hfBtn();bmBtn()}catch(x){}}
 function qrange(n,v,e){var V=QV(n),t=[];for(var k=v;k<=e;k++)t.push(V[k-1]+' ('+ar(k)+')');return t.join(' ')+' — سورة '+QN[n-1]+'، الآيات '+v+'–'+e}
 document.addEventListener('change',function(e){if(e.target.id!=='qto'||!QS)return;QS.e=+e.target.value;qrg();var s=document.getElementById('qto');if(s)s.focus();live(QS.e>QS.v?'حُددت الآيات '+ar(QS.v)+' إلى '+ar(QS.e):'حُددت آية واحدة')});
 function QJ(a,p){QS=null;if(a==='quran'&&qok(p[1])&&+p[2]>0&&+p[2]<=QC[p[1]-1])qsel(+p[1],+p[2],true)}
@@ -1186,9 +1188,9 @@ function qtext(n,v){return QV(n)[v-1]+' — سورة '+QN[n-1]+'، آية '+v}
 function copyT(x,m){if(navigator.clipboard){navigator.clipboard.writeText(x).then(function(){toast(m)},function(){toast('تعذر النسخ')})}else toast('تعذر النسخ')}
 document.addEventListener('click',function(e){var z=e.target.closest('[data-qs]');if(z){qz(z.dataset.qs);return}var b=e.target.closest('[data-q]')||e.target.closest('.qv');if(b){if(hzTap(b))return;var gs=window.getSelection?String(getSelection()):'';if(!gs||b.dataset.q)var kk=(b.dataset.q||b.id.slice(1)).split('_');qsel(+kk[0],+kk[1]);return}b=e.target.closest('[data-qa]');if(!b||!QS)return;var a=b.dataset.qa,QE=QS.e>QS.v?QS.e:0,x=QE?qrange(QS.n,QS.v,QE):qtext(QS.n,QS.v);
 if(a==='close'){qsel(QS.n,QS.v)}
-else if(a==='bm'){qbkVerse(QS.n,QS.v)}
+else if(a==='bm'){qbkVerse(QS.n,QS.v);bmBtn()}
 else if(a==='hf'){hfTog()}
-else if(a==='copy'){copyT(x,'تم النسخ')} else if(a==='tf'){tfShow(QS.n,QS.v)} else if(a==='card'&&QE){var cv=QV(QS.n),ct=[];for(var k=QS.v;k<=QE;k++)ct.push(cv[k-1]+'\u00A0'+ar(k));ct=ct.join(' ');if(ct.length>QCMAX){toast('البطاقة تتسع لآيات أقل، اختر عددًا أقل');return}cdOpen({label:'آيات قرآنية',text:ct,ref:'سورة '+QN[QS.n-1]+' · الآيات '+ar(QS.v)+'–'+ar(QE),quran:1,name:'quran-'+QS.n+'-'+QS.v+'-'+QE})}
+else if(a==='copy'){copyT(x,'تم النسخ');cpBtn()} else if(a==='tf'){tfShow(QS.n,QS.v)} else if(a==='card'&&QE){var cv=QV(QS.n),ct=[];for(var k=QS.v;k<=QE;k++)ct.push(cv[k-1]+'\u00A0'+ar(k));ct=ct.join(' ');if(ct.length>QCMAX){toast('البطاقة تتسع لآيات أقل، اختر عددًا أقل');return}cdOpen({label:'آيات قرآنية',text:ct,ref:'سورة '+QN[QS.n-1]+' · الآيات '+ar(QS.v)+'–'+ar(QE),quran:1,name:'quran-'+QS.n+'-'+QS.v+'-'+QE})}
 else if(a==='card'){cdOpen({label:'آية قرآنية',text:QV(QS.n)[QS.v-1],ref:'سورة '+QN[QS.n-1]+' · الآية '+ar(QS.v),quran:1,name:'quran-'+QS.n+'-'+QS.v})}
 else if(navigator.share){navigator.share({title:'أثر — سورة '+QN[QS.n-1],text:x,url:qlink(QS.n,QS.v)}).catch(function(){})}
 else copyT(x+'\n'+qlink(QS.n,QS.v),'المشاركة غير متاحة هنا، نُسخ نص الآية ورابطها')});
@@ -1198,6 +1200,8 @@ var REL={"date": "2026-11-16"};
 function mrRel(){var d=REL&&/^(\d{4})-(\d\d)-(\d\d)$/.exec(REL.date);if(!d)return 'أثر';return 'أثر · آخر تحديث '+ar(+d[3])+' '+['يناير','فبراير','مارس','أبريل','مايو','يونيو','يوليو','أغسطس','سبتمبر','أكتوبر','نوفمبر','ديسمبر'][+d[2]-1]+' '+ar(+d[1])}
 /* الحفظ والتسميع (التعليم والحالة في 74-hifz.js): الدوال التي تلمس data-q وdata-qa تبقى هنا مع بقية المصحف */
 function hfPaint(){document.querySelectorAll('.qpg [data-q],.qpg .qv').forEach(function(x){var k=(x.dataset.q||x.id.slice(1)).split('_');x.classList.toggle('hf',hfHas(+k[0],+k[1]))})}
+function bmBtn(){var b=document.querySelector('[data-qa="bm"]');if(!b||!QS)return;var on=qbks().some(function(k){return k.n===QS.n&&k.v===QS.v}),t=b.querySelector('b');if(t)t.textContent=on?'مُعلَّمة':'فاصل';b.setAttribute('aria-pressed',String(on));b.classList.toggle('on',on)}
+var CPT;function cpBtn(){var b=document.querySelector('[data-qa="copy"]');if(!b)return;var t=b.querySelector('b'),s=b.querySelector('svg path');if(!t||!s)return;clearTimeout(CPT);t.textContent='تم النسخ';s.setAttribute('d','M5 12.5l4.5 4.5L19 7.5');b.classList.add('on');CPT=setTimeout(function(){t.textContent='نسخ';s.setAttribute('d','M9 9h10v11H9zM5 15V4h10');b.classList.remove('on')},1600)}
 function hfBtn(){var b=document.querySelector('[data-qa="hf"]');if(!b||!QS)return;var on=hfAll(QS.n,QS.v,QS.e>QS.v?QS.e:QS.v);var t=b.querySelector('b');if(t)t.textContent=on?'محفوظة':'أحفظها';else b.textContent=on?'محفوظة ✓':'أحفظها';b.setAttribute('aria-pressed',String(on));b.classList.toggle('on',on)}
 function hzTap(b){var m=hzMode();if(!m||!b.closest('.qpg'))return false;var k=(b.dataset.q||b.id.slice(1)).split('_'),n=+k[0],v=+k[1];if(m==='2'&&!hfHas(n,v))return false;if(m==='3'&&(!document.documentElement.dataset.hzh||!hpIn(n,v)))return false;document.querySelectorAll('.qpg [data-q="'+n+'_'+v+'"],.qpg #v'+n+'_'+v).forEach(function(x){x.classList.toggle('rv')});return true}
 /* ===== Phase 4 — CONTENT SYSTEM =====
