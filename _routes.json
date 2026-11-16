@@ -1,0 +1,18 @@
+{
+ "version": 1,
+ "include": [
+  "/*"
+ ],
+ "exclude": [
+  "/fonts/*",
+  "/mushaf/*",
+  "/icons/*",
+  "/tafsir/*",
+  "/fonts.css",
+  "/p.css",
+  "/pwa.js",
+  "/manifest.webmanifest",
+  "/favicon.ico",
+  "/robots.txt"
+ ]
+}
