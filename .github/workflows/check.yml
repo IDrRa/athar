@@ -44,5 +44,5 @@ jobs:
           sleep 120
           K=$(ls | grep -E "^[0-9a-f]{32}\.txt$" | head -1 | cut -d. -f1)
           curl -sS -m 20 -o /dev/null -w "IndexNow: %{http_code}\n" -H "Content-Type: application/json; charset=utf-8" \
-            -d "{\"host\":\"iathar.pages.dev\",\"key\":\"$K\",\"keyLocation\":\"https://iathar.pages.dev/$K.txt\",\"urlList\":[\"https://iathar.pages.dev/\"]}" \
+            -d "{\"host\":\"atharuk.com\",\"key\":\"$K\",\"keyLocation\":\"https://atharuk.com/$K.txt\",\"urlList\":[\"https://atharuk.com/\"]}" \
             https://api.indexnow.org/indexnow

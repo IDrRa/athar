@@ -8,7 +8,7 @@ import os, re, json, html
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SRC = os.path.join(ROOT, 'src')
-SITE = 'https://iathar.pages.dev'
+SITE = 'https://atharuk.com'
 OUT_DIRS = ('surah', 'adhkar', 'dua')
 
 
