@@ -7,3 +7,4 @@
 .cdnav{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
 .cdnav .btn{justify-content:center;min-height:48px}
 
+.cdst{display:flex;justify-content:center;gap:8px;margin-top:10px}.cdst .chip{min-height:40px;padding:0 18px}

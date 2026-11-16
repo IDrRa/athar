@@ -1,6 +1,9 @@
 /* ===== v16 «بطاقة»: image card drawn on a canvas ===== */
 var CD=null,cdOpener=null;
-function cdTok(){var cs=getComputedStyle(document.documentElement),g=function(n){return cs.getPropertyValue(n).trim()};return{bg:g('--bg'),sf:g('--surface'),tx:g('--text'),mu:g('--muted'),gr:g('--green'),gd:g('--gold'),ln:g('--line'),ti:g('--tint')}}
+var CDST=[['night','ليلي'],['paper','ورقي'],['arch','محراب']];
+function cdSt(){var v='night';try{v=localStorage.getItem('athar-cdst')||'night'}catch(e){}return CDST.some(function(x){return x[0]===v})?v:'night'}
+function cdTok(st){st=st||cdSt();if(st==='paper')return{st:st,bg:'#efe7d6',sf:'#f8f3e8',tx:'#1d1a14',mu:'#6f6655',gr:'#1d1a14',gd:'#9a7633',ln:'#d8ccb3'};
+ return{st:st,bg:'#070707',sf:st==='arch'?'#0b0a08':'#111110',tx:'#f4efe4',mu:'#a49c8c',gr:'#f4efe4',gd:'#c9a560',ln:'#2a2721'}}
 /* words are split on plain spaces only, so an ayah number joined to its ayah with a no-break space never starts a line.
    Lines are balanced: the same number of lines as filling greedily, with even lengths. */
 function cdWrap(c,t,w){var out=[];String(t).replace(/\r\n?/g,'\n').split('\n').forEach(function(par){var ws=par.split(/[ \t]+/).filter(Boolean);if(!ws.length)return;
@@ -26,28 +29,34 @@ function cdLine(c,l,cx,y,fs,ratio,hf,gd){var ws=l.split(/([ \u00A0]+)/),P=[];for
  var x=cx+tot/2,al=c.textAlign;c.textAlign='right';P.forEach(function(p){var adj=0;if(!p.num){var sh=cdInk(c,p.t,fs);if(sh!==null&&Math.abs(sh-ratio*fs)>fs*.06)adj=sh-ratio*fs}var fc=c.fillStyle;if(p.hl&&gd)c.fillStyle=gd;c.fillText(p.t,x,y-adj);c.fillStyle=fc;x-=p.w+p.sw});c.textAlign=al}
 function cdDraw(o){var T=cdTok(),W=1080,P=72,IW=W-2*P-120,c0=document.createElement('canvas').getContext('2d'),
  FQ="'KFGQPC Hafs','Amiri Quran','Amiri',serif",FA="'Amiri','Traditional Arabic','Times New Roman',serif",FU="'IBM Plex Sans Arabic',system-ui,'Segoe UI',Tahoma,sans-serif",fam=o.quran?FQ:FA;
- c0.direction='rtl';var fs=66,L,lh,top=P+150+(o.title?70:0),bot=0,H;
+ c0.direction='rtl';var fs=66,L,lh,top=P+160+(o.title?70:0)+(T.st==='arch'?80:0),bot=0,H;
  c0.font='400 30px '+FU;var RL=cdWrap(c0,o.ref||'',IW).slice(0,4);bot=(RL.length*44)+235;
  for(;fs>=26;fs-=2){c0.font='400 '+fs+'px '+fam;L=cdWrap(c0,o.text,IW);lh=Math.round(fs*(o.quran?2.05:1.95));H=top+L.length*lh+60+bot+P;if(H<=1350)break}
  H=Math.max(1080,Math.min(3000,H)); /* short texts get a square card, no empty band */
  var cv=document.createElement('canvas');cv.width=W;cv.height=H;var c=cv.getContext('2d');c.direction='rtl';c.textAlign='center';c.textBaseline='middle';
  c.fillStyle=T.bg;c.fillRect(0,0,W,H);
- cdRR(c,P/2,P/2,W-P,H-P,40);c.fillStyle=T.sf;c.fill();c.lineWidth=3;c.strokeStyle=T.ln;c.stroke();
- cdRR(c,P/2+18,P/2+18,W-P-36,H-P-36,28);c.lineWidth=2;c.strokeStyle=T.gd;c.globalAlpha=.55;c.stroke();c.globalAlpha=1;
- var y=P+60;cdStar(c,W/2,y,38,T.gd);y+=62;
- c.font='500 30px '+FU;var lw=c.measureText(o.label).width+56;cdRR(c,W/2-lw/2,y-26,lw,52,26);c.lineWidth=2;c.strokeStyle=T.ln;c.stroke();c.fillStyle=T.mu;c.fillText(o.label,W/2,y+1);y+=60;
+ if(T.st==='arch'){var gl=c.createRadialGradient(W/2,H*.38,40,W/2,H*.38,W*.7);gl.addColorStop(0,'rgba(201,165,96,.16)');gl.addColorStop(1,'rgba(201,165,96,0)');c.fillStyle=gl;c.fillRect(0,0,W,H);
+  var ax=P+20,aw=W-2*ax,ar=aw/2;[[0,3,.9],[26,1.5,.4]].forEach(function(q){var x0=ax+q[0],x1=W-ax-q[0],t=P+q[0]+10,sh=ar*.95;c.beginPath();c.moveTo(x0,H);c.lineTo(x0,t+sh);c.quadraticCurveTo(x0,t+sh*.25,W/2,t);c.quadraticCurveTo(x1,t+sh*.25,x1,t+sh);c.lineTo(x1,H);c.lineWidth=q[1];c.strokeStyle=T.gd;c.globalAlpha=q[2];c.stroke();c.globalAlpha=1})}
+ else{cdRR(c,P/2,P/2,W-P,H-P,40);c.fillStyle=T.sf;c.fill();c.lineWidth=2;c.strokeStyle=T.ln;c.stroke();
+  cdRR(c,P/2+18,P/2+18,W-P-36,H-P-36,28);c.lineWidth=1.5;c.strokeStyle=T.gd;c.globalAlpha=.6;c.stroke();c.globalAlpha=1}
+ var y=P+(T.st==='arch'?150:70);c.font='700 64px '+FA;c.fillStyle=T.gd;c.fillText('أثر',W/2,y);y+=74;
+ c.font='500 30px '+FU;var lw=c.measureText(o.label).width+56;cdRR(c,W/2-lw/2,y-26,lw,52,26);c.lineWidth=1.5;c.strokeStyle=T.ln;c.stroke();c.fillStyle=T.mu;c.fillText(o.label,W/2,y+1);y+=60;
  if(o.title){c.font='700 38px '+FU;c.fillStyle=T.gr;var tl=cdWrap(c,o.title,IW)[0]||'';c.fillText(tl,W/2,y+8);y+=70}
  var avail=H-P-bot-y,blk=L.length*lh;y+=Math.max(30,(avail-blk)/2);
  c.font='400 '+fs+'px '+fam;c.fillStyle=T.tx;c.textBaseline='alphabetic';var wi=0;L.forEach(function(l){var n=l.split(/[ \t]+/).filter(Boolean).length,hf=o.hlw?o.hlw.slice(wi,wi+n):null;wi+=n;cdLine(c,l,W/2,y+lh/2+fs*.32,fs,o.quran?-.07:-.09,hf,T.gd);y+=lh});c.textBaseline='middle';
  var yb=H-P-bot+40;c.setLineDash([10,10]);c.strokeStyle=T.ln;c.lineWidth=2;c.beginPath();c.moveTo(P+90,yb);c.lineTo(W-P-90,yb);c.stroke();c.setLineDash([]);
  c.font='400 30px '+FU;c.fillStyle=T.mu;var yr=yb+46;RL.forEach(function(l){c.fillText(l,W/2,yr);yr+=44});
- c.font='700 60px '+FA;c.fillStyle=T.gr;c.fillText('أثر',W/2,H-P-84);c.font='400 26px '+FU;c.fillStyle=T.mu;c.fillText('ما ينفعك ويبقى أثره',W/2,H-P-32);
+ c.font='500 28px '+FU;c.fillStyle=T.gd;c.fillText('ما ينفعك ويبقى أثره',W/2,H-P-78);c.font='400 24px '+FU;c.fillStyle=T.mu;c.fillText('atharuk.com',W/2,H-P-36);
  return cv}
+var CDO=null;
+function cdRender(){var B=document.getElementById('cdB'),o=CDO;if(!B||!o)return;var st=cdSt(),cv=cdDraw(o),url=cv.toDataURL('image/png');CD={cv:cv,url:url,name:'athar-'+(o.name||'card')+'.png'};
+ B.innerHTML='<img src="'+url+'" alt="بطاقة: '+esc(o.text.slice(0,80))+'…">';
+ var ch=document.getElementById('cdSt');if(ch)ch.innerHTML=CDST.map(function(x){return '<button type="button" class="chip" data-cdst="'+x[0]+'" aria-pressed="'+(x[0]===st)+'">'+x[1]+'</button>'}).join('')}
+document.addEventListener('click',function(e){var b=e.target.closest('[data-cdst]');if(!b)return;try{localStorage.setItem('athar-cdst',b.dataset.cdst)}catch(x){}cdRender()});
 function cdOpen(o){var bk=document.getElementById('cardS');if(!bk)return;cdOpener=document.activeElement;bk.hidden=false;var B=document.getElementById('cdB');B.innerHTML='<p class="tfmsg" role="status">جارٍ تجهيز البطاقة…</p>';
  var fam=o.quran?'"KFGQPC Hafs"':'"Amiri"',ld=function(f){try{return document.fonts.load(f,o.text.slice(0,200)).catch(function(){})}catch(x){return Promise.resolve()}};
  Promise.all([ld('48px '+fam),ld('700 60px "Amiri"'),ld('30px "IBM Plex Sans Arabic"'),ld('700 38px "IBM Plex Sans Arabic"')]).then(function(){
-  var cv=cdDraw(o),url=cv.toDataURL('image/png');CD={cv:cv,url:url,name:'athar-'+(o.name||'card')+'.png'};
-  B.innerHTML='<img src="'+url+'" alt="بطاقة: '+esc(o.text.slice(0,80))+'…">';setTimeout(function(){var c=bk.querySelector('[data-cdclose]');if(c)c.focus()},30)})
+  CDO=o;cdRender();setTimeout(function(){var c=bk.querySelector('[data-cdclose]');if(c)c.focus()},30)})
  .catch(function(){B.innerHTML='<p class="tfmsg" role="alert">تعذّر تجهيز البطاقة.</p>'})}
 /* iPhone/iPad ignore <a download>: open the share sheet with the image, which has «حفظ الصورة» */
 function cdIOS(){var u=navigator.userAgent||'';return /iPhone|iPad|iPod/.test(u)||(/Macintosh/.test(u)&&navigator.maxTouchPoints>1)}
