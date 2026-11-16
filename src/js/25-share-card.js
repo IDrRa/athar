@@ -104,7 +104,7 @@ function ocList(){var d=ocNow(),wd=d.getDay(),h=ocHijri(d),L=[];
  /* weekday cards end at Maghrib: from Maghrib on Thursday until Fajr it is ليلة الجمعة */
  var eve=false,pre=false,E=null;try{var PT=nowTimes(d).t;eve=d.getTime()>=PT.maghrib;pre=d.getTime()<PT.fajr;E=ocEve(d,PT)}catch(e){}
  if((wd===4&&eve)||(wd===5&&pre))L.push({k:'jumua-layla',t:'ليلة الجمعة',ids:['jumua-salat'],links:[['صيغة الصلاة على النبي ﷺ','/salawat']]});
- if(wd===5&&!eve&&!pre)L.push({k:'jumua',t:'يوم الجمعة',ids:['jumua-salat','jumua-sa3a'],links:[['صيغة الصلاة على النبي ﷺ','/salawat'],['فواتح الدعاء وجوامعه','/dua/jumua']]});
+ if(wd===5&&!eve&&!pre)L.push({k:'jumua',t:'يوم الجمعة',ids:['jumua-salat','jumua-sa3a'],links:[['صيغة الصلاة على النبي ﷺ','/salawat'],['فواتح الدعاء وجوامعه','/dua/jumua/all']]});
  if((wd===1||wd===4)&&!eve&&(!h||snFast(h)||h.m===9))L.push({k:'ithnayn',t:wd===1?'يوم الاثنين':'يوم الخميس',ids:['ithnayn-khamis']});
  return E?L.slice(0,1).concat([E]):L.slice(0,2)}
 function ocCard(o){var h='<article class="occ"><h3 class="och">'+o.t+'</h3>'+(o.hj?'<p class="ock">بحسب تقويم أم القرى</p>':'');
