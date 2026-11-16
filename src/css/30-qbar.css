@@ -18,4 +18,4 @@ body.ezq .qbar{bottom:0!important}
 .qbar .qa.on svg{fill:var(--gold,#b8954a)}
 @media (max-width:340px){.qbar .qa b{font-size:.7rem}}
 .qbar .qa[data-qa=copy].on svg{fill:none;stroke-width:2.2}
-.qbar .qa.on b{color:var(--gold)}
+.qbar .qa.on b{color:var(--goldtx)}

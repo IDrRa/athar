@@ -2,7 +2,7 @@
 .tf2{padding:16px 18px calc(10px + env(safe-area-inset-bottom,0px));border:0;border-top:1px solid var(--line);border-radius:20px 20px 0 0}
 .tf2 .tfhd{align-items:flex-start;gap:12px;margin-bottom:12px}
 .tf2 .tfh{flex:1;min-width:0}
-.tf2 .tfh h2{margin:0 0 2px;font:600 .8rem var(--ui);color:var(--gold);letter-spacing:0}
+.tf2 .tfh h2{margin:0 0 2px;font:600 .8rem var(--ui);color:var(--goldtx);letter-spacing:0}
 .tf2 .tfref{margin:0;font:600 1.02rem var(--ui);color:var(--text)}
 .tf2 .tfx{flex:0 0 36px;width:36px;height:36px;display:grid;place-items:center;border:0;border-radius:50%;background:color-mix(in srgb,var(--text) 7%,transparent);color:var(--muted);cursor:pointer;padding:0}
 .tf2 .tfx svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round}

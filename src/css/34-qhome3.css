@@ -1,20 +1,20 @@
 /* فهرس المصحف v3: بطاقة متابعة واحدة، ثنائي ختمة/حفظ، فواصل قابلة للطي */
 .qix2 .qgo{display:flex;align-items:center;gap:14px;margin:0 0 10px;padding:18px 18px;border-radius:18px;background:color-mix(in srgb,var(--gold) 10%,var(--surface));color:var(--text);text-decoration:none}
 .qix2 .qgo span{flex:1;min-width:0;display:flex;flex-direction:column;gap:3px}
-.qix2 .qgo small{color:var(--gold);font:600 .78rem var(--ui)}
+.qix2 .qgo small{color:var(--goldtx);font:600 .78rem var(--ui)}
 .qix2 .qgo b{font:700 1.15rem/1.45 var(--ui);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .qix2 .qgo span>i{font-style:normal;color:var(--muted);font-size:.8rem}
 .qix2 .qgo .qpno{flex:none;width:52px;height:56px}
 .qix2 .qgo .qpno>span{font-size:.9rem}
 .qix2 .qduo{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:10px;margin:0 0 10px}
 .qix2 .qduo a{display:flex;flex-direction:column;gap:3px;padding:12px 14px;border-radius:16px;background:var(--surface);color:var(--text);text-decoration:none;min-height:64px}
-.qix2 .qduo small{color:var(--gold);font:600 .76rem var(--ui)}
+.qix2 .qduo small{color:var(--goldtx);font:600 .76rem var(--ui)}
 .qix2 .qduo b{font:600 .88rem/1.45 var(--ui)}
 .qix2 .qbk2{margin:0 0 14px;border-radius:16px;background:var(--surface)}
 .qix2 .qbk2 summary{display:flex;align-items:center;gap:8px;min-height:50px;padding:0 16px;cursor:pointer;list-style:none;font:600 .95rem var(--ui)}
 .qix2 .qbk2 summary::-webkit-details-marker{display:none}
 .qix2 .qbk2 summary span{flex:1}
-.qix2 .qbk2 summary i{font-style:normal;min-width:24px;padding:1px 8px;border-radius:999px;background:var(--goldt);color:var(--gold);font-size:.8rem;text-align:center}
+.qix2 .qbk2 summary i{font-style:normal;min-width:24px;padding:1px 8px;border-radius:999px;background:var(--goldt);color:var(--goldtx);font-size:.8rem;text-align:center}
 .qix2 .qbk2 summary::after{content:"";width:7px;height:7px;border-left:1.6px solid var(--muted);border-bottom:1.6px solid var(--muted);transform:rotate(-45deg);margin-inline-start:6px;transition:transform .2s}
 .qix2 .qbk2[open] summary::after{transform:rotate(135deg)}
 .qix2 .qbk2 ul{list-style:none;margin:0;padding:0 16px 6px}
