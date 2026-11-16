@@ -122,4 +122,4 @@ if __name__ == '__main__':
             if not os.path.exists(fp) or read(fp) != c:
                 with open(fp, 'w', encoding='utf-8', newline='') as f:
                     f.write(c)
-        print('✓ صفحات البحث: %d ملفًا (السور والأذكار والأدعية وخريطة الموقع)' % len(files))
+        print('✓ خريطة الموقع: %d ملف' % len(files))
