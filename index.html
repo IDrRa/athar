@@ -924,6 +924,9 @@ body.ezq .qbar{bottom:0!important}
 @media (max-width:340px){.qbar .qa b{font-size:.7rem}}
 .qbar .qa[data-qa=copy].on svg{fill:none;stroke-width:2.2}
 .qbar .qa.on b{color:var(--goldtx)}
+/* شفاف ضبابي: يبان المصحف من خلفه والأيقونات واضحة */
+.qbar{background:color-mix(in srgb,var(--surface) 55%,transparent)!important;-webkit-backdrop-filter:blur(18px) saturate(1.2);backdrop-filter:blur(18px) saturate(1.2);border-top:1px solid color-mix(in srgb,var(--text) 10%,transparent);box-shadow:0 -6px 24px rgba(0,0,0,.18)}
+@supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){.qbar{background:var(--surface)!important}}
 /* «المعنى» v2 — بنفس روح شريط خيارات الآية */
 .tf2{padding:16px 18px calc(10px + env(safe-area-inset-bottom,0px));border:0;border-top:1px solid var(--line);border-radius:20px 20px 0 0}
 .tf2 .tfhd{align-items:flex-start;gap:12px;margin-bottom:12px}
