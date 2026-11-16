@@ -1,0 +1,30 @@
+/* فهرس المصحف — v2: بطاقات بلا إطارات، لمسات ذهبية رفيعة، بنفس روح شريط الآية */
+.qix .qcont.kmq,.qix .hzq,.qix .qcard,.qix .qbkl,.qix .qc a,.qix .qf{border:0;box-shadow:none}
+.qix .qcont.kmq,.qix .hzq{position:relative;display:flex;flex-direction:column;gap:2px;margin:0 0 10px;padding:14px 18px 14px 44px;border-radius:16px;background:var(--surface);color:var(--text);text-decoration:none}
+.qix .qcont.kmq::after,.qix .hzq::after{content:"";position:absolute;inset-inline-end:18px;top:50%;width:8px;height:8px;border-left:1.6px solid var(--muted);border-bottom:1.6px solid var(--muted);transform:translateY(-50%) rotate(45deg);opacity:.7}
+.qix .qcont.kmq small{color:var(--gold);font:600 .78rem var(--ui)}
+.qix .qcont.kmq b{font:600 1.02rem/1.5 var(--ui)}
+.qix .hzq{flex-direction:row;align-items:center;justify-content:space-between;min-height:56px;margin-bottom:14px}
+.qix .hzq b{font:600 1rem var(--ui)}
+.qix .hzq span{color:var(--muted);font-size:.85rem}
+.qix .qcard{border-radius:16px;padding:14px 16px;gap:4px}
+.qix .qcard small{color:var(--gold);font:600 .76rem var(--ui)}
+.qix .qcard b{font:600 .98rem/1.5 var(--ui)}
+.qix .qbkl{padding:14px 16px 6px;border-radius:16px}
+.qix .qbkl h2{font:600 .78rem var(--ui);color:var(--gold);margin:0 0 2px}
+.qix .qbkl li:first-child{border-top:0}
+.qix .qbkl li{border-top:1px solid color-mix(in srgb,var(--line) 70%,transparent)}
+.qix .qbkl li b{font:600 .98rem var(--ui)}
+.qix .qdel{display:grid;place-items:center;min-width:44px;min-height:44px;font-size:0;color:var(--muted)}
+.qix .qdel::before{content:"";width:28px;height:28px;border-radius:50%;background:color-mix(in srgb,var(--text) 7%,transparent) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M7 7l10 10M17 7 7 17' stroke='%23888' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E") center/14px no-repeat}
+.qix .qtabs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:2px;padding:4px;margin:4px 0 12px;border-radius:14px;background:var(--surface);overflow:visible}
+.qix .qtb2{min-height:40px;padding:0 4px;border:0;border-radius:11px;background:transparent;color:var(--muted);font:600 .9rem var(--ui)}
+.qix .qtb2[aria-selected=true]{background:color-mix(in srgb,var(--gold) 16%,transparent);color:var(--gold)}
+.qix .qtb2:focus-visible{outline:2px solid var(--gold);outline-offset:1px}
+.qix .qf{border-radius:14px;padding-inline:44px 14px;background:var(--surface) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23A9822F' stroke-width='1.8' stroke-linecap='round'%3E%3Ccircle cx='11' cy='11' r='6.5'/%3E%3Cpath d='M16 16l4 4'/%3E%3C/svg%3E") right 14px center/20px no-repeat}
+.qix .qf:focus{outline:2px solid color-mix(in srgb,var(--gold) 60%,transparent);outline-offset:0}
+.qix .qc a{border-radius:16px;min-height:100px}
+.qix .qn1{background:transparent;color:var(--gold);font:600 .78rem var(--ui);top:10px}
+.qix .qrw{border-bottom-color:color-mix(in srgb,var(--line) 70%,transparent)}
+.qix .qpn{border:0}
+.qix .qpn.on{box-shadow:inset 0 0 0 1.5px var(--gold)}
