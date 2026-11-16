@@ -3,8 +3,9 @@
 .qix2 .qgo span{flex:1;min-width:0;display:flex;flex-direction:column;gap:3px}
 .qix2 .qgo small{color:var(--gold);font:600 .78rem var(--ui)}
 .qix2 .qgo b{font:700 1.15rem/1.45 var(--ui);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.qix2 .qgo i{font-style:normal;color:var(--muted);font-size:.8rem}
-.qix2 .qgo em{flex:none;display:grid;place-items:center;width:46px;height:54px;padding-top:6px;box-sizing:border-box;font:600 .9rem var(--ui);font-style:normal;color:var(--gold);border:1.4px solid var(--gold);border-radius:23px 23px 6px 6px}
+.qix2 .qgo span>i{font-style:normal;color:var(--muted);font-size:.8rem}
+.qix2 .qgo .qpno{flex:none;width:52px;height:56px}
+.qix2 .qgo .qpno>span{font-size:.9rem}
 .qix2 .qduo{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:10px;margin:0 0 10px}
 .qix2 .qduo a{display:flex;flex-direction:column;gap:3px;padding:12px 14px;border-radius:16px;background:var(--surface);color:var(--text);text-decoration:none;min-height:64px}
 .qix2 .qduo small{color:var(--gold);font:600 .76rem var(--ui)}

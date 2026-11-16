@@ -14,3 +14,7 @@ function esc(s){return String(s).replace(/[&<>"']/g,function(c){return{'&':'&amp
 function cat(href,t,d,n){return '<li><a class="row" href="#'+href+'">'+(n!=null?'<span class="num">'+n+'</span>':'')+'<div><b>'+t+'</b><span>'+d+'</span></div><svg class="go" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></a></li>'}
 function head(t,d,back){return (back?'<a class="back" href="#'+back+'"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg>رجوع</a>':'')+'<header class="sechead" style="display:block;padding:0"><h2>'+t+'</h2>'+(d?'<p>'+d+'</p>':'')+'</header>'}
 
+
+/* من أين جاء الزائر: زر «رجوع» في حفظي والختمة يعيده للصفحة التي فتحها منها (القرآن أو المزيد) */
+var RPREV='';addEventListener('hashchange',function(e){try{RPREV=new URL(e.oldURL).hash.slice(1).split('?')[0]}catch(x){}});
+function fromBack(d){return /^\/(quran|about)$/.test(RPREV)?RPREV:d}

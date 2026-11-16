@@ -28,7 +28,7 @@ function kmPlan(k){var n=k.ends.length,t=kmIdx(k),rows='';for(var i=0;i<n;i++){v
  return '<details class="kmpl"><summary>جدول الختمة ('+ar(n)+' يومًا)</summary><ul tabindex="0" aria-label="أيام الختمة">'+rows+'</ul></details>'}
 var KMD=[[7,'أسبوع'],[10,'١٠ أيام'],[15,'١٥ يومًا'],[30,'شهر'],[60,'شهران'],[90,'٣ أشهر']];
 function kmChoose(lbl,act){return '<div class="kmch" role="group" aria-label="'+lbl+'">'+KMD.map(function(d){return '<button class="chip" data-km="'+act+'" data-d="'+d[0]+'">'+d[1]+'</button>'}).join('')+'</div><div class="kmcu"><label>أو عدد الأيام: <input type="number" inputmode="numeric" min="1" max="365" id="kmd-'+act+'" placeholder="مثلًا ٢٠"></label><button class="btn" data-km="'+act+'" data-d="custom">ابدأ</button></div>'}
-function vKhatma(){var k=kmGet(),h=head('ختمة أثر','خطة شخصية لختم القرآن','/quran');
+function vKhatma(){var k=kmGet(),h=head('ختمة أثر','خطة شخصية لختم القرآن',fromBack('/quran'));
  if(!k||k.done){var lp=qget('athar-qlp',null);
   h+=(k&&k.done?'<div class="kmday done"><b>آخر ختمة تمّت '+wqFmt(Math.floor((k.done-new Date(k.done).getTimezoneOffset()*6e4)/864e5))+'</b><p>تقبّل الله منك.</p></div>':'')
   +'<section class="kms"><h3>اختر مدة الختمة</h3><p class="kmmut">نقسّم صفحات المصحف الـ٦٠٤ على الأيام، وينتهي ورد كل يوم عند بداية ربع حزب. يتقدّم موضعك تلقائيًا كلما قرأت الصفحات بالترتيب في المصحف.</p>'

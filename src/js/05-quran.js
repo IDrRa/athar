@@ -80,8 +80,8 @@ function kmQ(){var k=kmGet();if(!k||k.done)return '<a class="qcont kmq" href="#/
 var QBKO=0;
 function qlist(){var lp=qget('athar-qlp',null),lv=qget('athar-qlv',null),bk=qbks(),h='<div class="qix qix2">',k=kmGet(),kt;
 var useV=lv&&(!lp||lv.t>=lp.t-1000),qg=useV?{h:'/quran/'+lv.n+'/'+lv.v,b:'سورة '+QN[lv.n-1]+' · الآية '+ar(lv.v),s:'صفحة '+ar(lv.p)+' · '+qdt(lv.t),p:lv.p}:lp?{h:'/quran/page/'+lp.p,b:'سورة '+QN[QPG[lp.p-1][0]-1],s:'صفحة '+ar(lp.p)+' · '+qdt(lp.t),p:lp.p}:null;
-h+=qg?'<a class="qgo" href="#'+qg.h+'"><span><small>تابع القراءة</small><b>'+qg.b+'</b><i>'+qg.s+'</i></span><em aria-hidden="true">'+ar(qg.p)+'</em></a>'
- :'<a class="qgo" href="#/quran/page/1"><span><small>ابدأ القراءة</small><b>سورة الفاتحة</b><i>من أول المصحف</i></span><em aria-hidden="true">'+ar(1)+'</em></a>';
+h+=qg?'<a class="qgo" href="#'+qg.h+'"><span><small>تابع القراءة</small><b>'+qg.b+'</b><i>'+qg.s+'</i></span><i class="qpno" aria-hidden="true"><span>'+ar(qg.p)+'</span></i></a>'
+ :'<a class="qgo" href="#/quran/page/1"><span><small>ابدأ القراءة</small><b>سورة الفاتحة</b><i>من أول المصحف</i></span><i class="qpno" aria-hidden="true"><span>'+ar(1)+'</span></i></a>';
 if(!k||k.done)kt='ابدأ خطة';else{var ki=kmIdx(k);kt=k.through>=k.ends[ki]?'أتممت ورد اليوم':'ورد اليوم إلى ص '+ar(k.ends[ki])}
 h+='<div class="qduo"><a href="#/khatma"><small>ختمة أثر</small><b>'+kt+'</b></a><a href="#/hifz"><small>حفظي</small><b>'+hfSub()+'</b></a></div>';
 if(bk.length){h+='<details class="qbk2"'+(QBKO?' open':'')+'><summary><span>فواصل</span><i>'+ar(bk.length)+'</i></summary><ul>'+bk.slice(0,8).map(function(b,i){var href=b.v?'/quran/'+b.n+'/'+b.v:'/quran/page/'+b.p;return '<li><a href="#'+href+'"><b>سورة '+QN[b.n-1]+(b.v?' · الآية '+ar(b.v):'')+'</b><small>صفحة '+ar(b.p)+' · '+qdt(b.t)+'</small></a><button class="qdel" data-qbd="'+i+'" aria-label="حذف الفاصل">×</button></li>'}).join('')+'</ul></details>'}
