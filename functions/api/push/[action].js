@@ -29,7 +29,7 @@ async function vapid(env) {
 async function send(env, v, endpoint) {
   const aud = new URL(endpoint).origin;
   const h = b64u(enc(JSON.stringify({ typ: 'JWT', alg: 'ES256' })));
-  const p = b64u(enc(JSON.stringify({ aud, exp: Math.floor(Date.now() / 1000) + 12 * 3600, sub: 'https://iathar.pages.dev/' })));
+  const p = b64u(enc(JSON.stringify({ aud, exp: Math.floor(Date.now() / 1000) + 12 * 3600, sub: 'https://atharuk.com/' })));
   const key = await crypto.subtle.importKey('jwk', v.jwk, { name: 'ECDSA', namedCurve: 'P-256' }, false, ['sign']);
   const sig = await crypto.subtle.sign({ name: 'ECDSA', hash: 'SHA-256' }, key, enc(h + '.' + p));
   // high urgency: the phone delivers a time-sensitive azan right away instead of batching it; TTL 30 min: an azan that could not be delivered (phone offline) is dropped instead of arriving late
