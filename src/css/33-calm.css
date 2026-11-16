@@ -26,9 +26,13 @@ main input:focus,main select:focus,main textarea:focus{outline:2px solid color-m
 .wqrel,.wqtl{border:0!important}
 .mrsrc,details.wqs{border:0!important;background:var(--surface);border-radius:16px}
 .list.tiles li+li,.list.mrg li+li{border-top:0}
-/* المزيد: أدوات أثر قائمة بأيقونات ذهبية ووصف قصير */
+/* المزيد: شبكة أدوات هادئة ومختصرة */
 .mrl .mri{color:var(--gold)}
-.mrl.mrt .row{min-height:64px;padding-block:10px}
-.mrl.mrt .row span{display:block;color:var(--muted);font-size:.8rem;margin-top:2px}
 .mrl .go{color:var(--muted);opacity:.7}
-.hba b{margin-top:2px}
+.mrg{gap:8px}
+.mrg .row{border:0!important;min-height:78px;padding:12px 4px;gap:6px;border-radius:16px}
+.mrg b{font-size:.8rem;font-weight:500}
+/* الرئيسية: البطاقة بلا عنوان صغير يتوسّط محتواها، وزخرفة المحراب تبقى خلف الرأس فقط */
+.hbc{justify-content:center}
+body.home::before{-webkit-mask:linear-gradient(#000 0,#000 200px,transparent 330px)!important;mask:linear-gradient(#000 0,#000 200px,transparent 330px)!important}
+.card.today.wqc{box-shadow:none!important}
