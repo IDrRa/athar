@@ -36,3 +36,6 @@ main input:focus,main select:focus,main textarea:focus{outline:2px solid color-m
 .hbc{justify-content:center}
 body.home::before{-webkit-mask:linear-gradient(#000 0,#000 130px,transparent 215px)!important;mask:linear-gradient(#000 0,#000 130px,transparent 215px)!important}
 .card.today.wqc{box-shadow:none!important}
+/* الشريط السفلي: شفاف ضبابي مثل شريط خيارات الآية */
+body>nav{background:color-mix(in srgb,var(--surface) 55%,transparent)!important;-webkit-backdrop-filter:blur(18px) saturate(1.2);backdrop-filter:blur(18px) saturate(1.2);border-top:1px solid color-mix(in srgb,var(--text) 10%,transparent);box-shadow:none;z-index:40}
+@supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){body>nav{background:var(--surface)!important}}
