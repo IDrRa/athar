@@ -29,9 +29,9 @@
 <meta name="application-name" content="أثر">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="favicon.ico" sizes="48x48">
-<link rel="icon" type="image/svg+xml" href="icons/favicon-a4.svg">
-<link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192-a4.png">
-<link rel="apple-touch-icon" href="icons/apple-touch-icon-a4.png">
+<link rel="icon" type="image/svg+xml" href="icons/favicon-a5.svg">
+<link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192-a5.png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon-a5.png">
 <meta name="format-detection" content="telephone=no">
 <meta name="referrer" content="no-referrer">
 <link rel="stylesheet" href="fonts.css">
@@ -2146,7 +2146,7 @@ var NOW_SHOWN='athar-now-shown',nowTm=null;
 function nowPop(){var seen=nowSeen(),shown=qget(NOW_SHOWN,[]);if(!Array.isArray(shown))shown=[];
  var L=nowList(ocNow()).filter(function(n){return seen.indexOf(n.id)<0&&shown.indexOf(n.id)<0});if(!L.length)return;
  var el=document.getElementById('nwb');if(!el){el=document.createElement('div');el.id='nwb';el.setAttribute('role','status');document.body.appendChild(el)}
- el.innerHTML=L.map(function(n){return '<a class="nwn" href="#'+n.h+'"><img src="icons/icon-192-a4.png" alt="" width="32" height="32"><b>'+n.t+'</b><time>الآن</time></a>'}).join('');
+ el.innerHTML=L.map(function(n){return '<a class="nwn" href="#'+n.h+'"><img src="icons/icon-192-a5.png" alt="" width="32" height="32"><b>'+n.t+'</b><time>الآن</time></a>'}).join('');
  L.forEach(function(n){shown.push(n.id)});qset(NOW_SHOWN,shown.slice(-30));
  requestAnimationFrame(function(){requestAnimationFrame(function(){el.classList.add('on')})});
  clearTimeout(nowTm);nowTm=setTimeout(nowHide,6000)}
