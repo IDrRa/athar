@@ -11,8 +11,8 @@
 .tf2 .tfsrc{border-top:0;padding-top:4px;margin-top:8px;text-align:center;font-size:.74rem}
 .tf2 .tfnav{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:2px;margin-top:6px;padding-top:6px;border-top:1px solid var(--line)}
 .tf2 .tfa{display:flex;flex-direction:column;align-items:center;gap:5px;min-height:58px;padding:8px 2px 6px;border:0;border-radius:14px;background:transparent;color:var(--text);font:inherit;cursor:pointer;-webkit-tap-highlight-color:transparent}
-.tf2 .tfa svg{width:22px;height:22px;fill:none;stroke:var(--gold);stroke-width:1.6;stroke-linejoin:round;stroke-linecap:round}
+.tf2 .tfa svg{width:22px;height:22px;fill:none;stroke:var(--acc);stroke-width:1.6;stroke-linejoin:round;stroke-linecap:round}
 .tf2 .tfa b{font-weight:500;font-size:.8rem;white-space:nowrap}
 .tf2 .tfa:active{background:color-mix(in srgb,var(--text) 8%,transparent)}
 .tf2 .tfa[disabled]{opacity:.35;cursor:default}
-.tf2 .tfa:focus-visible,.tf2 .tfx:focus-visible{outline:2px solid var(--gold);outline-offset:1px}
+.tf2 .tfa:focus-visible,.tf2 .tfx:focus-visible{outline:2px solid var(--acc);outline-offset:1px}

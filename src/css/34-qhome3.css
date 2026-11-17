@@ -1,5 +1,5 @@
 /* فهرس المصحف v3: بطاقة متابعة واحدة، ثنائي ختمة/حفظ، فواصل قابلة للطي */
-.qix2 .qgo{display:flex;align-items:center;gap:14px;margin:0 0 10px;padding:18px 18px;border-radius:18px;background:color-mix(in srgb,var(--gold) 10%,var(--surface));color:var(--text);text-decoration:none}
+.qix2 .qgo{display:flex;align-items:center;gap:14px;margin:0 0 10px;padding:18px 18px;border-radius:18px;background:color-mix(in srgb,var(--acc) 10%,var(--surface));color:var(--text);text-decoration:none}
 .qix2 .qgo span{flex:1;min-width:0;display:flex;flex-direction:column;gap:3px}
 .qix2 .qgo small{color:var(--goldtx);font:600 .78rem var(--ui)}
 .qix2 .qgo b{font:700 1.15rem/1.45 var(--ui);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -33,5 +33,5 @@
 .qix .qpj .qpn{min-height:44px;border:0;border-radius:10px;background:transparent;font:500 .88rem var(--ui);color:var(--text)}
 .qix .qpj .qpn:active{background:var(--soft)}
 .qix .qpj .qpn.on{background:var(--goldt);color:var(--goldtx);box-shadow:none;font-weight:700}
-.qix .qpj .qpn:focus-visible{outline:2px solid var(--gold);outline-offset:-2px}
+.qix .qpj .qpn:focus-visible{outline:2px solid var(--acc);outline-offset:-2px}
 @media (min-width:520px){.qix .qpj .qpgrid{grid-template-columns:repeat(8,minmax(0,1fr))}}

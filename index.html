@@ -916,12 +916,12 @@ body.ezq .qbar{bottom:0!important}
 .qbar .qx svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round}
 .qbar .qas{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:2px}
 .qbar .qa{display:flex;flex-direction:column;align-items:center;gap:6px;min-height:62px;padding:8px 2px 6px;border:0;border-radius:14px;background:transparent;color:var(--text);font:inherit;cursor:pointer;-webkit-tap-highlight-color:transparent}
-.qbar .qa svg{width:24px;height:24px;fill:none;stroke:var(--gold,#b8954a);stroke-width:1.6;stroke-linejoin:round;stroke-linecap:round}
+.qbar .qa svg{width:24px;height:24px;fill:none;stroke:var(--acc);stroke-width:1.6;stroke-linejoin:round;stroke-linecap:round}
 .qbar .qa b{font-weight:500;font-size:.78rem;line-height:1.2;white-space:nowrap}
 .qbar .qa:active{background:color-mix(in srgb,var(--text) 8%,transparent)}
-.qbar .qa:focus-visible,.qbar .qx:focus-visible{outline:2px solid var(--gold,#b8954a);outline-offset:1px}
+.qbar .qa:focus-visible,.qbar .qx:focus-visible{outline:2px solid var(--acc);outline-offset:1px}
 .qbar .qa.on{background:transparent;color:var(--text)}
-.qbar .qa.on svg{fill:var(--gold,#b8954a)}
+.qbar .qa.on svg{fill:var(--acc)}
 @media (max-width:340px){.qbar .qa b{font-size:.7rem}}
 .qbar .qa[data-qa=copy].on svg{fill:none;stroke-width:2.2}
 .qbar .qa.on b{color:var(--goldtx)}
@@ -941,11 +941,11 @@ body.ezq .qbar{bottom:0!important}
 .tf2 .tfsrc{border-top:0;padding-top:4px;margin-top:8px;text-align:center;font-size:.74rem}
 .tf2 .tfnav{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:2px;margin-top:6px;padding-top:6px;border-top:1px solid var(--line)}
 .tf2 .tfa{display:flex;flex-direction:column;align-items:center;gap:5px;min-height:58px;padding:8px 2px 6px;border:0;border-radius:14px;background:transparent;color:var(--text);font:inherit;cursor:pointer;-webkit-tap-highlight-color:transparent}
-.tf2 .tfa svg{width:22px;height:22px;fill:none;stroke:var(--gold);stroke-width:1.6;stroke-linejoin:round;stroke-linecap:round}
+.tf2 .tfa svg{width:22px;height:22px;fill:none;stroke:var(--acc);stroke-width:1.6;stroke-linejoin:round;stroke-linecap:round}
 .tf2 .tfa b{font-weight:500;font-size:.8rem;white-space:nowrap}
 .tf2 .tfa:active{background:color-mix(in srgb,var(--text) 8%,transparent)}
 .tf2 .tfa[disabled]{opacity:.35;cursor:default}
-.tf2 .tfa:focus-visible,.tf2 .tfx:focus-visible{outline:2px solid var(--gold);outline-offset:1px}
+.tf2 .tfa:focus-visible,.tf2 .tfx:focus-visible{outline:2px solid var(--acc);outline-offset:1px}
 /* فهرس المصحف — v2: بطاقات بلا إطارات، لمسات ذهبية رفيعة، بنفس روح شريط الآية */
 .qix .qcont.kmq,.qix .hzq,.qix .qcard,.qix .qbkl,.qix .qc a,.qix .qf{border:0;box-shadow:none}
 .qix .qcont.kmq,.qix .hzq{position:relative;display:flex;flex-direction:column;gap:2px;margin:0 0 10px;padding:14px 18px 14px 44px;border-radius:16px;background:var(--surface);color:var(--text);text-decoration:none}
@@ -967,37 +967,40 @@ body.ezq .qbar{bottom:0!important}
 .qix .qdel::before{content:"";width:28px;height:28px;border-radius:50%;background:color-mix(in srgb,var(--text) 7%,transparent) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M7 7l10 10M17 7 7 17' stroke='%23888' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E") center/14px no-repeat}
 .qix .qtabs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:2px;padding:4px;margin:4px 0 12px;border-radius:14px;background:var(--surface);overflow:visible}
 .qix .qtb2{min-height:40px;padding:0 4px;border:0;border-radius:11px;background:transparent;color:var(--muted);font:600 .9rem var(--ui)}
-.qix .qtb2[aria-selected=true]{background:color-mix(in srgb,var(--gold) 16%,transparent);color:var(--goldtx)}
-.qix .qtb2:focus-visible{outline:2px solid var(--gold);outline-offset:1px}
+.qix .qtb2[aria-selected=true]{background:color-mix(in srgb,var(--acc) 16%,transparent);color:var(--goldtx)}
+.qix .qtb2:focus-visible{outline:2px solid var(--acc);outline-offset:1px}
 .qix .qf{border-radius:14px;padding-inline:44px 14px;background:var(--surface) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23A9822F' stroke-width='1.8' stroke-linecap='round'%3E%3Ccircle cx='11' cy='11' r='6.5'/%3E%3Cpath d='M16 16l4 4'/%3E%3C/svg%3E") right 14px center/20px no-repeat}
-.qix .qf:focus{outline:2px solid color-mix(in srgb,var(--gold) 60%,transparent);outline-offset:0}
+.qix .qf:focus{outline:2px solid color-mix(in srgb,var(--acc) 60%,transparent);outline-offset:0}
 .qix .qc a{border-radius:16px;min-height:100px}
 .qix .qn1{background:transparent;color:var(--goldtx);font:600 .78rem var(--ui);top:10px}
 .qix .qrw{border-bottom-color:color-mix(in srgb,var(--line) 70%,transparent)}
 .qix .qpn{border:0}
-.qix .qpn.on{box-shadow:inset 0 0 0 1.5px var(--gold)}
+.qix .qpn.on{box-shadow:inset 0 0 0 1.5px var(--acc)}
 /* v2 الهادئ لكل الصفحات: بطاقات بلا إطارات، عناوين صغيرة ذهبية، أزرار مسطّحة، والمختار بلون ذهبي خفيف */
-:root{--goldtx:color-mix(in srgb,var(--gold) 58%,var(--text));--soft:color-mix(in srgb,var(--text) 7%,transparent);--soft2:color-mix(in srgb,var(--text) 11%,transparent);--goldt:color-mix(in srgb,var(--gold) 16%,transparent)}
+:root{--acc:var(--gold)}
+/* ألوان المظهر: اللون المختار يقود اللمسات (العناوين الصغيرة والأزرار والمختار)، والأسود والأبيض يبقى ذهبيًا */
+:root:not([data-accent]),:root[data-accent]:not([data-accent="mono"]){--acc:var(--green)}
+:root{--goldtx:color-mix(in srgb,var(--acc) 58%,var(--text));--soft:color-mix(in srgb,var(--text) 7%,transparent);--soft2:color-mix(in srgb,var(--text) 11%,transparent);--goldt:color-mix(in srgb,var(--acc) 16%,transparent)}
 .card,.list,.rdc,.wqs,.hbc,.hbcont,.tile,.qcont,.empty{border:0!important;box-shadow:none}
 .card,.list,.wqs,.hbc,.hbcont,.tile,.qcont,.empty{border-radius:16px}
 .rdc{border-radius:18px}
 .list:not(.tiles):not(.mrg) li+li{border-top:1px solid color-mix(in srgb,var(--line) 65%,transparent)}
 .qcont small,.hbc small,.hbcont small{color:var(--goldtx);font-weight:600}
-.hba{background:color-mix(in srgb,var(--gold) 10%,var(--surface))!important;box-shadow:none!important}
+.hba{background:color-mix(in srgb,var(--acc) 10%,var(--surface))!important;box-shadow:none!important}
 .empty{background:var(--surface)}
 /* أزرار */
 .btn{border:0;background:var(--soft);color:var(--text);border-radius:12px}
 .btn:active{background:var(--soft2)}
 .btn.primary{background:var(--goldt);color:var(--goldtx);font-weight:600}
 .btn[disabled],.btn[aria-disabled=true]{opacity:.4}
-.btn:focus-visible,.chip:focus-visible{outline:2px solid var(--gold);outline-offset:1px}
+.btn:focus-visible,.chip:focus-visible{outline:2px solid var(--acc);outline-offset:1px}
 /* شرائح */
 .chip{border:0;background:var(--surface);color:var(--text)}
 .card .chip,.wqs .chip{background:var(--soft)}
 .chip[aria-pressed="true"],.chip.on,.chip[aria-selected=true]{background:var(--goldt);color:var(--goldtx);border:0}
 /* حقول */
 main input:not([type=checkbox]):not([type=radio]):not([type=range]),main select,main textarea{border:0!important;background-color:var(--soft);border-radius:12px;color:var(--text)}
-main input:focus,main select:focus,main textarea:focus{outline:2px solid color-mix(in srgb,var(--gold) 60%,transparent);outline-offset:0}
+main input:focus,main select:focus,main textarea:focus{outline:2px solid color-mix(in srgb,var(--acc) 60%,transparent);outline-offset:0}
 /* أزرار القارئ (نسخ، مشاركة، بطاقة) */
 .rdc button:not(.rdb):not([class*=cnt]){border:0}
 /* الوقفة */
@@ -1017,8 +1020,10 @@ body.home::before{-webkit-mask:linear-gradient(#000 0,#000 130px,transparent 215
 /* الشريط السفلي: شفاف ضبابي مثل شريط خيارات الآية */
 body>nav{background:color-mix(in srgb,var(--surface) 55%,transparent)!important;-webkit-backdrop-filter:blur(18px) saturate(1.2);backdrop-filter:blur(18px) saturate(1.2);border-top:1px solid color-mix(in srgb,var(--text) 10%,transparent);box-shadow:none;z-index:40}
 @supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){body>nav{background:var(--surface)!important}}
+nav button[aria-current="page"]::before{background:var(--acc)}
+.qix .qf{background-image:none!important;padding-inline:14px}
 /* فهرس المصحف v3: بطاقة متابعة واحدة، ثنائي ختمة/حفظ، فواصل قابلة للطي */
-.qix2 .qgo{display:flex;align-items:center;gap:14px;margin:0 0 10px;padding:18px 18px;border-radius:18px;background:color-mix(in srgb,var(--gold) 10%,var(--surface));color:var(--text);text-decoration:none}
+.qix2 .qgo{display:flex;align-items:center;gap:14px;margin:0 0 10px;padding:18px 18px;border-radius:18px;background:color-mix(in srgb,var(--acc) 10%,var(--surface));color:var(--text);text-decoration:none}
 .qix2 .qgo span{flex:1;min-width:0;display:flex;flex-direction:column;gap:3px}
 .qix2 .qgo small{color:var(--goldtx);font:600 .78rem var(--ui)}
 .qix2 .qgo b{font:700 1.15rem/1.45 var(--ui);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -1052,7 +1057,7 @@ body>nav{background:color-mix(in srgb,var(--surface) 55%,transparent)!important;
 .qix .qpj .qpn{min-height:44px;border:0;border-radius:10px;background:transparent;font:500 .88rem var(--ui);color:var(--text)}
 .qix .qpj .qpn:active{background:var(--soft)}
 .qix .qpj .qpn.on{background:var(--goldt);color:var(--goldtx);box-shadow:none;font-weight:700}
-.qix .qpj .qpn:focus-visible{outline:2px solid var(--gold);outline-offset:-2px}
+.qix .qpj .qpn:focus-visible{outline:2px solid var(--acc);outline-offset:-2px}
 @media (min-width:520px){.qix .qpj .qpgrid{grid-template-columns:repeat(8,minmax(0,1fr))}}
 /* إطار اسم السورة (زخرفة إسلامية ذهبية): حدّان ذهبيان مزدوجان، وبينهما لوحة مفصّصة الطرفين بإطار ذهبي عريض وفيها الاسم. بلا نجوم. */
 :root{--fr-band:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 60' preserveAspectRatio='none'%3E%3CclipPath id='c'%3E%3Crect x='0' y='8' width='40' height='44'/%3E%3C/clipPath%3E%3Cg clip-path='url%28%23c%29'%3E%3Crect x='0' y='8' width='40' height='44' fill='%23000' fill-opacity='.22'/%3E%3C/g%3E%3Cpath d='M0 2H40V4.4H0ZM0 55.6H40V58H0Z' fill='%23000'/%3E%3Cpath d='M0 7.5H40M0 52.5H40' stroke='%23000' stroke-width='.9'/%3E%3C/svg%3E");--fr-cart:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 240 52' preserveAspectRatio='none'%3E%3Cpath fill-rule='evenodd' fill='%23000' d='M26.9 1.5H213.1C223.1 1.5 223.1 8.5 229.1 10.5C234.5 13.5 238.5 20 238.5 26S234.5 38.5 229.1 41.5C223.1 43.5 223.1 50.5 213.1 50.5H26.9C16.9 50.5 16.9 43.5 10.899999999999999 41.5C5.5 38.5 1.5 32 1.5 26S5.5 13.5 10.899999999999999 10.5C16.9 8.5 16.9 1.5 26.9 1.5ZM28.52 4.2H211.48C221.48 4.2 221.48 11.2 227.48 13.2C231.8 16.2 235.8 20 235.8 26S231.8 35.8 227.48 38.8C221.48 40.8 221.48 47.8 211.48 47.8H28.52C18.52 47.8 18.52 40.8 12.52 38.8C8.2 35.8 4.2 32 4.2 26S8.2 16.2 12.52 13.2C18.52 11.2 18.52 4.2 28.52 4.2Z'/%3E%3Cpath d='M30.2 7H209.8C219.8 7 219.8 14 225.8 16C229 19 233 20 233 26S229 33 225.8 36C219.8 38 219.8 45 209.8 45H30.2C20.2 45 20.2 38 14.2 36C11 33 7 32 7 26S11 19 14.2 16C20.2 14 20.2 7 30.2 7Z' fill='none' stroke='%23000' stroke-width='.8'/%3E%3C/svg%3E");--fr-cartf:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 240 52' preserveAspectRatio='none'%3E%3Cpath fill='%23000' d='M26.9 1.5H213.1C223.1 1.5 223.1 8.5 229.1 10.5C234.5 13.5 238.5 20 238.5 26S234.5 38.5 229.1 41.5C223.1 43.5 223.1 50.5 213.1 50.5H26.9C16.9 50.5 16.9 43.5 10.899999999999999 41.5C5.5 38.5 1.5 32 1.5 26S5.5 13.5 10.899999999999999 10.5C16.9 8.5 16.9 1.5 26.9 1.5Z'/%3E%3C/svg%3E")}

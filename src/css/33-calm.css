@@ -1,25 +1,28 @@
 /* v2 الهادئ لكل الصفحات: بطاقات بلا إطارات، عناوين صغيرة ذهبية، أزرار مسطّحة، والمختار بلون ذهبي خفيف */
-:root{--goldtx:color-mix(in srgb,var(--gold) 58%,var(--text));--soft:color-mix(in srgb,var(--text) 7%,transparent);--soft2:color-mix(in srgb,var(--text) 11%,transparent);--goldt:color-mix(in srgb,var(--gold) 16%,transparent)}
+:root{--acc:var(--gold)}
+/* ألوان المظهر: اللون المختار يقود اللمسات (العناوين الصغيرة والأزرار والمختار)، والأسود والأبيض يبقى ذهبيًا */
+:root:not([data-accent]),:root[data-accent]:not([data-accent="mono"]){--acc:var(--green)}
+:root{--goldtx:color-mix(in srgb,var(--acc) 58%,var(--text));--soft:color-mix(in srgb,var(--text) 7%,transparent);--soft2:color-mix(in srgb,var(--text) 11%,transparent);--goldt:color-mix(in srgb,var(--acc) 16%,transparent)}
 .card,.list,.rdc,.wqs,.hbc,.hbcont,.tile,.qcont,.empty{border:0!important;box-shadow:none}
 .card,.list,.wqs,.hbc,.hbcont,.tile,.qcont,.empty{border-radius:16px}
 .rdc{border-radius:18px}
 .list:not(.tiles):not(.mrg) li+li{border-top:1px solid color-mix(in srgb,var(--line) 65%,transparent)}
 .qcont small,.hbc small,.hbcont small{color:var(--goldtx);font-weight:600}
-.hba{background:color-mix(in srgb,var(--gold) 10%,var(--surface))!important;box-shadow:none!important}
+.hba{background:color-mix(in srgb,var(--acc) 10%,var(--surface))!important;box-shadow:none!important}
 .empty{background:var(--surface)}
 /* أزرار */
 .btn{border:0;background:var(--soft);color:var(--text);border-radius:12px}
 .btn:active{background:var(--soft2)}
 .btn.primary{background:var(--goldt);color:var(--goldtx);font-weight:600}
 .btn[disabled],.btn[aria-disabled=true]{opacity:.4}
-.btn:focus-visible,.chip:focus-visible{outline:2px solid var(--gold);outline-offset:1px}
+.btn:focus-visible,.chip:focus-visible{outline:2px solid var(--acc);outline-offset:1px}
 /* شرائح */
 .chip{border:0;background:var(--surface);color:var(--text)}
 .card .chip,.wqs .chip{background:var(--soft)}
 .chip[aria-pressed="true"],.chip.on,.chip[aria-selected=true]{background:var(--goldt);color:var(--goldtx);border:0}
 /* حقول */
 main input:not([type=checkbox]):not([type=radio]):not([type=range]),main select,main textarea{border:0!important;background-color:var(--soft);border-radius:12px;color:var(--text)}
-main input:focus,main select:focus,main textarea:focus{outline:2px solid color-mix(in srgb,var(--gold) 60%,transparent);outline-offset:0}
+main input:focus,main select:focus,main textarea:focus{outline:2px solid color-mix(in srgb,var(--acc) 60%,transparent);outline-offset:0}
 /* أزرار القارئ (نسخ، مشاركة، بطاقة) */
 .rdc button:not(.rdb):not([class*=cnt]){border:0}
 /* الوقفة */
@@ -39,3 +42,5 @@ body.home::before{-webkit-mask:linear-gradient(#000 0,#000 130px,transparent 215
 /* الشريط السفلي: شفاف ضبابي مثل شريط خيارات الآية */
 body>nav{background:color-mix(in srgb,var(--surface) 55%,transparent)!important;-webkit-backdrop-filter:blur(18px) saturate(1.2);backdrop-filter:blur(18px) saturate(1.2);border-top:1px solid color-mix(in srgb,var(--text) 10%,transparent);box-shadow:none;z-index:40}
 @supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){body>nav{background:var(--surface)!important}}
+nav button[aria-current="page"]::before{background:var(--acc)}
+.qix .qf{background-image:none!important;padding-inline:14px}
