@@ -26,7 +26,7 @@ var NOW_SHOWN='athar-now-shown',nowTm=null;
 function nowPop(){var seen=nowSeen(),shown=qget(NOW_SHOWN,[]);if(!Array.isArray(shown))shown=[];
  var L=nowList(ocNow()).filter(function(n){return seen.indexOf(n.id)<0&&shown.indexOf(n.id)<0});if(!L.length)return;
  var el=document.getElementById('nwb');if(!el){el=document.createElement('div');el.id='nwb';el.setAttribute('role','status');document.body.appendChild(el)}
- el.innerHTML=L.map(function(n){return '<a class="nwn" href="#'+n.h+'"><img src="icons/icon-192-a1.png" alt="" width="32" height="32"><b>'+n.t+'</b><time>الآن</time></a>'}).join('');
+ el.innerHTML=L.map(function(n){return '<a class="nwn" href="#'+n.h+'"><img src="icons/icon-192-a2.png" alt="" width="32" height="32"><b>'+n.t+'</b><time>الآن</time></a>'}).join('');
  L.forEach(function(n){shown.push(n.id)});qset(NOW_SHOWN,shown.slice(-30));
  requestAnimationFrame(function(){requestAnimationFrame(function(){el.classList.add('on')})});
  clearTimeout(nowTm);nowTm=setTimeout(nowHide,6000)}
