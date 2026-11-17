@@ -42,7 +42,11 @@ document.addEventListener('click',function(e){var a=e.target.closest('a.skip');i
 
 /* v31 direct jumps in search */
 var SNM=[['آية الكرسي',2,255],['خواتيم سورة البقرة',2,285],['آخر سورة البقرة',2,285],['آية الدين',2,282],['المعوذتين',113,1],['المعوذات',112,1],['آية النور',24,35]];
-function ssc(q){var n=nz(q.trim().replace(/^سورة\s+/,'')).s,o=[];if(n.length<2)return '';
+function srN(n){n=n.replace(/^ال/,'');for(var i=0;i<114;i++)if(nz(QN[i]).s.replace(/^ال/,'')===n)return i+1;if(n.length>=4)for(i=0;i<114;i++)if(lev(n,nz(QN[i]).s.replace(/^ال/,''),1)<=1)return i+1;return 0}
+function ssc(q){var q0=q.trim().replace(/[٠-٩]/g,function(d){return d.charCodeAt(0)-1632}),n=nz(q0.replace(/^سورة\s+/,'')).s,o=[],m,si=0,ai=0;if(n.length<2)return '';
+ if((m=n.match(/^(\d{1,3}) ?[:\/\- ] ?(\d{1,3})$/))){si=+m[1];ai=+m[2]}else if((m=n.match(/^(.+?) ?(?:(?:الايه|ايه|ايات|اية) ?)?(\d{1,3})$/))){si=srN(m[1].replace(/^سوره /,''));ai=+m[2]}
+ if(si>=1&&si<=114&&ai>=1&&ai<=QC[si-1])o.push(cat('/quran/'+si+'/'+ai,'سورة '+QN[si-1]+' — الآية '+ar(ai),'صفحة '+ar(qpageOf(si,ai))));
+ else if(!/\d/.test(n)&&(si=srN(n.replace(/^سوره /,'')))&&!o.length&&nz(QN[si-1]).s.replace(/^ال/,'')!==n.replace(/^ال/,''))o.push(cat('/quran/'+si+'/1','سورة '+QN[si-1],ar(QC[si-1])+' آية · صفحة '+ar(qpageOf(si,1))));
  SNM.forEach(function(x){var k=nz(x[0]).s;if(k===n||(n.length>=4&&k.indexOf(n)===0)||k.replace(/^(ايه|اخر|خواتيم) /,'')===n)o.push(cat('/quran/'+x[1]+'/'+x[2],x[0],'سورة '+QN[x[1]-1]+' · الآية '+ar(x[2])))});
  for(var i=0;i<114&&o.length<4;i++){var m=nz(QN[i]).s;if(m===n||(n.length>=3&&m.indexOf(n)===0))o.push(cat('/quran/'+(i+1)+'/1','سورة '+QN[i],ar(QC[i])+' آية · صفحة '+ar(qpageOf(i+1,1))))}
  return o.length?'<p class="hint">انتقال مباشر</p><ul class="list">'+o.slice(0,4).join('')+'</ul>':''}
