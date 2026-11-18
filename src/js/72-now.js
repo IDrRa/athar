@@ -35,7 +35,8 @@ function nowHide(){var el=document.getElementById('nwb');if(el)el.classList.remo
  document.addEventListener('touchmove',function(e){if(y0!==null&&e.touches[0].clientY-y0<-20){y0=null;nowHide()}},{passive:true});
  document.addEventListener('touchend',function(){y0=null},{passive:true});
  document.addEventListener('click',function(e){if(e.target.closest('#nwb .nwn'))nowHide()})})();
-function nowRender(){try{setTimeout(nowPop,600)}catch(e){}}
+/* الشريط العلوي «الآن» أُوقف بطلب المالك؛ تبقى بطاقة «يناسب وقتك» في الرئيسية */
+function nowRender(){}
 /* opening the page a note points to marks it as read */
 function nowMark(){try{var h=location.hash,seen=nowSeen(),ch=false;nowList(ocNow()).forEach(function(n){var u='#'+n.h;if((h===u||h.indexOf(u+'/')===0||h.indexOf(u+'?')===0)&&seen.indexOf(n.id)<0){seen.push(n.id);ch=true}});if(ch)qset(NOW_SEEN,seen.slice(-30))}catch(e){}}
 window.addEventListener('hashchange',function(){nowMark();nowHide()});nowMark();
