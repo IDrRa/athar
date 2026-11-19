@@ -134,3 +134,5 @@ a.btn{text-decoration:none;color:var(--text)}
 .rdnav .btn[disabled]{opacity:.4;cursor:default}
 .rdnav .btn.soft{background:var(--surface);color:var(--green);border-color:var(--green)}
 
+
+.dc{display:contents}
