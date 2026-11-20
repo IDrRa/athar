@@ -125,7 +125,7 @@ if(a==='toggle'){var pn=document.getElementById('qpanel'),bt=document.querySelec
 qza();
 var QCMAX=1500;
 /* رابط المشاركة يفتح أثر نفسه عند الآية (صفحات surah/ لمحركات البحث فقط) */
-function qlink(n,v){return SITE+'#/quran/'+n+'/'+v}
+function qlink(n,v){return SITE+'quran/'+n+'/'+v}
 function qtext(n,v){return QV(n)[v-1]+' — سورة '+QN[n-1]+'، آية '+v}
 function copyT(x,m){if(navigator.clipboard){navigator.clipboard.writeText(x).then(function(){toast(m)},function(){toast('تعذر النسخ')})}else toast('تعذر النسخ')}
 document.addEventListener('click',function(e){var z=e.target.closest('[data-qs]');if(z){qz(z.dataset.qs);return}var b=e.target.closest('[data-q]')||e.target.closest('.qv');if(b){if(hzTap(b))return;var gs=window.getSelection?String(getSelection()):'';if(!gs||b.dataset.q)var kk=(b.dataset.q||b.id.slice(1)).split('_');qsel(+kk[0],+kk[1]);return}b=e.target.closest('[data-qa]');if(!b||!QS)return;var a=b.dataset.qa,QE=QS.e>QS.v?QS.e:0,x=QE?qrange(QS.n,QS.v,QE):qtext(QS.n,QS.v);

@@ -1,3 +1,5 @@
+/* رابط مشاركة مثل /quran/18 فُتح مباشرة (مثلًا دون إنترنت): انقله إلى رابطه داخل التطبيق */
+try{if(!location.hash&&/^\/(quran|adhkar|dua)\/[^/]/.test(location.pathname))history.replaceState(null,'','/#'+location.pathname.replace(/\/$/,''))}catch(e){}
 
 /* Phase 2 — DATA layer: all content below is PLACEHOLDER (not real Quran/Hadith/Adhkar). Replace with a verified source later. */
 (function(){

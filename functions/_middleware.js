@@ -1,8 +1,47 @@
 // العنوان القديم iathar.pages.dev أُغلق بطلب المالك: لا يعرض شيئًا (404) ولا يحوِّل إلى الجديد؛ الموقع على atharuk.com فقط.
 // ما عدا /api/ : منبّه الإشعارات (athar-cron) يستدعي العنوان القديم، فيبقى يعمل كما هو.
+// روابط المشاركة (/quran/18، /quran/18/10، /adhkar/morning/3، /dua/<id>) تُعطي واتساب وغيره بطاقة خاصة
+// (صورة السورة أو القسم وعنوانه)، ثم تفتح الصفحة نفسها داخل أثر (/#/…). البطاقات مولَّدة بـ tools/og.py
+import { S, A, D } from '../og/meta.js';
+
+const AR = n => String(n).replace(/\d/g, d => '٠١٢٣٤٥٦٧٨٩'[d]);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+const ayat = n => AR(n) + (n >= 3 && n <= 10 ? ' آيات' : ' آية');
+
+async function card(ctx, u) {
+  let m, t, d, img, to;
+  if ((m = u.pathname.match(/^\/quran\/(\d{1,3})(?:\/(\d{1,3}))?\/?$/))) {
+    const n = +m[1], v = m[2] ? +m[2] : 0, s = S[n - 1];
+    if (!s || v > s[1] || (m[2] && v < 1)) return null;
+    img = `/og/s/${n}.jpg`; to = `/quran/${n}` + (v ? `/${v}` : '');
+    if (v) {
+      t = `سورة ${s[0]} — الآية ${AR(v)}`;
+      try { const r = await ctx.env.ASSETS.fetch(new URL(`/og/v/${n}.json`, u)); if (r.ok) d = (await r.json())[v - 1]; } catch (e) {}
+      d = d || 'اقرأ الآية في أثر';
+    } else { t = `سورة ${s[0]}`; d = `${ayat(s[1])} · ${s[2] ? 'مدنية' : 'مكية'} — اقرأها في أثر`; }
+  } else if ((m = u.pathname.match(/^\/adhkar\/([a-z]+)\/(\d{1,3})\/?$/)) && A[m[1]]) {
+    t = A[m[1]]; d = `من ${A[m[1]]} — اقرأه في أثر`; img = `/og/a/${m[1]}.jpg`; to = `/adhkar/${m[1]}/${+m[2]}`;
+  } else if ((m = u.pathname.match(/^\/dua\/([A-Za-z0-9-]+)\/?$/)) && D[m[1]]) {
+    t = D[m[1]][0]; d = D[m[1]][1]; img = '/og/d.jpg'; to = `/dua/${m[1]}`;
+  } else return null;
+  const site = u.origin, go = '/#' + to;
+  const html = `<!DOCTYPE html><html lang="ar" dir="rtl"><head><meta charset="utf-8"><title>${esc(t)} — أثر</title>
+<meta name="robots" content="noindex"><link rel="canonical" href="${site}/">
+<meta property="og:type" content="website"><meta property="og:site_name" content="أثر">
+<meta property="og:title" content="${esc(t)}"><meta property="og:description" content="${esc(d)}">
+<meta property="og:url" content="${esc(site + to)}"><meta property="og:image" content="${site}${img}">
+<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="${esc(t)}">
+<meta name="twitter:card" content="summary_large_image">
+<meta http-equiv="refresh" content="0;url=${go}"></head><body><a href="${go}">${esc(t)}</a></body></html>`;
+  return new Response(html, { headers: { 'content-type': 'text/html; charset=utf-8', 'cache-control': 'public, max-age=3600', 'x-robots-tag': 'noindex' } });
+}
+
 export async function onRequest(ctx) {
   const u = new URL(ctx.request.url);
   if (u.hostname === 'iathar.pages.dev' && !u.pathname.startsWith('/api/'))
     return new Response('', { status: 404, headers: { 'x-robots-tag': 'noindex', 'cache-control': 'no-store' } });
+  if (ctx.request.method === 'GET' && /^\/(quran|adhkar|dua)\//.test(u.pathname)) {
+    try { const r = await card(ctx, u); if (r) return r; } catch (e) {}
+  }
   return ctx.next();
 }
