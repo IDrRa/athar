@@ -8,9 +8,3 @@
 :root[data-accent="mono"] body:not(.qon) main,:root[data-accent="mono"] #hbn{--gold:var(--gdim)}
 :root[data-accent="mono"] :is(.qpno,.qsj,.msh,.qbn,.msn,mark.dk){--gold:var(--goldo)}
 
-/* أيقونات الأقسام (بلا مربع خلفها) في صفوف الأذكار والأدعية وبطاقات «ماذا أدعو الآن؟» و«يوم الجمعة» */
-a.row>.cic,a.qcont>.cic,.cic{flex:none;display:grid;place-items:center;width:30px;height:30px;background:none;color:var(--goldtx)}
-.cic svg{width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
-.row .cic{margin-inline-end:2px}
-.qcont.dnow{display:flex;flex-direction:row;align-items:center;gap:14px}
-.qcont.dnow>span:not(.cic){display:flex;flex-direction:column;min-width:0}
