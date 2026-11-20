@@ -12,7 +12,7 @@
 .qez[hidden]{display:none}
 .qez .btn{flex:1;justify-content:center;min-height:3.2rem;font-size:1.05rem;background:var(--surface)}
 /* الشريط السفلي أطول في الوضع الميسّر: ما يقف فوقه يرتفع معه */
-:root[data-easy] .rdnav{bottom:calc(4.2rem + 4px + env(safe-area-inset-bottom,0px))}
+:root[data-easy] .rdnav{bottom:var(--navh,calc(4.2rem + 4px + env(safe-area-inset-bottom,0px)))}
 :root[data-easy] .toast{bottom:calc(4.2rem + 16px + env(safe-area-inset-bottom,0px))}
 body.ezq .qbar{bottom:calc(5.4rem + env(safe-area-inset-bottom,0px))}
 body.ezq .toast{bottom:calc(5.4rem + env(safe-area-inset-bottom,0px))}

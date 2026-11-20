@@ -45,7 +45,7 @@ nav ul{display:flex;max-width:640px;margin:0 auto;padding:0;list-style:none}
 nav li{flex:1}
 nav button{width:100%;min-height:64px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;background:none;border:0;cursor:pointer;color:var(--muted);font-size:.78rem}
 nav button[aria-current="page"]{color:var(--green);font-weight:600}
-.toast{position:fixed;inset-inline:20px;bottom:calc(84px + env(safe-area-inset-bottom,0px));max-width:420px;margin:0 auto;background:var(--green);color:var(--on-green);padding:10px 16px;border-radius:10px;text-align:center;font-size:.92rem;opacity:0;pointer-events:none;transition:opacity .2s}
+.toast{position:fixed;inset-inline:20px;bottom:calc(var(--navh,calc(68px + env(safe-area-inset-bottom,0px))) + 16px);max-width:420px;margin:0 auto;background:var(--green);color:var(--on-green);padding:10px 16px;border-radius:10px;text-align:center;font-size:.92rem;opacity:0;pointer-events:none;transition:opacity .2s}
 .toast.on{opacity:1}
 .back{display:inline-flex;align-items:center;gap:6px;min-height:44px;color:var(--green);text-decoration:none;font-weight:500}
 .back svg{width:18px;height:18px}
@@ -131,7 +131,9 @@ a.btn{text-decoration:none;color:var(--text)}
 .rds{font-size:.74rem;line-height:1.7;color:var(--muted);margin:16px 0 0;padding-top:10px;border-top:1px dashed var(--line);text-align:start}
 .rdact{display:flex;gap:8px;margin-top:12px}
 .rdact .btn{min-height:36px;padding:0 14px;font-size:.84rem;color:var(--muted)}
-.rdnav{position:sticky;bottom:calc(68px + env(safe-area-inset-bottom,0px));display:flex;gap:10px;padding:10px 0 6px;background:linear-gradient(to bottom,transparent,var(--bg) 28%)}
+/* شريط «السابق/التالي»: يلتصق فوق الشريط السفلي بارتفاعه الفعلي (--navh)، وخلفيته معتمة حتى لا يظهر النص خلف الأزرار */
+.rdnav{position:sticky;z-index:5;bottom:var(--navh,calc(68px + env(safe-area-inset-bottom,0px)));display:flex;gap:10px;padding:10px 0;background:var(--bg)}
+.rdnav::before{content:"";position:absolute;inset-inline:0;bottom:100%;height:22px;background:linear-gradient(to bottom,transparent,var(--bg));pointer-events:none}
 .rdnav .btn{flex:1;justify-content:center;min-height:52px;font-size:1rem}
 .rdnav .btn[disabled]{opacity:.4;cursor:default}
 .rdnav .btn.soft{background:var(--surface);color:var(--green);border-color:var(--green)}
