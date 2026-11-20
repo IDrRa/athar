@@ -2,8 +2,12 @@
 var CD=null,cdOpener=null;
 var CDST=[['night','ليلي'],['paper','ورقي'],['arch','محراب']];
 function cdSt(){var v='night';try{v=localStorage.getItem('athar-cdst')||'night'}catch(e){}return CDST.some(function(x){return x[0]===v})?v:'night'}
-function cdTok(st){st=st||cdSt();if(st==='paper')return{st:st,bg:'#efe7d6',sf:'#f8f3e8',tx:'#1d1a14',mu:'#6f6655',gr:'#1d1a14',gd:'#9a7633',ln:'#d8ccb3'};
- return{st:st,bg:'#070707',sf:st==='arch'?'#0b0a08':'#111110',tx:'#f4efe4',mu:'#a49c8c',gr:'#f4efe4',gd:'#c9a560',ln:'#2a2721'}}
+/* لون الزخرفة في البطاقة = لون الموقع المختار (نفس درجة الواجهة)، لا ذهبي ثابت */
+function cdAcc(v){try{var i=document.createElement('i');i.style.color='var('+v+')';i.style.display='none';document.body.appendChild(i);var c=getComputedStyle(i).color;i.remove();var m=/(\d+)[, ]+(\d+)[, ]+(\d+)/.exec(c);return m?[+m[1],+m[2],+m[3]]:null}catch(e){return null}}
+function cdMix(a,b,t){return 'rgb('+a.map(function(x,i){return Math.round(x*t+b[i]*(1-t))}).join(',')+')'}
+function cdTok(st){st=st||cdSt();var ac=cdAcc('--acc')||[201,165,96],tx=cdAcc('--goldtx')||ac;
+ if(st==='paper')return{st:st,bg:'#efe7d6',sf:'#f8f3e8',tx:'#1d1a14',mu:'#6f6655',gr:'#1d1a14',gd:cdMix(ac,[29,26,20],.75),ln:'#d8ccb3'};
+ return{st:st,bg:'#070707',sf:st==='arch'?'#0b0a08':'#111110',tx:'#f4efe4',mu:'#a49c8c',gr:'#f4efe4',gd:'rgb('+tx.join(',')+')',ln:'#2a2721'}}
 /* words are split on plain spaces only, so an ayah number joined to its ayah with a no-break space never starts a line.
    Lines are balanced: the same number of lines as filling greedily, with even lengths. */
 function cdWrap(c,t,w){var out=[];String(t).replace(/\r\n?/g,'\n').split('\n').forEach(function(par){var ws=par.split(/[ \t]+/).filter(Boolean);if(!ws.length)return;
@@ -35,7 +39,7 @@ function cdDraw(o){var T=cdTok(),W=1080,P=72,IW=W-2*P-120,c0=document.createElem
  H=Math.max(1080,Math.min(3000,H)); /* short texts get a square card, no empty band */
  var cv=document.createElement('canvas');cv.width=W;cv.height=H;var c=cv.getContext('2d');c.direction='rtl';c.textAlign='center';c.textBaseline='middle';
  c.fillStyle=T.bg;c.fillRect(0,0,W,H);
- if(T.st==='arch'){var gl=c.createRadialGradient(W/2,H*.38,40,W/2,H*.38,W*.7);gl.addColorStop(0,'rgba(201,165,96,.16)');gl.addColorStop(1,'rgba(201,165,96,0)');c.fillStyle=gl;c.fillRect(0,0,W,H);
+ if(T.st==='arch'){var gl=c.createRadialGradient(W/2,H*.38,40,W/2,H*.38,W*.7);gl.addColorStop(0,T.gd.replace('rgb(','rgba(').replace(')',',.16)'));gl.addColorStop(1,T.gd.replace('rgb(','rgba(').replace(')',',0)'));c.fillStyle=gl;c.fillRect(0,0,W,H);
   var ax=P+20,aw=W-2*ax,ar=aw/2;[[0,3,.9],[26,1.5,.4]].forEach(function(q){var x0=ax+q[0],x1=W-ax-q[0],t=P+q[0]+10,sh=ar*.95;c.beginPath();c.moveTo(x0,H);c.lineTo(x0,t+sh);c.quadraticCurveTo(x0,t+sh*.25,W/2,t);c.quadraticCurveTo(x1,t+sh*.25,x1,t+sh);c.lineTo(x1,H);c.lineWidth=q[1];c.strokeStyle=T.gd;c.globalAlpha=q[2];c.stroke();c.globalAlpha=1})}
  else{/* إطار واحد فقط (طلب المالك): خلفية البطاقة كاملة، وداخلها الإطار الذهبي */c.fillStyle=T.sf;c.fillRect(0,0,W,H);
   cdRR(c,P/2,P/2,W-P,H-P,30);c.lineWidth=2;c.strokeStyle=T.gd;c.globalAlpha=.6;c.stroke();c.globalAlpha=1}
