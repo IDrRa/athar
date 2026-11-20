@@ -6,19 +6,21 @@
 :root[data-accent="mono"]{--acc:var(--gdim)}
 
 
-/* محراب خلفية الرئيسية بلون الموقع المختار (لا ذهبي ثابت في الألوان الأخرى):
-   ::before = توهّج خفيف بلون الموقع، ::after = خطوط المحراب نفسها (الرسم قناع، واللون من --acc) */
+/* محراب أعلى الرئيسية: رسم SVG حقيقي في الصفحة (لا قناع CSS — كان يظهر مرة ويختفي مرة على الآيفون، ويُقصّ رأسه)،
+   بلون الموقع المختار، ورأسه كامل تحت شريط الحالة، ويمرّ مع التمرير، ويتلاشى نحو الأسفل */
 body.home::before{background:radial-gradient(ellipse 70% 260px at 50% 0,color-mix(in srgb,var(--acc) 14%,transparent),transparent 70%)!important}
-body.home::after{content:"";position:absolute;top:0;left:0;right:0;height:260px;z-index:-1;pointer-events:none;
- /* التلاشي في الخلفية نفسها (لا قناعين مركّبين — سفاري الآيفون لا يركّبهما) */
- background:linear-gradient(to bottom,var(--goldtx) 0,var(--goldtx) 130px,transparent 215px);
- -webkit-mask:var(--hpf) center -30px/min(100%,520px) auto no-repeat;mask:var(--hpf) center -30px/min(100%,520px) auto no-repeat}
+.hfr{display:none;position:absolute;top:calc(env(safe-area-inset-top,0px) + 2px);left:0;right:0;height:320px;z-index:-1;pointer-events:none;color:var(--goldtx);opacity:.42;
+ -webkit-mask-image:linear-gradient(#000 0,#000 150px,transparent 240px);mask-image:linear-gradient(#000 0,#000 150px,transparent 240px)}
+:root[data-theme="dark"] .hfr{opacity:.3}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .hfr{opacity:.3}}
+body.home .hfr{display:block}
+.hfr svg{display:block;width:min(100%,520px);height:auto;margin:0 auto;overflow:visible}
 /* لون زخرفة واحد في كل الموقع ولكل لون من ألوانه (طلب المالك 2026-11-20 «اللون مو متناسق»):
    العناوين الصغيرة والأيقونات وزخرفة الوقفة ومحراب رقم الصفحة وإطار اسم السورة وعلامات الآيات وتمييز ألفاظ الذكر — كلها بنفس الدرجة */
 body{--gold:var(--goldtx)}
 .qam,.vn .qam{color:var(--gold)!important}
 
-/* المحراب جزء من أعلى الصفحة: يمرّ مع التمرير ولا يلحق المستخدم (طلب المالك) */
+/* الصفحة الرئيسية مرجع موضع المحراب والتوهّج: يمرّان مع التمرير */
 body.home{position:relative}
 body.home::before{position:absolute!important;top:0;left:0;right:0;bottom:auto!important;height:260px}
 /* روابط «ما يناسب اليوم» (صيغة الصلاة، فواتح الدعاء): أزرار واضحة مثل «كل الوقفات» لا نصًا باهتًا */

@@ -6,7 +6,7 @@
 .occ .ocr{margin-top:4px}
 .occ .ocln{margin-top:10px}
 .occ .ocln .chip{min-height:36px;padding:0 14px;font-size:.84rem}
-[aria-labelledby="t-explore"] .list.tiles{grid-template-columns:repeat(4,1fr);gap:8px}
+[aria-labelledby="t-explore"] .list.tiles{grid-template-columns:repeat(3,1fr);gap:8px}
 [aria-labelledby="t-explore"] .tile{min-height:0;padding:14px 4px 12px;align-items:center;justify-content:center;gap:8px;border-radius:var(--r-md)}
 [aria-labelledby="t-explore"] .tile .ic{width:24px;height:24px}
 [aria-labelledby="t-explore"] .tile div{text-align:center}
