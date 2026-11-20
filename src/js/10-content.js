@@ -162,8 +162,10 @@ document.querySelectorAll('.list .row').forEach(function(b,i){rebind(b,function(
 var nb=document.querySelectorAll('nav button');rebind(nb[0],function(){location.hash='#/'});rebind(nb[1],function(){location.hash='#/quran'});rebind(nb[2],function(){location.hash='#/adhkar'});
 rebind($('.brand'),function(){location.hash='#/'});$('.brand').style.cursor='pointer';
 rebind($('#searchForm'),function(e){e.preventDefault();toast('البحث سيكون متاحًا قريبًا')});
-document.addEventListener('click',function(e){var b=e.target.closest('[data-a]');if(!b)return;var o=ALL[b.dataset.id]||TQ[b.dataset.id];if(!o)return;var x=stext(o);
-if(b.dataset.a==='share'){var su=pgUrl(o);if(navigator.share){var sd={title:'أثر',text:x};if(su)sd.url=su;navigator.share(sd).catch(function(){})}else if(navigator.clipboard){navigator.clipboard.writeText(su?x+'\n'+su:x).then(function(){toast('المشاركة غير متاحة هنا، نُسخ النص بدلًا منها')},function(){toast('تعذرت المشاركة')})}else toast('تعذرت المشاركة')}
+/* داخل «فواتح الدعاء وجوامعه»: النص يُشارك دعاءً من القسم، بلا عنوانه في حصن المسلم (مثل «الصلاة على النبي بعد التشهد») ورابطه رابط القسم */
+function jmCtx(b){return !!(RS&&RS.base.indexOf('/dua/jumua')===0&&b&&b.closest('.rd'))}
+document.addEventListener('click',function(e){var b=e.target.closest('[data-a]');if(!b)return;var o=ALL[b.dataset.id]||TQ[b.dataset.id];if(!o)return;var jm=jmCtx(b),x=stext(jm?Object.assign({},o,{title:''}):o);
+if(b.dataset.a==='share'){var su=jm?SITE+'dua/jumua':pgUrl(o);if(navigator.share){var sd={title:'أثر',text:x};if(su)sd.url=su;navigator.share(sd).catch(function(){})}else if(navigator.clipboard){navigator.clipboard.writeText(su?x+'\n'+su:x).then(function(){toast('المشاركة غير متاحة هنا، نُسخ النص بدلًا منها')},function(){toast('تعذرت المشاركة')})}else toast('تعذرت المشاركة')}
 else if(navigator.clipboard){navigator.clipboard.writeText(x).then(function(){toast('تم النسخ')},function(){toast('تعذر النسخ')})}else toast('تعذر النسخ')});
 /* Phase 3 — search engine: independent of the data source; reads only ALL (the Phase 2 content model) */
 var TL={quran:'آية قرآنية',dhikr:'ذكر',dua:'دعاء',tafsir:'من المعنى'},FT=[['all','الكل'],['quran','القرآن'],['tafsir','المعنى'],['dhikr','الأذكار'],['dua','الأدعية']],SF='all',SQ='',IX,T0,SL=30;

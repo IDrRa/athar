@@ -51,7 +51,7 @@ for (const name of names) {
   }
   ran.push(name === 'webkit' ? 'سفاري' : 'كروم');
   for (const scheme of ['dark', 'light', 'easy']) { // easy: الوضع الميسّر لكبار السن (خط أكبر) على شاشة أضيق
-    const ctx = await browser.newContext({ viewport: scheme === 'easy' ? { width: 360, height: 740 } : { width: 390, height: 844 }, colorScheme: scheme === 'dark' ? 'dark' : 'light', serviceWorkers: 'block' });
+    const ctx = await browser.newContext({ viewport: scheme === 'easy' ? { width: 360, height: 740 } : { width: 390, height: 844 }, colorScheme: scheme === 'dark' ? 'dark' : 'light', serviceWorkers: 'block', reducedMotion: 'reduce' }); // بلا حركة: فحص التباين يقرأ الألوان النهائية لا منتصف ظهور الشريط
     const page = await ctx.newPage();
     const errs = [];
     page.on('pageerror', (e) => errs.push(e.message));

@@ -920,7 +920,7 @@ body.ezq .qbar{bottom:0!important}
 .qbar .qbh{display:flex;align-items:center;gap:8px;padding:0 6px 10px}
 .qbar #qlbl{flex:1;display:flex;align-items:center;justify-content:flex-start;gap:8px 10px;flex-wrap:wrap;font-size:.9rem;color:var(--muted);text-align:start}
 .qbar #qlbl>span{color:var(--text);font-weight:600}
-.qbar .qto{height:32px;padding:0 10px;border-radius:999px;border:1px solid var(--line);background:transparent;color:var(--muted);font:inherit;font-size:.82rem}
+.qbar .qto{height:32px;padding:0 10px;border-radius:999px;border:1px solid var(--line);background:transparent;color:var(--text);font:inherit;font-size:.82rem}
 .qbar .qx{flex:0 0 36px;width:36px;height:36px;display:grid;place-items:center;border:0;border-radius:50%;background:color-mix(in srgb,var(--text) 7%,transparent);color:var(--muted);cursor:pointer;padding:0}
 .qbar .qx svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round}
 .qbar .qas{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:2px}
@@ -935,7 +935,7 @@ body.ezq .qbar{bottom:0!important}
 .qbar .qa[data-qa=copy].on svg{fill:none;stroke-width:2.2}
 .qbar .qa.on b{color:var(--goldtx)}
 /* شفاف ضبابي: يبان المصحف من خلفه والأيقونات واضحة */
-.qbar{background:color-mix(in srgb,var(--surface) 55%,transparent)!important;-webkit-backdrop-filter:blur(18px) saturate(1.2);backdrop-filter:blur(18px) saturate(1.2);border-top:1px solid color-mix(in srgb,var(--text) 10%,transparent);box-shadow:0 -6px 24px rgba(0,0,0,.18)}
+.qbar{background:color-mix(in srgb,var(--surface) 82%,transparent)!important;-webkit-backdrop-filter:blur(18px) saturate(1.2);backdrop-filter:blur(18px) saturate(1.2);border-top:1px solid color-mix(in srgb,var(--text) 10%,transparent);box-shadow:0 -6px 24px rgba(0,0,0,.18)}
 @supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){.qbar{background:var(--surface)!important}}
 /* «المعنى» v2 — بنفس روح شريط خيارات الآية */
 .tf2{padding:16px 18px calc(10px + env(safe-area-inset-bottom,0px));border:0;border-top:1px solid var(--line);border-radius:20px 20px 0 0}
@@ -1071,7 +1071,8 @@ nav button[aria-current="page"]::before{background:var(--acc)}
 /* «أسود وأبيض»: لا ذهبي في الواجهة — العناوين الصغيرة والأيقونات والتحديد بالرمادي الفاتح (طلب المالك 2026-11-20).
    يبقى الذهبي في المصحف وزخارفه وأرقام صفحاته، وفي تمييز ألفاظ الذكر داخل النصوص. */
 :root{--goldo:var(--gold)}
-:root[data-accent="mono"]{--acc:color-mix(in srgb,var(--text) 62%,var(--bg))}
+/* المصحف (body.qon) يبقى بذهبه كاملًا، بما فيه تحديد الآية وشريطها */
+:root[data-accent="mono"]:not(:has(body.qon)){--acc:color-mix(in srgb,var(--text) 62%,var(--bg))}
 :root[data-accent="mono"] body:not(.qon) main,:root[data-accent="mono"] #hbn{--gold:color-mix(in srgb,var(--text) 62%,var(--bg))}
 :root[data-accent="mono"] :is(.qpno,.qsj,.msh,.qbn,.msn,mark.dk){--gold:var(--goldo)}
 /* إطار اسم السورة (زخرفة إسلامية ذهبية): حدّان ذهبيان مزدوجان، وبينهما لوحة مفصّصة الطرفين بإطار ذهبي عريض وفيها الاسم. بلا نجوم. */
@@ -1512,8 +1513,10 @@ document.querySelectorAll('.list .row').forEach(function(b,i){rebind(b,function(
 var nb=document.querySelectorAll('nav button');rebind(nb[0],function(){location.hash='#/'});rebind(nb[1],function(){location.hash='#/quran'});rebind(nb[2],function(){location.hash='#/adhkar'});
 rebind($('.brand'),function(){location.hash='#/'});$('.brand').style.cursor='pointer';
 rebind($('#searchForm'),function(e){e.preventDefault();toast('البحث سيكون متاحًا قريبًا')});
-document.addEventListener('click',function(e){var b=e.target.closest('[data-a]');if(!b)return;var o=ALL[b.dataset.id]||TQ[b.dataset.id];if(!o)return;var x=stext(o);
-if(b.dataset.a==='share'){var su=pgUrl(o);if(navigator.share){var sd={title:'أثر',text:x};if(su)sd.url=su;navigator.share(sd).catch(function(){})}else if(navigator.clipboard){navigator.clipboard.writeText(su?x+'\n'+su:x).then(function(){toast('المشاركة غير متاحة هنا، نُسخ النص بدلًا منها')},function(){toast('تعذرت المشاركة')})}else toast('تعذرت المشاركة')}
+/* داخل «فواتح الدعاء وجوامعه»: النص يُشارك دعاءً من القسم، بلا عنوانه في حصن المسلم (مثل «الصلاة على النبي بعد التشهد») ورابطه رابط القسم */
+function jmCtx(b){return !!(RS&&RS.base.indexOf('/dua/jumua')===0&&b&&b.closest('.rd'))}
+document.addEventListener('click',function(e){var b=e.target.closest('[data-a]');if(!b)return;var o=ALL[b.dataset.id]||TQ[b.dataset.id];if(!o)return;var jm=jmCtx(b),x=stext(jm?Object.assign({},o,{title:''}):o);
+if(b.dataset.a==='share'){var su=jm?SITE+'dua/jumua':pgUrl(o);if(navigator.share){var sd={title:'أثر',text:x};if(su)sd.url=su;navigator.share(sd).catch(function(){})}else if(navigator.clipboard){navigator.clipboard.writeText(su?x+'\n'+su:x).then(function(){toast('المشاركة غير متاحة هنا، نُسخ النص بدلًا منها')},function(){toast('تعذرت المشاركة')})}else toast('تعذرت المشاركة')}
 else if(navigator.clipboard){navigator.clipboard.writeText(x).then(function(){toast('تم النسخ')},function(){toast('تعذر النسخ')})}else toast('تعذر النسخ')});
 /* Phase 3 — search engine: independent of the data source; reads only ALL (the Phase 2 content model) */
 var TL={quran:'آية قرآنية',dhikr:'ذكر',dua:'دعاء',tafsir:'من المعنى'},FT=[['all','الكل'],['quran','القرآن'],['tafsir','المعنى'],['dhikr','الأذكار'],['dua','الأدعية']],SF='all',SQ='',IX,T0,SL=30;
@@ -1693,8 +1696,8 @@ function cdDraw(o){var T=cdTok(),W=1080,P=72,IW=W-2*P-120,c0=document.createElem
  c.fillStyle=T.bg;c.fillRect(0,0,W,H);
  if(T.st==='arch'){var gl=c.createRadialGradient(W/2,H*.38,40,W/2,H*.38,W*.7);gl.addColorStop(0,'rgba(201,165,96,.16)');gl.addColorStop(1,'rgba(201,165,96,0)');c.fillStyle=gl;c.fillRect(0,0,W,H);
   var ax=P+20,aw=W-2*ax,ar=aw/2;[[0,3,.9],[26,1.5,.4]].forEach(function(q){var x0=ax+q[0],x1=W-ax-q[0],t=P+q[0]+10,sh=ar*.95;c.beginPath();c.moveTo(x0,H);c.lineTo(x0,t+sh);c.quadraticCurveTo(x0,t+sh*.25,W/2,t);c.quadraticCurveTo(x1,t+sh*.25,x1,t+sh);c.lineTo(x1,H);c.lineWidth=q[1];c.strokeStyle=T.gd;c.globalAlpha=q[2];c.stroke();c.globalAlpha=1})}
- else{cdRR(c,P/2,P/2,W-P,H-P,40);c.fillStyle=T.sf;c.fill();c.lineWidth=2;c.strokeStyle=T.ln;c.stroke();
-  cdRR(c,P/2+18,P/2+18,W-P-36,H-P-36,28);c.lineWidth=1.5;c.strokeStyle=T.gd;c.globalAlpha=.6;c.stroke();c.globalAlpha=1}
+ else{/* إطار واحد فقط (طلب المالك): خلفية البطاقة كاملة، وداخلها الإطار الذهبي */c.fillStyle=T.sf;c.fillRect(0,0,W,H);
+  cdRR(c,P/2,P/2,W-P,H-P,30);c.lineWidth=2;c.strokeStyle=T.gd;c.globalAlpha=.6;c.stroke();c.globalAlpha=1}
  var y=P+(T.st==='arch'?150:70);c.font='700 64px '+FA;c.fillStyle=T.gd;c.fillText('أثر',W/2,y);y+=74;
  c.font='500 30px '+FU;var lw=c.measureText(o.label).width+56;cdRR(c,W/2-lw/2,y-26,lw,52,26);c.lineWidth=1.5;c.strokeStyle=T.ln;c.stroke();c.fillStyle=T.mu;c.fillText(o.label,W/2,y+1);y+=60;
  if(o.title){c.font='700 38px '+FU;c.fillStyle=T.gr;var tl=cdWrap(c,o.title,IW)[0]||'';c.fillText(tl,W/2,y+8);y+=70}
@@ -1729,7 +1732,7 @@ function cdNum(n){return ' '+ar(n)+' '}
 function cdFromItem(o){var q=o.kind==='quran'||o.kind==='prophets',src=[];if(o.source&&o.source!==NS&&(o.reference||'').indexOf(o.source)!==0)src.push(o.source);if(o.reference&&o.reference!==NS)src.push(o.reference);
  var tx=o.verses?o.verses.map(function(v){return v.text+cdNum(v.a)}).join(' ').trim():rdtx(o).replace(/<[^>]*>/g,'');
  return{label:o.type==='dua'?(DT[o.kind||'general']||'دعاء'):'ذكر',title:o.title||'',text:tx,ref:src.join(' · '),quran:q,name:o.id,hlw:o.verses?null:hlWords(o,tx)}}
-document.addEventListener('click',function(e){var t=e.target,b=t.closest('[data-cdid]');if(b){var o=ALL[b.dataset.cdid];if(o){var x=cdFromItem(o);if(b.dataset.cdt)x.title=b.dataset.cdt;cdOpen(x)}return}
+document.addEventListener('click',function(e){var t=e.target,b=t.closest('[data-cdid]');if(b){var o=ALL[b.dataset.cdid];if(o){var x=cdFromItem(o);if(b.dataset.cdt)x.title=b.dataset.cdt;if(typeof jmCtx==='function'&&jmCtx(b)){x.title='';x.label='دعاء'}cdOpen(x)}return}
  b=t.closest('[data-cdwq]');if(b){var w=wqById(b.dataset.cdwq);if(w){var q=w.textType==='quran';cdOpen({label:'وقفة أثر · '+WQT[w.textType],title:w.title,text:q?w.verses.map(function(v){return v.text+(w.verses.length>1?cdNum(v.a):'')}).join(' ').trim():w.text,ref:wqRef(w),quran:q,name:w.id})}return}
  var bk=document.getElementById('cardS');if(!bk||bk.hidden)return;if(t===bk||t.closest('[data-cdclose]')){cdClose();return}
  b=t.closest('[data-cd]');if(!b||!CD)return;

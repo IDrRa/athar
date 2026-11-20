@@ -37,8 +37,8 @@ function cdDraw(o){var T=cdTok(),W=1080,P=72,IW=W-2*P-120,c0=document.createElem
  c.fillStyle=T.bg;c.fillRect(0,0,W,H);
  if(T.st==='arch'){var gl=c.createRadialGradient(W/2,H*.38,40,W/2,H*.38,W*.7);gl.addColorStop(0,'rgba(201,165,96,.16)');gl.addColorStop(1,'rgba(201,165,96,0)');c.fillStyle=gl;c.fillRect(0,0,W,H);
   var ax=P+20,aw=W-2*ax,ar=aw/2;[[0,3,.9],[26,1.5,.4]].forEach(function(q){var x0=ax+q[0],x1=W-ax-q[0],t=P+q[0]+10,sh=ar*.95;c.beginPath();c.moveTo(x0,H);c.lineTo(x0,t+sh);c.quadraticCurveTo(x0,t+sh*.25,W/2,t);c.quadraticCurveTo(x1,t+sh*.25,x1,t+sh);c.lineTo(x1,H);c.lineWidth=q[1];c.strokeStyle=T.gd;c.globalAlpha=q[2];c.stroke();c.globalAlpha=1})}
- else{cdRR(c,P/2,P/2,W-P,H-P,40);c.fillStyle=T.sf;c.fill();c.lineWidth=2;c.strokeStyle=T.ln;c.stroke();
-  cdRR(c,P/2+18,P/2+18,W-P-36,H-P-36,28);c.lineWidth=1.5;c.strokeStyle=T.gd;c.globalAlpha=.6;c.stroke();c.globalAlpha=1}
+ else{/* إطار واحد فقط (طلب المالك): خلفية البطاقة كاملة، وداخلها الإطار الذهبي */c.fillStyle=T.sf;c.fillRect(0,0,W,H);
+  cdRR(c,P/2,P/2,W-P,H-P,30);c.lineWidth=2;c.strokeStyle=T.gd;c.globalAlpha=.6;c.stroke();c.globalAlpha=1}
  var y=P+(T.st==='arch'?150:70);c.font='700 64px '+FA;c.fillStyle=T.gd;c.fillText('أثر',W/2,y);y+=74;
  c.font='500 30px '+FU;var lw=c.measureText(o.label).width+56;cdRR(c,W/2-lw/2,y-26,lw,52,26);c.lineWidth=1.5;c.strokeStyle=T.ln;c.stroke();c.fillStyle=T.mu;c.fillText(o.label,W/2,y+1);y+=60;
  if(o.title){c.font='700 38px '+FU;c.fillStyle=T.gr;var tl=cdWrap(c,o.title,IW)[0]||'';c.fillText(tl,W/2,y+8);y+=70}
@@ -73,7 +73,7 @@ function cdNum(n){return ' '+ar(n)+' '}
 function cdFromItem(o){var q=o.kind==='quran'||o.kind==='prophets',src=[];if(o.source&&o.source!==NS&&(o.reference||'').indexOf(o.source)!==0)src.push(o.source);if(o.reference&&o.reference!==NS)src.push(o.reference);
  var tx=o.verses?o.verses.map(function(v){return v.text+cdNum(v.a)}).join(' ').trim():rdtx(o).replace(/<[^>]*>/g,'');
  return{label:o.type==='dua'?(DT[o.kind||'general']||'دعاء'):'ذكر',title:o.title||'',text:tx,ref:src.join(' · '),quran:q,name:o.id,hlw:o.verses?null:hlWords(o,tx)}}
-document.addEventListener('click',function(e){var t=e.target,b=t.closest('[data-cdid]');if(b){var o=ALL[b.dataset.cdid];if(o){var x=cdFromItem(o);if(b.dataset.cdt)x.title=b.dataset.cdt;cdOpen(x)}return}
+document.addEventListener('click',function(e){var t=e.target,b=t.closest('[data-cdid]');if(b){var o=ALL[b.dataset.cdid];if(o){var x=cdFromItem(o);if(b.dataset.cdt)x.title=b.dataset.cdt;if(typeof jmCtx==='function'&&jmCtx(b)){x.title='';x.label='دعاء'}cdOpen(x)}return}
  b=t.closest('[data-cdwq]');if(b){var w=wqById(b.dataset.cdwq);if(w){var q=w.textType==='quran';cdOpen({label:'وقفة أثر · '+WQT[w.textType],title:w.title,text:q?w.verses.map(function(v){return v.text+(w.verses.length>1?cdNum(v.a):'')}).join(' ').trim():w.text,ref:wqRef(w),quran:q,name:w.id})}return}
  var bk=document.getElementById('cardS');if(!bk||bk.hidden)return;if(t===bk||t.closest('[data-cdclose]')){cdClose();return}
  b=t.closest('[data-cd]');if(!b||!CD)return;

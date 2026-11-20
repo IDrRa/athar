@@ -1,6 +1,7 @@
 /* «أسود وأبيض»: لا ذهبي في الواجهة — العناوين الصغيرة والأيقونات والتحديد بالرمادي الفاتح (طلب المالك 2026-11-20).
    يبقى الذهبي في المصحف وزخارفه وأرقام صفحاته، وفي تمييز ألفاظ الذكر داخل النصوص. */
 :root{--goldo:var(--gold)}
-:root[data-accent="mono"]{--acc:color-mix(in srgb,var(--text) 62%,var(--bg))}
+/* المصحف (body.qon) يبقى بذهبه كاملًا، بما فيه تحديد الآية وشريطها */
+:root[data-accent="mono"]:not(:has(body.qon)){--acc:color-mix(in srgb,var(--text) 62%,var(--bg))}
 :root[data-accent="mono"] body:not(.qon) main,:root[data-accent="mono"] #hbn{--gold:color-mix(in srgb,var(--text) 62%,var(--bg))}
 :root[data-accent="mono"] :is(.qpno,.qsj,.msh,.qbn,.msn,mark.dk){--gold:var(--goldo)}
