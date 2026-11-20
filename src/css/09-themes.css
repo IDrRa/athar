@@ -11,6 +11,15 @@
 :root[data-accent="violet"]{--bg:#F4F2F7;--surface:#FCFBFD;--text:#1E1828;--muted:#5F566E;--green:#4B3577;--on-green:#FFFFFF;--tint:#E9E4F1;--line:#DCD6E6}
 @media (prefers-color-scheme:dark){:root[data-accent="violet"]:not([data-theme="light"]){--bg:#121016;--surface:#1A1720;--text:#ECE8F2;--muted:#A9A0B8;--green:#BBA6E6;--on-green:#1B1230;--tint:#241F2D;--line:#312A3C}}
 :root[data-accent="violet"][data-theme="dark"]{--bg:#121016;--surface:#1A1720;--text:#ECE8F2;--muted:#A9A0B8;--green:#BBA6E6;--on-green:#1B1230;--tint:#241F2D;--line:#312A3C}
+:root[data-accent="teal"]{--bg:#F0F5F4;--surface:#FAFCFC;--text:#12201F;--muted:#50625F;--green:#1D5E5A;--on-green:#FFFFFF;--tint:#E0ECEA;--line:#D2E0DE}
+@media (prefers-color-scheme:dark){:root[data-accent="teal"]:not([data-theme="light"]){--bg:#0C1514;--surface:#131E1D;--text:#E4EFEE;--muted:#98AEAB;--green:#7CCFC6;--on-green:#0A1F1D;--tint:#1A2826;--line:#243533}}
+:root[data-accent="teal"][data-theme="dark"]{--bg:#0C1514;--surface:#131E1D;--text:#E4EFEE;--muted:#98AEAB;--green:#7CCFC6;--on-green:#0A1F1D;--tint:#1A2826;--line:#243533}
+:root[data-accent="olive"]{--bg:#F4F4EC;--surface:#FCFCF7;--text:#1D1F12;--muted:#5D604A;--green:#4E5A22;--on-green:#FFFFFF;--tint:#E8EAD8;--line:#DCDFC9}
+@media (prefers-color-scheme:dark){:root[data-accent="olive"]:not([data-theme="light"]){--bg:#12130C;--surface:#1A1C13;--text:#ECEEDF;--muted:#A8AC92;--green:#C2CC8A;--on-green:#1C200A;--tint:#23261A;--line:#2F3323}}
+:root[data-accent="olive"][data-theme="dark"]{--bg:#12130C;--surface:#1A1C13;--text:#ECEEDF;--muted:#A8AC92;--green:#C2CC8A;--on-green:#1C200A;--tint:#23261A;--line:#2F3323}
+:root[data-accent="copper"]{--bg:#F7F1EC;--surface:#FDFAF7;--text:#2A1810;--muted:#6E5548;--green:#8A4426;--on-green:#FFFFFF;--tint:#F0E3DA;--line:#E5D4C8}
+@media (prefers-color-scheme:dark){:root[data-accent="copper"]:not([data-theme="light"]){--bg:#17100C;--surface:#201712;--text:#F2E7E0;--muted:#B8A193;--green:#E5A27F;--on-green:#2B140A;--tint:#2B1F18;--line:#382920}}
+:root[data-accent="copper"][data-theme="dark"]{--bg:#17100C;--surface:#201712;--text:#F2E7E0;--muted:#B8A193;--green:#E5A27F;--on-green:#2B140A;--tint:#2B1F18;--line:#382920}
 :root[data-accent="mono"]{--bg:#FFFFFF;--surface:#F7F7F7;--text:#111111;--muted:#5C5C5C;--green:#111111;--on-green:#FFFFFF;--tint:#F0F0F0;--line:#E4E4E4}
 @media (prefers-color-scheme:dark){:root[data-accent="mono"]:not([data-theme="light"]){--bg:#000000;--surface:#111111;--text:#F2F2F2;--muted:#A6A6A6;--green:#EDEDED;--on-green:#000000;--tint:#1A1A1A;--line:#262626}}
 :root[data-accent="mono"][data-theme="dark"]{--bg:#000000;--surface:#111111;--text:#F2F2F2;--muted:#A6A6A6;--green:#EDEDED;--on-green:#000000;--tint:#1A1A1A;--line:#262626}
@@ -35,6 +44,15 @@
 .apsw [data-accent="violet"] i{background:#4B3577;box-shadow:inset 0 0 0 7px #F4F2F7}
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .apsw [data-accent="violet"] i{background:#BBA6E6;box-shadow:inset 0 0 0 7px #121016}}
 :root[data-theme="dark"] .apsw [data-accent="violet"] i{background:#BBA6E6;box-shadow:inset 0 0 0 7px #121016}
+.apsw [data-accent="teal"] i{background:#1D5E5A;box-shadow:inset 0 0 0 7px #F0F5F4}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .apsw [data-accent="teal"] i{background:#7CCFC6;box-shadow:inset 0 0 0 7px #0C1514}}
+:root[data-theme="dark"] .apsw [data-accent="teal"] i{background:#7CCFC6;box-shadow:inset 0 0 0 7px #0C1514}
+.apsw [data-accent="olive"] i{background:#4E5A22;box-shadow:inset 0 0 0 7px #F4F4EC}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .apsw [data-accent="olive"] i{background:#C2CC8A;box-shadow:inset 0 0 0 7px #12130C}}
+:root[data-theme="dark"] .apsw [data-accent="olive"] i{background:#C2CC8A;box-shadow:inset 0 0 0 7px #12130C}
+.apsw [data-accent="copper"] i{background:#8A4426;box-shadow:inset 0 0 0 7px #F7F1EC}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .apsw [data-accent="copper"] i{background:#E5A27F;box-shadow:inset 0 0 0 7px #17100C}}
+:root[data-theme="dark"] .apsw [data-accent="copper"] i{background:#E5A27F;box-shadow:inset 0 0 0 7px #17100C}
 .apsw [data-accent="slate"] i{background:#34404C;box-shadow:inset 0 0 0 7px #F2F3F4}
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .apsw [data-accent="slate"] i{background:#B8C4CF;box-shadow:inset 0 0 0 7px #111315}}
 :root[data-theme="dark"] .apsw [data-accent="slate"] i{background:#B8C4CF;box-shadow:inset 0 0 0 7px #111315}
