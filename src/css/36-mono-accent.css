@@ -23,3 +23,7 @@ body.home{position:relative}
 body.home::before{position:absolute!important;top:0;left:0;right:0;bottom:auto!important;height:260px}
 /* روابط «ما يناسب اليوم» (صيغة الصلاة، فواتح الدعاء): أزرار واضحة مثل «كل الوقفات» لا نصًا باهتًا */
 .occ .ocln .chip{background:var(--soft2);color:var(--text);font-weight:600;border:0}
+/* فاصل تقليب صفحات المصحف: خط رفيع هادئ بلون الموقع، بلا توهّج (طلب المالك) */
+.qspine{width:10px;background:linear-gradient(90deg,transparent 4px,color-mix(in srgb,var(--gold) 70%,transparent) 4px,color-mix(in srgb,var(--gold) 70%,transparent) 5.5px,transparent 5.5px)!important;box-shadow:none!important}
+/* أزرار نسخ/مشاركة/بطاقة في القارئ: نص واضح لا باهت، في كل الألوان */
+.rdact .btn{color:var(--text)}
