@@ -21,6 +21,8 @@ async function card(ctx, u) {
     } else { t = `سورة ${s[0]}`; d = `${ayat(s[1])} · ${s[2] ? 'مدنية' : 'مكية'} — اقرأها في أثر`; }
   } else if ((m = u.pathname.match(/^\/adhkar\/([a-z]+)\/?$/)) && A[m[1]]) {
     t = A[m[1]]; d = 'اقرأها كاملة في أثر'; img = `/og/a/${m[1]}.jpg`; to = `/adhkar/${m[1]}`;
+  } else if (/^\/salawat\/?$/.test(u.pathname)) {
+    t = 'الصلاة على النبي ﷺ'; d = 'صيغة الصلاة على النبي ﷺ وفضلها — اقرأها في أثر'; img = '/og/salawat.jpg'; to = '/salawat';
   } else if (/^\/dua\/jumua(\/all)?\/?$/.test(u.pathname)) {
     t = 'فواتح الدعاء وجوامعه'; d = 'أدعية يوم الجمعة — اقرأها في أثر'; img = '/og/jumua.jpg'; to = '/dua/jumua/all';
   } else if ((m = u.pathname.match(/^\/dua\/type\/([a-z]+)\/?$/)) && DT[m[1]]) {
@@ -48,7 +50,7 @@ export async function onRequest(ctx) {
   const u = new URL(ctx.request.url);
   if (u.hostname === 'iathar.pages.dev' && !u.pathname.startsWith('/api/'))
     return new Response('', { status: 404, headers: { 'x-robots-tag': 'noindex', 'cache-control': 'no-store' } });
-  if (ctx.request.method === 'GET' && /^\/(quran|adhkar|dua)\//.test(u.pathname)) {
+  if (ctx.request.method === 'GET' && /^\/((quran|adhkar|dua)\/|salawat\/?$)/.test(u.pathname)) {
     try { const r = await card(ctx, u); if (r) return r; } catch (e) {}
   }
   return ctx.next();

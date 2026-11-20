@@ -44,6 +44,7 @@ for k, t, _ in DK:
 for k, t in DG:
     cards.append(('g/' + k, 'أدعية', t, 'من حصن المسلم'))
 cards.append(('jumua', 'يوم الجمعة', 'فواتح الدعاء وجوامعه', 'من القرآن والسنة'))
+cards.append(('salawat', '', 'الصلاة على النبي ﷺ', 'صيغتها وفضلها'))
 with open(os.path.join(OUT, 'meta.js'), 'a', encoding='utf-8') as f:
     f.write('export const DT=%s;\nexport const DGN=%s;\n' % (json.dumps({k: t for k, t, _ in DK}, ensure_ascii=False), json.dumps({k: t for k, t in DG}, ensure_ascii=False)))
 json.dump(cards, open('/tmp/og-cards.json', 'w', encoding='utf-8'), ensure_ascii=False)

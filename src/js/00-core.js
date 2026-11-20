@@ -1,5 +1,5 @@
 /* رابط مشاركة مثل /quran/18 فُتح مباشرة (مثلًا دون إنترنت): انقله إلى رابطه داخل التطبيق */
-try{if(!location.hash&&/^\/(quran|adhkar|dua)\/[^/]/.test(location.pathname))history.replaceState(null,'','/#'+location.pathname.replace(/\/$/,''))}catch(e){}
+try{if(!location.hash&&/^\/((quran|adhkar|dua)\/[^/]|salawat\/?$)/.test(location.pathname))history.replaceState(null,'','/#'+location.pathname.replace(/\/$/,''))}catch(e){}
 
 /* Phase 2 — DATA layer: all content below is PLACEHOLDER (not real Quran/Hadith/Adhkar). Replace with a verified source later. */
 (function(){
@@ -20,3 +20,6 @@ function head(t,d,back){return (back?'<a class="back" href="#'+back+'"><svg view
 /* من أين جاء الزائر: زر «رجوع» في حفظي والختمة يعيده للصفحة التي فتحها منها (القرآن أو المزيد) */
 var RPREV='';addEventListener('hashchange',function(e){try{RPREV=new URL(e.oldURL).hash.slice(1).split('?')[0]}catch(x){}});
 function fromBack(d){return /^\/(quran|about)$/.test(RPREV)?RPREV:d}
+
+/* ارتفاع الشريط السفلي الفعلي → --navh (تستعمله مسافة أسفل الصفحة) */
+(function(){function f(){var n=document.querySelector('body>nav');if(n&&n.offsetHeight)document.documentElement.style.setProperty('--navh',n.offsetHeight+'px')}try{f();addEventListener('resize',f);addEventListener('orientationchange',f);if(window.ResizeObserver){var n=document.querySelector('body>nav');if(n)new ResizeObserver(f).observe(n)}else addEventListener('load',f)}catch(e){}})();

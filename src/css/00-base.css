@@ -11,6 +11,8 @@ button,input{font:inherit;color:inherit}
 :focus-visible{outline:2px solid var(--green);outline-offset:2px;border-radius:6px}
 svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;flex:none}
 .wrap{max-width:640px;margin:0 auto;padding:0 20px 112px}
+/* مسافة أسفل الصفحة = ارتفاع الشريط السفلي الفعلي (يختلف بين الأجهزة وحافة الآيفون) + هامش، حتى لا يختفي آخر المحتوى خلفه */
+body:not(.qon) .wrap{padding-bottom:calc(var(--navh,calc(64px + env(safe-area-inset-bottom,0px))) + 32px)}
 header{display:flex;align-items:center;justify-content:space-between;padding:20px 0 8px}
 .brand{font:700 2rem/1 var(--ar);color:var(--green);margin:0}
 .tag{margin:4px 0 0;color:var(--muted);font-size:.9rem}
