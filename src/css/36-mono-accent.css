@@ -9,9 +9,10 @@
 /* محراب خلفية الرئيسية بلون الموقع المختار (لا ذهبي ثابت في الألوان الأخرى):
    ::before = توهّج خفيف بلون الموقع، ::after = خطوط المحراب نفسها (الرسم قناع، واللون من --acc) */
 body.home::before{background:radial-gradient(ellipse 70% 260px at 50% 0,color-mix(in srgb,var(--acc) 14%,transparent),transparent 70%)!important}
-body.home::after{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;background:var(--acc);
- -webkit-mask:var(--hpf) center -30px/min(100%,520px) auto no-repeat,linear-gradient(#000 0,#000 130px,transparent 215px);-webkit-mask-composite:source-in;
- mask:var(--hpf) center -30px/min(100%,520px) auto no-repeat,linear-gradient(#000 0,#000 130px,transparent 215px);mask-composite:intersect}
+body.home::after{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
+ /* التلاشي في الخلفية نفسها (لا قناعين مركّبين — سفاري الآيفون لا يركّبهما) */
+ background:linear-gradient(to bottom,var(--goldtx) 0,var(--goldtx) 130px,transparent 215px);
+ -webkit-mask:var(--hpf) center -30px/min(100%,520px) auto no-repeat;mask:var(--hpf) center -30px/min(100%,520px) auto no-repeat}
 /* لون زخرفة واحد في كل الموقع ولكل لون من ألوانه (طلب المالك 2026-11-20 «اللون مو متناسق»):
    العناوين الصغيرة والأيقونات وزخرفة الوقفة ومحراب رقم الصفحة وإطار اسم السورة وعلامات الآيات وتمييز ألفاظ الذكر — كلها بنفس الدرجة */
 body{--gold:var(--goldtx)}
