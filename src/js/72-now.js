@@ -67,3 +67,8 @@ function hbCont(){var o=qget('athar-qlp',null),k=null;try{k=kmGet()}catch(e){}if
  return '<a class="hbcont" href="#/quran/page/'+o.p+'"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4h10v16l-5-4-5 4z"/></svg><span><small>تابع القراءة</small><b>سورة '+QN[QPG[o.p-1][0]-1]+' · صفحة '+ar(o.p)+'</b></span><svg class="go" viewBox="0 0 24 24" aria-hidden="true"><path d="m15 6-6 6 6 6"/></svg></a>'}
 function hbRender(){var el=document.getElementById('hbn');if(!el)return;var on=document.body.classList.contains('home');el.hidden=!on;if(on)el.innerHTML=hbNow()+hbCont()}
 setInterval(function(){if(!document.hidden)try{hbRender()}catch(e){}},30000);
+/* عند الرجوع للتطبيق (الجوال يوقف المؤقّتات وهو في الخلفية): حدّث «الصلاة القادمة» و«يناسب وقتك» فورًا،
+   وإن تغيّر اليوم أعد رسم الرئيسية وصفحة الأدعية (بطاقات الجمعة و«ما يناسب اليوم» تتبع اليوم) */
+var HBDAY=nowYMD(new Date());
+function hbWake(){if(document.hidden)return;try{hbRender()}catch(e){}var t=nowYMD(new Date());if(t!==HBDAY){HBDAY=t;if(/^#?\/?(dua)?$/.test(location.hash))try{route()}catch(e){}}}
+document.addEventListener('visibilitychange',hbWake);window.addEventListener('pageshow',hbWake);window.addEventListener('focus',hbWake);
