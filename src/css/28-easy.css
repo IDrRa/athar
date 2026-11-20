@@ -16,3 +16,6 @@
 :root[data-easy] .toast{bottom:calc(4.2rem + 16px + env(safe-area-inset-bottom,0px))}
 body.ezq .qbar{bottom:calc(5.4rem + env(safe-area-inset-bottom,0px))}
 body.ezq .toast{bottom:calc(5.4rem + env(safe-area-inset-bottom,0px))}
+
+/* وصف الوضع الميسّر في نافذة المظهر يظهر فقط إذا فُعِّل (طلب المالك) */
+.apezh{display:none}:root[data-easy] .apezh{display:block}
