@@ -566,6 +566,9 @@ a.aprow{text-decoration:none}
 /* reader: size buttons next to the position */
 .rdend{display:flex;align-items:center;gap:12px}
 .rdfs{display:flex;gap:6px}
+.rdsh{min-width:40px;height:36px;padding:0 8px;border:1px solid var(--line);border-radius:10px;background:var(--surface);color:var(--text);display:inline-flex;align-items:center;justify-content:center;cursor:pointer}
+.rdsh svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.rdsh:active{background:var(--tint)}
 .rdfs button{min-width:40px;height:36px;padding:0 8px;border:1px solid var(--line);border-radius:10px;background:var(--surface);color:var(--text);font:600 .95rem var(--ui);cursor:pointer}
 .rdfs button small{font-size:.75em;margin-inline-start:1px}
 .rdfs button:active{background:var(--tint)}
@@ -1419,11 +1422,14 @@ function rdList(ty,key){return PL(ty).filter(function(o){return ty==='dhikr'?o.c
 function cnum(o){var n=parseInt(o.count,10);return n>1?n:0}
 var CHV='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg>',CHL='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 6-6 6 6 6"/></svg>';
 function rdInit(L,title,back,base,i){RS={L:L,title:title,back:back,base:base,i:Math.max(0,Math.min(L.length-1,i||0))};return rdHtml()}
+/* رابط مشاركة القسم كاملًا (له بطاقة معاينة خاصة في functions/_middleware.js) */
+function secUrl(b){var m=/^\/adhkar\/([a-z]+)$/.exec(b||'');if(m)return SITE+'adhkar/'+m[1];if((b||'').indexOf('/dua/jumua')===0)return SITE+'dua/jumua';if(/^\/dua\/(type|general)\/[a-z]+$/.test(b||''))return SITE+b.slice(1);return ''}
+document.addEventListener('click',function(e){var b=e.target.closest('[data-rsh]');if(!b||!RS)return;var u=secUrl(RS.base);if(!u)return;if(navigator.share)navigator.share({title:RS.title,url:u}).catch(function(){});else if(navigator.clipboard)navigator.clipboard.writeText(u).then(function(){toast('نُسخ رابط القسم')},function(){toast('تعذرت المشاركة')});else toast('تعذرت المشاركة')});
 function rdHtml(){var L=RS.L,i=RS.i,o=L[i];if(!L.length)return head(RS.title,'',RS.back)+EM;
 var n=cnum(o),c=RC[o.id]||0,done=n&&c>=n,last=i===L.length-1,gen=o.type==='dua'&&(o.kind||'general')==='general'&&!o.source;
 var src=[];if(o.source&&o.source!==NS&&(o.reference||'').indexOf(o.source)!==0)src.push(o.source);if(o.reference&&o.reference!==NS)src.push(o.reference);
 var tt=o.title&&RS.base.indexOf('/dua/jumua')!==0&&nz(o.title).s!==nz(RS.title).s?'<h3 class="rdt">'+o.title+'</h3>':'';
-return '<div class="rd"><h1 class="sr">'+RS.title+'</h1><div class="rdtop"><a class="back" href="#'+RS.back+'">'+CHV+'رجوع</a><span class="rdend"><span class="rdfs" role="group" aria-label="حجم الخط"><button type="button" data-fsd="-1" aria-label="تصغير الخط">أ<small>−</small></button><button type="button" data-fsd="1" aria-label="تكبير الخط">أ<small>+</small></button></span><span class="rdpos" role="status">'+ar(i+1)+' من '+ar(L.length)+'</span></span></div>'
+return '<div class="rd"><h1 class="sr">'+RS.title+'</h1><div class="rdtop"><a class="back" href="#'+RS.back+'">'+CHV+'رجوع</a><span class="rdend">'+(secUrl(RS.base)?'<button type="button" class="rdsh" data-rsh aria-label="مشاركة '+RS.title+'"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 15V4M7.5 8.5 12 4l4.5 4.5M5 13v6h14v-6"/></svg></button>':'')+'<span class="rdfs" role="group" aria-label="حجم الخط"><button type="button" data-fsd="-1" aria-label="تصغير الخط">أ<small>−</small></button><button type="button" data-fsd="1" aria-label="تكبير الخط">أ<small>+</small></button></span><span class="rdpos" role="status">'+ar(i+1)+' من '+ar(L.length)+'</span></span></div>'
 +'<h2 class="rdh">'+RS.title+'</h2><div class="rdbar" role="progressbar" aria-label="التقدم في القراءة" aria-valuemin="1" aria-valuemax="'+L.length+'" aria-valuenow="'+(i+1)+'"><i style="width:'+Math.round((i+1)/L.length*100)+'%"></i></div>'
 +'<article class="rdc" data-swipe>'+tt+rdnar(o)+'<p class="rdx'+(o.kind==='quran'||o.kind==='prophets'?' rq':'')+(o.text.length>380?' s':o.text.length>170?' m':'')+'" lang="ar">'+rdtx(o)+'</p>'
 +(gen?'<p class="note">دعاء عام: ليس حديثًا ولا من المأثور.</p>':'')

@@ -35,6 +35,17 @@ for k, t in CA:
     top, big = ('أذكار', t[6:]) if t.startswith('أذكار ') else ('', t)
     cards.append(('a/' + k, top, big, 'من حصن المسلم'))
 cards.append(('d', '', 'دعاء', 'من القرآن والسنة'))
+c10 = open(os.path.join(SRC, 'js', '10-content.js'), encoding='utf-8').read()
+DK = json.loads(re.search(r'var DK=(\[\[.*?\]\]),', c10).group(1).replace("'", '"'))
+DG = json.loads(re.search(r'var DG=(\[\[.*?\]\]);', c10).group(1))
+SUB = {'quran': 'من القرآن الكريم', 'prophets': 'من القرآن الكريم', 'sunnah': 'من السنة النبوية', 'general': 'من حصن المسلم'}
+for k, t, _ in DK:
+    cards.append(('t/' + k, 'أدعية' if t.startswith('أدعية ') else '', t[6:] if t.startswith('أدعية ') else t, SUB.get(k, '')))
+for k, t in DG:
+    cards.append(('g/' + k, 'أدعية', t, 'من حصن المسلم'))
+cards.append(('jumua', 'يوم الجمعة', 'فواتح الدعاء وجوامعه', 'من القرآن والسنة'))
+with open(os.path.join(OUT, 'meta.js'), 'a', encoding='utf-8') as f:
+    f.write('export const DT=%s;\nexport const DGN=%s;\n' % (json.dumps({k: t for k, t, _ in DK}, ensure_ascii=False), json.dumps({k: t for k, t in DG}, ensure_ascii=False)))
 json.dump(cards, open('/tmp/og-cards.json', 'w', encoding='utf-8'), ensure_ascii=False)
 subprocess.run(['node', os.path.join(ROOT, 'tools', 'og-render.mjs'), '/tmp/og-cards.json', OUT], check=True)
 print('✓ og: %d بطاقة، %d دعاء' % (len(cards), len(D)))

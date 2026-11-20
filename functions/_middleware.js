@@ -2,7 +2,7 @@
 // ما عدا /api/ : منبّه الإشعارات (athar-cron) يستدعي العنوان القديم، فيبقى يعمل كما هو.
 // روابط المشاركة (/quran/18، /quran/18/10، /adhkar/morning/3، /dua/<id>) تُعطي واتساب وغيره بطاقة خاصة
 // (صورة السورة أو القسم وعنوانه)، ثم تفتح الصفحة نفسها داخل أثر (/#/…). البطاقات مولَّدة بـ tools/og.py
-import { S, A, D } from '../og/meta.js';
+import { S, A, D, DT, DGN } from '../og/meta.js';
 
 const AR = n => String(n).replace(/\d/g, d => '٠١٢٣٤٥٦٧٨٩'[d]);
 const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
@@ -19,6 +19,14 @@ async function card(ctx, u) {
       try { const r = await ctx.env.ASSETS.fetch(new URL(`/og/v/${n}.json`, u)); if (r.ok) d = (await r.json())[v - 1]; } catch (e) {}
       d = d || 'اقرأ الآية في أثر';
     } else { t = `سورة ${s[0]}`; d = `${ayat(s[1])} · ${s[2] ? 'مدنية' : 'مكية'} — اقرأها في أثر`; }
+  } else if ((m = u.pathname.match(/^\/adhkar\/([a-z]+)\/?$/)) && A[m[1]]) {
+    t = A[m[1]]; d = 'اقرأها كاملة في أثر'; img = `/og/a/${m[1]}.jpg`; to = `/adhkar/${m[1]}`;
+  } else if (/^\/dua\/jumua(\/all)?\/?$/.test(u.pathname)) {
+    t = 'فواتح الدعاء وجوامعه'; d = 'أدعية يوم الجمعة — اقرأها في أثر'; img = '/og/jumua.jpg'; to = '/dua/jumua/all';
+  } else if ((m = u.pathname.match(/^\/dua\/type\/([a-z]+)\/?$/)) && DT[m[1]]) {
+    t = DT[m[1]]; d = 'اقرأها كاملة في أثر'; img = `/og/t/${m[1]}.jpg`; to = `/dua/type/${m[1]}`;
+  } else if ((m = u.pathname.match(/^\/dua\/general\/([a-z]+)\/?$/)) && DGN[m[1]]) {
+    t = 'أدعية ' + DGN[m[1]]; d = 'من حصن المسلم — اقرأها في أثر'; img = `/og/g/${m[1]}.jpg`; to = `/dua/general/${m[1]}`;
   } else if ((m = u.pathname.match(/^\/adhkar\/([a-z]+)\/(\d{1,3})\/?$/)) && A[m[1]]) {
     t = A[m[1]]; d = `من ${A[m[1]]} — اقرأه في أثر`; img = `/og/a/${m[1]}.jpg`; to = `/adhkar/${m[1]}/${+m[2]}`;
   } else if ((m = u.pathname.match(/^\/dua\/([A-Za-z0-9-]+)\/?$/)) && D[m[1]]) {
