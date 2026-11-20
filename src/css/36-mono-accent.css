@@ -1,7 +1,14 @@
-/* «أسود وأبيض»: لا ذهبي في الواجهة — العناوين الصغيرة والأيقونات والتحديد بالرمادي الفاتح (طلب المالك 2026-11-20).
+/* «أسود وأبيض»: ذهبي خافت في الواجهة (العناوين الصغيرة والأيقونات والتحديد) — لا الذهبي الفاتح ولا الرمادي الباهت (طلب المالك 2026-11-20).
    يبقى الذهبي في المصحف وزخارفه وأرقام صفحاته، وفي تمييز ألفاظ الذكر داخل النصوص. */
 :root{--goldo:var(--gold)}
 /* المصحف (body.qon) يبقى بذهبه كاملًا، بما فيه تحديد الآية وشريطها */
-:root[data-accent="mono"]:not(:has(body.qon)){--acc:color-mix(in srgb,var(--text) 62%,var(--bg))}
-:root[data-accent="mono"] body:not(.qon) main,:root[data-accent="mono"] #hbn{--gold:color-mix(in srgb,var(--text) 62%,var(--bg))}
+:root[data-accent="mono"]:not(:has(body.qon)){--acc:color-mix(in srgb,var(--goldo) 66%,var(--bg))}
+:root[data-accent="mono"] body:not(.qon) main,:root[data-accent="mono"] #hbn{--gold:color-mix(in srgb,var(--goldo) 66%,var(--bg))}
 :root[data-accent="mono"] :is(.qpno,.qsj,.msh,.qbn,.msn,mark.dk){--gold:var(--goldo)}
+
+/* أيقونات الأقسام في صفوف الأذكار والأدعية وبطاقات «ماذا أدعو الآن؟» و«يوم الجمعة» */
+a.row>.cic,a.qcont>.cic,.cic{flex:none;display:grid;place-items:center;width:42px;height:42px;border-radius:13px;background:var(--goldt);color:var(--goldtx)}
+.cic svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.row .cic{margin-inline-end:2px}
+.qcont.dnow{display:flex;flex-direction:row;align-items:center;gap:14px}
+.qcont.dnow>span:not(.cic){display:flex;flex-direction:column;min-width:0}
