@@ -171,9 +171,10 @@ a.btn{text-decoration:none;color:var(--text)}
 .rdact .btn{min-height:36px;padding:0 14px;font-size:.84rem;color:var(--muted)}
 /* شريط «السابق/التالي»: يلتصق فوق الشريط السفلي بارتفاعه الفعلي (--navh)، وخلفيته معتمة حتى لا يظهر النص خلف الأزرار */
 .rdnav{position:sticky;z-index:5;bottom:var(--navh,calc(68px + env(safe-area-inset-bottom,0px)));display:flex;gap:10px;padding:10px 0;background:var(--bg)}
-.rdnav::before{content:"";position:absolute;inset-inline:0;bottom:100%;height:22px;background:linear-gradient(to bottom,transparent,var(--bg));pointer-events:none}
+
 .rdnav .btn{flex:1;justify-content:center;min-height:52px;font-size:1rem}
-.rdnav .btn[disabled]{opacity:.4;cursor:default}
+/* لا زر باهت: في أول نص يختفي «السابق» وفي آخره «التالي»، ويأخذ الآخر العرض كله */
+.rdnav .btn[disabled]{display:none}
 .rdnav .btn.soft{background:var(--surface);color:var(--green);border-color:var(--green)}
 
 
