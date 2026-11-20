@@ -1,13 +1,9 @@
 /* «أسود وأبيض»: ذهبي خافت في الواجهة (العناوين الصغيرة والأيقونات والتحديد) — لا الذهبي الفاتح ولا الرمادي الباهت (طلب المالك 2026-11-20).
-   يبقى الذهبي في المصحف وزخارفه وأرقام صفحاته، وفي تمييز ألفاظ الذكر داخل النصوص. */
+   والمصحف وزخارفه بنفس الدرجة، حتى لا يظهر ذهبيان مختلفان. */
 :root{--goldo:var(--gold);--gdim:color-mix(in srgb,var(--goldo) 75%,var(--text))}
 :root[data-theme="dark"]{--gdim:color-mix(in srgb,var(--goldo) 66%,var(--bg))}
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--gdim:color-mix(in srgb,var(--goldo) 66%,var(--bg))}}
-/* المصحف (body.qon) يبقى بذهبه كاملًا، بما فيه تحديد الآية وشريطها */
-:root[data-accent="mono"]:not(:has(body.qon)){--acc:var(--gdim)}
-/* الأيقونات والعناوين الصغيرة بلون واحد (نفس لون «يناسب وقتك»)، لا ذهبيان مختلفان */
-:root[data-accent="mono"] body:not(.qon) main,:root[data-accent="mono"] #hbn{--gold:color-mix(in srgb,var(--gdim) 58%,var(--text))}
-:root[data-accent="mono"] :is(.qpno,.qsj,.msh,.qbn,.msn,mark.dk){--gold:var(--goldo)}
+:root[data-accent="mono"]{--acc:var(--gdim)}
 
 
 /* محراب خلفية الرئيسية بلون الموقع المختار (لا ذهبي ثابت في الألوان الأخرى):
@@ -16,6 +12,7 @@ body.home::before{background:radial-gradient(ellipse 70% 260px at 50% 0,color-mi
 body.home::after{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;background:var(--acc);
  -webkit-mask:var(--hpf) center -30px/min(100%,520px) auto no-repeat,linear-gradient(#000 0,#000 130px,transparent 215px);-webkit-mask-composite:source-in;
  mask:var(--hpf) center -30px/min(100%,520px) auto no-repeat,linear-gradient(#000 0,#000 130px,transparent 215px);mask-composite:intersect}
-/* كل لمسات الواجهة (الأيقونات والعناوين الصغيرة وزخرفة الوقفة) بلون واحد من لون الموقع، في كل الألوان */
-body:not(.qon) main,#hbn{--gold:var(--goldtx)}
-:root :is(.qpno,.qsj,.msh,.qbn,.msn,mark.dk){--gold:var(--goldo)}
+/* لون زخرفة واحد في كل الموقع ولكل لون من ألوانه (طلب المالك 2026-11-20 «اللون مو متناسق»):
+   العناوين الصغيرة والأيقونات وزخرفة الوقفة ومحراب رقم الصفحة وإطار اسم السورة وعلامات الآيات وتمييز ألفاظ الذكر — كلها بنفس الدرجة */
+body{--gold:var(--goldtx)}
+.qam,.vn .qam{color:var(--gold)!important}
