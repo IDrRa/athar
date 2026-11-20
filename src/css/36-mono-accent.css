@@ -5,6 +5,7 @@
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--gdim:color-mix(in srgb,var(--goldo) 66%,var(--bg))}}
 /* المصحف (body.qon) يبقى بذهبه كاملًا، بما فيه تحديد الآية وشريطها */
 :root[data-accent="mono"]:not(:has(body.qon)){--acc:var(--gdim)}
-:root[data-accent="mono"] body:not(.qon) main,:root[data-accent="mono"] #hbn{--gold:var(--gdim)}
+/* الأيقونات والعناوين الصغيرة بلون واحد (نفس لون «يناسب وقتك»)، لا ذهبيان مختلفان */
+:root[data-accent="mono"] body:not(.qon) main,:root[data-accent="mono"] #hbn{--gold:color-mix(in srgb,var(--gdim) 58%,var(--text))}
 :root[data-accent="mono"] :is(.qpno,.qsj,.msh,.qbn,.msn,mark.dk){--gold:var(--goldo)}
 

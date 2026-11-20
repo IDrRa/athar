@@ -3,7 +3,7 @@
 .today.wqc::before{display:none}
 .wqtop{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:2px 2px 4px}
 .wqtop h3{display:flex;align-items:center;gap:7px;margin:0;font-size:.98rem;text-align:start}
-.wqtop h3::before{content:"";flex:none;width:16px;height:16px;background:var(--orn) center/contain no-repeat}
+.wqtop h3::before{content:"";flex:none;width:16px;height:16px;background:var(--gold);-webkit-mask:var(--orn) center/contain no-repeat;mask:var(--orn) center/contain no-repeat}
 .today .wqtop .badge{margin:0;flex:none;font-size:.72rem}
 .wqc .ctext{font-size:calc(1.3rem*var(--rdk,1));line-height:2}
 .wqc .wqsn{margin-bottom:6px}

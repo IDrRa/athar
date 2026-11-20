@@ -22,4 +22,6 @@ var RPREV='';addEventListener('hashchange',function(e){try{RPREV=new URL(e.oldUR
 function fromBack(d){return /^\/(quran|about)$/.test(RPREV)?RPREV:d}
 
 /* ارتفاع الشريط السفلي الفعلي → --navh (تستعمله مسافة أسفل الصفحة) */
-(function(){function f(){var n=document.querySelector('body>nav');if(n&&n.offsetHeight)document.documentElement.style.setProperty('--navh',n.offsetHeight+'px')}try{f();addEventListener('resize',f);addEventListener('orientationchange',f);if(window.ResizeObserver){var n=document.querySelector('body>nav');if(n)new ResizeObserver(f).observe(n)}else addEventListener('load',f)}catch(e){}})();
+(function(){function f(){var n=document.querySelector('body>nav');if(!n)return;var h=Math.round(n.getBoundingClientRect().height);if(h)document.documentElement.style.setProperty('--navh',h+'px')}
+ /* حافة الآيفون السفلية (safe-area) قد تُطبَّق بعد التحميل، وهي «حشوة» لا يراها مراقب الحجم الافتراضي: نراقب الصندوق كاملًا ونعيد القياس عند كل فرصة */
+ try{f();['resize','orientationchange','load','pageshow','hashchange'].forEach(function(e){addEventListener(e,f)});document.addEventListener('visibilitychange',f);setTimeout(f,300);setTimeout(f,1500);if(window.ResizeObserver){var n=document.querySelector('body>nav');if(n)new ResizeObserver(f).observe(n,{box:'border-box'})}}catch(e){}})();

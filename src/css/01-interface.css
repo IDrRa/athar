@@ -11,7 +11,7 @@ header{padding:24px 0 6px}
 #app>section>h2{font:600 .95rem/1.4 var(--ui);color:var(--muted);margin:0 0 12px}
 .today{position:relative;text-align:center;border:1px solid var(--line);border-radius:var(--r-lg);padding:30px 22px 22px;background:var(--surface);box-shadow:inset 0 0 0 7px var(--surface),inset 0 0 0 8px var(--line)}
 .today,.card.today{margin-bottom:32px}
-.today::before{content:"";display:block;width:30px;height:30px;margin:0 auto 12px;background:var(--orn) center/contain no-repeat}
+.today::before{content:"";display:block;width:30px;height:30px;margin:0 auto 12px;background:var(--gold);-webkit-mask:var(--orn) center/contain no-repeat;mask:var(--orn) center/contain no-repeat}
 .today .badge{display:table;margin:0 auto 12px}
 .today h3{font:600 1rem/1.5 var(--ui);color:var(--green);margin:0 0 8px}
 .today .ctext{font:400 1.55rem/2.2 var(--ar);color:var(--text);text-align:center;white-space:pre-line;text-wrap:balance}
