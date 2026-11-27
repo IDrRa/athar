@@ -10,12 +10,14 @@ import * as pw from 'playwright';
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const TYPES = { '.html': 'text/html; charset=utf-8', '.js': 'text/javascript', '.json': 'application/json', '.css': 'text/css', '.woff2': 'font/woff2', '.png': 'image/png', '.svg': 'image/svg+xml', '.webmanifest': 'application/manifest+json' };
 const server = http.createServer((req, res) => {
-  let p = decodeURIComponent(new URL(req.url, 'http://x').pathname); if (p.endsWith('/')) p += 'index.html';
-  const f = path.join(ROOT, p);
+  let p = decodeURIComponent(new URL(req.url, 'http://x').pathname); if (p === '/') p += 'index.html';
+  const f0 = path.join(ROOT, p);
+  // مثل Cloudflare: أي مسار بلا ملف (/quran/2، /adhkar/morning) يفتح التطبيق نفسه
+  const f = (!fs.existsSync(f0) || fs.statSync(f0).isDirectory()) && !path.extname(p) ? path.join(ROOT, 'index.html') : f0;
   if (!f.startsWith(ROOT) || !fs.existsSync(f) || fs.statSync(f).isDirectory()) { res.writeHead(404); return res.end(); }
   res.writeHead(200, { 'content-type': TYPES[path.extname(f)] || 'application/octet-stream' }); fs.createReadStream(f).pipe(res);
 }).listen(0);
-const base = `http://localhost:${server.address().port}/index.html`;
+const base = `http://localhost:${server.address().port}/`;
 
 const ROUTES = ['', 'quran', 'quran/1', 'quran/2/255', 'quran/page/604', 'quran/page/176', 'adhkar', 'adhkar/morning', 'adhkar/evening', 'adhkar/tasbih', 'dua', 'dua/type/quran', 'dua/type/general',
   'dua/now', 'waqfa', 'waqfa/archive', 'waqfa/wq-030', 'khatma', 'notes', 'search?q=الصبر', 'about', 'mission', 'prayer', 'qibla', 'stats', 'offline', 'notify', 'install', 'report', 'salawat'];
@@ -61,7 +63,7 @@ for (const name of names) {
     if (scheme === 'easy') { await page.evaluate(() => localStorage.setItem('athar-easy', '1')); await page.reload(); }
     for (const r of ROUTES) {
       errs.length = 0;
-      await page.goto(base + '#/' + r); await page.waitForTimeout(250);
+      await page.goto(base + r); await page.waitForTimeout(250);
       const text = await page.innerText('body');
       const notFound = text.includes('الصفحة غير موجودة');
       const wide = await page.evaluate(() => document.documentElement.scrollWidth > window.innerWidth + 1);
@@ -75,7 +77,7 @@ for (const name of names) {
       }
       if (errs.length || notFound || wide || out.length || shown.length || a11y.length) {
         failed++;
-        console.error(`✗ [${name} ${scheme}] #/${r}: ${errs.join(' | ') || (notFound ? 'غير موجودة' : wide ? 'عرض الصفحة أكبر من الشاشة' : out.length ? 'عنصر يخرج عن حدوده: ' + out.join('، ') : shown.length ? 'عنصر مخفي يظهر: ' + shown.join('، ') : 'سهولة الوصول: ' + a11y.join('، '))}`);
+        console.error(`✗ [${name} ${scheme}] /${r}: ${errs.join(' | ') || (notFound ? 'غير موجودة' : wide ? 'عرض الصفحة أكبر من الشاشة' : out.length ? 'عنصر يخرج عن حدوده: ' + out.join('، ') : shown.length ? 'عنصر مخفي يظهر: ' + shown.join('، ') : 'سهولة الوصول: ' + a11y.join('، '))}`);
       }
     }
     await ctx.close();
@@ -105,7 +107,7 @@ server.close();
     const redir = await p.evaluate(async () => { const o = []; for (const k of await caches.keys()) { const ch = await caches.open(k); for (const r of await ch.keys()) { const m = await ch.match(r); if (m && m.redirected) o.push(r.url.replace(location.origin, '')); } } return o; });
     if (redir.length) why = 'ملف محفوظ من رابط محوَّل (سفاري يرفض فتحه بلا إنترنت): ' + redir.join('، ');
     down = true;
-    for (const u of ['', '#/adhkar/morning', '#/quran/page/300', 'surah/18/', 'index.html']) { if (why) break; await p.goto(root + u, { timeout: 10000 }); await p.waitForTimeout(400); if (!/أثر/.test(await p.title())) why = 'لم تفتح بلا إنترنت: /' + u; }
+    for (const u of ['', 'adhkar/morning', 'quran/page/300', '#/adhkar/evening', 'surah/18/', 'index.html']) { if (why) break; await p.goto(root + u, { timeout: 10000 }); await p.waitForTimeout(400); if (!/أثر/.test(await p.title())) why = 'لم تفتح بلا إنترنت: /' + u; }
   } catch (e) { why = e.message.split('\n')[0]; }
   await b.close(); cf.close();
   if (why) { failed++; console.error('✗ بلا إنترنت: ' + why); } else console.log('✓ الموقع يفتح بلا إنترنت بعد زيارته، ولا شيء محفوظ من رابط محوَّل');

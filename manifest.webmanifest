@@ -37,19 +37,19 @@
  "shortcuts": [
   {
    "name": "القرآن",
-   "url": "./#/quran"
+   "url": "./quran"
   },
   {
    "name": "الأذكار",
-   "url": "./#/adhkar"
+   "url": "./adhkar"
   },
   {
    "name": "الأدعية",
-   "url": "./#/dua"
+   "url": "./dua"
   },
   {
    "name": "البحث",
-   "url": "./#/search"
+   "url": "./search"
   }
  ]
 }

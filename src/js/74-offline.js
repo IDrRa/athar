@@ -40,4 +40,4 @@ document.addEventListener('click',function(e){var b=e.target.closest('button[dat
  else if(a==='del'){if(OFF.del<Date.now()){OFF.del=Date.now()+4000;offDraw();setTimeout(offDraw,4100);return}OFF.del=0;b.disabled=true;
   caches.delete(OFF_C).catch(function(){}).then(function(){OFF.have={};qset('athar-off','');offDraw();kmTo('حُذفت النسخة المحفوظة')})}});
 /* leaving the page while saving pauses the download; what was saved stays */
-window.addEventListener('hashchange',function(){if(OFF.run&&location.hash!=='#/offline')OFF.stop=true});
+window.addEventListener('hashchange',function(){if(OFF.run&&HR()!=='#/offline')OFF.stop=true});

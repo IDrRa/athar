@@ -19,7 +19,7 @@
 """
 import os, re, sys, glob, json, hashlib, datetime
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-import pages as static_pages
+import sitemap as static_pages
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SRC = os.path.join(ROOT, 'src')
@@ -99,10 +99,10 @@ if __name__ == '__main__':
             sys.exit('✗ رقم الإصدار في sw.js لا يطابق الملفات — شغّل: python3 tools/build.py ثم احفظ التعديل')
         print('✓ index.html مطابق لملفات المصدر، ورقم الإصدار %s مطابق للملفات' % version)
         files = static_pages.pages()
-        bad = [n for n, c in files.items() if not os.path.exists(os.path.join(ROOT, n)) or read(os.path.join(ROOT, n)) != c] + static_pages.stale(files)
+        bad = [n for n, c in files.items() if not os.path.exists(os.path.join(ROOT, n)) or read(os.path.join(ROOT, n)) != c]
         if bad:
-            sys.exit('✗ صفحات البحث غير مطابقة (%s…) — شغّل: python3 tools/build.py ثم احفظ التعديل' % ', '.join(bad[:3]))
-        print('✓ صفحات البحث (%d ملفًا) مطابقة للمحتوى' % len(files))
+            sys.exit('✗ خريطة الموقع غير مطابقة (%s…) — شغّل: python3 tools/build.py ثم احفظ التعديل' % ', '.join(bad[:3]))
+        print('✓ خريطة الموقع (%d ملف) مطابقة' % len(files))
     else:
         with open(target, 'w', encoding='utf-8', newline='') as f:
             f.write(out)
@@ -114,8 +114,6 @@ if __name__ == '__main__':
         else:
             print('✓ رقم الإصدار في sw.js لم يتغيّر (%s)' % version)
         files = static_pages.pages()
-        for n in static_pages.stale(files):
-            os.remove(os.path.join(ROOT, n))
         for n, c in files.items():
             fp = os.path.join(ROOT, n)
             os.makedirs(os.path.dirname(fp), exist_ok=True)

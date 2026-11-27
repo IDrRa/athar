@@ -29,7 +29,7 @@ function mrExport(){var o={};try{for(var i=0;i<localStorage.length;i++){var k=lo
  mrSave('athar-backup-'+ds+'.json',JSON.stringify({app:'athar',v:1,savedAt:d.toISOString(),data:o},null,1))}
 document.addEventListener('click',function(e){var b=e.target.closest('.mrseg [data-fs]');if(b){mrSetFs(b.dataset.fs);return}
  b=e.target.closest('[data-mr]');if(!b)return;if(b.dataset.mr==='export'){mrExport();return}
- if(b.dataset.mr==='share'){var u=/^https:\/\/(atharuk\.com|idrra\.github\.io)\//.test(location.href)?location.href.split('#')[0]:'https://atharuk.com/';if(navigator.share)navigator.share({title:'أثر',text:'أثر — ما ينفعك ويبقى أثره',url:u}).catch(function(){});else copyT(u,'نُسخ رابط أثر')}});
+ if(b.dataset.mr==='share'){var u=/^https:\/\/(atharuk\.com|idrra\.github\.io)\//.test(location.href)?location.origin+'/':'https://atharuk.com/';if(navigator.share)navigator.share({title:'أثر',text:'أثر — ما ينفعك ويبقى أثره',url:u}).catch(function(){});else copyT(u,'نُسخ رابط أثر')}});
 document.addEventListener('change',function(e){var f=e.target;if(f.id!=='mrimp'||!f.files||!f.files[0])return;var file=f.files[0];if(file.size>2e6){kmTo('الملف كبير، ليس نسخة من أثر');f.value='';return}
  var rd=new FileReader();rd.onload=function(){var j=null;try{j=JSON.parse(rd.result)}catch(x){}
   if(!j||j.app!=='athar'||!j.data||typeof j.data!=='object'){kmTo('هذا الملف ليس نسخة احتياطية من أثر');f.value='';return}

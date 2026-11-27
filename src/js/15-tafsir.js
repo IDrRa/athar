@@ -22,5 +22,5 @@ document.addEventListener('keydown',function(e){var bk=tfEl('tafs');if(!bk||bk.h
  if(e.key==='Escape'){e.preventDefault();e.stopImmediatePropagation();tfClose();return}
  if(e.key==='ArrowLeft'||e.key==='ArrowRight'){e.preventDefault();e.stopImmediatePropagation();tfStep(e.key==='ArrowLeft'?1:-1);return}
  if(e.key==='Tab'){var f=[].filter.call(bk.querySelectorAll('button'),function(x){return!x.disabled}),a=f[0],z=f[f.length-1];if(e.shiftKey&&document.activeElement===a){e.preventDefault();z.focus()}else if(!e.shiftKey&&document.activeElement===z){e.preventDefault();a.focus()}}},true);
-addEventListener('hashchange',function(){var bk=tfEl('tafs');if(bk&&!bk.hidden&&!/^#\/quran/.test(location.hash))tfClose()});
+addEventListener('hashchange',function(){var bk=tfEl('tafs');if(bk&&!bk.hidden&&!/^#\/quran/.test(HR()))tfClose()});
 

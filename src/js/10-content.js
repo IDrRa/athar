@@ -105,7 +105,7 @@ function rdsplit(o){var tx=o.text.replace(/\r\n?/g,'\n'),k=tx.indexOf('\n');retu
 function rdnar(o){var a=rdsplit(o)[0];return a?'<p class="rdnar">'+a+'</p>':''}
 function rdtx(o){if(o.verses)return o.verses.map(function(v){return qam(v.text,v.a,1)}).join(' ');return hlHtml(o,rdsplit(o)[1])}
 function rdDraw(sc){V.innerHTML=rdHtml();if(sc)window.scrollTo(0,0)}
-function rdGo(k){if(!RS)return;if(k>=RS.L.length){location.hash='#'+RS.back;return}if(k<0)return;RS.i=k;try{history.replaceState(null,'','#'+RS.base+'/'+(k+1))}catch(e){}rdDraw(true);live(ar(RS.i+1)+' من '+ar(RS.L.length))}
+function rdGo(k){if(!RS)return;if(k>=RS.L.length){nav('#'+RS.back);return}if(k<0)return;RS.i=k;try{history.replaceState(null,'','#'+RS.base+'/'+(k+1))}catch(e){}rdDraw(true);live(ar(RS.i+1)+' من '+ar(RS.L.length))}
 document.addEventListener('click',function(e){var b=e.target.closest('[data-rd]');if(!b||!RS)return;var a=b.dataset.rd,o=RS.L[RS.i];
 if(a==='next')rdGo(RS.i+1);else if(a==='prev')rdGo(RS.i-1);
 else if(a==='tick'){var n=cnum(o);RC[o.id]=Math.min(n,(RC[o.id]||0)+1);if(navigator.vibrate)try{navigator.vibrate(12)}catch(x){}rdDraw(false);var t=V.querySelector('[data-rd=tick]');if(t)t.focus({preventScroll:true})}
@@ -115,7 +115,7 @@ document.addEventListener('touchstart',function(e){var t=e.target.closest('[data
 document.addEventListener('touchend',function(e){if(QBUSY){SX=null;return}if(SX===null||(!RS&&!QPS))return;var t=e.changedTouches[0],dx=t.clientX-SX,dy=t.clientY-SY;if(QD){SX=null;var vx=qdv(),ok=QD.dir>0?dx>0:dx<0;qdFinish(!QD.edge&&ok&&(Math.abs(dx)>window.innerWidth*.22||(Math.abs(dx)>28&&vx>.45)));return}SX=null;if(Math.abs(dx)>60&&Math.abs(dx)>1.6*Math.abs(dy)&&!(window.getSelection&&String(getSelection())))(RS?rdGo(RS.i+(dx>0?1:-1)):qgo(QPS.p+(dx>0?1:-1)))},{passive:true});
 document.addEventListener('keydown',function(e){if((!RS&&!QPS)||/INPUT|TEXTAREA/.test(document.activeElement.tagName))return;var dd=e.key==='ArrowLeft'?1:e.key==='ArrowRight'?-1:0;if(dd)(RS?rdGo(RS.i+dd):qgo(QPS.p+dd))});
 var NAVMAP={quran:1,adhkar:2,khatma:1,notes:5,about:5,prayer:5,qibla:5,stats:5,report:5,admin:5,mission:5,notify:5,install:5};
-function route(){RS=null;QPS=null;var Q=(location.hash.split('?')[1]||''),p=location.hash.split('?')[0].replace(/^#\/?/,'').split('/'),a=p[0],b=p[1],h='',t='أثر',d='ما ينفعك ويبقى أثره',home=!a;
+function route(){RS=null;QPS=null;var Q=(HR().split('?')[1]||''),p=HR().split('?')[0].replace(/^#\/?/,'').split('/'),a=p[0],b=p[1],h='',t='أثر',d='ما ينفعك ويبقى أثره',home=!a;
 if(a==='quran'&&!b){t='القرآن الكريم';d='سور القرآن الكريم الأربع عشرة بعد المئة مرتبة بحسب المصحف';h=head(t,d)+qlist()}
 else if(a==='quran'&&qok(b)){var n=+b,vv=p[2]&&+p[2]>0&&+p[2]<=QC[n-1]?+p[2]:1,pg=qpageOf(n,vv);t='سورة '+QN[n-1];d='سورة '+QN[n-1]+' — '+QC[n-1]+' آية';h=qpage(pg)}
 else if(a==='quran'&&b==='page'&&+p[2]>=1&&+p[2]<=604){var pg2=+p[2];t='القرآن الكريم — صفحة '+ar(pg2);d='صفحة '+ar(pg2)+' من المصحف';h=qpage(pg2)}
@@ -149,7 +149,7 @@ else if(a==='dua'&&b==='general'&&dgN(p[2])&&!(+p[3]>0)){t=dgN(p[2]);d='الأد
 else if(a==='dua'&&b==='general'&&dgN(p[2])){t=dgN(p[2]);h=rdInit(dgL(p[2]),t,'/dua/general/'+p[2],'/dua/general/'+p[2],+p[3]-1)}
 else if(a==='dua'&&b==='type'&&DK.some(function(k){return k[0]===p[2]})){t=DK.filter(function(k){return k[0]===p[2]})[0][1];h=rdInit(rdList('dua',p[2]),t,'/dua','/dua/type/'+p[2],(+p[3]||1)-1)}
 else if(a==='dua'&&dt(b,'dua')){var o2=dt(b,'dua'),k2=o2.kind||'general',L2=rdList('dua',k2);d=o2.text.slice(0,140);t=DK.filter(function(k){return k[0]===k2})[0][1];if(k2==='general'){var g2=o2.category||'other';L2=dgL(g2);t=dgN(g2)||t;h=rdInit(L2,t,'/dua/general/'+g2,'/dua/general/'+g2,L2.indexOf(o2))}else h=rdInit(L2,t,'/dua','/dua/type/'+k2,L2.indexOf(o2))}
-else if(a==='search'){var qv=new URLSearchParams(Q).get('q')||'';t='البحث'+(qv?': '+qv:'');d='ابحث في القرآن ومعانيه والأذكار والأدعية';$('#q').value=qv;var cb=$('.clr');if(cb)cb.hidden=!qv;if(qv.trim()&&!IX){h=head('البحث','ابحث في القرآن والأذكار والأدعية')+'<p class="loading" role="status">جارٍ تجهيز البحث…</p>';setTimeout(function(){if(location.hash.indexOf('#/search')===0&&!IX){ix();V.innerHTML=sv(qv)}},30)}else h=sv(qv)}
+else if(a==='search'){var qv=new URLSearchParams(Q).get('q')||'';t='البحث'+(qv?': '+qv:'');d='ابحث في القرآن ومعانيه والأذكار والأدعية';$('#q').value=qv;var cb=$('.clr');if(cb)cb.hidden=!qv;if(qv.trim()&&!IX){h=head('البحث','ابحث في القرآن والأذكار والأدعية')+'<p class="loading" role="status">جارٍ تجهيز البحث…</p>';setTimeout(function(){if(HR().indexOf('#/search')===0&&!IX){ix();V.innerHTML=sv(qv)}},30)}else h=sv(qv)}
 else if(!home){t='الصفحة غير موجودة';h=head(t,'الرابط غير صحيح.')+'<a class="btn primary" href="#/">الرئيسية</a>'}
 HS.forEach(function(s){s.hidden=!home});V.hidden=home;V.innerHTML=h;try{atPost(a)}catch(x){}document.body.classList.toggle('rdon',!!(RS||QPS));document.body.classList.toggle('qon',!!QPS);document.body.classList.toggle('home',home);document.body.classList.toggle('srch',a==='search');
 if(home)try{kmHomeRender();ocRender();insHomeRender();nowRender()}catch(x){}try{hbRender()}catch(x){}document.title=home?'أثر — ما ينفعك ويبقى أثره':t+' | أثر';var md=$('meta[name=description]');if(md)md.content=d;
@@ -158,9 +158,9 @@ SEOX(a);window.scrollTo(0,0);QJ(a,p);qfit();if(QPS)qhint();if(!home&&!QS){V.setA
 function toast(m){var e=$('#toast');e.textContent=m;e.classList.add('on');setTimeout(function(){e.classList.remove('on')},2000)}
 function rebind(el,fn){var c=el.cloneNode(true);el.parentNode.replaceChild(c,el);c.addEventListener(c.tagName==='FORM'?'submit':'click',fn);return c}
 var R=['/quran','/adhkar','/dua','/waqfa'];
-document.querySelectorAll('.list .row').forEach(function(b,i){rebind(b,function(){location.hash='#'+R[i]})});
-var nb=document.querySelectorAll('nav button');rebind(nb[0],function(){location.hash='#/'});rebind(nb[1],function(){location.hash='#/quran'});rebind(nb[2],function(){location.hash='#/adhkar'});
-rebind($('.brand'),function(){location.hash='#/'});$('.brand').style.cursor='pointer';
+document.querySelectorAll('.list .row').forEach(function(b,i){rebind(b,function(){nav('#'+R[i])})});
+var nb=document.querySelectorAll('nav button');rebind(nb[0],function(){nav('#/')});rebind(nb[1],function(){nav('#/quran')});rebind(nb[2],function(){nav('#/adhkar')});
+rebind($('.brand'),function(){nav('#/')});$('.brand').style.cursor='pointer';
 rebind($('#searchForm'),function(e){e.preventDefault();toast('البحث سيكون متاحًا قريبًا')});
 /* داخل «فواتح الدعاء وجوامعه»: النص يُشارك دعاءً من القسم، بلا عنوانه في حصن المسلم (مثل «الصلاة على النبي بعد التشهد») ورابطه رابط القسم */
 function jmCtx(b){return !!(RS&&RS.base.indexOf('/dua/jumua')===0&&b&&b.closest('.rd'))}
@@ -169,7 +169,7 @@ if(b.dataset.a==='share'){var su=jm?SITE+'dua/jumua':pgUrl(o);if(navigator.share
 else if(navigator.clipboard){navigator.clipboard.writeText(x).then(function(){toast('تم النسخ')},function(){toast('تعذر النسخ')})}else toast('تعذر النسخ')});
 /* Phase 3 — search engine: independent of the data source; reads only ALL (the Phase 2 content model) */
 var TL={quran:'آية قرآنية',dhikr:'ذكر',dua:'دعاء',tafsir:'من المعنى'},FT=[['all','الكل'],['quran','القرآن'],['tafsir','المعنى'],['dhikr','الأذكار'],['dua','الأدعية']],SF='all',SQ='',IX,T0,SL=30;
-NAVMAP.dua=3;NAVMAP.search=4;NAVMAP.about=5;rebind($('#navDua'),function(){location.hash='#/dua'});rebind(document.querySelectorAll('nav button')[5],function(){location.hash='#/about'});
+NAVMAP.dua=3;NAVMAP.search=4;NAVMAP.about=5;rebind($('#navDua'),function(){nav('#/dua')});rebind(document.querySelectorAll('nav button')[5],function(){nav('#/about')});
 
 function nz(s){var o='',m=[],i,c,k,n=s.length;for(i=0;i<n;i++){c=s.charCodeAt(i);if((c>=1611&&c<=1631)||c===1648||c===1600||(c>=1750&&c<=1773))continue;if(c===32||c===10||c===13||c===9||c===160||c===8203&&false){if(!o||o.charCodeAt(o.length-1)===32)continue;o+=' ';m.push(i);continue}switch(c){case 1571:case 1573:case 1570:case 1649:k='ا';break;case 1609:k='ي';break;case 1577:k='ه';break;case 1572:k='و';break;case 1574:k='ي';break;default:k=s.charAt(i)}o+=k;m.push(i)}return{s:o.replace(/ $/,''),m:m}}
 function ix(){if(IX)return IX;VOC=VOC||new Map();IX=Object.keys(ALL).map(function(k){return ALL[k]}).filter(isPub).map(function(o){var t=nz(o.title||'').s,x=nz(o.text).s;vocAdd(x);return{o:o,t:t,x:{s:x},l:nz((o.label||'')+' '+(o.reference!==NS?o.reference:'')).s,st:stems(nz(hz(o.text)).s),ts:stems(nz(hz(o.title||'')).s)}});for(var n=1;n<=114;n++){var V=QV(n),nm=nz('سورة '+QN[n-1]).s;for(var v=1;v<=V.length;v++){if(typeof V[v-1]!=='string')continue;var qx=nz(V[v-1]).s;vocAdd(qx);IX.push({o:{id:'quran-'+n+'-'+v,type:'quran',title:'سورة '+QN[n-1]+' — آية '+ar(v),text:V[v-1],reference:'',source:'',label:'آية قرآنية'},t:'',x:{s:qx},l:nm,st:stems(nz(hz(V[v-1])).s),ts:' '})}}return IX}
@@ -180,7 +180,7 @@ function tfxLoad(){if(TFXS==='load'||TFXS==='ok')return;TFXS='load';var n=0,L=[]
  Promise.all([next(),next(),next(),next(),next(),next()]).then(function(){if(L.length<115)throw 'part';
   for(var s=1;s<=114;s++){var t=L[s];for(var v=1;v<=t.length;v++){if(typeof t[v-1]!=='string')continue;var b=v;while(b<t.length&&t[b]===v)b++;
    var fx=nz(t[v-1]).s;if(VOC)vocAdd(fx);TFX.push({o:{id:'tafsir-'+s+'-'+v,type:'tafsir',title:tfRef(s,v,b),text:t[v-1],reference:'التفسير الميسر',source:'',label:'المعنى'},t:'',x:{s:fx},l:'',st:stems(nz(hz(t[v-1])).s),ts:' '})}}
-  TFXS='ok'},function(){TFXS='fail'}).then(function(){var r=document.getElementById('sres');if(r&&SQ.trim()&&location.hash.indexOf('#/search')===0)r.innerHTML=res(SQ,SF)})}
+  TFXS='ok'},function(){TFXS='fail'}).then(function(){var r=document.getElementById('sres');if(r&&SQ.trim()&&HR().indexOf('#/search')===0)r.innerHTML=res(SQ,SF)})}
 /* البحث الأساسي — جذر الكلمة: خوارزمية ISRI لاستخراج جذور الكلمات العربية، على النص بعد nz() */
 var STC=new Map();
 function stem(w){if(w.length<4)return w;var c=STC.get(w);if(c)return c;var o=w,s1='هيكتان',p1='لبفسويتنا',L,a=function(x,y){return o.slice(x,y)};
@@ -217,12 +217,12 @@ function sv(q){SQ=q;SL=30;var h=head('البحث','ابحث في القرآن و
 /*END-ENGINE*/
 function sm(n,v){var e=$('meta[property="'+n+'"]');if(!e){e=document.createElement('meta');e.setAttribute('property',n);document.head.appendChild(e)}e.content=v}
 function SEOX(a){var md=$('meta[name=description]');sm('og:title',document.title);sm('og:description',md?md.content:'');sm('og:type','website');sm('og:locale','ar_AR');var m=$('meta[name=robots]');if(a==='search'){if(!m){m=document.createElement('meta');m.name='robots';document.head.appendChild(m)}m.content='noindex,follow'}else if(m)m.remove();var l=$('link[rel=canonical]');if(!l){l=document.createElement('link');l.rel='canonical';document.head.appendChild(l)}l.href=location.href.split('?')[0];if(a!=='search'){var q=$('#q'),c=$('.clr');if(q)q.value='';if(c)c.hidden=true}}
-function go(v){v=v.trim();rsAdd(v);location.hash=v?'#/search?q='+encodeURIComponent(v):'#/search'}
+function go(v){v=v.trim();rsAdd(v);nav(v?'#/search?q='+encodeURIComponent(v):'#/search')}
 var F=rebind($('#searchForm'),function(e){e.preventDefault();go(I.value)}),I=$('#q'),X=document.createElement('button');
 X.type='button';X.className='clr';X.hidden=true;X.setAttribute('aria-label','مسح البحث');X.textContent='×';F.appendChild(X);
-I.addEventListener('input',function(){X.hidden=!I.value;if(location.hash.indexOf('#/search')===0){clearTimeout(T0);T0=setTimeout(function(){var v=I.value.trim();V.innerHTML=sv(I.value);history.replaceState(null,'',v?'#/search?q='+encodeURIComponent(v):'#/search')},150)}});
-X.addEventListener('click',function(){I.value='';X.hidden=true;I.focus();if(location.hash.indexOf('#/search')===0){V.innerHTML=sv('');history.replaceState(null,'','#/search')}});
-rebind(document.querySelectorAll('nav button')[4],function(){location.hash='#/search';setTimeout(function(){I.focus()},60)});
+I.addEventListener('input',function(){X.hidden=!I.value;if(HR().indexOf('#/search')===0){clearTimeout(T0);T0=setTimeout(function(){var v=I.value.trim();V.innerHTML=sv(I.value);history.replaceState(null,'',v?'#/search?q='+encodeURIComponent(v):'#/search')},150)}});
+X.addEventListener('click',function(){I.value='';X.hidden=true;I.focus();if(HR().indexOf('#/search')===0){V.innerHTML=sv('');history.replaceState(null,'','#/search')}});
+rebind(document.querySelectorAll('nav button')[4],function(){nav('#/search');setTimeout(function(){I.focus()},60)});
 document.addEventListener('click',function(e){var c=e.target.closest('[data-f]');if(c){SF=c.dataset.f;SL=30;var r=$('#sres');if(r){r.innerHTML=res(SQ,SF);var n=$('#sres [data-f="'+SF+'"]');if(n)n.focus()}}if(e.target.closest('[data-clear]')){I.focus();I.select()}if(e.target.closest('[data-more]')){SL+=30;var r2=$('#sres');if(r2)r2.innerHTML=res(SQ,SF)}if(e.target.closest('[data-tn]')){TOF++;today()}if(e.target.closest('[data-rsc]')){try{localStorage.removeItem('athar-rs')}catch(x){}V.innerHTML=sv('')}var ra=e.target.closest('#sres a');if(ra&&SQ)rsAdd(SQ)});
 (function(){var r0=route;route=function(){try{r0()}catch(e){try{console.error(e)}catch(x){}HS.forEach(function(s){s.hidden=true});V.hidden=false;document.body.classList.remove('rdon');V.innerHTML='<div class="empty" role="alert"><b>تعذّر عرض هذه الصفحة</b><p>حدث خطأ غير متوقع. يمكنك المحاولة مرة أخرى أو العودة إلى الرئيسية.</p><button class="btn primary" data-reload>إعادة المحاولة</button> <a class="btn" href="#/">الرئيسية</a></div>'}}})();
 var ET=0;addEventListener('error',function(){if(Date.now()-ET>4000){ET=Date.now();toast('حدث خطأ غير متوقع')}});addEventListener('unhandledrejection',function(){if(Date.now()-ET>4000){ET=Date.now();toast('حدث خطأ غير متوقع')}});

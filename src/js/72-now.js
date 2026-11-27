@@ -38,7 +38,7 @@ function nowHide(){var el=document.getElementById('nwb');if(el)el.classList.remo
 /* الشريط العلوي «الآن» أُوقف بطلب المالك؛ تبقى بطاقة «يناسب وقتك» في الرئيسية */
 function nowRender(){}
 /* opening the page a note points to marks it as read */
-function nowMark(){try{var h=location.hash,seen=nowSeen(),ch=false;nowList(ocNow()).forEach(function(n){var u='#'+n.h;if((h===u||h.indexOf(u+'/')===0||h.indexOf(u+'?')===0)&&seen.indexOf(n.id)<0){seen.push(n.id);ch=true}});if(ch)qset(NOW_SEEN,seen.slice(-30))}catch(e){}}
+function nowMark(){try{var h=HR(),seen=nowSeen(),ch=false;nowList(ocNow()).forEach(function(n){var u='#'+n.h;if((h===u||h.indexOf(u+'/')===0||h.indexOf(u+'?')===0)&&seen.indexOf(n.id)<0){seen.push(n.id);ch=true}});if(ch)qset(NOW_SEEN,seen.slice(-30))}catch(e){}}
 window.addEventListener('hashchange',function(){nowMark();nowHide()});nowMark();
 document.addEventListener('visibilitychange',function(){if(!document.hidden&&document.body.classList.contains('home'))nowRender()});
 
@@ -70,5 +70,5 @@ setInterval(function(){if(!document.hidden)try{hbRender()}catch(e){}},30000);
 /* عند الرجوع للتطبيق (الجوال يوقف المؤقّتات وهو في الخلفية): حدّث «الصلاة القادمة» و«يناسب وقتك» فورًا،
    وإن تغيّر اليوم أعد رسم الرئيسية وصفحة الأدعية (بطاقات الجمعة و«ما يناسب اليوم» تتبع اليوم) */
 var HBDAY=nowYMD(new Date());
-function hbWake(){if(document.hidden)return;try{hbRender()}catch(e){}var t=nowYMD(new Date());if(t!==HBDAY){HBDAY=t;if(/^#?\/?(dua)?$/.test(location.hash))try{route()}catch(e){}}}
+function hbWake(){if(document.hidden)return;try{hbRender()}catch(e){}var t=nowYMD(new Date());if(t!==HBDAY){HBDAY=t;if(/^#?\/?(dua)?$/.test(HR()))try{route()}catch(e){}}}
 document.addEventListener('visibilitychange',hbWake);window.addEventListener('pageshow',hbWake);window.addEventListener('focus',hbWake);

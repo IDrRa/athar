@@ -205,15 +205,18 @@ try {
   else bad('تذكير السنن: ' + wrong.map(x => `${x[0]} وصل ${x[1]} والمتوقع ${x[2]}`).join('، '));
 } catch (e) { bad('تعذّر فحص تذكير السنن: ' + e.message); }
 
-// ---------- 6. صفحات البحث أُلغيت: لا مجلدات لها، خريطة الموقع للرئيسية فقط، وكل رابط قديم يُحوَّل داخل التطبيق ----------
+// ---------- 6. الروابط: روابط أثر حقيقية (/quran/2) — صفحات البحث القديمة ملغاة، وروابطها (/surah/…) تُحوَّل إلى أماكنها ----------
 try {
-  const left = ['surah', 'adhkar', 'dua'].filter(d => fs.existsSync(path.join(ROOT, d)));
+  const left = ['surah', 'adhkar', 'dua', 'quran'].filter(d => fs.existsSync(path.join(ROOT, d)));
   const sm = fs.readFileSync(path.join(ROOT, 'sitemap.xml'), 'utf8'), locs = (sm.match(/<loc>/g) || []).length;
   const rr = fs.readFileSync(path.join(ROOT, '_redirects'), 'utf8').split('\n').filter(l => l && !l.startsWith('#'));
-  const badR = rr.filter(l => !/^\/(surah|adhkar|dua)(\/[a-z0-9-]+)*\/? \/#\/[a-z0-9/-]+ 301$/.test(l));
-  if (!left.length && locs === 1 && rr.length > 500 && !badR.length) ok(`صفحات البحث ملغاة: خريطة الموقع للرئيسية فقط، و${rr.length} تحويلًا للروابط القديمة`);
-  else bad('صفحات البحث: ' + (left.length ? 'مجلدات باقية ' + left.join('، ') : '') + (locs !== 1 ? ` روابط الخريطة ${locs}` : '') + (badR.length ? ' تحويل غير صالح: ' + badR[0] : ''));
-} catch (e) { bad('تعذّر فحص صفحات البحث: ' + e.message); }
+  const badR = rr.filter(l => !/^\/(surah|dua)(\/[a-z0-9:-]+)*\/? \/(quran|dua)(\/[a-z0-9:-]+)* 301$/.test(l));
+  const need = ['/surah/:n /quran/:n 301', '/surah /quran 301'].filter(l => !rr.includes(l));
+  // لا رابط بصيغة #/ القديمة في ما يفتحه المستخدم من خارج الصفحة (الإشعارات، اختصارات الأيقونة، بطاقات المشاركة)
+  const hashy = ['sw.js', 'manifest.webmanifest', 'functions/_middleware.js'].filter(f => /\.\/#\/|"\/#\/|'\/#\/|`\/#/.test(fs.readFileSync(path.join(ROOT, f), 'utf8')));
+  if (!left.length && locs === 1 && !badR.length && !need.length && !hashy.length) ok(`الروابط حقيقية: خريطة الموقع للرئيسية فقط، و${rr.length} تحويلًا لروابط صفحات البحث القديمة`);
+  else bad('الروابط: ' + (left.length ? 'مجلدات باقية ' + left.join('، ') : '') + (locs !== 1 ? ` روابط الخريطة ${locs}` : '') + (badR.length ? ' تحويل غير صالح: ' + badR[0] : '') + (need.length ? ' تحويل ناقص: ' + need[0] : '') + (hashy.length ? ' رابط #/ قديم في ' + hashy.join('، ') : ''));
+} catch (e) { bad('تعذّر فحص الروابط: ' + e.message); }
 
 // ---------- 7. تمييز ألفاظ الذكر بالذهبي: كل عبارة في highlights.json موجودة في نص عنصرها حرفًا بحرف ----------
 try {

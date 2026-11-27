@@ -10,7 +10,7 @@ function mload(p){if(MD[p])return Promise.resolve(MD[p]);if(MP[p])return MP[p];
  MP[p]=Promise.all([fetch('mushaf/q4/l/'+mpad(p)+'.json').then(function(r){if(!r.ok)throw 'nf';return r.json()}),mff(mfi(p))])
  .then(function(a){var d=a[0];if(!d||d.p!==p||!d.r||!d.f)throw 'bad';var x=[];d.r.forEach(function(r){if(r[0]==='b'&&r[2]!==d.f)x.push(mff(r[2]))});return Promise.all(x).then(function(){MD[p]=d;delete MP[p];return d})})
  .catch(function(e){delete MP[p];throw e});return MP[p]}
-function mwait(p){mload(p).then(function(){if(QPS&&QPS.p===p&&document.querySelector('.qpg.mus .mwait')){V.innerHTML=qpage(p);qfit();var m=location.hash.match(/^#\/quran\/(\d+)\/(\d+)$/);if(m)qsel(+m[1],+m[2],true)}},
+function mwait(p){mload(p).then(function(){if(QPS&&QPS.p===p&&document.querySelector('.qpg.mus .mwait')){V.innerHTML=qpage(p);qfit();var m=HR().match(/^#\/quran\/(\d+)\/(\d+)$/);if(m)qsel(+m[1],+m[2],true)}},
  function(e){if(e==='nf')MOFF=true;else MBAD[p]=1;if(QPS&&QPS.p===p&&document.querySelector('.qpg.mus .mwait')){V.innerHTML=qpage(p);qfit();if(MBAD[p])toast('تعذّر تحميل صفحة المصحف، فعُرض النص')}});
  return '<div class="mwait" role="status"><i aria-hidden="true"></i>جارٍ تحميل الصفحة…</div>'}
 function mbody(p,sg){var d=MD[p],sr=sg.map(function(g){var V=QV(g[0]),t=[];for(var v=g[1];v<=g[2];v++)t.push(V[v-1]+' ('+ar(v)+')');return t.join(' ')}).join(' ');
@@ -30,7 +30,7 @@ function mfit1(g){var b=g.querySelector('.mbody');if(!b)return;var W=b.clientWid
 /* v29: ready-made neighbour pages for smooth swiping */
 var MGH={};
 function mclr(){for(var k in MGH){var o=MGH[k];if(o&&o.parentNode&&o.parentNode.classList.contains('mprep'))o.parentNode.remove()}MGH={}}
-addEventListener('hashchange',function(){if(!/^#\/quran\/(page\/)?\d/.test(location.hash))mclr()});
+addEventListener('hashchange',function(){if(!/^#\/quran\/(page\/)?\d/.test(HR()))mclr()});
 function mwrap(g){if(g.parentNode.classList&&g.parentNode.classList.contains('qtrack'))return;var tr=document.createElement('div');tr.className='qtrack';var cl=document.createElement('div');cl.className='qclip';g.parentNode.insertBefore(cl,g);cl.appendChild(tr);tr.appendChild(g)}
 function mprep(q){if(!QPS||!QMM||MOFF||q<1||q>604||Math.abs(q-QPS.p)!==1)return;var old=MGH[q];if(old&&old.isConnected)return;
  for(var k in MGH){if(Math.abs(k-QPS.p)!==1){var o=MGH[k];if(o&&o.parentNode)o.parentNode.remove();delete MGH[k]}}
@@ -51,7 +51,7 @@ function ssc(q){var q0=q.trim().replace(/[٠-٩]/g,function(d){return d.charCode
  for(var i=0;i<114&&o.length<4;i++){var m=nz(QN[i]).s;if(m===n||(n.length>=3&&m.indexOf(n)===0))o.push(cat('/quran/'+(i+1)+'/1','سورة '+QN[i],ar(QC[i])+' آية · صفحة '+ar(qpageOf(i+1,1))))}
  return o.length?'<p class="hint">انتقال مباشر</p><ul class="list">'+o.slice(0,4).join('')+'</ul>':''}
 /* the Quran text comes after the code in the page, so the home page shows before it finishes downloading; other pages wait for it */
-(function(){var R0=route;route=function(){if(!document.getElementById('qs114')&&!/^(#\/?)?$/.test(location.hash)){document.addEventListener('DOMContentLoaded',function(){route()},{once:true});return}R0()}})();
+(function(){var R0=route;route=function(){if(!document.getElementById('qs114')&&!/^(#\/?)?$/.test(HR())){document.addEventListener('DOMContentLoaded',function(){route()},{once:true});return}R0()}})();
 addEventListener('hashchange',function(){route()});route();
 })();
 

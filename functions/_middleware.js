@@ -1,11 +1,11 @@
 // العنوان القديم iathar.pages.dev أُغلق بطلب المالك: لا يعرض شيئًا (404) ولا يحوِّل إلى الجديد؛ الموقع على atharuk.com فقط.
 // ما عدا /api/ : منبّه الإشعارات (athar-cron) يستدعي العنوان القديم، فيبقى يعمل كما هو.
-// روابط المشاركة (/quran/18، /quran/18/10، /adhkar/morning/3، /dua/<id>) تُعطي واتساب وغيره بطاقة خاصة
-// (صورة السورة أو القسم وعنوانه)، ثم تفتح الصفحة نفسها داخل أثر (/#/…). البطاقات مولَّدة بـ tools/og.py
+// روابط أثر حقيقية (/quran/18، /adhkar/morning/3، /dua/<id>…): كل مسار يفتح التطبيق نفسه (index.html).
+// وروابط المشاركة منها تأخذ بطاقتها الخاصة لواتساب وغيره (صورة السورة أو القسم وعنوانه) داخل صفحة التطبيق نفسها،
+// بلا صفحة وسيطة ولا تحويل. البطاقات مولَّدة بـ tools/og.py
 import { S, A, D, DT, DGN } from '../og/meta.js';
 
 const AR = n => String(n).replace(/\d/g, d => '٠١٢٣٤٥٦٧٨٩'[d]);
-const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 const ayat = n => AR(n) + (n >= 3 && n <= 10 ? ' آيات' : ' آية');
 
 async function card(ctx, u) {
@@ -34,16 +34,21 @@ async function card(ctx, u) {
   } else if ((m = u.pathname.match(/^\/dua\/([A-Za-z0-9-]+)\/?$/)) && D[m[1]]) {
     t = D[m[1]][0]; d = D[m[1]][1]; img = '/og/d.jpg'; to = `/dua/${m[1]}`;
   } else return null;
-  const site = u.origin, go = '/#' + to;
-  const html = `<!DOCTYPE html><html lang="ar" dir="rtl"><head><meta charset="utf-8"><title>${esc(t)} — أثر</title>
-<meta name="robots" content="noindex"><link rel="canonical" href="${site}/">
-<meta property="og:type" content="website"><meta property="og:site_name" content="أثر">
-<meta property="og:title" content="${esc(t)}"><meta property="og:description" content="${esc(d)}">
-<meta property="og:url" content="${esc(site + to)}"><meta property="og:image" content="${site}${img}">
-<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="${esc(t)}">
-<meta name="twitter:card" content="summary_large_image">
-<meta http-equiv="refresh" content="0;url=${go}"></head><body><a href="${go}">${esc(t)}</a></body></html>`;
-  return new Response(html, { headers: { 'content-type': 'text/html; charset=utf-8', 'cache-control': 'public, max-age=3600', 'x-robots-tag': 'noindex' } });
+  return { t, d, img, to };
+}
+
+/* يضع عنوان البطاقة ووصفها وصورتها في رأس صفحة التطبيق نفسها */
+function withCard(res, c, origin) {
+  const set = v => ({ element(e) { e.setAttribute('content', v); } });
+  return new HTMLRewriter()
+    .on('title', { element(e) { e.setInnerContent(c.t + ' — أثر'); } })
+    .on('meta[property="og:title"]', set(c.t))
+    .on('meta[property="og:description"]', set(c.d))
+    .on('meta[name="description"]', set(c.d))
+    .on('meta[property="og:url"]', set(origin + c.to))
+    .on('meta[property="og:image"]', set(origin + c.img))
+    .on('meta[property="og:image:alt"]', set(c.t))
+    .transform(res);
 }
 
 export async function onRequest(ctx) {
@@ -51,7 +56,10 @@ export async function onRequest(ctx) {
   if (u.hostname === 'iathar.pages.dev' && !u.pathname.startsWith('/api/'))
     return new Response('', { status: 404, headers: { 'x-robots-tag': 'noindex', 'cache-control': 'no-store' } });
   if (ctx.request.method === 'GET' && /^\/((quran|adhkar|dua)\/|salawat\/?$)/.test(u.pathname)) {
-    try { const r = await card(ctx, u); if (r) return r; } catch (e) {}
+    let c = null; try { c = await card(ctx, u); } catch (e) {}
+    const res = await ctx.next();
+    if (c && res.ok && (res.headers.get('content-type') || '').includes('text/html')) return withCard(res, c, u.origin);
+    return res;
   }
   return ctx.next();
 }
