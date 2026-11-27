@@ -63,7 +63,8 @@ for (const name of names) {
     if (scheme === 'easy') { await page.evaluate(() => localStorage.setItem('athar-easy', '1')); await page.reload(); }
     for (const r of ROUTES) {
       errs.length = 0;
-      await page.goto(base + r); await page.waitForTimeout(250);
+      // تنقّل داخل التطبيق كما يفعل المستخدم (الفتح المباشر لكل مسار يُفحص بعد الحلقة)
+      await page.evaluate((u) => nav(u), '#/' + r); await page.waitForTimeout(250);
       const text = await page.innerText('body');
       const notFound = text.includes('الصفحة غير موجودة');
       const wide = await page.evaluate(() => document.documentElement.scrollWidth > window.innerWidth + 1);
@@ -79,6 +80,13 @@ for (const name of names) {
         failed++;
         console.error(`✗ [${name} ${scheme}] /${r}: ${errs.join(' | ') || (notFound ? 'غير موجودة' : wide ? 'عرض الصفحة أكبر من الشاشة' : out.length ? 'عنصر يخرج عن حدوده: ' + out.join('، ') : shown.length ? 'عنصر مخفي يظهر: ' + shown.join('، ') : 'سهولة الوصول: ' + a11y.join('، '))}`);
       }
+    }
+    // الفتح المباشر من رابط (مشاركة أو إشعار أو رابط قديم #/…): يفتح الصفحة نفسها ويبقى الرابط حقيقيًا
+    if (scheme === 'dark') for (const [u, want] of [['quran/18', '/quran/18'], ['adhkar/morning', '/adhkar/morning'], ['search?q=الصبر', '/search'], ['#/dua/type/quran', '/dua/type/quran']]) {
+      errs.length = 0;
+      await page.goto(base + u); await page.waitForTimeout(400);
+      const at = await page.evaluate(() => location.pathname), nf = (await page.innerText('body')).includes('الصفحة غير موجودة');
+      if (errs.length || nf || at !== want) { failed++; console.error(`✗ [${name}] فتح الرابط /${u}: ${errs.join(' | ') || (nf ? 'غير موجودة' : 'صار ' + at)}`); }
     }
     await ctx.close();
   }
