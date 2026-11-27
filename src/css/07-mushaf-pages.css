@@ -1,0 +1,48 @@
+/* v25 mushaf spacing with a chosen font size */
+.qpg:not(.fit) .qt{line-height:2.2;word-spacing:normal}
+html[data-qz="2"] .qpg:not(.fit) .qt,html[data-qz="3"] .qpg:not(.fit) .qt,html[data-qz="4"] .qpg:not(.fit) .qt{text-align:start}
+
+/* v26 Madinah mushaf pages */
+.qpg.mus{min-height:0}
+.mbody{font-size:var(--mfs,22px);direction:rtl;margin:4px 0 0;color:var(--text)}
+.ml{display:flex;justify-content:space-between;align-items:center;height:var(--mrh,2.1em);white-space:nowrap;line-height:1}
+.ml.c{justify-content:center;gap:.18em}
+.mw{display:inline-block;font:inherit;color:inherit;line-height:1;padding:0;margin:0;border:0;background:none;border-radius:.18em;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.mvn{color:var(--gold)}
+.mw.on{background:var(--tint);box-shadow:0 0 0 .1em var(--tint);color:var(--green)}
+.mvn.on{color:var(--gold)}
+.mvn:focus-visible{outline:2px solid var(--green);outline-offset:2px}
+.ml.mb{justify-content:center;font-size:var(--mfs,22px);color:var(--text)}
+.mq{cursor:default}
+.ml.mh{justify-content:center}
+.ml.mh .qbn{width:100%;height:calc(var(--mrh,2.1em)*.82);margin:0;padding:0 .5em;box-sizing:border-box}
+.ml.mh .qbn h2{font-size:calc(var(--mfs,22px)*.9);line-height:1;margin:0}
+.ml.mh .qo{width:calc(var(--mfs,22px)*1.1);height:calc(var(--mfs,22px)*1.1)}
+.mwait{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;min-height:60vh;color:var(--muted);font:500 .95rem var(--ui)}
+.mwait i{width:30px;height:30px;border:3px solid var(--line);border-top-color:var(--green);border-radius:50%;animation:mspin .9s linear infinite}
+@keyframes mspin{to{transform:rotate(360deg)}}
+.qmd{display:flex;gap:8px;width:100%}.qmd .btn{flex:1}.qmd .btn.on{background:var(--green);color:var(--on-green);border-color:var(--green)}
+.qszr{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;width:100%}.qszr[hidden]{display:none}
+
+.qpg.mus[data-p="1"],.qpg.mus[data-p="2"]{display:flex;flex-direction:column;min-height:calc(100dvh - 26px - env(safe-area-inset-top,0px) - env(safe-area-inset-bottom,0px))}
+.qpg.mus[data-p="1"]>.mbody,.qpg.mus[data-p="2"]>.mbody{margin-block:auto}
+/* v27 mushaf surah frame */
+.msh{position:relative;display:flex;align-items:center;justify-content:center;width:100%;height:calc(var(--mrh,2.1em)*.8);box-sizing:border-box;border:1px solid var(--gold);border-radius:2px;box-shadow:0 0 0 2px var(--bg),0 0 0 3px var(--gold)}
+.msh::before{content:"";position:absolute;inset:3px;border-radius:1px;opacity:.5;background:radial-gradient(circle,var(--gold) 0 1.1px,transparent 1.5px) center/9px 9px,linear-gradient(90deg,transparent,var(--tint) 30%,var(--tint) 70%,transparent)}
+.msn{position:relative;display:flex;align-items:center;height:72%;margin:0;padding:0 1.3em;background:var(--bg);border:1px solid var(--gold);border-radius:999px;font:400 calc(var(--mfs,22px)*.82)/1 'KFGQPC Hafs',var(--qf),serif;color:var(--text);white-space:nowrap}
+
+/* v28 page number rosette */
+.qcap{padding:0;border:0;border-radius:0;box-shadow:none;gap:10px;color:var(--muted);font:500 .8rem var(--ui)}
+/* رقم الصفحة داخل محراب (شكل شعار أثر) */
+.qpno{position:relative;display:inline-grid;place-items:center;width:46px;height:50px;color:var(--gold)}
+.qpno::before{content:"";position:absolute;inset:0;background:var(--gold);-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath d='M10 61 V30 Q10 12 32 3 Q54 12 54 30 V61 Z' fill='none' stroke='%23000' stroke-width='2.6' stroke-linejoin='round'/%3E%3C/svg%3E") center/contain no-repeat;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath d='M10 61 V30 Q10 12 32 3 Q54 12 54 30 V61 Z' fill='none' stroke='%23000' stroke-width='2.6' stroke-linejoin='round'/%3E%3C/svg%3E") center/contain no-repeat}
+.qpno>span{position:relative;font:700 .8rem/1 var(--ui);color:var(--text);transform:translateY(5px)}
+.qpg.mus .qft{margin-top:6px}
+
+
+/* سجود التلاوة: a quiet gold mark beside the page number */
+.qsj{display:inline-flex;align-items:center;gap:4px;min-height:32px;padding:0 10px;border:1px solid var(--gold);border-radius:999px;background:none;color:var(--text);font:600 .8rem var(--ui);cursor:pointer}
+.qsj i{font:400 1.05rem/1 'KFGQPC Hafs',var(--qf);font-style:normal;color:var(--gold)}
+.qsj:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+.sjd{padding:12px 0;border-bottom:1px solid var(--line)}.sjd:last-child{border-bottom:0}
+.sjt{font:400 calc(1.3rem*var(--rdk,1))/2 var(--ar);margin:0 0 6px}

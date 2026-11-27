@@ -46,7 +46,7 @@ function withCard(res, c, origin) {
     .on('meta[property="og:description"]', set(c.d))
     .on('meta[name="description"]', set(c.d))
     .on('meta[property="og:url"]', set(origin + c.to))
-    .on('meta[property="og:image"]', set(origin + c.img))
+    .on('meta[property="og:image"]', set(origin + c.img + '?v=2')) // ?v= يتغيّر حين تُعاد رسم البطاقات، لأن واتساب يحفظ الصورة القديمة
     .on('meta[property="og:image:alt"]', set(c.t))
     .transform(res);
 }

@@ -15,7 +15,16 @@ svg{position:absolute;inset:0}.c{position:absolute;inset:0;display:flex;flex-dir
 const tmp = path.join(out, '.render.html'); fs.writeFileSync(tmp, html); await p.goto('file://' + tmp); fs.unlinkSync(tmp);
 await p.evaluate(() => document.fonts.ready);
 for (const [f, s, n, m] of cards) {
-  await p.evaluate(([s, n, m]) => { const N = document.getElementById('n'); document.getElementById('s').textContent = s; document.getElementById('m').textContent = m; N.innerHTML = n.replace(/[&<>]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[c])).replace(/ﷺ/g, '<span style="font-family:IBM Plex Sans Arabic;font-size:.42em;font-weight:500">ﷺ</span>'); document.getElementById('m').style.marginTop = /[حجخعغ]$/.test(n) ? '44px' : '0'; let z = 150; N.style.fontSize = z + 'px'; N.style.whiteSpace = 'nowrap'; N.style.width = ''; N.style.lineHeight = ''; while (N.scrollWidth > 390 && z > 84) { z -= 4; N.style.fontSize = z + 'px' } if (N.scrollWidth > 390 && / /.test(n)) { N.style.whiteSpace = 'normal'; N.style.width = '390px'; N.style.textAlign = 'center'; N.style.lineHeight = '1.3'; z = 96; N.style.fontSize = z + 'px'; while (N.scrollHeight > 270 && z > 60) { z -= 4; N.style.fontSize = z + 'px' } } }, [s, n, m]);
+  await p.evaluate(([s, n, m]) => { const N = document.getElementById('n'); document.getElementById('s').textContent = s; document.getElementById('m').textContent = m; N.innerHTML = n.replace(/[&<>]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[c])).replace(/ﷺ/g, '<span style="font-family:IBM Plex Sans Arabic;font-size:.42em;font-weight:500">ﷺ</span>'); let z = 150; N.style.fontSize = z + 'px'; N.style.whiteSpace = 'nowrap'; N.style.width = ''; N.style.lineHeight = ''; while (N.scrollWidth > 390 && z > 84) { z -= 4; N.style.fontSize = z + 'px' } if (N.scrollWidth > 390 && / /.test(n)) { N.style.whiteSpace = 'normal'; N.style.width = '390px'; N.style.textAlign = 'center'; N.style.lineHeight = '1.3'; z = 96; N.style.fontSize = z + 'px'; while (N.scrollHeight > 270 && z > 60) { z -= 4; N.style.fontSize = z + 'px' } }
+    // ذيل الحروف النازلة (ي ن ح ع…) لا يلمس السطر الذي تحته: يُقاس حبر آخر سطر فعليًا، ويُزاح السطر التالي بقدر الحاجة
+    const M = document.getElementById('m'); M.style.marginTop = '0';
+    const mk = document.createElement('span'); mk.style.cssText = 'display:inline-block;width:0;height:0;vertical-align:baseline'; N.appendChild(mk);
+    const base = mk.getBoundingClientRect().top; mk.remove();
+    const cx = document.createElement('canvas').getContext('2d'); cx.font = '700 ' + z + 'px Amiri';
+    const last = (N.innerText.split('\n').pop() || '').replace(/ﷺ/g, '');
+    const ink = base + cx.measureText(last).actualBoundingBoxDescent, gap = M.getBoundingClientRect().top - ink;
+    if (gap < 14) M.style.marginTop = Math.ceil(14 - gap) + 'px';
+  }, [s, n, m]);
   await p.evaluate(() => document.fonts.ready);
   const file = path.join(out, f + '.jpg'); fs.mkdirSync(path.dirname(file), { recursive: true });
   await p.screenshot({ path: file, type: 'jpeg', quality: 86 });

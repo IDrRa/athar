@@ -24,3 +24,5 @@
 .hbcont .go{color:var(--muted);width:18px;height:18px}
 .hbc:active,.hbcont:active{background:var(--tint)}
 [aria-labelledby="t-explore"]{margin:0 0 26px}
+/* ألفاظ الذكر أو الدعاء داخل الرواية: بالذهبي (src/js/26-highlight.js) */
+mark.dk{background:none;color:var(--gold)}

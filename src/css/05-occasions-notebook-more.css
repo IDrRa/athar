@@ -1,3 +1,33 @@
+/* v18 */
+.dnow{margin:0 0 18px}
+
+/* v19 «ما يناسب اليوم» */
+#occs{margin:0 0 26px}
+.occ{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);box-shadow:inset 0 0 0 5px var(--surface),inset 0 0 0 6px var(--line);padding:18px 20px 16px;margin:0 0 12px}
+.ock{margin:0;color:var(--muted);font-size:.78rem}
+.occ .och{margin:0 0 6px;font:700 1.15rem var(--ui);color:var(--text)}
+.ocl{margin:10px 0 2px;color:var(--muted);font-size:.8rem}
+.oct{margin:0;font:400 1.3rem/2 var(--ar);color:var(--text);text-wrap:pretty}
+.ocr{margin:2px 0 0;color:var(--muted);font-size:.74rem}
+.ocln{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0 0}
+
+/* v20 «دفتر الأثر» */
+.ntb textarea{width:100%;min-height:110px;margin:8px 0 4px;padding:12px 14px;border:1px solid var(--line);border-radius:14px;background:var(--bg);color:var(--text);font:16px/1.8 var(--ui);resize:vertical}
+.ntb textarea:focus{outline:2px solid var(--green);outline-offset:1px}
+.ntchk{display:flex;align-items:center;gap:10px;min-height:44px;font-weight:600}
+.ntchk input{width:22px;height:22px;accent-color:var(--green)}
+.ntst{margin:0;min-height:1.4em;color:var(--muted);font-size:.8rem}
+.ntl{list-style:none;margin:0 0 16px;padding:0}
+.ntl li{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:14px 16px;margin:0 0 10px}
+.ntlh{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap}
+.ntlh a{color:var(--text);text-decoration:none}.ntlh b{font-size:1.02rem}
+.ntok{color:var(--green);border-color:var(--green);min-height:32px;font-size:.82rem}
+.ntld{margin:2px 0 6px;color:var(--muted);font-size:.8rem}
+.ntlt{margin:0;white-space:pre-wrap;line-height:1.9}
+.ntdel{margin-top:6px;color:var(--muted);font-size:.85rem}
+a.aprow{text-decoration:none}
+.ntb .wqn a{color:var(--green);font-weight:600}
+
 /* v22 «المزيد» */
 :root{--rdk:1}:root[data-fs="s"]{--rdk:.88}:root[data-fs="l"]{--rdk:1.15}:root[data-fs="xl"]{--rdk:1.32}
 .rdx{font-size:calc(1.7rem*var(--rdk))}.rdx.m{font-size:calc(1.5rem*var(--rdk))}.rdx.s{font-size:calc(1.3rem*var(--rdk))}.rdx.rq{font-size:calc(1.6rem*var(--rdk))}

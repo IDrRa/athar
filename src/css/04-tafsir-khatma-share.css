@@ -1,3 +1,25 @@
+/* v14 «المعنى» sheet */
+.qbar{flex-wrap:wrap;row-gap:8px}
+.qbar #qlbl{flex:1 1 100%;text-align:center;font-size:.86rem}
+.qbar #qlbl{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:6px 10px}
+.qto{min-height:34px;padding:0 8px;border:1px solid var(--line);border-radius:9px;background:var(--bg);color:var(--text);font:500 16px var(--ui)}
+.qbar .btn{flex:1 1 auto;justify-content:center;padding:0 8px;min-height:42px}
+.qbar [data-qa=close]{flex:0 0 44px}
+.tfsh{max-height:86vh;max-height:86dvh;display:flex;flex-direction:column}
+.tfhd{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.tfhd h2{margin:0;font:700 1.2rem var(--ui);color:var(--green)}
+.tfhd .icon-btn{font-size:1.4rem;line-height:1}
+.tfref{margin:2px 0 10px;color:var(--muted);font:500 .88rem var(--ui)}
+.tfb{overflow:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;padding:2px 2px 6px;flex:1 1 auto;min-height:80px}
+.tfb:focus{outline:none}
+.tfq{font:400 1.45rem/2.15 'KFGQPC Hafs',var(--qf);color:var(--text);text-align:center;margin:0 0 12px;padding:10px 12px;border-radius:14px;background:var(--tint)}
+.tft{font:400 1.06rem/2 var(--ui);color:var(--text);margin:0}
+.tfsrc{margin:10px 0 0;padding-top:8px;border-top:1px dashed var(--line);font-size:.76rem;color:var(--muted)}
+.tfnav{display:grid;grid-template-columns:1fr 1.3fr 1fr;gap:8px;margin-top:10px}
+.tfnav .btn{justify-content:center;min-height:46px;padding:0 8px;font-size:.92rem}
+.tfnav .btn[disabled]{opacity:.4}
+.tfmsg{text-align:center;color:var(--muted);padding:18px 6px}
+
 /* v15 «ختمة أثر» */
 .kmbar{height:8px;border-radius:8px;background:var(--line);overflow:hidden;margin:6px 0 4px}
 .kmbar i{display:block;height:100%;background:var(--gold);border-radius:8px}
@@ -29,3 +51,13 @@
 .kmhc small{color:var(--muted);font-size:.8rem}.kmhc b{display:block;font:600 1rem/1.6 var(--ui);margin:2px 0}
 .kmhc .kmpc{margin:0}
 
+/* v16 share cards */
+.qbar .btn,.qbar [data-qa=close]{flex:1 1 30%;min-width:0}
+.cdsh{max-height:92vh;max-height:92dvh;display:flex;flex-direction:column}
+.cdbox{flex:1 1 auto;min-height:120px;display:grid;place-items:center;overflow:auto;padding:4px 0}
+.cdbox img{display:block;max-width:100%;max-height:58vh;max-height:58dvh;width:auto;height:auto;border-radius:14px;box-shadow:0 6px 24px rgba(0,0,0,.18);-webkit-touch-callout:default}
+.cdh{margin:8px 0 0;text-align:center;color:var(--muted);font-size:.8rem}
+.cdnav{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
+.cdnav .btn{justify-content:center;min-height:48px}
+
+.cdst{display:flex;justify-content:center;gap:8px;margin-top:10px}.cdst .chip{min-height:40px;padding:0 18px}

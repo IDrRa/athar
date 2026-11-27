@@ -116,7 +116,7 @@ try {
   // classes intentionally shared by several features (shared look); add a class here only after checking it means the same thing everywhere
   const SHARED = new Set(['qcont', 'apseg', 'qtrack', 'qclip', 'wqs', 'tfmsg', 'kmmut', 'kmend', 'mri', 'pt-card', 'pt-loc', 'nt-go', 'pt-note', 'pt-l', 'rp-f', 'rp-l', 'rp-i', 'rp-b', 'ms-a', 'mrs']);
   const base = new Set();
-  for (const f of ['00-base.css', '01-interface.css']) for (const m of fs.readFileSync(path.join(ROOT, 'src', 'css', f), 'utf8').matchAll(/\.([a-zA-Z][\w-]*)/g)) base.add(m[1]);
+  for (const f of ['00-base.css']) for (const m of fs.readFileSync(path.join(ROOT, 'src', 'css', f), 'utf8').matchAll(/\.([a-zA-Z][\w-]*)/g)) base.add(m[1]);
   const emit = {};
   for (const [f, s] of [...files, ['page.html', pageHtml]]) for (const m of s.matchAll(/class(?:Name\s*=\s*|=\\?)["']([^"'\\+]+)/g)) for (const c of m[1].split(/\s+/).filter(Boolean)) (emit[c] ||= new Set()).add(f);
   for (const [c, fs1] of Object.entries(emit)) if (fs1.size > 1 && !base.has(c) && !SHARED.has(c)) errs.push(`.${c}: ${[...fs1].join(' و ')}`);
