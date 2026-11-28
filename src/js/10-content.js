@@ -135,6 +135,7 @@ else if(a==='notify'){t='التنبيهات';d='تنبيهات الأذان وا
 else if(a==='offline'){t='المصحف بدون إنترنت';d='احفظ المصحف كاملًا على جهازك ليفتح دون اتصال';h=vOffline()}
 else if(a==='install'){t='ثبّت أثر على جوالك';d='طريقة تثبيت أثر كتطبيق';h=vInstall()}
 else if(a==='salawat'&&ALL['dhikr-hisn-023-01']){t='الصلاة على النبي ﷺ';d='صيغة الصلاة على النبي ﷺ وفضلها، من حصن المسلم';h=rdInit([ALL['dhikr-hisn-023-01']].concat(PL('dhikr').filter(function(x){return x.category==='salawat'})),t,'/','/salawat',(+b||1)-1)}
+else if(a==='studio'){t='صمّم بطاقة';d='صمّم بطاقة لآية أو ذكر أو دعاء أو حديث من مصادر موثقة، ونزّلها أو شاركها';h=vStudio()}
 else if(a==='about'){t='المزيد';d='أدوات أثر وإعداداته ومصادر المحتوى';h=vAbout()}
 else if(a==='adhkar'&&!b){t='الأذكار';d='أذكار الصباح والمساء والنوم والاستيقاظ والصلاة، والتسابيح والاستغفار';var DL=PL('dhikr');h=head(t,d)+'<ul class="list">'+CA.map(function(c){var n=DL.filter(function(o){return o.category===c[0]}).length;return cat('/adhkar/'+c[0],c[1],n?ndh(n):'')}).join('')+'</ul>'+(DL.length?'':EM)}
 else if(a==='adhkar'&&CA.some(function(c){return c[0]===b})){t=CA.filter(function(c){return c[0]===b})[0][1];var LB=rdList('dhikr',b),ib=ALL[p[2]]?LB.indexOf(ALL[p[2]]):-1;h=rdInit(LB,t,'/adhkar','/adhkar/'+b,ib>-1?ib:(+p[2]||1)-1)} /* الرقم الثالث في الرابط ترتيب الذكر، أو معرّفه (مثل تنبيه الأذان: #/adhkar/prayer/dhikr-hisn-015-01) */

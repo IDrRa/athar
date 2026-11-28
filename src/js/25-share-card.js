@@ -82,7 +82,7 @@ function cdFromItem(o){var q=o.kind==='quran'||o.kind==='prophets',src=[];if(o.s
 document.addEventListener('click',function(e){var t=e.target,b=t.closest('[data-cdid]');if(b){var o=ALL[b.dataset.cdid];if(o){var x=cdFromItem(o);if(b.dataset.cdt)x.title=b.dataset.cdt;if(typeof jmCtx==='function'&&jmCtx(b)){x.title='';x.label='دعاء'}cdOpen(x)}return}
  b=t.closest('[data-cdwq]');if(b){var w=wqById(b.dataset.cdwq);if(w){var q=w.textType==='quran';cdOpen({label:'وقفة أثر · '+WQT[w.textType],title:w.title,text:q?w.verses.map(function(v){return v.text+(w.verses.length>1?cdNum(v.a):'')}).join(' ').trim():w.text,ref:wqRef(w),quran:q,name:w.id})}return}
  var bk=document.getElementById('cardS');if(!bk||bk.hidden)return;if(t===bk||t.closest('[data-cdclose]')){cdClose();return}
- b=t.closest('[data-cd]');if(!b||!CD)return;
+ b=t.closest('[data-cd]');if(!b||!CD)return;if(b.dataset.cd==='studio'){sdFromCard();return}
  if(b.dataset.cd==='save'){cdSave();return}
  var nm=CD.name;CD.cv.toBlob(function(bl){var f=null;try{f=new File([bl],nm,{type:'image/png'})}catch(x){}
   if(f&&navigator.canShare&&navigator.canShare({files:[f]})){navigator.share({files:[f],title:'أثر'}).catch(function(){})}
